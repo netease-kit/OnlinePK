@@ -269,7 +269,7 @@ public class AudienceContentView extends FrameLayout {
                 adjustVideoSizeForPk(true);
                 // 定时器倒计时
                 long leftTime = pkStatus.getLeftTime(LiveTimeDef.TOTAL_TIME_PK, 0);
-                countDownTimer = pkControlView.createCountDownTimer(leftTime);
+                countDownTimer = pkControlView.createCountDownTimer(LiveTimeDef.TYPE_PK,leftTime);
                 countDownTimer.start();
             } else {
                 pkControlView.handleResultFlag(true, pkStatus.anchorWin);
@@ -284,8 +284,10 @@ public class AudienceContentView extends FrameLayout {
             if (punishmentStatus.isStartState()) {
                 // 定时器倒计时
                 long leftTime = punishmentStatus.getLeftTime(LiveTimeDef.TOTAL_TIME_PUNISHMENT, 0);
-                countDownTimer = pkControlView.createCountDownTimer(leftTime);
-                countDownTimer.start();
+                if(punishmentStatus.anchorWin != 0) {
+                    countDownTimer = pkControlView.createCountDownTimer(LiveTimeDef.TYPE_PUNISHMENT, leftTime);
+                    countDownTimer.start();
+                }
             } else {
                 pkControlView.setVisibility(INVISIBLE);
             }
@@ -673,15 +675,26 @@ public class AudienceContentView extends FrameLayout {
 
         // 惩罚阶段 展示 pk 结果，并开始惩罚倒计时
         if (record.status == LiveStatus.PK_PUNISHMENT) {
-            pkControlView.handleResultFlag(true, record.inviterRewards >= record.inviteeRewards);
-            long leftTime = TimeUtils.getLeftTime(LiveTimeDef.TOTAL_TIME_PUNISHMENT, record.currentTime, record.punishmentStartTime, 0);
-            countDownTimer = pkControlView.createCountDownTimer(leftTime);
+            int pkResult;
+            if(record.inviterRewards == record.inviteeRewards){
+                pkResult = 0;
+            }else if(record.inviter.equals(liveInfo.accountId)){//本方是邀请者
+                pkResult = record.inviterRewards > record.inviteeRewards?1:-1;
+            }else {
+                pkResult = record.inviterRewards < record.inviteeRewards?1:-1;
+            }
+            pkControlView.handleResultFlag(true, pkResult);
+            if(pkResult != 0) {
+                long leftTime = TimeUtils.getLeftTime(LiveTimeDef.TOTAL_TIME_PUNISHMENT, record.currentTime, record.punishmentStartTime, 0);
+                countDownTimer = pkControlView.createCountDownTimer(LiveTimeDef.TYPE_PUNISHMENT, leftTime);
+                countDownTimer.start();
+            }
         } else { // pk 进行中开始pk 倒计时
-            pkControlView.handleResultFlag(false, false);
+            pkControlView.handleResultFlag(false, 0);
             long leftTime = TimeUtils.getLeftTime(LiveTimeDef.TOTAL_TIME_PK, record.currentTime, record.pkStartTime, 0);
-            countDownTimer = pkControlView.createCountDownTimer(leftTime);
+            countDownTimer = pkControlView.createCountDownTimer(LiveTimeDef.TYPE_PK,leftTime);
+            countDownTimer.start();
         }
-        countDownTimer.start();
     }
 
     public void adjustVideoSizeForPk(boolean isPrepared) {

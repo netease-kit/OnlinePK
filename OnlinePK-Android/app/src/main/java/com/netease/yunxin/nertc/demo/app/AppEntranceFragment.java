@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.netease.biz_live.yunxin.live.LiveService;
-import com.netease.lib_video_group.yunxin.video_group.VideoGroupService;
 import com.netease.yunxin.nertc.demo.R;
 import com.netease.yunxin.nertc.demo.basic.BaseFragment;
 import com.netease.yunxin.nertc.demo.list.FunctionAdapter;
@@ -32,14 +31,7 @@ public class AppEntranceFragment extends BaseFragment {
         RecyclerView rvFunctionList = rootView.findViewById(R.id.rv_function_list);
         rvFunctionList.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         rvFunctionList.setAdapter(new FunctionAdapter(getContext(), Arrays.asList(
-                new FunctionItem(FunctionAdapter.TYPE_VIEW_TITLE, "通话", R.drawable.icon_title_basic),
                 // 每个业务功能入口均在此处生成 item
-                new FunctionItem(R.drawable.icon_group_call, "多人视频通话",
-                        () -> {
-                            VideoGroupService videoGroupService = ModuleServiceMgr.getInstance().getService(VideoGroupService.class);
-                            videoGroupService.startVideoGroup(getContext());
-                        }),
-                new FunctionItem(FunctionAdapter.TYPE_VIEW_TITLE, "Live", R.drawable.icon_title_live),
                 new FunctionItem(R.drawable.icon_pk_live, "PK 直播",
                         () -> {
                             LiveService liveService = ModuleServiceMgr.getInstance().getService(LiveService.class);

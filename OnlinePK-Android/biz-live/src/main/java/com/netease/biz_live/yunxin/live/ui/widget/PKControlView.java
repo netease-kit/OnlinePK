@@ -29,6 +29,12 @@ import androidx.recyclerview.widget.RecyclerView;
  * 用于控制 pk 浮层UI展示
  */
 public class PKControlView extends FrameLayout {
+    public static final int PK_RESULT_FAILED = -1;
+
+    public static final int PK_RESULT_SUCCESS  = 1;
+
+    public static final int PK_RESULT_DRAW = 0;
+
     private Guideline glPkRatio;
     private TextView tvScore;
     private TextView tvOtherScore;
@@ -38,8 +44,8 @@ public class PKControlView extends FrameLayout {
     private InnerAdapter pkRankingAdapter;
     private InnerAdapter otherPkRankingAdapter;
 
-    private View pkResultFlag;
-    private View otherPkResultFlag;
+    private ImageView pkResultFlag;
+    private ImageView otherPkResultFlag;
 
     private TextView tvOtherAnchorName;
     private ImageView ivOtherAnchorPortrait;
@@ -140,37 +146,50 @@ public class PKControlView extends FrameLayout {
      * @param show          是否展示
      * @param anchorSuccess 当前主播是否胜利
      */
-    public void handleResultFlag(boolean show, boolean anchorSuccess) {
+    public void handleResultFlag(boolean show, int anchorSuccess) {
         pkResultFlag.setVisibility(show ? VISIBLE : INVISIBLE);
         otherPkResultFlag.setVisibility(show ? VISIBLE : INVISIBLE);
         if (!show) {
             return;
         }
 
-        pkResultFlag.setEnabled(anchorSuccess);
-        otherPkResultFlag.setEnabled(!anchorSuccess);
+        switch (anchorSuccess){
+            case PK_RESULT_FAILED://failed
+                ImageLoader.with(getContext()).load(R.drawable.icon_pk_success).into(otherPkResultFlag);
+                ImageLoader.with(getContext()).load(R.drawable.icon_pk_fail).into(pkResultFlag);
+                break;
+            case PK_RESULT_SUCCESS://success
+                ImageLoader.with(getContext()).load(R.drawable.icon_pk_success).into(pkResultFlag);
+                ImageLoader.with(getContext()).load(R.drawable.icon_pk_fail).into(otherPkResultFlag);
+                break;
+            case PK_RESULT_DRAW://draw
+                ImageLoader.with(getContext()).load(R.drawable.icon_pk_draw).into(otherPkResultFlag);
+                ImageLoader.with(getContext()).load(R.drawable.icon_pk_draw).into(pkResultFlag);
+                break;
+        }
     }
 
     /**
      * 倒计时控制器
      *
+     * @param type 类型
      * @param leftMillis 倒计时时间
      */
-    public WrapperCountDownTimer createCountDownTimer(long leftMillis) {
+    public WrapperCountDownTimer createCountDownTimer(String type,long leftMillis) {
         return new WrapperCountDownTimer(leftMillis, new TimerListener() {
             @Override
             public void onStart(long startTime) {
-                tvCountTime.setText(formatTime(startTime));
+                tvCountTime.setText(formatTime(type,startTime));
             }
 
             @Override
             public void onTick(long millisUntilFinished) {
-                tvCountTime.setText(formatTime(millisUntilFinished));
+                tvCountTime.setText(formatTime(type,millisUntilFinished));
             }
 
             @Override
             public void onStop() {
-                tvCountTime.setText(formatTime(0L));
+                tvCountTime.setText(formatTime(type,0L));
             }
         });
     }
@@ -178,13 +197,14 @@ public class PKControlView extends FrameLayout {
     /**
      * 格式化倒计时格式
      *
+     * @param type 倒计时类型
      * @param timeMillis 时间，单位毫秒
      */
-    private String formatTime(long timeMillis) {
+    private String formatTime(String type,long timeMillis) {
         long timeSeconds = timeMillis / 1000L;
         long timeMinute = timeSeconds / 60L;
         long leftSeconds = timeSeconds % 60L;
-        return "PK " + timeMinute + ":" + leftSeconds;
+        return type + " " + timeMinute + ":" + leftSeconds;
     }
 
 
@@ -204,7 +224,7 @@ public class PKControlView extends FrameLayout {
      */
     public void reset() {
         updateRanking(null, null);
-        handleResultFlag(false, false);
+        handleResultFlag(false, 0);
         updateScore(0,0);
     }
 
