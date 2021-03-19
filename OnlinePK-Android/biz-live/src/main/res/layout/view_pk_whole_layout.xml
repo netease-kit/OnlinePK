@@ -103,16 +103,17 @@
 
     <TextView
         android:id="@+id/tv_countdown_time"
-        android:layout_width="62dp"
+        android:layout_width="wrap_content"
         android:layout_height="24dp"
         android:layout_marginTop="8dp"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
-        android:text="PK 2:20"
+        android:text="PK 0:0"
         android:gravity="center"
         android:background="@drawable/layer_countdown_bg"
         android:textColor="#ffffffff"
         android:textSize="12dp"
+        android:lines="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/pk_progress" />
@@ -128,7 +129,7 @@
         android:id="@+id/iv_pk_result"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:src="@drawable/selector_pk_result"
+        android:src="@drawable/icon_pk_success"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/fl_group"
         app:layout_constraintEnd_toEndOf="@id/gl_helper"

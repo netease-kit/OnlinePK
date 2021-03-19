@@ -67,6 +67,7 @@ public class AnchorListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_EMPTY) {
             View emptyView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_empty_layout, parent, false);
+            emptyView.findViewById(R.id.iv_empty).setAlpha(0.2f);
 
             return new RecyclerView.ViewHolder(emptyView) {
 

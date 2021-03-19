@@ -125,13 +125,14 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@drawable/filter" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
                 android:textSize="@dimen/text_size_12"
                 android:textColor="@color/colorWhite"
                 android:text="@string/filter" />
@@ -152,12 +153,13 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/beauty_on" />
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/beauty_on1" />
 
             <TextView
                 android:layout_width="wrap_content"
+                android:layout_marginTop="2dp"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_size_12"
                 android:textColor="@color/colorWhite"
@@ -179,13 +181,14 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@drawable/setting" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
                 android:textSize="@dimen/text_size_12"
                 android:textColor="@color/colorWhite"
                 android:text="@string/setting" />
@@ -238,7 +241,7 @@
             android:padding="@dimen/dp_12"
             app:layout_constraintTop_toBottomOf="@+id/iv_anchor_portrait"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:background="@drawable/shape_chat_room_input_bg"
+            android:background="@drawable/shape_round_corner_8_bg"
             android:gravity="center_vertical"
             android:visibility="gone"
             android:orientation="horizontal">
@@ -287,7 +290,7 @@
 
         <TextView
             android:id="@+id/tv_room_msg_input"
-            android:layout_width="175dp"
+            android:layout_width="0dp"
             android:layout_height="36dp"
             android:layout_marginStart="8dp"
             android:layout_marginBottom="14dp"
@@ -296,6 +299,7 @@
             android:paddingStart="13dp"
             android:paddingEnd="13dp"
             android:text="说点什么..."
+            android:maxWidth="175dp"
             android:textColor="#ccffffff"
             android:textSize="14dp"
             android:drawablePadding="5dp"
@@ -307,7 +311,7 @@
         <LinearLayout
             android:id="@+id/lly_control"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="36dp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_room_msg_input"
             app:layout_constraintStart_toEndOf="@+id/tv_room_msg_input"
             app:layout_constraintEnd_toEndOf="parent"
@@ -317,8 +321,9 @@
 
             <ImageView
                 android:id="@+id/iv_beauty"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:padding="9dp"
                 android:layout_weight="1"
                 android:layout_marginRight="@dimen/dp_10"
                 android:src="@drawable/beauty_white"
@@ -326,28 +331,31 @@
 
             <ImageView
                 android:id="@+id/iv_filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:layout_weight="1"
-                android:layout_marginRight="@dimen/dp_10"
+                android:padding="9dp"
+                android:layout_marginEnd="@dimen/dp_10"
                 android:src="@drawable/filter"
                 android:background="@drawable/dark_cycle_bg" />
 
             <ImageView
                 android:id="@+id/iv_music"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:padding="9dp"
                 android:layout_weight="1"
-                android:layout_marginRight="@dimen/dp_10"
+                android:layout_marginEnd="@dimen/dp_10"
                 android:src="@drawable/music"
                 android:background="@drawable/dark_cycle_bg" />
 
             <ImageView
                 android:id="@+id/iv_more"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:layout_weight="1"
-                android:layout_marginRight="@dimen/dp_10"
+                android:padding="9dp"
+                android:layout_marginEnd="@dimen/dp_10"
                 android:src="@drawable/more"
                 android:background="@drawable/dark_cycle_bg" />
 

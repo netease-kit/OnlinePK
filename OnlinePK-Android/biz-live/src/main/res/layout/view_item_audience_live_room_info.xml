@@ -71,10 +71,10 @@
         android:src="@drawable/icon_audience_gift"
         android:layout_marginEnd="10dp"
         app:layout_constraintEnd_toStartOf="@id/iv_room_close"
-        android:layout_marginBottom="14dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="36dp"/>
+        app:layout_constraintTop_toTopOf="@id/iv_room_close"
+        app:layout_constraintBottom_toBottomOf="@id/iv_room_close"
+        android:layout_width="32dp"
+        android:layout_height="32dp"/>
 
     <EditText
         android:id="@+id/et_room_msg_input"

@@ -8,6 +8,8 @@ import android.text.style.DynamicDrawableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.ImageSpan;
 
+import com.netease.biz_live.yunxin.live.chatroom.span.VerticalImageSpan;
+
 import java.util.Objects;
 
 import androidx.annotation.ColorInt;
@@ -58,7 +60,7 @@ public final class ChatMessageSpannableStr {
          */
         public Builder append(Drawable drawable, int width, int height) {
             drawable.setBounds(0, 0, width, height);
-            append(" ", new ImageSpan(drawable, DynamicDrawableSpan.ALIGN_BOTTOM));
+            append(" ", new VerticalImageSpan(drawable));
             return this;
         }
 

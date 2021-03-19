@@ -66,8 +66,8 @@ import com.netease.yunxin.android.lib.network.common.BaseResponse;
 import com.netease.yunxin.android.lib.picture.ImageLoader;
 import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.ToastUtils;
-import com.netease.yunxin.nertc.baselib.NativeConfig;
 import com.netease.yunxin.nertc.demo.basic.BaseActivity;
+import com.netease.yunxin.nertc.demo.basic.BuildConfig;
 import com.netease.yunxin.nertc.demo.basic.StatusBarConfig;
 import com.netease.yunxin.nertc.demo.user.UserCenterService;
 import com.netease.yunxin.nertc.demo.utils.SpUtils;
@@ -545,7 +545,7 @@ public class LiveAnchorActivity extends BaseActivity implements NERTCLiveRoomDel
 
     private void initLiveRoom(NERtcOption option) {
         liveRoom = NERTCLiveRoom.sharedInstance();
-        liveRoom.init(this, NativeConfig.getLiveAppKey(), option);
+        liveRoom.init(this, BuildConfig.APP_KEY, option);
         liveRoom.enableLocalVideo(true);
         liveRoom.setupLocalView(videoView);
     }
@@ -885,7 +885,7 @@ public class LiveAnchorActivity extends BaseActivity implements NERTCLiveRoomDel
         if (countDownTimer != null) {
             countDownTimer.stop();
         }
-        countDownTimer = pkControlView.createCountDownTimer(attachment.getLeftTime(LiveTimeDef.TOTAL_TIME_PK, 0));
+        countDownTimer = pkControlView.createCountDownTimer(LiveTimeDef.TYPE_PK,attachment.getLeftTime(LiveTimeDef.TOTAL_TIME_PK, 0));
         countDownTimer.start();
     }
 
@@ -893,25 +893,29 @@ public class LiveAnchorActivity extends BaseActivity implements NERTCLiveRoomDel
     @Override
     public void onPunishStart(MsgPunishStart.PunishBody punishBody) {
         // 发送 pk 结束消息
-        boolean anchorWin;// 当前主播是否 pk 成功
-        if (isReceiver) {
-            anchorWin = punishBody.inviteeRewards > punishBody.inviterRewards;
+        int anchorWin;// 当前主播是否 pk 成功
+        if(punishBody.inviteeRewards == punishBody.inviterRewards){
+            anchorWin = 0;
+        } else if (isReceiver) {
+            anchorWin = punishBody.inviteeRewards > punishBody.inviterRewards?1:-1;
         } else {
-            anchorWin = punishBody.inviteeRewards <= punishBody.inviterRewards;
+            anchorWin = punishBody.inviteeRewards < punishBody.inviterRewards?1:-1;
         }
         // 展示pk结果
         pkControlView.handleResultFlag(true, anchorWin);
 
         anchor.notifyPKStatus(new PKStatusAttachment(anchorWin));
         // 发送 惩罚开始消息
-        PunishmentStatusAttachment attachment1 = new PunishmentStatusAttachment(punishBody.pkPulishmentTime, punishBody.currentTime);
+        PunishmentStatusAttachment attachment1 = new PunishmentStatusAttachment(punishBody.pkPulishmentTime, punishBody.currentTime,anchorWin);
         anchor.notifyPunishmentStatus(attachment1);
         // 惩罚开始倒计时
         if (countDownTimer != null) {
             countDownTimer.stop();
         }
-        countDownTimer = pkControlView.createCountDownTimer(attachment1.getLeftTime(LiveTimeDef.TOTAL_TIME_PUNISHMENT, 0));
-        countDownTimer.start();
+        if(anchorWin != 0) {
+            countDownTimer = pkControlView.createCountDownTimer(LiveTimeDef.TYPE_PUNISHMENT, attachment1.getLeftTime(LiveTimeDef.TOTAL_TIME_PUNISHMENT, 0));
+            countDownTimer.start();
+        }
     }
 
     @Override

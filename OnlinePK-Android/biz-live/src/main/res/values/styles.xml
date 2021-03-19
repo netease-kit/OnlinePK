@@ -5,6 +5,7 @@
         <item name="android:windowBackground">#00000000</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowIsTranslucent">false</item>
+        <item name="android:backgroundDimEnabled">false</item>
         <item name="android:windowAnimationStyle">@style/BottomDialogAnimation</item>
     </style>
 

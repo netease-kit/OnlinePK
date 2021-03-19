@@ -4,10 +4,10 @@
     <solid android:color="#FFFFFF" />
 
     <size
-        android:width="@dimen/dp_10"
-        android:height="@dimen/dp_10" />
+        android:width="16dp"
+        android:height="16dp" />
 
     <stroke
-        android:width="@dimen/dp_1"
+        android:width="2dp"
         android:color="#337EFF" />
 </shape>
