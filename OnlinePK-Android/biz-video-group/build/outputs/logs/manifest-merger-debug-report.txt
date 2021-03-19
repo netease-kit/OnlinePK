@@ -1,0 +1,55 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/wangqiang04/WorkStation/app-onlinepk-android/biz-video-group/src/main/AndroidManifest.xml:2:1-17:12
+INJECTED from /Users/wangqiang04/WorkStation/app-onlinepk-android/biz-video-group/src/main/AndroidManifest.xml:2:1-17:12
+INJECTED from /Users/wangqiang04/WorkStation/app-onlinepk-android/biz-video-group/src/main/AndroidManifest.xml:2:1-17:12
+INJECTED from /Users/wangqiang04/WorkStation/app-onlinepk-android/biz-video-group/src/main/AndroidManifest.xml:2:1-17:12
+INJECTED from /Users/wangqiang04/WorkStation/app-onlinepk-android/biz-video-group/src/main/AndroidManifest.xml:2:1-17:12
+INJECTED from /Users/wangqiang04/WorkStation/app-onlinepk-android/biz-video-group/src/main/AndroidManifest.xml:2:1-17:12
+INJECTED from /Users/wangqiang04/WorkStation/app-onlinepk-android/biz-video-group/src/main/AndroidManifest.xml:2:1-17:12
+	package
+		ADDED from /Users/wangqiang04/WorkStation/app-onlinepk-android/biz-video-group/src/main/AndroidManifest.xml:3:5-42
+		INJECTED from /Users/wangqiang04/WorkStation/app-onlinepk-android/biz-video-group/src/main/AndroidManifest.xml
+		INJECTED from /Users/wangqiang04/WorkStation/app-onlinepk-android/biz-video-group/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /Users/wangqiang04/WorkStation/app-onlinepk-android/biz-video-group/src/main/AndroidManifest.xml
+		ADDED from /Users/wangqiang04/WorkStation/app-onlinepk-android/biz-video-group/src/main/AndroidManifest.xml:2:1-17:12
+		INJECTED from /Users/wangqiang04/WorkStation/app-onlinepk-android/biz-video-group/src/main/AndroidManifest.xml
+	android:versionCode
+		INJECTED from /Users/wangqiang04/WorkStation/app-onlinepk-android/biz-video-group/src/main/AndroidManifest.xml
+		ADDED from /Users/wangqiang04/WorkStation/app-onlinepk-android/biz-video-group/src/main/AndroidManifest.xml:2:1-17:12
+		INJECTED from /Users/wangqiang04/WorkStation/app-onlinepk-android/biz-video-group/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/wangqiang04/WorkStation/app-onlinepk-android/biz-video-group/src/main/AndroidManifest.xml:2:11-69
+application
+ADDED from /Users/wangqiang04/WorkStation/app-onlinepk-android/biz-video-group/src/main/AndroidManifest.xml:5:5-15:19
+activity#com.netease.biz_video_group.yunxin.voideoGroup.ui.VideoRoomSetActivity
+ADDED from /Users/wangqiang04/WorkStation/app-onlinepk-android/biz-video-group/src/main/AndroidManifest.xml:6:9-9:66
+	android:screenOrientation
+		ADDED from /Users/wangqiang04/WorkStation/app-onlinepk-android/biz-video-group/src/main/AndroidManifest.xml:8:13-49
+	android:theme
+		ADDED from /Users/wangqiang04/WorkStation/app-onlinepk-android/biz-video-group/src/main/AndroidManifest.xml:9:13-63
+	android:name
+		ADDED from /Users/wangqiang04/WorkStation/app-onlinepk-android/biz-video-group/src/main/AndroidManifest.xml:7:13-71
+activity#com.netease.biz_video_group.yunxin.voideoGroup.ui.VideoMeetingRoomActivity
+ADDED from /Users/wangqiang04/WorkStation/app-onlinepk-android/biz-video-group/src/main/AndroidManifest.xml:11:9-14:66
+	android:screenOrientation
+		ADDED from /Users/wangqiang04/WorkStation/app-onlinepk-android/biz-video-group/src/main/AndroidManifest.xml:13:13-49
+	android:theme
+		ADDED from /Users/wangqiang04/WorkStation/app-onlinepk-android/biz-video-group/src/main/AndroidManifest.xml:14:13-63
+	android:name
+		ADDED from /Users/wangqiang04/WorkStation/app-onlinepk-android/biz-video-group/src/main/AndroidManifest.xml:12:13-75
+uses-sdk
+INJECTED from /Users/wangqiang04/WorkStation/app-onlinepk-android/biz-video-group/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/wangqiang04/WorkStation/app-onlinepk-android/biz-video-group/src/main/AndroidManifest.xml
+INJECTED from /Users/wangqiang04/WorkStation/app-onlinepk-android/biz-video-group/src/main/AndroidManifest.xml
+INJECTED from /Users/wangqiang04/WorkStation/app-onlinepk-android/biz-video-group/src/main/AndroidManifest.xml
+INJECTED from /Users/wangqiang04/WorkStation/app-onlinepk-android/biz-video-group/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /Users/wangqiang04/WorkStation/app-onlinepk-android/biz-video-group/src/main/AndroidManifest.xml
+		ADDED from /Users/wangqiang04/WorkStation/app-onlinepk-android/biz-video-group/src/main/AndroidManifest.xml
+		INJECTED from /Users/wangqiang04/WorkStation/app-onlinepk-android/biz-video-group/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/wangqiang04/WorkStation/app-onlinepk-android/biz-video-group/src/main/AndroidManifest.xml
+		ADDED from /Users/wangqiang04/WorkStation/app-onlinepk-android/biz-video-group/src/main/AndroidManifest.xml
+		INJECTED from /Users/wangqiang04/WorkStation/app-onlinepk-android/biz-video-group/src/main/AndroidManifest.xml

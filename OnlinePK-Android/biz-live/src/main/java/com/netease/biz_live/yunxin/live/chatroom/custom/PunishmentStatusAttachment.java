@@ -15,8 +15,8 @@ public class PunishmentStatusAttachment extends StateCustomAttachment {
         this.type = CustomAttachmentType.CHAT_ROOM_PUNISHMENT;
     }
 
-    public PunishmentStatusAttachment(long startedTimestamp, long currentTimestamp) {
-        super(startedTimestamp, currentTimestamp, null, null);
+    public PunishmentStatusAttachment(long startedTimestamp, long currentTimestamp,int anchorWin) {
+        super(false,startedTimestamp, currentTimestamp, null, null,anchorWin);
         this.type = CustomAttachmentType.CHAT_ROOM_PUNISHMENT;
     }
 

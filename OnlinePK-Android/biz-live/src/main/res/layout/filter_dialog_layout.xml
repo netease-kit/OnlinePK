@@ -32,13 +32,14 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.5dp"
         android:background="#30000000" />
 
     <LinearLayout
         android:id="@+id/lly_saturability"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:paddingBottom="@dimen/dp_12"
         android:paddingTop="@dimen/dp_12"
         android:paddingStart="@dimen/dp_20"
@@ -73,10 +74,8 @@
         android:id="@+id/rcv_filter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_20"
-        android:layout_marginEnd="@dimen/dp_20"
         android:layout_marginTop="@dimen/dp_8"
-        android:layout_marginBottom="@dimen/dp_10" />
+        android:layout_marginBottom="22dp" />
 
 
 </LinearLayout>

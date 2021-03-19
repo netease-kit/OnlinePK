@@ -1,16 +1,15 @@
 package com.netease.biz_live.yunxin.live.dialog;
 
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,6 +19,7 @@ import com.faceunity.entity.Filter;
 import com.netease.biz_live.R;
 import com.netease.yunxin.android.lib.picture.ImageLoader;
 import com.blankj.utilcode.util.ToastUtils;
+import com.netease.yunxin.nertc.demo.utils.SpUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -91,14 +91,23 @@ public class FilterDialog extends BaseBottomDialog {
         mFilters = FilterEnum.getFiltersByFilterType();
         filterRecyclerAdapter = new FilterRecyclerAdapter();
         rcvFilter.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        rcvFilter.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.HORIZONTAL));
+        int padding = SpUtils.dp2pix(rcvFilter.getContext(), 20);
+        rcvFilter.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+                super.getItemOffsets(outRect, view, parent, state);
+                int index = parent.getChildAdapterPosition(view);
+                outRect.set(padding, 0, index == mFilters.size() - 1 ? padding : 0, 0);
+
+            }
+        });
         rcvFilter.setAdapter(filterRecyclerAdapter);
 
         rcvFilter.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if(recyclerView.getLayoutManager() != null) {
+                if (recyclerView.getLayoutManager() != null) {
                     getPositionAndOffset(recyclerView.getLayoutManager());
                 }
             }
@@ -140,7 +149,7 @@ public class FilterDialog extends BaseBottomDialog {
     private void getPositionAndOffset(RecyclerView.LayoutManager layoutManager) {
         //获取可视的第一个view
         View leftView = layoutManager.getChildAt(0);
-        if(leftView != null) {
+        if (leftView != null) {
             //获取与该view的顶部的偏移量
             lastOffset = leftView.getTop();
             //得到该View的数组位置
@@ -152,7 +161,7 @@ public class FilterDialog extends BaseBottomDialog {
      * 让RecyclerView滚动到指定位置
      */
     private void scrollToPosition() {
-        if(rcvFilter.getLayoutManager() != null && lastPosition >= 0) {
+        if (rcvFilter.getLayoutManager() != null && lastPosition >= 0) {
             ((LinearLayoutManager) rcvFilter.getLayoutManager()).scrollToPositionWithOffset(lastPosition, lastOffset);
         }
     }
@@ -224,10 +233,10 @@ public class FilterDialog extends BaseBottomDialog {
             ImageLoader.with(getContext()).circleLoad(filters.get(position).getIconId(), holder.filterImg);
             holder.filterName.setText(filters.get(position).getNameId());
             if (mFilterPositionSelect == position) {
-                holder.rlyCover.setVisibility(View.VISIBLE);
+                holder.focusStatus.setVisibility(View.VISIBLE);
                 holder.filterName.setTextColor(Color.parseColor("#337EFF"));
             } else {
-                holder.rlyCover.setVisibility(View.GONE);
+                holder.focusStatus.setVisibility(View.GONE);
                 holder.filterName.setTextColor(Color.parseColor("#222222"));
             }
             holder.itemView.setOnClickListener(v -> {
@@ -257,13 +266,13 @@ public class FilterDialog extends BaseBottomDialog {
 
             ImageView filterImg;
             TextView filterName;
-            RelativeLayout rlyCover;
+            View focusStatus;
 
             HomeRecyclerHolder(View itemView) {
                 super(itemView);
                 filterImg = itemView.findViewById(R.id.iv_icon);
                 filterName = itemView.findViewById(R.id.tv_filter_name);
-                rlyCover = itemView.findViewById(R.id.rly_cover);
+                focusStatus = itemView.findViewById(R.id.focused_status);
             }
         }
     }

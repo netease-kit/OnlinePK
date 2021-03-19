@@ -5,12 +5,12 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-        applicationId "com.netease.yunxin.nertc.demo"
+        applicationId "com.netease.yunxin.app.pklive"
 
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.1.0"
 
         ndk {
             rootProject.ext.ndkAbis.each { abi ->
@@ -23,9 +23,19 @@ android {
         multiDexEnabled true
     }
 
+    signingConfigs {
+        release {
+            keyAlias 'netease-im'
+            keyPassword 'yunxin163'
+            storeFile file('release.jks')
+            storePassword 'yunxin163'
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -44,13 +54,10 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.appcompat:appcompat:1.2.0'
-//    implementation 'com.netease.yunxin.android.lib:picture:1.0.0-SNAPSHOT'
     implementation project(':biz-user')
     implementation project(':biz-live')
     implementation project(':lib-basic')
-    implementation project(':base-config')
-    implementation project(":biz-video-group")
-
+    implementation project(":lib-user")
     implementation (name: 'netease-network', ext: 'aar')
     implementation (name: 'netease-picture', ext: 'aar')
     implementation "com.google.code.gson:gson:2.8.6"

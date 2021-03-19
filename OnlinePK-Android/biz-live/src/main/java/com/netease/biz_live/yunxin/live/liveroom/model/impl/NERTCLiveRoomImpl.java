@@ -78,6 +78,7 @@ import com.netease.nimlib.sdk.passthrough.model.PassthroughNotifyData;
 import com.netease.yunxin.android.lib.historian.Historian;
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.netease.yunxin.android.lib.network.common.NetworkClient;
 
 import java.util.ArrayList;
 
@@ -149,6 +150,11 @@ public class NERTCLiveRoomImpl extends NERTCLiveRoom {
     private static final String BUSY_LINE = "busy_now";
 
     private static final String TIME_OUT_CANCEL = "time_out_cancel";
+
+    /**
+     * 音频设备{@link NERtcConstants.AudioDevice }
+     */
+    private int audioDevice;
 
     /**
      * 信令在线消息的回调
@@ -241,34 +247,9 @@ public class NERTCLiveRoomImpl extends NERTCLiveRoom {
     /**
      * rtc 状态监控
      */
-    private NERtcStatsObserver statsObserver = new NERtcStatsObserver() {
+    private NERtcStatsObserver statsObserver = new NERtcStatsObserverTemp() {
 
         boolean showErrorNetWork = false;
-
-        @Override
-        public void onRtcStats(NERtcStats neRtcStats) {
-
-        }
-
-        @Override
-        public void onLocalAudioStats(NERtcAudioSendStats neRtcAudioSendStats) {
-
-        }
-
-        @Override
-        public void onRemoteAudioStats(NERtcAudioRecvStats[] neRtcAudioRecvStats) {
-
-        }
-
-        @Override
-        public void onLocalVideoStats(NERtcVideoSendStats neRtcVideoSendStats) {
-
-        }
-
-        @Override
-        public void onRemoteVideoStats(NERtcVideoRecvStats[] neRtcVideoRecvStats) {
-
-        }
 
         @Override
         public void onNetworkQuality(NERtcNetworkQualityInfo[] stats) {
@@ -304,70 +285,12 @@ public class NERTCLiveRoomImpl extends NERTCLiveRoom {
     /**
      * Nertc的回调
      */
-    private NERtcCallback rtcCallback = new NERtcCallbackEx() {
-        @Override
-        public void onUserAudioMute(long l, boolean b) {
-
-        }
-
-        @Override
-        public void onUserVideoMute(long l, boolean b) {
-
-        }
-
-        @Override
-        public void onFirstAudioDataReceived(long l) {
-
-        }
-
-        @Override
-        public void onFirstVideoDataReceived(long l) {
-
-        }
-
-        @Override
-        public void onFirstAudioFrameDecoded(long l) {
-
-        }
-
-        @Override
-        public void onFirstVideoFrameDecoded(long l, int i, int i1) {
-
-        }
-
-        @Override
-        public void onUserVideoProfileUpdate(long l, int i) {
-
-        }
+    private NERtcCallback rtcCallback = new NERtcCallbackExTemp() {
 
         @Override
         public void onAudioDeviceChanged(int i) {
-
-        }
-
-        @Override
-        public void onAudioDeviceStateChange(int i, int i1) {
-
-        }
-
-        @Override
-        public void onVideoDeviceStageChange(int i) {
-
-        }
-
-        @Override
-        public void onConnectionTypeChanged(int i) {
-
-        }
-
-        @Override
-        public void onReconnectingStart() {
-
-        }
-
-        @Override
-        public void onReJoinChannel(int i, long l) {
-
+            Historian.i(LOG_TAG, "onAudioDeviceChanged i " + i);
+            audioDevice = i;
         }
 
         @Override
@@ -378,55 +301,10 @@ public class NERTCLiveRoomImpl extends NERTCLiveRoom {
         }
 
         @Override
-        public void onAudioMixingTimestampUpdate(long l) {
-
-        }
-
-        @Override
         public void onAudioEffectFinished(int effectId) {
             if (roomDelegate != null) {
                 roomDelegate.onAudioEffectFinished(effectId);
             }
-        }
-
-        @Override
-        public void onLocalAudioVolumeIndication(int i) {
-
-        }
-
-        @Override
-        public void onRemoteAudioVolumeIndication(NERtcAudioVolumeInfo[] neRtcAudioVolumeInfos, int i) {
-
-        }
-
-        @Override
-        public void onLiveStreamState(String s, String s1, int i) {
-
-        }
-
-        @Override
-        public void onConnectionStateChanged(int i, int i1) {
-
-        }
-
-        @Override
-        public void onCameraFocusChanged(Rect rect) {
-
-        }
-
-        @Override
-        public void onCameraExposureChanged(Rect rect) {
-
-        }
-
-        @Override
-        public void onError(int i) {
-
-        }
-
-        @Override
-        public void onWarning(int i) {
-
         }
 
         @Override
@@ -459,21 +337,10 @@ public class NERTCLiveRoomImpl extends NERTCLiveRoom {
             pKOtherUid = userId;
         }
 
-        @Override
-        public void onUserLeave(long l, int i) {
-
-        }
 
         @Override
         public void onUserAudioStart(long l) {
             NERtcEx.getInstance().subscribeRemoteAudioStream(l, true);
-
-
-        }
-
-        @Override
-        public void onUserAudioStop(long l) {
-
         }
 
         @Override
@@ -482,10 +349,6 @@ public class NERTCLiveRoomImpl extends NERTCLiveRoom {
 
         }
 
-        @Override
-        public void onUserVideoStop(long l) {
-
-        }
 
         @Override
         public void onDisconnect(int i) {
@@ -507,6 +370,9 @@ public class NERTCLiveRoomImpl extends NERTCLiveRoom {
             if (roomDelegate != null) {
                 roomDelegate.onError(true, ErrorCode.ERROR_CODE_ENGINE_NULL, "rtc have released");
             }
+        }
+        if(singleLiveInfo == null){//同一个账号其他端开播case
+            return;
         }
         JsonObject jsonObject = GsonUtils.fromJson(eventData.getBody(), JsonObject.class);
         String type = jsonObject.get("type").toString();
@@ -695,6 +561,7 @@ public class NERTCLiveRoomImpl extends NERTCLiveRoom {
             neRtcEx.setAudioProfile(NERtcConstants.AudioProfile.DEFAULT, mAudioScenario);
         }
         neRtcEx.setChannelProfile(NERtcConstants.RTCChannelProfile.LIVE_BROADCASTING);
+        neRtcEx.setClientRole(NERtcConstants.UserRole.CLIENT_ROLE_BROADCASTER);
         NERtcParameters parameters = new NERtcParameters();
         parameters.set(NERtcParameters.KEY_PUBLISH_SELF_STREAM, true);
         neRtcEx.setParameters(parameters);
@@ -957,6 +824,9 @@ public class NERTCLiveRoomImpl extends NERTCLiveRoom {
                 }
                 if (roomDelegate != null) {
                     roomDelegate.onTimeOut(code);
+                    if(!joinedChannel){
+                         roomDelegate.preJoinRoom(singleLiveInfo.liveCid, false, null);
+                    }
                 }
             }
         };
@@ -1205,7 +1075,14 @@ public class NERTCLiveRoomImpl extends NERTCLiveRoom {
 
     @Override
     public boolean enableEarback(boolean enable, int volume) {
-        return NERtcEx.getInstance().enableEarback(enable, volume) == 0;
+        if(audioDevice == NERtcConstants.AudioDevice.BLUETOOTH_HEADSET ||
+            audioDevice == NERtcConstants.AudioDevice.WIRED_HEADSET){
+            return NERtcEx.getInstance().enableEarback(enable, volume) == 0;
+        } else {
+            ToastUtils.showShort("打开耳返功能前，请先插入耳机！");
+            return false;
+        }
+
     }
 
     @Override

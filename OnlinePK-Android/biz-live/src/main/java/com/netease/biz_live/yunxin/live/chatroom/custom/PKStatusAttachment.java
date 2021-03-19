@@ -10,7 +10,7 @@ import com.google.gson.Gson;
 public class PKStatusAttachment extends StateCustomAttachment {
 
 
-    public PKStatusAttachment(boolean anchorWin) {
+    public PKStatusAttachment(int anchorWin) {
         super(anchorWin);
         this.type = CustomAttachmentType.CHAT_ROOM_PK;
     }

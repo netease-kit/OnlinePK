@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="checked_color">#337EFF</color>
+    <color name="colorActivityBackground">#ffffff</color>
+    <color name="colorWhite">#ffffff</color>
+    <color name="half_transparent_colorWhite">#80ffffff</color>
+    <color name="login_color_btn_disable">#FF092650</color>
+    <color name="login_color_btn_enable">#FF0062E3</color>
+    <color name="uncheck_color">#2e000000</color>
+    <dimen name="dp_1">1dp</dimen>
+    <dimen name="dp_10">10dp</dimen>
+    <dimen name="dp_100">100dp</dimen>
+    <dimen name="dp_12">12dp</dimen>
+    <dimen name="dp_16">16dp</dimen>
+    <dimen name="dp_2">2dp</dimen>
+    <dimen name="dp_20">20dp</dimen>
+    <dimen name="dp_24">24dp</dimen>
+    <dimen name="dp_240">240dp</dimen>
+    <dimen name="dp_340">340dp</dimen>
+    <dimen name="dp_4">4dp</dimen>
+    <dimen name="dp_40">40dp</dimen>
+    <dimen name="dp_5">5dp</dimen>
+    <dimen name="dp_6">6dp</dimen>
+    <dimen name="dp_64">64dp</dimen>
+    <dimen name="dp_8">8dp</dimen>
+    <dimen name="dp_88">88dp</dimen>
+    <dimen name="text_size_10">10sp</dimen>
+    <dimen name="text_size_11">11sp</dimen>
+    <dimen name="text_size_12">12sp</dimen>
+    <dimen name="text_size_13">13sp</dimen>
+    <dimen name="text_size_14">14sp</dimen>
+    <dimen name="text_size_15">15sp</dimen>
+    <dimen name="text_size_16">16sp</dimen>
+    <dimen name="text_size_17">17sp</dimen>
+    <dimen name="text_size_18">18sp</dimen>
+    <dimen name="text_size_19">19sp</dimen>
+    <dimen name="text_size_20">20sp</dimen>
+    <dimen name="text_size_21">21sp</dimen>
+    <dimen name="text_size_24">24sp</dimen>
+    <dimen name="text_size_25">25sp</dimen>
+    <dimen name="text_size_30">30sp</dimen>
+    <dimen name="text_size_32">32sp</dimen>
+    <dimen name="text_size_35">35sp</dimen>
+    <dimen name="text_size_37">37sp</dimen>
+    <dimen name="text_size_40">40sp</dimen>
+    <dimen name="text_size_45">45sp</dimen>
+    <dimen name="text_size_46">46sp</dimen>
+    <dimen name="text_size_55">55sp</dimen>
+    <dimen name="text_size_9">9sp</dimen>
+    <string name="bad">差</string>
+    <string name="good">好</string>
+    <string name="how_about_call">通话品质如何？</string>
+    <string name="input_nickname">输入昵称</string>
+    <string name="input_same_channel_name_and_start_dialog">输入相同房间号即可通话</string>
+    <string name="join_channel">加入频道</string>
+    <string name="other_question">其他问题...</string>
+    <string name="room_name_can_not_null">房间号不能为空</string>
+    <string name="sdk_init_failed">SDK初始化失败</string>
+    <string name="submit">提交</string>
+    <string name="what_issue_happen">很抱歉给您带来的不便～ 请问您具体遇到了什么问题？</string>
+    <declare-styleable name="vericationCodeView">
+        <!--输入框的数量-->
+        <attr format="integer" name="vcv_et_number"/>
+        <!--输入类型-->
+        <attr name="vcv_et_inputType">
+            <enum name="number" value="0"/>
+            <enum name="numberPassword" value="1"/>
+            <enum name="text" value="2"/>
+            <enum name="textPassword" value="3"/>
+        </attr>
+        <!--输入框的宽度-->
+        <attr format="dimension|reference" name="vcv_et_width"/>
+        <!--输入框文字颜色-->
+        <attr format="color|reference" name="vcv_et_text_color"/>
+        <!--输入框文字大小-->
+        <attr format="dimension|reference" name="vcv_et_text_size"/>
+        <!--输入框背景-->
+        <attr format="reference" name="vcv_et_bg"/>
+        <!--光标样式-->
+        <attr format="reference" name="vcv_et_cursor"/>
+        <!--是否隐藏光标-->
+        <attr format="boolean" name="vcv_et_cursor_visible"/>
+        <!--输入框间距，不输入则代表平分-->
+        <attr format="dimension|reference" name="vcv_et_spacing"/>
+
+    </declare-styleable>
+</resources>
