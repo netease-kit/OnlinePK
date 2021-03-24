@@ -45,22 +45,26 @@ static NETSFUManger *shareManager = NULL;
     if (self = [super init]) {
         _asyncLoadQueue = dispatch_queue_create("com.faceLoadItem", DISPATCH_QUEUE_SERIAL);
         
-        CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
-        [[FURenderer shareRenderer] setupWithData:nil dataSize:0 ardata:nil authPackage:&g_auth_package authSize:sizeof(g_auth_package) shouldCreateContext:YES];
-        CFAbsoluteTime delay = (CFAbsoluteTimeGetCurrent() - startTime);
-        NETSLog(@"setup FU: ---%lf", delay);
-        
-        /* 加载AI模型 */
-        [self loadAIModle];
-        
-        /* 美颜 */
-        self.filters = [self originFilters];
-        self.seletedFliter = [self.filters firstObject];
-        self.skinParams = [self originSkinParams];
-        
-        [self loadFilter];
-        
-        [self setDefaultRotationMode:3];
+        if (sizeof(g_auth_package) > 0) {
+            CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+            
+            [[FURenderer shareRenderer] setupWithData:nil dataSize:0 ardata:nil authPackage:&g_auth_package authSize:sizeof(g_auth_package) shouldCreateContext:YES];
+            
+            CFAbsoluteTime delay = (CFAbsoluteTimeGetCurrent() - startTime);
+            NETSLog(@"setup FU: ---%lf", delay);
+            
+            /* 加载AI模型 */
+            [self loadAIModle];
+            
+            /* 美颜 */
+            self.filters = [self originFilters];
+            self.seletedFliter = [self.filters firstObject];
+            self.skinParams = [self originSkinParams];
+            
+            [self loadFilter];
+            
+            [self setDefaultRotationMode:3];
+        }
     }
     return self;
 }
