@@ -14,7 +14,7 @@ static NSString * const kAppKey = @"<#请输入您的IM key#>";
 /// RTC key
 static NSString * const kNertcAppkey = @"<#请输入您的Rtc Key#>";
 /// host
-static NSString * const kApiHost = @"<#请输入服务器host地址#>";
+static NSString * const kApiHost = @"https://yiyong.netease.im";
 
 /// 数据收集
 static NSString * const kApiDataHost = @"https://statistic.live.126.net";
