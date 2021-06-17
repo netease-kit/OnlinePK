@@ -13,12 +13,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.faceunity.FilterEnum;
-import com.faceunity.OnFUControlListener;
-import com.faceunity.entity.Filter;
+import com.beautyFaceunity.FilterEnum;
+import com.beautyFaceunity.OnFUControlListener;
+import com.beautyFaceunity.entity.Filter;
+import com.blankj.utilcode.util.ToastUtils;
 import com.netease.biz_live.R;
 import com.netease.yunxin.android.lib.picture.ImageLoader;
-import com.blankj.utilcode.util.ToastUtils;
 import com.netease.yunxin.nertc.demo.utils.SpUtils;
 
 import java.util.HashMap;

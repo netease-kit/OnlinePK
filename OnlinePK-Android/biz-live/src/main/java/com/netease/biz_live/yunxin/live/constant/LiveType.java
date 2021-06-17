@@ -14,4 +14,9 @@ public @interface LiveType {
      * pk 直播
      */
     int PK_LIVING = 3;
+
+    /**
+     * 忽略类型，如观众端使用
+     */
+    int TYPE_IGNORE = 0;
 }

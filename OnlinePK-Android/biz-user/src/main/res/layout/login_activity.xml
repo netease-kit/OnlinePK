@@ -15,7 +15,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:textColor="#FF222222"
         android:textSize="28sp"
-        android:text="你好，欢迎登陆" />
+        android:text="你好，欢迎登录" />
 
     <LinearLayout
         android:id="@+id/lly_phone_number"

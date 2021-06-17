@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
+import com.netease.yunxin.kit.alog.ALog;
 import com.netease.yunxin.nertc.demo.basic.BaseActivity;
 import com.netease.yunxin.nertc.demo.basic.StatusBarConfig;
 import com.netease.yunxin.nertc.demo.pager.MainPagerAdapter;
@@ -51,6 +52,8 @@ public class MainActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
 //        CallService.stop(this);
+        ALog.flush(true);
+        ALog.release();
     }
 
     @Override

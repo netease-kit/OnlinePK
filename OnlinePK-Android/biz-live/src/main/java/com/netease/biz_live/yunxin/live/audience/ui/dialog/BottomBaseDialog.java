@@ -11,7 +11,7 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.netease.biz_live.R;
-import com.netease.yunxin.android.lib.historian.Historian;
+import com.netease.yunxin.kit.alog.ALog;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
@@ -86,7 +86,7 @@ public abstract class BottomBaseDialog extends Dialog {
         try {
             super.show();
         } catch (WindowManager.BadTokenException e) {
-            Historian.e(this.getClass().getSimpleName(), "error message is :" + e.getMessage());
+            ALog.e(this.getClass().getSimpleName(), "error message is :" + e.getMessage());
         }
     }
 }

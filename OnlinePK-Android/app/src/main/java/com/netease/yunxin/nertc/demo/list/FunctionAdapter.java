@@ -47,6 +47,8 @@ public class FunctionAdapter extends CommonAdapter<FunctionItem> {
         ivIcon.setImageResource(itemData.iconResId);
         TextView tvName = holder.getView(R.id.tv_function_name);
         tvName.setText(itemData.nameStr);
+        TextView tvDesc = holder.getView(R.id.tv_function_desc);
+        tvDesc.setText(itemData.descriptionStr);
         holder.itemView.setOnClickListener(v -> {
             if (itemData.action != null) {
                 itemData.action.run();

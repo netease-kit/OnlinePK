@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_marginTop="26dp"
+        android:id="@+id/iv"
+        tools:background="@android:color/holo_blue_bright"
+        android:layout_width="48dp"
+        android:layout_height="48dp" />
+
+    <com.netease.biz_live.yunxin.live.audience.ui.view.DurationStatisticTimer
+        android:gravity="center_horizontal"
+        android:id="@+id/tv_duration"
+        android:textSize="14dp"
+        tools:text="连麦中，通话时长1分30秒"
+        android:paddingTop="12dp"
+        android:paddingBottom="32dp"
+        android:textColor="@color/biz_live_color_333333"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:id="@+id/rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"
+        />
+
+</LinearLayout>

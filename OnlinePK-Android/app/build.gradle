@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply from:'../utils.gradle'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -9,8 +10,8 @@ android {
 
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 2
-        versionName "1.1.0"
+        versionCode Integer.parseInt(VERSION_CODE)
+        versionName VERSION_NAME
 
         ndk {
             rootProject.ext.ndkAbis.each { abi ->
@@ -38,6 +39,16 @@ android {
     defaultConfig {
         buildConfigField "String", "VERSION_IM", "\"${rootProject.ext.nimVersion}\""
         buildConfigField "String", "VERSION_NERTC", "\"${rootProject.ext.nertcVersion}\""
+        buildConfigField "String", "GIT_COMMIT_HASH", "\"${getGitCommit()}\""
+    }
+
+    packagingOptions {
+        pickFirst 'lib/arm64-v8a/libc++_shared.so'
+        pickFirst 'lib/armeabi-v7a/libc++_shared.so'
+    }
+    packagingOptions{
+        pickFirst 'lib/arm64-v8a/libc++_shared.so'
+        pickFirst 'lib/armeabi-v7a/libc++_shared.so'
     }
 }
 
@@ -65,4 +76,6 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'com.google.android.material:material:1.2.1'
+
+    implementation rootProject.ext.aLog
 }

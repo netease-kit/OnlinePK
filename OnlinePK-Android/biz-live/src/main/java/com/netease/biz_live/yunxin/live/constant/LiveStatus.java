@@ -30,4 +30,8 @@ public @interface LiveStatus {
      * 正在惩罚
      */
     int PK_PUNISHMENT = 5;
+    /**
+     * 多人互动连麦中
+     */
+    int MULTI_MIC = 6;
 }

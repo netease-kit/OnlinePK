@@ -1,7 +1,7 @@
 package com.netease.biz_live.yunxin.live.chatroom.control;
 
 import com.netease.biz_live.yunxin.live.chatroom.custom.AnchorCoinChangedAttachment;
-import com.netease.biz_live.yunxin.live.chatroom.custom.PKStatusAttachment;
+import com.netease.biz_live.yunxin.live.chatroom.custom.PkStatusAttachment;
 import com.netease.biz_live.yunxin.live.chatroom.custom.PunishmentStatusAttachment;
 
 /**
@@ -15,7 +15,7 @@ public interface Anchor extends Member {
      *
      * @param pkStatus pk 数据
      */
-    void notifyPKStatus(PKStatusAttachment pkStatus);
+    void notifyPkStatus(PkStatusAttachment pkStatus);
 
     /**
      * 开始惩罚

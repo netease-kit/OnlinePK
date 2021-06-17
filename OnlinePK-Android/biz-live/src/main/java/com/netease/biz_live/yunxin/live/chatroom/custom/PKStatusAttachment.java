@@ -7,15 +7,15 @@ import com.google.gson.Gson;
  * <p>
  * 自定义消息，pk 状态
  */
-public class PKStatusAttachment extends StateCustomAttachment {
+public class PkStatusAttachment extends StateCustomAttachment {
 
 
-    public PKStatusAttachment(int anchorWin) {
+    public PkStatusAttachment(int anchorWin) {
         super(anchorWin);
         this.type = CustomAttachmentType.CHAT_ROOM_PK;
     }
 
-    public PKStatusAttachment(long startedTimestamp, long currentTimestamp, String otherAnchorNickname, String otherAnchorAvatar) {
+    public PkStatusAttachment(long startedTimestamp, long currentTimestamp, String otherAnchorNickname, String otherAnchorAvatar) {
         super(startedTimestamp, currentTimestamp, otherAnchorNickname, otherAnchorAvatar);
         this.type = CustomAttachmentType.CHAT_ROOM_PK;
     }

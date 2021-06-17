@@ -16,7 +16,7 @@ public class LiveServiceImpl implements LiveService {
     }
 
     @Override
-    public void launchPkLive(Context context) {
-        context.startActivity(new Intent(context, LiveListActivity.class));
+    public void launchPkLive(Context context, String title) {
+        LiveListActivity.launchLiveList(context,title);
     }
 }

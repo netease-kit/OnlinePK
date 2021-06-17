@@ -5,4 +5,6 @@
     <color name="login_color_btn_enable">#FF0062E3</color>
     <color name="login_color_btn_disable">#FF092650</color>
     <color name="color_1a1a24">#ff1a1a24</color>
+    <color name="biz_live_color_333333">#333333</color>
+    <color name="biz_live_color_black60">#99000000</color>
 </resources>

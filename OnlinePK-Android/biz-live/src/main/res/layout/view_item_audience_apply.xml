@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <include
+        layout="@layout/view_audience_head_layout"/>
+
+    <TextView
+        android:id="@+id/tv_reject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_14"
+        android:background="@drawable/stroke_gray_radius_25"
+        android:textColor="@color/biz_live_color_333333"
+        android:text="拒绝"
+        android:layout_centerVertical="true"
+        android:paddingStart="@dimen/dp_12"
+        android:paddingEnd="@dimen/dp_12"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:layout_toLeftOf="@+id/tv_accept"/>
+
+    <TextView
+        android:id="@+id/tv_accept"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_14"
+        android:background="@drawable/pk_button_bg"
+        android:textColor="@color/colorWhite"
+        android:text="接受"
+        android:layout_centerVertical="true"
+        android:paddingStart="@dimen/dp_12"
+        android:paddingEnd="@dimen/dp_12"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:layout_alignParentRight="true"/>
+
+</RelativeLayout>

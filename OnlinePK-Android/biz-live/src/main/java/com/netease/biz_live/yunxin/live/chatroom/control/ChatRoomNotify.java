@@ -1,7 +1,7 @@
 package com.netease.biz_live.yunxin.live.chatroom.control;
 
 import com.netease.biz_live.yunxin.live.chatroom.custom.AnchorCoinChangedAttachment;
-import com.netease.biz_live.yunxin.live.chatroom.custom.PKStatusAttachment;
+import com.netease.biz_live.yunxin.live.chatroom.custom.PkStatusAttachment;
 import com.netease.biz_live.yunxin.live.chatroom.custom.PunishmentStatusAttachment;
 import com.netease.biz_live.yunxin.live.chatroom.model.LiveChatRoomInfo;
 import com.netease.biz_live.yunxin.live.chatroom.model.RewardGiftInfo;
@@ -67,7 +67,7 @@ public interface ChatRoomNotify {
      *
      * @param pkStatus pk 状态
      */
-    void onPKStatusChanged(PKStatusAttachment pkStatus);
+    void onPkStatusChanged(PkStatusAttachment pkStatus);
 
 
     /**

@@ -3,8 +3,8 @@ package com.netease.yunxin.nertc.module.base.sdk;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
-import com.faceunity.FURenderer;
-import com.faceunity.utils.FileUtils;
+import com.beautyFaceunity.FURenderer;
+import com.beautyFaceunity.utils.FileUtils;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.SDKOptions;
 import com.netease.nimlib.sdk.auth.LoginInfo;

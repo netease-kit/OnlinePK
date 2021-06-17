@@ -3,9 +3,9 @@ package com.netease.biz_live.yunxin.live.model.message;
 /**
  * PK 结束的消息体
  */
-public class MsgPKEnd extends NotificationMessage<MsgPKEnd.PKEndBody> {
+public class MsgPkEnd extends NotificationMessage<MsgPkEnd.PkEndBody> {
 
-    public static class PKEndBody {
+    public static class PkEndBody {
         public String operUser;//: 操作者账号,
         public String fromUser;//: 1111,
         public String fromUserAvRoomUid;//: 1111,

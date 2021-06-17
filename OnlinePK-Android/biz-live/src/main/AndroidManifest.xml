@@ -2,21 +2,28 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.netease.biz_live">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application>
         <activity android:name=".yunxin.live.audience.utils.DialogHelperActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleTop"
             android:theme="@style/TransparentBgTheme"/>
         <activity
             android:name=".yunxin.live.audience.ui.LiveAudienceActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleTop"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".yunxin.live.ui.LiveListActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleTop"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".yunxin.live.ui.LiveAnchorActivity"
+            android:name=".yunxin.live.ui.InteractionLiveActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleTop"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
     </application>
 

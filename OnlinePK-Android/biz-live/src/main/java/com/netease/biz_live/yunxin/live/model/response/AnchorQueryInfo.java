@@ -1,5 +1,7 @@
 package com.netease.biz_live.yunxin.live.model.response;
 
+import com.netease.biz_live.yunxin.live.model.SeatMemberInfo;
+
 import java.util.List;
 
 /**
@@ -50,4 +52,5 @@ public class AnchorQueryInfo {
      * 成员信息
      */
     public List<AnchorMemberInfo> members;
+    public List<SeatMemberInfo> seatList;
 }

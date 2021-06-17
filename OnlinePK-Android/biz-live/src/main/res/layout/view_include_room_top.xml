@@ -2,6 +2,7 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:test="http://schemas.android.com/tools"
+    android:id="@+id/include_room_top"
     android:layout_width="match_parent"
     android:layout_height="44dp">
 

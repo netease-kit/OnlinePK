@@ -9,7 +9,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.netease.biz_live.R;
-import com.netease.yunxin.android.lib.historian.Historian;
+import com.netease.yunxin.kit.alog.ALog;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
@@ -114,7 +114,7 @@ public class ChoiceDialog extends Dialog {
         try {
             super.show();
         } catch (WindowManager.BadTokenException e) {
-            Historian.e("ChoiceDialog", "error message is :" + e.getMessage());
+            ALog.e("ChoiceDialog", "error message is :" + e.getMessage());
         }
     }
 }

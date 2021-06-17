@@ -2,7 +2,6 @@ package com.netease.biz_live.yunxin.live.audience.utils;
 
 import android.graphics.SurfaceTexture;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
@@ -10,7 +9,7 @@ import android.view.View;
 import com.netease.neliveplayer.sdk.NELivePlayer;
 import com.netease.neliveplayer.sdk.constant.NEBufferStrategy;
 import com.netease.neliveplayer.sdk.model.NEAutoRetryConfig;
-import com.netease.yunxin.android.lib.historian.Historian;
+import com.netease.yunxin.kit.alog.ALog;
 import com.netease.yunxin.nertc.demo.basic.BaseActivity;
 
 import java.io.IOException;
@@ -93,7 +92,7 @@ public final class PlayerControl {
         if (player != null) {
             player.start();
         }
-        Historian.e("PlayerControl", "player is playing.");
+        ALog.e("PlayerControl", "player is playing.");
         // 播放回调
         innerNotify.onPlaying();
     };
@@ -103,7 +102,7 @@ public final class PlayerControl {
      */
     private final NELivePlayer.OnErrorListener errorListener = (neLivePlayer, errorCode, extra) -> {
         player.release();
-        Historian.e("PlayerControl", "errorCode is " + errorCode + ", extra info is " + extra);
+        ALog.e("PlayerControl", "errorCode is " + errorCode + ", extra info is " + extra);
         innerNotify.onError();
         return true;
     };
@@ -115,7 +114,7 @@ public final class PlayerControl {
         if (isReleased()) {
             return;
         }
-        Historian.e("PlayerControl", "video size is Changed, width is " + width + ", height is " + height);
+        ALog.e("PlayerControl", "video size is Changed, width is " + width + ", height is " + height);
         innerNotify.onVideoSizeChanged(width, height);
     };
 

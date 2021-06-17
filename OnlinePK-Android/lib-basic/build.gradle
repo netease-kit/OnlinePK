@@ -21,9 +21,11 @@ android {
         }
     }
 
-    defaultConfig{
-        buildConfigField "String", "APP_KEY", "set your app key."
-        buildConfigField "String", "BASE_URL", "\"https://yiyong.netease.im/\""
+    defaultConfig {
+        // app key for code
+        buildConfigField "String", "APP_KEY", "\"${rootProject.ext.AppKey}\""
+        // base server url
+        buildConfigField "String", "BASE_URL", "\"${rootProject.ext.BaseUrl}\""
     }
 
     compileOptions {

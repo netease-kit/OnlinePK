@@ -2,10 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <include
-        android:id="@+id/include_room_top"
         layout="@layout/view_include_room_top"
         android:layout_width="match_parent"
         android:layout_height="44dp" />
@@ -76,6 +76,16 @@
         android:layout_width="32dp"
         android:layout_height="32dp"/>
 
+    <com.netease.biz_live.yunxin.live.audience.ui.view.MultiFunctionButton
+        android:id="@+id/btn_multi_function"
+        app:layout_constraintRight_toLeftOf="@+id/iv_room_gift"
+        android:layout_marginEnd="10dp"
+        tools:background="@android:color/holo_green_light"
+        app:layout_constraintTop_toTopOf="@id/iv_room_close"
+        app:layout_constraintBottom_toBottomOf="@id/iv_room_close"
+        android:layout_width="32dp"
+        android:layout_height="32dp"/>
+
     <EditText
         android:id="@+id/et_room_msg_input"
         android:layout_width="match_parent"
@@ -98,6 +108,6 @@
         android:visibility="visible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="include_room_top,fl_msg_group,iv_room_close,iv_room_gift,tv_room_msg_input" />
+        app:constraint_referenced_ids="include_room_top,fl_msg_group,iv_room_close,iv_room_gift,btn_multi_function,tv_room_msg_input" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

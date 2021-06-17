@@ -6,6 +6,8 @@ import com.netease.biz_live.yunxin.live.LiveApplicationLifecycle;
 import com.netease.biz_live.yunxin.live.LiveService;
 import com.netease.biz_live.yunxin.live.LiveServiceImpl;
 import com.netease.yunxin.android.lib.network.common.NetworkClient;
+import com.netease.yunxin.kit.alog.ALog;
+import com.netease.yunxin.kit.alog.BasicInfo;
 import com.netease.yunxin.nertc.demo.basic.BuildConfig;
 import com.netease.yunxin.nertc.demo.user.UserCenterService;
 import com.netease.yunxin.nertc.demo.user.UserCenterServiceImpl;
@@ -17,6 +19,17 @@ public class DemoApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        ALog.init(this, ALog.LEVEL_ALL);
+        ALog.logFirst(new BasicInfo.Builder()
+                .name(getString(R.string.app_name))
+                .version("v"+ com.netease.yunxin.nertc.demo.BuildConfig.VERSION_NAME)
+                .gitHashCode(com.netease.yunxin.nertc.demo.BuildConfig.GIT_COMMIT_HASH)
+                .deviceId(this)
+                .baseUrl(BuildConfig.BASE_URL)
+                .packageName(this)
+                .nertcVersion(com.netease.yunxin.nertc.demo.BuildConfig.VERSION_NERTC)
+                .imVersion(com.netease.yunxin.nertc.demo.BuildConfig.VERSION_IM)
+                .build());
         // 配置网络基础 url 以及 debug 开关
         NetworkClient.getInstance()
                 .configBaseUrl(BuildConfig.BASE_URL)

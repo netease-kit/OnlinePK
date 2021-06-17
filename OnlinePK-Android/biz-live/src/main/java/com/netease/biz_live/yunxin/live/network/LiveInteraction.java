@@ -9,6 +9,7 @@ import com.netease.biz_live.yunxin.live.model.LiveInfo;
 import com.netease.biz_live.yunxin.live.model.response.AnchorQueryInfo;
 import com.netease.biz_live.yunxin.live.model.response.LiveListResponse;
 import com.netease.biz_live.yunxin.live.model.response.PkLiveContributeTotal;
+import com.netease.biz_live.yunxin.live.model.response.SeatsResponse;
 import com.netease.yunxin.android.lib.network.common.BaseResponse;
 import com.netease.yunxin.android.lib.network.common.NetworkClient;
 import com.netease.yunxin.android.lib.network.common.transform.ErrorTransform;
@@ -17,6 +18,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
 
 /**
  * 直播网络访问交互

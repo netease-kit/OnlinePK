@@ -7,18 +7,22 @@ public class FunctionItem {
 
     public final String nameStr;
 
+    public final String descriptionStr;
+
     public final Runnable action;
 
     public FunctionItem(int type, String nameStr,int iconResId) {
         this.type = type;
         this.nameStr = nameStr;
+        this.descriptionStr = null;
         this.iconResId = iconResId;
         this.action = null;
     }
 
-    public FunctionItem(int iconResId, String nameStr, Runnable action) {
+    public FunctionItem(int iconResId, String nameStr,String descriptionStr, Runnable action) {
         this.iconResId = iconResId;
         this.nameStr = nameStr;
+        this.descriptionStr = descriptionStr;
         this.action = action;
     }
 }

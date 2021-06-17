@@ -11,5 +11,5 @@ public interface LiveService extends ModuleService {
   /**
    * 启动pk 直播
    */
-  void launchPkLive(Context context);
+  void launchPkLive(Context context,String title);
 }

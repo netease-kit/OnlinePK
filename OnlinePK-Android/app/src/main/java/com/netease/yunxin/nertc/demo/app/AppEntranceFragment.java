@@ -32,10 +32,15 @@ public class AppEntranceFragment extends BaseFragment {
         rvFunctionList.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         rvFunctionList.setAdapter(new FunctionAdapter(getContext(), Arrays.asList(
                 // 每个业务功能入口均在此处生成 item
-                new FunctionItem(R.drawable.icon_pk_live, "PK 直播",
+                new FunctionItem(R.drawable.icon_pk_live, "PK 直播", "从单人直播到主播间PK，观众连麦多种玩法",
                         () -> {
                             LiveService liveService = ModuleServiceMgr.getInstance().getService(LiveService.class);
-                            liveService.launchPkLive(getContext());
+                            liveService.launchPkLive(getContext(), "PK直播");
+                        }),
+                new FunctionItem(R.drawable.icon_multi_micro, "多人连麦直播", "支持1V4主播和观众的视频互动",
+                        () -> {
+                            LiveService liveService = ModuleServiceMgr.getInstance().getService(LiveService.class);
+                            liveService.launchPkLive(getContext(), "多人连麦直播");
                         })
         )));
     }

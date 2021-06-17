@@ -34,15 +34,16 @@ public class AnchorMoreDialog extends BottomBaseDialog {
     public static final int ITEM_SETTING = 5;
     public static final int ITEM_DATA = 6;
     public static final int ITEM_FINISH = 7;
+    public static final int ITEM_FILTER = 8;
 
     public static final List<MoreItem> itemList = Arrays.asList(
-            new MoreItem(1, R.drawable.selector_more_camera_status, "摄像头"),
-            new MoreItem(2, R.drawable.selector_more_voice_status, "麦克风"),
-            new MoreItem(3, R.drawable.selector_more_ear_return_status, "耳返").setEnable(false),
-            new MoreItem(4, R.drawable.icon_camera_flip, "翻转"),
+            new MoreItem(ITEM_CAMERA, R.drawable.selector_more_camera_status, "摄像头"),
+            new MoreItem(ITEM_MUTE, R.drawable.selector_more_voice_status, "麦克风"),
+            new MoreItem(ITEM_RETURN, R.drawable.selector_more_ear_return_status, "耳返").setEnable(false),
+            new MoreItem(ITEM_CAMERA_SWITCH, R.drawable.icon_camera_flip, "翻转"),
 //            new MoreItem(5, R.drawable.icon_live_setting, "直播设置"),
-//            new MoreItem(6, R.drawable.icon_real_time_data, "实时数据"),
-            new MoreItem(7, R.drawable.icon_live_finish, "结束直播")
+            new MoreItem(ITEM_FILTER, R.drawable.icon_filter_more, "滤镜"),
+            new MoreItem(ITEM_FINISH, R.drawable.icon_live_finish, "结束直播")
     );
 
     public static void clearItem() {

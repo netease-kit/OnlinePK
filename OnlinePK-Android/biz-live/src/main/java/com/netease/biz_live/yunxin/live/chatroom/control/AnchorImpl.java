@@ -1,7 +1,7 @@
 package com.netease.biz_live.yunxin.live.chatroom.control;
 
 import com.netease.biz_live.yunxin.live.chatroom.custom.AnchorCoinChangedAttachment;
-import com.netease.biz_live.yunxin.live.chatroom.custom.PKStatusAttachment;
+import com.netease.biz_live.yunxin.live.chatroom.custom.PkStatusAttachment;
 import com.netease.biz_live.yunxin.live.chatroom.custom.PunishmentStatusAttachment;
 import com.netease.biz_live.yunxin.live.chatroom.model.LiveChatRoomInfo;
 
@@ -11,7 +11,7 @@ import com.netease.biz_live.yunxin.live.chatroom.model.LiveChatRoomInfo;
 class AnchorImpl implements Anchor {
 
     @Override
-    public void notifyPKStatus(PKStatusAttachment pkStatus) {
+    public void notifyPkStatus(PkStatusAttachment pkStatus) {
         ChatRoomControl.getInstance().sendCustomMsg(pkStatus);
     }
 

@@ -1,10 +1,15 @@
 package com.netease.biz_live.yunxin.live.ui;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,6 +23,7 @@ import com.netease.biz_live.yunxin.live.model.response.LiveListResponse;
 import com.netease.biz_live.yunxin.live.network.LiveInteraction;
 import com.netease.biz_live.yunxin.live.ui.widget.FooterView;
 import com.netease.biz_live.yunxin.live.ui.widget.HeaderView;
+import com.netease.biz_live.yunxin.live.utils.ClickUtils;
 import com.netease.yunxin.android.lib.network.common.BaseResponse;
 import com.netease.yunxin.nertc.demo.basic.BaseActivity;
 import com.netease.yunxin.nertc.demo.basic.StatusBarConfig;
@@ -33,6 +39,10 @@ import io.reactivex.observers.ResourceSingleObserver;
  * 直播列表页面
  */
 public class LiveListActivity extends BaseActivity implements OnRefreshListener, OnLoadMoreListener {
+    /**
+     * intent 传递的 title 字段 key
+     */
+    private static final String KEY_PARAM_TITLE = "key_param_title";
 
     private RecyclerView recyclerView;
 
@@ -64,6 +74,10 @@ public class LiveListActivity extends BaseActivity implements OnRefreshListener,
     }
 
     private void initView() {
+        String title = getIntent().getStringExtra(KEY_PARAM_TITLE);
+        TextView tvTitle = findViewById(R.id.tv_title);
+        tvTitle.setText(TextUtils.isEmpty(title) ? "PK直播" : title);
+
         recyclerView = findViewById(R.id.rcv_live);
         ivCreateLive = findViewById(R.id.iv_new_live);
         refreshLayout = findViewById(R.id.refreshLayout);
@@ -73,7 +87,9 @@ public class LiveListActivity extends BaseActivity implements OnRefreshListener,
         refreshLayout.setOnRefreshListener(this);
         refreshLayout.setOnLoadMoreListener(this);
         ivCreateLive.setOnClickListener(v -> {
-            LiveAnchorActivity.startAnchorActivity(LiveListActivity.this);
+            if (!ClickUtils.isFastClick()) {
+                InteractionLiveActivity.startAnchorActivity(LiveListActivity.this);
+            }
         });
         ivClose.setOnClickListener(v -> onBackPressed());
 
@@ -81,7 +97,9 @@ public class LiveListActivity extends BaseActivity implements OnRefreshListener,
         liveListAdapter = new LiveListAdapter(this);
         liveListAdapter.setOnItemClickListener((liveList, position) -> {
             //goto audience page
-            LiveAudienceActivity.launchAudiencePage(this, liveList, position);
+            if (!ClickUtils.isFastClick()) {
+                LiveAudienceActivity.launchAudiencePage(this, liveList, position);
+            }
         });
         final GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         int pixel8 = SpUtils.dp2pix(getApplicationContext(), 8);
@@ -183,5 +201,20 @@ public class LiveListActivity extends BaseActivity implements OnRefreshListener,
                 .statusBarDarkFont(false)
                 .statusBarColor(R.color.color_1a1a24)
                 .build();
+    }
+
+    /**
+     * 直播列表页面启动
+     *
+     * @param context 上下文
+     * @param title 列表页面 title
+     */
+    public static void launchLiveList(Context context, String title) {
+        Intent intent = new Intent(context, LiveListActivity.class);
+        intent.putExtra(KEY_PARAM_TITLE, title);
+        if (!(context instanceof Activity)) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
+        context.startActivity(intent);
     }
 }

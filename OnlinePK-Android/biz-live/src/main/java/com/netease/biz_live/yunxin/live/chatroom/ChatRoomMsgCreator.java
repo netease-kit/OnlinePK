@@ -47,6 +47,30 @@ public class ChatRoomMsgCreator {
     }
 
     /**
+     * 上麦
+     */
+    public static CharSequence createSeatEnter(String userNickName) {
+        return new ChatMessageSpannableStr.Builder()
+                .append(userNickName, HIGH_COLOR)
+                .append(" ")
+                .append("已成功上麦", HIGH_COLOR)
+                .build()
+                .getMessageInfo();
+    }
+
+    /**
+     * 下麦
+     */
+    public static CharSequence createSeatExit(String userNickName) {
+        return new ChatMessageSpannableStr.Builder()
+                .append(userNickName, HIGH_COLOR)
+                .append(" ")
+                .append("已下麦", HIGH_COLOR)
+                .build()
+                .getMessageInfo();
+    }
+
+    /**
      * 创建非主播发送的文本消息
      */
     public static CharSequence createText(String userNickName, String msg) {

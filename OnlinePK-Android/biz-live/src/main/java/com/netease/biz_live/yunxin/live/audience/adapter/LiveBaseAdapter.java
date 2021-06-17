@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public abstract class LiveBaseAdapter<T> extends RecyclerView.Adapter<LiveBaseAdapter.LiveViewHolder> {
+
     protected final List<T> dataSource = new ArrayList<>();
     protected final Context context;
 
@@ -25,6 +26,9 @@ public abstract class LiveBaseAdapter<T> extends RecyclerView.Adapter<LiveBaseAd
         if (dataSource != null) {
             this.dataSource.addAll(dataSource);
         }
+    }
+    public List<T> getDataSource() {
+        return dataSource;
     }
 
     @NonNull

@@ -16,7 +16,7 @@ public class LiveAttachParser implements MsgAttachmentParser {
 
         switch (JsonUtils.getType(json)) {
             case CustomAttachmentType.CHAT_ROOM_PK: {
-                result = JsonUtils.toMsgAttachment(json, PKStatusAttachment.class);
+                result = JsonUtils.toMsgAttachment(json, PkStatusAttachment.class);
                 break;
             }
             case CustomAttachmentType.CHAT_ROOM_PUNISHMENT: {
