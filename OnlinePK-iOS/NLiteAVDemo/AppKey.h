@@ -9,12 +9,12 @@
 #ifndef AppKey_h
 #define AppKey_h
 
-/// IM key
-static NSString * const kAppKey = @"<#请输入您的IM key#>";
-/// RTC key
-static NSString * const kNertcAppkey = @"<#请输入您的Rtc Key#>";
-/// host
-static NSString * const kApiHost = @"https://yiyong.netease.im";
+/// 线上 IM key
+static NSString * const kAppKey = @"<#请输入NIMSDK appkey#>";
+/// 线上 RTC key (同 IM key)
+static NSString * const kNertcAppkey = @"<#请输入NSRtc appkey#>";
+/// 线上服务器
+static NSString * const kApiHost = @"<#请输入线上服务器地址#>";
 
 /// 数据收集
 static NSString * const kApiDataHost = @"https://statistic.live.126.net";

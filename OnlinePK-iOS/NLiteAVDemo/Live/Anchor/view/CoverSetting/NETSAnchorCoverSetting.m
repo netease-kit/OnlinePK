@@ -275,7 +275,7 @@
                 textView.text = [toBeString substringToIndex:kMaxLength];
             }
         } else {
-            NETSLog(@"11111111111111========      %@",position);
+            YXAlogInfo(@"11111111111111========      %@",position);
         }
     } else {
         if (toBeString.length > kMaxLength) {

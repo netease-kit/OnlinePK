@@ -7,7 +7,6 @@
 //
 
 #import "NETSAudienceSendGiftCell.h"
-#import "UIView+NTES.h"
 #import "NETSGiftModel.h"
 
 @interface NETSAudienceSendGiftCell ()

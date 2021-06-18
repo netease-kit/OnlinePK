@@ -9,7 +9,7 @@
 #import "NETSLiveSegmentedSetting.h"
 #import "NETSSettingSegmented.h"
 #import "NETSLiveSegmentedSettingModel.h"
-#import "UIView+NTES.h"
+
 
 @implementation NETSLiveSegmentedSetting
 

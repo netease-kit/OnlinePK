@@ -10,6 +10,7 @@
 #import "NETSRequest.h"
 #import "NETSLiveModel.h"
 
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface NETSLiveApi : NSObject
@@ -116,6 +117,47 @@ NS_ASSUME_NONNULL_BEGIN
                           successBlock:(nullable NETSRequestCompletion)successBlock
                            failedBlock:(nullable NETSRequestError)failedBlock;
 
+/// 麦位操作
+/// @param roomId 房间id
+/// @param userId 用户id
+/// @param seatIndex 麦位序号
+/// @param action 麦位操作action
+/// @param successBlock 成功闭包
+/// @param failedBlock 失败闭包
++ (void)requestSeatManagerWithRoomId:(NSString *)roomId
+                            userId:(NSString *)userId
+                             index:(int32_t)seatIndex
+                            action:(NETSSeatsOperation)action
+                       successBlock:(nullable NETSRequestCompletion)successBlock
+                        failedBlock:(nullable NETSRequestError)failedBlock;
+
+
+/// 连麦观众列表查询
+/// @param roomId 房间id
+/// @param type 状态类型 
+/// @param successBlock 成功闭包
+/// @param failedBlock 失败闭包
++ (void)requestMicSeatsResultListWithRoomId:(NSString *)roomId
+                                    type:(NETSUserStatus)type
+                             successBlock:(nullable NETSRequestCompletion)successBlock
+                                failedBlock:(nullable NETSRequestError)failedBlock;
+
+
+
+
+/// 麦位音视频操作
+/// @param roomId 房间id
+/// @param userId 用户id
+/// @param isOpenVideo 是否打开视屏  1 打开 0 关闭
+/// @param isOpenAudio 是否打开音频  1 打开 0 关闭
+/// @param successBlock 成功闭包
+/// @param failedBlock 失败闭包
++ (void)requestChangeSeatsStatusWithRoomId:(NSString *)roomId
+                                  userId:(NSString *)userId
+                                   video:(int)isOpenVideo
+                                   audio:(int)isOpenAudio
+                             successBlock:(nullable NETSRequestCompletion)successBlock
+                              failedBlock:(nullable NETSRequestError)failedBlock;
 @end
 
 NS_ASSUME_NONNULL_END

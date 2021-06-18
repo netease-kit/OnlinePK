@@ -8,7 +8,7 @@
 
 #import "NETSGiftAnimationView.h"
 #import "LOTAnimationView.h"
-#import "UIView+NTES.h"
+
 
 @interface NETSGiftAnimationView ()
 

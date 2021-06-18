@@ -79,7 +79,18 @@
     int32_t audienceNo = MAX(model.audienceCount, 0);
     self.audienceNum.text = kFormatNum(audienceNo);
     
-    self.pkView.hidden = !(model.live == NETSRoomPKing || model.live == NETSRoomPunishment);
+    if (model.live == NETSRoomPKing||
+        model.live == NETSRoomPunishment||
+        model.live == NETSRoomConnectMic) {
+        self.pkView.hidden = NO;
+        if (model.live == NETSRoomConnectMic ) {
+            self.pkView.image = [UIImage imageNamed:@"pklist_connecting_icon"];
+        }else {
+            self.pkView.image = [UIImage imageNamed:@"pking_ico"];
+        }
+    }else {
+        self.pkView.hidden = YES;
+    }
 }
 
 + (NETSLiveListCell *)cellWithCollectionView:(UICollectionView *)collectionView
@@ -100,7 +111,7 @@
 + (CGSize)size
 {
     CGFloat length = (kScreenWidth - 8 * 3) / 2.0;
-    return CGSizeMake(length, length);
+    return CGSizeMake((int)length, (int)length);//这里强行取整，解决xs上计算cell问题
 }
 
 #pragma mark - lazy load
@@ -139,7 +150,6 @@
 {
     if (!_pkView) {
         _pkView = [[UIImageView alloc] init];
-        _pkView.image = [UIImage imageNamed:@"pking_ico"];
     }
     return _pkView;
 }

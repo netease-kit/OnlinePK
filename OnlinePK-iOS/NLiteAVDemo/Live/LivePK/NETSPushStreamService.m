@@ -8,7 +8,6 @@
 
 #import "NETSPushStreamService.h"
 #import <NERtcSDK/NERtcSDK.h>
-#import <NIMSDK/NIMSDK.h>
 #import "SKVObject.h"
 
 @implementation NETSPushStreamService
@@ -19,10 +18,10 @@
 {
     int ret = [[NERtcEngine sharedEngine] addLiveStreamTask:task compeltion:^(NSString * _Nonnull taskId, kNERtcLiveStreamError errorCode) {
         if (errorCode == 0) {
-            NETSLog(@"添加推流任务成功, taskId: %@", taskId);
+            ApiLogInfo(@"添加推流任务成功, taskId: %@", taskId);
             if (successBlock) { successBlock(); }
         } else {
-            NETSLog(@"添加推流任务失败, taskId: %@, errorCode: %d", taskId, errorCode);
+            ApiLogInfo(@"添加推流任务失败, taskId: %@, errorCode: %d", taskId, errorCode);
             if (failedBlock) {
                 NSError *error = [NSError errorWithDomain:@"NETSRtcErrorDomain" code:errorCode userInfo:@{NSLocalizedDescriptionKey: @"推流失败"}];
                 failedBlock(error, taskId);
@@ -30,7 +29,7 @@
         }
     }];
     if (ret != 0) {
-        NETSLog(@"添加推流任务失败, ret: %d", ret);
+        ApiLogInfo(@"添加推流任务失败, ret: %d", ret);
         if (failedBlock) {
             NSError *error = [NSError errorWithDomain:@"NETSRtcErrorDomain" code:ret userInfo:@{NSLocalizedDescriptionKey: @"添加推流任务失败"}];
             failedBlock(error, task.taskID);
@@ -62,7 +61,7 @@
                                                    uids:(NSArray<NSNumber *> *)uids
 {
     if ([uids count] > 2 || [uids count] == 0) {
-        NETSLog(@"构建pushStreamTask失败: uid集合元素数量不符合预期");
+        ApiLogInfo(@"构建pushStreamTask失败: uid集合元素数量不符合预期");
         return nil;
     }
     
@@ -123,13 +122,13 @@
 {
     NSString *jsonStr = response.customInfo;
     if (isEmptyString(jsonStr)) {
-        NETSLog(@"IM信令自定义信息字段为空");
+        ApiLogInfo(@"IM信令自定义信息字段为空");
         return nil;
     }
     
     SKVObject *obj = [SKVObject ofJSON:jsonStr];
     if (!obj) {
-        NETSLog(@"IM信令自定义信息解析失败");
+        ApiLogInfo(@"IM信令自定义信息解析失败");
         return nil;
     }
     return obj;

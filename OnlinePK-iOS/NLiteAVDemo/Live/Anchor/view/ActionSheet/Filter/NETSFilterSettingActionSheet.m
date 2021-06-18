@@ -7,7 +7,6 @@
 //
 
 #import "NETSFilterSettingActionSheet.h"
-#import "UIView+NTES.h"
 #import "TopmostView.h"
 #import "NETSBeautyParam.h"
 #import "NETSFUManger.h"
@@ -202,7 +201,7 @@
 
 - (void)resetSetting:(UIButton *)sender
 {
-    NETSLog(@"重置滤镜参数...");
+    YXAlogInfo(@"重置滤镜参数...");
     [[NETSFUManger shared] resetFilters];
     NETSBeautyParam *param = [NETSFUManger shared].seletedFliter;
     [self setFilterParam:param];
@@ -211,7 +210,7 @@
 
 - (void)valueChanged:(UISlider *)slider
 {
-    NETSLog(@"饱和度设置...");
+    YXAlogInfo(@"饱和度设置...");
     NETSBeautyParam *param = [NETSFUManger shared].seletedFliter;
     param.mValue = slider.value;
     [[NETSFUManger shared] setFilterParam:param];

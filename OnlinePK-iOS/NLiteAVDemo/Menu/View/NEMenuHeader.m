@@ -7,7 +7,7 @@
 //
 
 #import "NEMenuHeader.h"
-#import "UIView+NTES.h"
+
 
 @interface NEMenuHeader ()
 

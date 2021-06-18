@@ -13,17 +13,15 @@
 #import "NENavigator.h"
 #import "NETSLiveModel.h"
 #import "NETSToast.h"
-#import "UIView+NTES.h"
 #import "NETSEmptyListView.h"
-#import <NIMSDK/NIMSDK.h>
 
 @interface NETSLiveListVC () <UICollectionViewDelegate, UICollectionViewDataSource>
 
-@property (nonatomic, strong)   NETSLiveListVM      *viewModel;
-@property (nonatomic, strong)   UICollectionView    *collectionView;
+@property (nonatomic, strong)   NETSLiveListVM       *viewModel;
+@property (nonatomic, strong)   UICollectionView     *collectionView;
 @property (nonatomic, strong)   UIButton            *startPkBtn;
-@property (nonatomic, strong)   NETSEmptyListView   *emptyView;
-
+@property (nonatomic, strong)   NETSEmptyListView    *emptyView;
+@property(nonatomic, strong)    NSString            *navTitle;
 @end
 
 @implementation NETSLiveListVC
@@ -37,6 +35,13 @@
     return self;
 }
 
+- (instancetype)initWithNavTitle:(NSString *)navTitle {
+    if (self = [super init]) {
+        self.viewModel = [[NETSLiveListVM alloc] init];
+        _navTitle = navTitle;
+    }
+    return self;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -55,7 +60,7 @@
 
 - (void)setupViews
 {
-    self.title = @"PK直播";
+    self.title = _navTitle;
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.view.backgroundColor = HEXCOLOR(0x000000);
@@ -187,7 +192,7 @@
 
 - (void)dealloc {
     [[NIMSDK sharedSDK].loginManager logout:^(NSError * _Nullable error) {
-        NETSLog(@"pk直播主播端销毁,IM登出, error: %@...", error);
+        YXAlogInfo(@"pk直播主播端销毁,IM登出, error: %@...", error);
     }];
 }
 @end

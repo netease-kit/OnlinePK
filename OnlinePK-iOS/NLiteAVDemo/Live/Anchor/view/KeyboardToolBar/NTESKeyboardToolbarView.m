@@ -7,7 +7,6 @@
 //
 
 #import "NTESKeyboardToolbarView.h"
-#import "UIView+NTES.h"
 
 @interface NTESKeyboardToolbarView () <UITextFieldDelegate>
 
@@ -48,7 +47,6 @@
     }
      self.textField.text = @"";
     [self.textField resignFirstResponder];
-
 }
 
 - (void)becomeFirstResponse {

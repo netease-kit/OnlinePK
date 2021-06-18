@@ -7,7 +7,6 @@
 //
 
 #import "NETSLiveSettingActionSheet.h"
-#import "UIView+NTES.h"
 #import "TopmostView.h"
 #import "UIImage+NTES.h"
 #import <NERtcSDK/NERtcSDK.h>
@@ -83,12 +82,12 @@
 
 - (void)resetSetting:(UIButton *)sender
 {
-    NETSLog(@"重置直播设置...");
+    YXAlogInfo(@"重置直播设置...");
     [[NETSLiveConfig shared] resetLiveConfig];
     
     NERtcVideoEncodeConfiguration *config = [NETSLiveConfig shared].videoConfig;
     int videoRes = [[NERtcEngine sharedEngine] setLocalVideoConfig:config];
-    NETSLog(@"重置分辨率/帧率 %@", (videoRes == 0) ? @"成功" : @"失败");
+    YXAlogInfo(@"重置分辨率/帧率 %@", (videoRes == 0) ? @"成功" : @"失败");
     if (videoRes == 0) {
         self.resoSetting.selectedValue = config.maxProfile;
         self.frameSetting.selectedValue = config.frameRate;
@@ -96,7 +95,7 @@
     
     NSUInteger quality = [NETSLiveConfig shared].audioQuality;
     int audioRes = [[NERtcEngine sharedEngine] setAudioProfile:kNERtcAudioProfileDefault scenario:quality];
-    NETSLog(@"重置音频质量 %@", (audioRes == 0) ? @"成功" : @"失败");
+    YXAlogInfo(@"重置音频质量 %@", (audioRes == 0) ? @"成功" : @"失败");
     if (audioRes == 0) {
         self.audioSetting.selectedValue = quality;
     }
@@ -114,7 +113,7 @@
     } else {
         [NETSLiveConfig shared].videoConfig.maxProfile = oldVal;
     }
-    NETSLog(@"设置分辨率: newValue-%zd, oldVal-%zd, result-%d", maxProfile, oldVal, res);
+    YXAlogInfo(@"设置分辨率: newValue-%zd, oldVal-%zd, result-%d", maxProfile, oldVal, res);
     
     return res;
 }
@@ -131,7 +130,7 @@
     } else {
         [NETSLiveConfig shared].videoConfig.frameRate = oldVal;
     }
-    NETSLog(@"设置帧率: newValue-%zd, oldVal-%zd, result-%d", frameRate, oldVal, res);
+    YXAlogInfo(@"设置帧率: newValue-%zd, oldVal-%zd, result-%d", frameRate, oldVal, res);
     
     return res;
 }
@@ -146,7 +145,7 @@
     } else {
         [NETSLiveConfig shared].audioQuality = oldVal;
     }
-    NETSLog(@"设置音频质量: newValue-%zd, result-%d", quality, res);
+    YXAlogInfo(@"设置音频质量: newValue-%zd, result-%d", quality, res);
     
     return res;
 }

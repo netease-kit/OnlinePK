@@ -7,7 +7,6 @@
 //
 
 #import "NETSAnchorTopInfoView.h"
-#import "UIView+NTES.h"
 #import "NETSLiveUtils.h"
 
 @interface NETSAnchorTopInfoView ()

@@ -32,10 +32,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)closeLoginWithCompletion:(_Nullable NELoginBlock)completion;
 
-/**
-展示直播列表页
-*/
-- (void)showLiveListVC;
+
+/// 展示直播列表页
+/// @param navTitle 导航栏标题
+- (void)showLiveListVCWithTitle:(NSString *)navTitle;
 
 /**
  进入主播直播间

@@ -67,9 +67,8 @@
     }
 }
 
-- (void)showLiveListVC
-{
-    NETSLiveListVC *vc = [[NETSLiveListVC alloc] init];
+- (void)showLiveListVCWithTitle:(NSString *)navTitle{
+    NETSLiveListVC *vc = [[NETSLiveListVC alloc] initWithNavTitle:navTitle];
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -91,7 +90,7 @@
 {
     UITabBarController *tab = (UITabBarController *)[UIApplication sharedApplication].delegate.window.rootViewController;
     if (index >= [tab.viewControllers count]) {
-        NETSLog(@"索引越界");
+        YXAlogInfo(@"索引越界");
     }
     for (UIViewController *vc in tab.viewControllers) {
         if (![vc isKindOfClass:[UINavigationController class]]) {

@@ -10,6 +10,7 @@
 #import "NEPersonTableViewCell.h"
 #import "NEBaseWebViewController.h"
 #import "NEStatementVC.h"
+#import <NERtcSDK/NERtcSDK.h>
 @interface NEAboutViewController ()
 @property(strong,nonatomic)NSArray *dataArray;
 @property(strong,nonatomic)NSArray *valueArray;
@@ -23,7 +24,8 @@
     [self setupUI];
     self.dataArray = @[@[@"App版本",@"IM版本",@"音视频SDK版本"],@[@"隐私政策",@"用户协议",@"免责申明"]];
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-    self.valueArray = @[@[version,@"v8.1.0",@"v3.7.0"],@[@"",@"",@""]];
+    NSString *rtcVersion = [NSBundle bundleForClass:[NERtcEngine class]].infoDictionary[@"CFBundleShortVersionString"];
+    self.valueArray = @[@[version,NIMSDK.sharedSDK.sdkVersion,rtcVersion],@[@"",@"",@""]];
 
 }
 - (void)setupUI {

@@ -7,6 +7,7 @@
 //
 
 #import "NETSLiveModel.h"
+#import "NETSConnectMicModel.h"
 
 @implementation NETSPassThroughHandlePkStartData
 
@@ -68,10 +69,10 @@
 
 @implementation NETSLiveRoomInfoModel
 
-+ (NSDictionary *)modelContainerPropertyGenericClass
-{
++ (NSDictionary *)modelContainerPropertyGenericClass {
   return @{
-      @"members"       : [NETSLiveRoomModel class]
+      @"members"  : [NETSLiveRoomModel class],
+      @"seatList" : [NETSConnectMicMemberModel class],
   };
 }
 

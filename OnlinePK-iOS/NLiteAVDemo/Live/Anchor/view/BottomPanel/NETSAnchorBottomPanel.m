@@ -7,7 +7,6 @@
 //
 
 #import "NETSAnchorBottomPanel.h"
-#import "UIView+NTES.h"
 
 @interface NETSCircleBtn ()
 

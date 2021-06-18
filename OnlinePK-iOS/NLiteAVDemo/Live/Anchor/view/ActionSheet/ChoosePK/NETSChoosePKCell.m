@@ -7,7 +7,6 @@
 //
 
 #import "NETSChoosePKCell.h"
-#import "UIView+NTES.h"
 #import "NETSLiveModel.h"
 
 @interface NETSChoosePKCell ()

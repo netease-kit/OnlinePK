@@ -8,7 +8,6 @@
 
 #import "NETSLiveEndView.h"
 #import "NENavigator.h"
-#import "UIView+NTES.h"
 @interface NETSLiveEndView ()
 
 @property (nonatomic, strong)   UIImageView *upArraw;

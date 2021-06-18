@@ -9,7 +9,6 @@
 #import "NETSPkService.h"
 #import "NETSLiveApi.h"
 #import "NETSPushStreamService.h"
-#import <NIMSDK/NIMSDK.h>
 #import "SKVObject.h"
 #import "NETSChatroomService.h"
 #import <NERtcSDK/NERtcSDK.h>
@@ -17,6 +16,7 @@
 #import "NETSPkService+Inviter.h"
 #import "NETSPkService+Invitee.h"
 #import "NETSPkService+im.h"
+#import "NETSConnectMicModel.h"
 
 #define kPkServiceTimerQueue            "com.netease.pk.service.timer.queue"
 #define NETSPkServiceErrorParamDomain   @"NETSPkServiceErrorParamDomain"
@@ -45,7 +45,7 @@
     [[NIMSDK sharedSDK].signalManager removeDelegate:self];
     [[NIMSDK sharedSDK].passThroughManager removeDelegate:self];
     
-    NETSLog(@"dealloc NETSPkService: %p", self);
+    ApiLogInfo(@"dealloc NETSPkService: %p", self);
 }
 
 #pragma mark - NIMSignalManagerDelegate
@@ -55,12 +55,12 @@
 {
     switch (eventType) {
         case NIMSignalingEventTypeContrl:
-            NETSLog(@"邀请方 收到 被邀请方 发出的pk同步 信息");
+            ApiLogInfo(@"邀请方 收到 被邀请方 发出的pk同步 信息");
             [self _inviterReceivedPkSyncWithInviteeResponse:notifyResponse];
             break;
         case NIMSignalingEventTypeReject:
         {
-            NETSLog(@"邀请方 收到 被邀请方 发出的拒绝pk邀请 信息");
+            ApiLogInfo(@"邀请方 收到 被邀请方 发出的拒绝pk邀请 信息");
             if ([notifyResponse isKindOfClass:[NIMSignalingRejectNotifyInfo class]]) {
                 NIMSignalingRejectNotifyInfo *response = (NIMSignalingRejectNotifyInfo *)notifyResponse;
                 [self _inviterReceivedPkRejectWithInviteeResponse:response];
@@ -69,7 +69,7 @@
             break;
         case NIMSignalingEventTypeAccept:
         {
-            NETSLog(@"邀请方 收到 被邀请方 发出的接受pk邀请 信息");
+            ApiLogInfo(@"邀请方 收到 被邀请方 发出的接受pk邀请 信息");
             if ([notifyResponse isKindOfClass:[NIMSignalingAcceptNotifyInfo class]]) {
                 NIMSignalingAcceptNotifyInfo *response = (NIMSignalingAcceptNotifyInfo *)notifyResponse;
                 [self _inviterReceivedPkAcceptWithInviteeResponse:response];
@@ -78,7 +78,7 @@
             break;
         case NIMSignalingEventTypeInvite:
         {
-            NETSLog(@"被邀请方 收到 邀请方 发送pk的邀请 信息");
+            ApiLogInfo(@"被邀请方 收到 邀请方 发送pk的邀请 信息");
             if (![notifyResponse isKindOfClass:[NIMSignalingInviteNotifyInfo class]]) {
                 return;
             }
@@ -90,7 +90,7 @@
             
         case NIMSignalingEventTypeCancelInvite:
         {
-            NETSLog(@"被邀请方 收到 邀请方 取消pk的邀请 信息");
+            ApiLogInfo(@"被邀请方 收到 邀请方 取消pk的邀请 信息");
             if (![notifyResponse isKindOfClass:[NIMSignalingCancelInviteNotifyInfo class]]) {
                 return;
             }
@@ -112,7 +112,7 @@
     // 加入直播间并推流闭包
     void (^joinChannelAndPushStreamBlock)(NETSCreateLiveRoomModel *_Nonnull) = ^(NETSCreateLiveRoomModel *room) {
         [NETSPushStreamService joinChannelWithToken:room.avRoomCheckSum channelName:room.avRoomCName uid:[room.avRoomUid longLongValue] streamUrl:room.liveConfig.pushUrl successBlcok:^(NERtcLiveStreamTaskInfo * _Nonnull task) {
-            NETSLog(@"加入直播间成功,推流成功");
+            ApiLogInfo(@"加入直播间成功,推流成功");
             self.singleRoom = room;
             self.streamTask = task;
             self.liveStatus = NETSPkServiceSingleLive;
@@ -121,7 +121,7 @@
                 successBlock(room, task);
             }
         } failedBlock:^(NSError * _Nonnull error, NSString *taskID) {
-            NETSLog(@"操作失败, error: %@", error);
+            ApiLogInfo(@"操作失败, error: %@", error);
             if (failedBlock) {
                 failedBlock(error);
             }
@@ -140,10 +140,10 @@
             return;
         }
         [NETSChatroomService enterWithRoomId:result.chatRoomId userMode:NETSUserModeAnchor success:^(NIMChatroom * _Nullable chatroom, NIMChatroomMember * _Nullable me) {
-            NETSLog(@"开启直播间成功,加入聊天室成功...");
+            ApiLogInfo(@"开启直播间成功,加入聊天室成功...");
             joinChannelAndPushStreamBlock(result);
         } failed:^(NSError * _Nullable error) {
-            NETSLog(@"开启直播间成功,加入聊天室失败, error: %@", error);
+            ApiLogInfo(@"开启直播间成功,加入聊天室失败, error: %@", error);
             if (failedBlock) { failedBlock(error); }
         }];
     } errorHandle:^(NSError * _Nonnull error, NSDictionary * _Nullable response) {
@@ -157,10 +157,10 @@
 {
     void(^popBlock)(NSError * _Nullable) = ^(NSError * _Nullable error) {
         int res = [[NERtcEngine sharedEngine] leaveChannel];
-        NETSLog(@"离开直播间, res: %d", res);
+        ApiLogInfo(@"离开直播间, res: %d", res);
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             int res = [NERtcEngine destroyEngine];
-            NETSLog(@"结束直播,销毁音视频引擎, res: %d", res);
+            ApiLogInfo(@"结束直播,销毁音视频引擎, res: %d", res);
 
             ntes_main_async_safe(^{
                 if (completionBlock) { completionBlock(error); }
@@ -179,7 +179,7 @@
         popBlock(nil);
     } errorHandle:^(NSError * _Nonnull error, NSDictionary * _Nullable response) {
         ntes_main_async_safe(^{ [NETSToast hideLoading]; });
-        NETSLog(@"退出直播间失败: %@", error);
+        ApiLogInfo(@"退出直播间失败: %@", error);
         popBlock(error);
     }];
 }
@@ -236,28 +236,32 @@
     NSString *singleRoomCid = self.singleRoom.liveCid;
     
     if (isEmptyString(singleRoomCid)) {
-        NETSLog(@"直播间转换失败: 单人直播间cid为空");
+        ApiLogInfo(@"直播间转换失败: 单人直播间cid为空");
         if (failedBlock) {
             NSError *error = [NSError errorWithDomain:NETSPkServiceErrorParamDomain code:1000 userInfo:@{NSLocalizedDescriptionKey: @"直播间转换失败: 单人直播间cid为空"}];
             failedBlock(error);
         }
         return;
     }
-    
+    //joinchannel之前需要设置美颜开关
+    NSDictionary *params = @{
+        kNERtcKeyVideoCaptureObserverEnabled: @YES  // 将摄像头采集的数据回调给用户
+    };
+    [NERtcEngine.sharedEngine setParameters:params];
     void(^joinSingleChannelAndPushStreamBlock)(NETSCreateLiveRoomModel * _Nonnull) = ^(NETSCreateLiveRoomModel * _Nonnull result) {
         [NETSPushStreamService joinChannelWithToken:result.avRoomCheckSum
                                         channelName:result.avRoomCName
                                                 uid:[result.avRoomUid longLongValue]
                                           streamUrl:self.singleRoom.liveConfig.pushUrl
                                        successBlcok:^(NERtcLiveStreamTaskInfo * _Nonnull task) {
-            NETSLog(@"离开pk直播加入原单人直播间成功,推流成功");
+            ApiLogInfo(@"离开pk直播加入原单人直播间成功,推流成功");
             self.streamTask = task;
             if (successBlock) {
                 int64_t uid = [self.pkRoom.accountId longLongValue];
                 successBlock(self.liveStatus, uid);
             }
         } failedBlock:^(NSError * _Nonnull error, NSString *taskID) {
-            NETSLog(@"离开pk直播加入原单人直播间,推流失败, error: %@, taskID: %@", error, taskID);
+            ApiLogInfo(@"离开pk直播加入原单人直播间,推流失败, error: %@, taskID: %@", error, taskID);
             if (failedBlock) {
                 failedBlock(error);
             }
@@ -275,7 +279,7 @@
             }
         }
     } errorHandle:^(NSError * _Nonnull error, NSDictionary * _Nullable response) {
-        NETSLog(@"加入原直播房间失败, error: %@", error);
+        ApiLogInfo(@"加入原直播房间失败, error: %@", error);
         if (failedBlock) {
             failedBlock(error);
         }
@@ -299,12 +303,12 @@
     void(^actionBlock)(NSError * _Nullable) = ^(NSError * _Nullable error){
         // 离开pk channel
         int res = [[NERtcEngine sharedEngine] leaveChannel];
-        NETSLog(@"强制结束pk,离开channel结果, res: %d", res);
+        ApiLogInfo(@"强制结束pk,离开channel结果, res: %d", res);
         
         // 强制结束,发送pk惩罚结束im信息
         NSError *punEndErr = nil;
         [self _sendPunishEndImMsgWithData:nil errorPtr:&punEndErr];
-        NETSLog(@"主播端 发送pk惩罚结束信息, err: %@", punEndErr);
+        ApiLogInfo(@"主播端 发送pk惩罚结束信息, err: %@", punEndErr);
         
         if (completionBlock) {
             completionBlock(error);
@@ -312,21 +316,21 @@
     };
     
     [NETSLiveApi endPKWithCid:liveCid completionHandle:^(NSDictionary * _Nonnull response) {
-        NETSLog(@"强制结束pk 接口请求结束pk成功");
+        ApiLogInfo(@"强制结束pk 接口请求结束pk成功");
         if (isEmptyString(self.streamTask.taskID)) {
             actionBlock(nil);
             return;
         }
         
         [NETSPushStreamService removeStreamTask:self.streamTask.taskID successBlock:^{
-            NETSLog(@"强制结束pk 移除pk推流 taskId: %@ success", self.streamTask.taskID);
+            ApiLogInfo(@"强制结束pk 移除pk推流 taskId: %@ success", self.streamTask.taskID);
             actionBlock(nil);
         } failedBlock:^(NSError * _Nonnull error) {
-            NETSLog(@"强制结束pk 移除pk推流 taskId: %@ error：%@", self.streamTask.taskID, error);
+            ApiLogInfo(@"强制结束pk 移除pk推流 taskId: %@ error：%@", self.streamTask.taskID, error);
             actionBlock(error);
         }];
     } errorHandle:^(NSError * _Nonnull error, NSDictionary * _Nullable response) {
-        NETSLog(@"接口请求结束pk失败");
+        ApiLogInfo(@"接口请求结束pk失败");
         actionBlock(error);
     }];
 }
@@ -386,13 +390,17 @@
     if (!dict) { return; }
     
     NSInteger type = [dict[@"type"] integerValue];
-    NSDictionary *dataDic = dict[@"data"];
-    if (!dataDic) { return; }
     
+    NSDictionary * dataDic = nil;
+    if (type < NETSSeatsNotificationAdminAcceptJoinSeats) {
+        //只有pk直播相关逻辑才需要取dict中的data,这里为了兼容
+        dataDic = dict[@"data"];
+        if (!dataDic) { return; }
+    }
     switch (type) {
         case NETSLivePassThroughStartPK:
         {
-            NETSLog(@"收到服务端透传 PK开始 信令...");
+            ApiLogInfo(@"收到服务端透传 PK开始 信令...");
             // 完成pk链接过程,关闭计时器
             [self.timer invalidate];
             
@@ -405,21 +413,21 @@
             // 发送pk开始im信息
             NSError *err = nil;
             [self _sendPkStartImMsgWithData:data errorPtr:&err];
-            NETSLog(@"主播端 发送pk开始信息, err: %@", err);
+            ApiLogInfo(@"主播端 发送pk开始信息, err: %@", err);
         }
             break;
         case NETSLivePassThroughStartPunish:
         {
-            NETSLog(@"收到服务端透传 PUNISH开始 信令...");
+            ApiLogInfo(@"收到服务端透传 PUNISH开始 信令...");
             
             if (self.liveStatus != NETSPkServicePkLive) {
-                NETSLog(@"非PK状态, 不响应服务端透传的 PUNISH开始 信令...");
+                ApiLogInfo(@"非PK状态, 不响应服务端透传的 PUNISH开始 信令...");
                 return;
             }
             
             NETSPassThroughHandlePunishData *data = [NETSPassThroughHandlePunishData yy_modelWithDictionary:dataDic];
             if (self.liveRole == NETSPkServiceInviter && ![data.roomCid isEqualToString:self.pkRoom.avRoomCid]) {
-                NETSLog(@"PK邀请者, 收到服务端透传的PK结束信令, roomCid 非法...");
+                ApiLogInfo(@"PK邀请者, 收到服务端透传的PK结束信令, roomCid 非法...");
                 return;
             }
             
@@ -439,18 +447,18 @@
             if (self.delegate && [self.delegate respondsToSelector:@selector(didPkServiceFetchedPkRestlt:error:)]) {
                 [self.delegate didPkServiceFetchedPkRestlt:res error:nil];
             } else {
-                NETSLog(@"未实现获取到pk结果后到代理方法: didPkServiceFetchedPkRestlt:error:");
+                ApiLogInfo(@"未实现获取到pk结果后到代理方法: didPkServiceFetchedPkRestlt:error:");
             }
             
             // 发送pk结束im信息
             NSError *pkEndErr = nil;
             [self _sendPkEndImMsgWithData:data pkResult:res errorPtr:&pkEndErr];
-            NETSLog(@"主播端 发送pk结束信息, err: %@", pkEndErr);
+            ApiLogInfo(@"主播端 发送pk结束信息, err: %@", pkEndErr);
             
             // 发送pk惩罚开始im信息
             NSError *punStartErr = nil;
             [self _sendPunishStartImMsgWithData:data pkResult:res errorPtr:&punStartErr];
-            NETSLog(@"主播端 发送pk惩罚开始信息, res:%zd err: %@", res, pkEndErr);
+            ApiLogInfo(@"主播端 发送pk惩罚开始信息, res:%zd err: %@", res, pkEndErr);
             
             if (self.delegate && [self.delegate respondsToSelector:@selector(receivePassThrourhPunishStartData:pkResult:)]) {
                 [self.delegate receivePassThrourhPunishStartData:data pkResult:res];
@@ -459,15 +467,15 @@
             break;
         case NETSLivePassThroughEndPK:
         {
-            NETSLog(@"收到服务端透传 PK结束 信令...");
+            ApiLogInfo(@"收到服务端透传 PK结束 信令...");
             if (self.liveStatus != NETSPkServicePkLive) {
-                NETSLog(@"非PK状态, 不响应服务端透传的 PK结束 信令...");
+                ApiLogInfo(@"非PK状态, 不响应服务端透传的 PK结束 信令...");
                 return;
             }
             
             NETSPassThroughHandlePkEndData *data = [NETSPassThroughHandlePkEndData yy_modelWithDictionary:dataDic];
             if (self.liveRole == NETSPkServiceInviter && ![data.roomCid isEqualToString:self.pkRoom.avRoomCid]) {
-                NETSLog(@"PK邀请者, 收到服务端透传的PK结束信令, roomCid 非法...");
+                ApiLogInfo(@"PK邀请者, 收到服务端透传的PK结束信令, roomCid 非法...");
                 return;
             }
             
@@ -477,32 +485,32 @@
                 
                 // 收到服务端透传pk结束信令, 离开pk channel
                 int res = [[NERtcEngine sharedEngine] leaveChannel];
-                NETSLog(@"收到服务端透传pk结束信令, 离开pk channel, res：%d", res);
+                ApiLogInfo(@"收到服务端透传pk结束信令, 离开pk channel, res：%d", res);
                 
                 if (self.delegate && [self.delegate respondsToSelector:@selector(receivePassThrourhPkEndData:)]) {
                     [self.delegate receivePassThrourhPkEndData:data];
                 } else {
-                    NETSLog(@"未实现获取到pk结果后到代理方法: receivePassThrourhPkEndData:");
+                    ApiLogInfo(@"未实现获取到pk结果后到代理方法: receivePassThrourhPkEndData:");
                 }
                 
                 // 发送pk惩罚结束im信息
                 NSError *punEndErr = nil;
                 [self _sendPunishEndImMsgWithData:data errorPtr:&punEndErr];
-                NETSLog(@"主播端 发送pk惩罚结束信息, err: %@", punEndErr);
+                ApiLogInfo(@"主播端 发送pk惩罚结束信息, err: %@", punEndErr);
             };
             
             [NETSPushStreamService removeStreamTask:self.streamTask.taskID successBlock:^{
-                NETSLog(@"pk结束, 移除推流 taskId: %@ success", self.streamTask.taskID);
+                ApiLogInfo(@"pk结束, 移除推流 taskId: %@ success", self.streamTask.taskID);
                 endPkBlock();
             } failedBlock:^(NSError * _Nonnull error) {
-                NETSLog(@"pk结束, 移除推流 taskId: %@ error: %@", self.streamTask.taskID, error);
+                ApiLogInfo(@"pk结束, 移除推流 taskId: %@ error: %@", self.streamTask.taskID, error);
                 endPkBlock();
             }];
         }
             break;
         case NETSLivePassThroughStartLive:
         {
-            NETSLog(@"收到服务端透传 直播开始 信令: %@...", dataDic);
+            ApiLogInfo(@"收到服务端透传 直播开始 信令: %@...", dataDic);
             
             if (self.delegate && [self.delegate respondsToSelector:@selector(receivePassThrourhLiveStartData:)]) {
                 NETSPassThroughHandleStartLiveData *data = [NETSPassThroughHandleStartLiveData yy_modelWithDictionary:dataDic];
@@ -512,7 +520,7 @@
             break;
         case NETSLivePassThroughReward:
         {
-            NETSLog(@"收到服务端透传 打赏 信令...");
+            ApiLogInfo(@"收到服务端透传 打赏 信令...");
             
             NETSPassThroughHandleRewardData *data = [NETSPassThroughHandleRewardData yy_modelWithDictionary:dataDic];
             
@@ -520,7 +528,7 @@
             NSError *syncCoinsErr = nil;
             NIMMessage *rewardMsg = [self _syncCoinMegWithData:data];
             [self _sendSyncCoinsImMsg:rewardMsg errorPtr:&syncCoinsErr];
-            NETSLog(@"主播端 发送云币同步IM消息, error: %@", syncCoinsErr);
+            ApiLogInfo(@"主播端 发送云币同步IM消息, error: %@", syncCoinsErr);
             if (syncCoinsErr) { return; }
             
             // 执行代理,通知主播端有打赏信息
@@ -529,12 +537,25 @@
             }
         }
             break;
+        case NETSSeatsNotificationAudienceApplyJoinSeats: {
+            ApiLogInfo(@"收到观众申请上麦信令");
+            NETSConnectMicModel *data = [NETSConnectMicModel yy_modelWithDictionary:dict];
+            if (self.delegate && [self.delegate respondsToSelector:@selector(receivePassThrourhApplyJoinSeatsData:)]) {
+                [self.delegate receivePassThrourhApplyJoinSeatsData:data];
+            }
+        }
+            break;
             
+        case NETSSeatsNotificationAudienceRejectJoinSeats:{
+            ApiLogInfo(@"收到观众拒绝同意上麦信令");
+            [NETSToast showToast:@"对方拒绝了你的邀请"];
+        }
+            break;
         default:
             break;
     }
     
-    NETSLog(@" Recv Msg:\n FromAccId: %@\n Body: %@\n Time: %@", recvData.fromAccid, recvData.body, @(recvData.time));
+    ApiLogInfo(@" Recv Msg:\n FromAccId: %@\n Body: %@\n Time: %@", recvData.fromAccid, recvData.body, @(recvData.time));
 }
 
 - (void)_tryToJoinPkRoomWithLiveCid:(NSString *)liveCid
@@ -543,11 +564,15 @@
                         failedBlock:(void(^)(NSError *))failedBlock
 {
     [NETSLiveApi joinLiveRoomWithLiveId:liveCid parentLiveCid:parentLiveCid liveType:NETSLiveTypePK completionHandle:^(NSDictionary * _Nonnull response) {
-        NETSLog(@"response: %@", response);
+        ApiLogInfo(@"response: %@", response);
         NETSCreateLiveRoomModel *data = response[@"/data"];
         if (!isEmptyString(data.avRoomCheckSum) && !isEmptyString(data.avRoomCName) && !isEmptyString(data.avRoomUid)) {
             self.pkRoom = data;
-            
+            //joinchannel之前需要设置美颜开关
+            NSDictionary *params = @{
+                kNERtcKeyVideoCaptureObserverEnabled: @YES  // 将摄像头采集的数据回调给用户
+            };
+            [NERtcEngine.sharedEngine setParameters:params];
             [self _joinPkChannerAfterTryJoinWithResult:data successBlock:successBlock failedBlock:failedBlock];
             return;
         }
@@ -569,10 +594,10 @@
                                                          myUid:[result.avRoomUid longLongValue]
                                                     completion:^(NSError * _Nullable error, uint64_t channelId, uint64_t elapesd) {
         if (error) {
-            NETSLog(@"主播 加入pk直播间失败, error: %@", error);
+            ApiLogInfo(@"主播 加入pk直播间失败, error: %@", error);
             if (failedBlock) { failedBlock(error); }
         } else {
-            NETSLog(@"主播 加入pk直播间成功");
+            ApiLogInfo(@"主播 加入pk直播间成功");
             if (successBlock) {
                 int64_t uid = [result.accountId longLongValue];
                 successBlock(uid, channelId, elapesd);

@@ -7,7 +7,6 @@
 //
 
 #import "NETSPkService+Invitee.h"
-#import <NIMSDK/NIMSDK.h>
 #import "NETSLiveApi.h"
 #import <NERtcSDK/NERtcSDK.h>
 #import "NETSPushStreamService.h"
@@ -103,10 +102,10 @@ static const void *PkLiveCidKey = &PkLiveCidKey;
         sendAcceptBlock();
     } else {
         [NETSPushStreamService removeStreamTask:self.streamTask.taskID successBlock:^{
-            NETSLog(@"被邀请者 准备发送接收pk信令, 移除推流 taskId: %@ success", self.streamTask.taskID);
+            ApiLogInfo(@"被邀请者 准备发送接收pk信令, 移除推流 taskId: %@ success", self.streamTask.taskID);
             sendAcceptBlock();
         } failedBlock:^(NSError * _Nonnull error) {
-            NETSLog(@"被邀请者 准备发送接收pk信令, 移除推流失败 taskId: %@ error: %@", self.streamTask.taskID, error);
+            ApiLogInfo(@"被邀请者 准备发送接收pk信令, 移除推流失败 taskId: %@ error: %@", self.streamTask.taskID, error);
             if (failedBlock) { failedBlock(error); }
         }];
     }
@@ -168,12 +167,12 @@ static const void *PkLiveCidKey = &PkLiveCidKey;
         __strong __typeof(wSelf) sSelf = wSelf;
         // 被邀请者 向 邀请方 发送同步信令信号
         [sSelf _inviteeSendSyncPkSignalWithSuccessBlock:^{
-            NETSLog(@"被邀请者发送pk同步信号成功");
+            ApiLogInfo(@"被邀请者发送pk同步信号成功");
             if (successBlock) {
                 successBlock(uid, channelId, elapesd);
             }
         } failedBlock:^(NSError * _Nonnull error) {
-            NETSLog(@"被邀请者发送pk同步信号成功失败, error: %@", error);
+            ApiLogInfo(@"被邀请者发送pk同步信号成功失败, error: %@", error);
         }];
     } failedBlock:failedBlock];
 }
@@ -191,7 +190,7 @@ static const void *PkLiveCidKey = &PkLiveCidKey;
     NSString *inviterNickname = info[@"inviterNickname"];
     NSString *pkLiveCid = info[@"pkLiveCid"];
     if (isEmptyString(inviterNickname) || isEmptyString(pkLiveCid) || isEmptyString(response.fromAccountId)) {
-        NETSLog(@"收到PK邀请自定义字段缺失");
+        ApiLogInfo(@"收到PK邀请自定义字段缺失");
         return;
     }
     
@@ -202,9 +201,9 @@ static const void *PkLiveCidKey = &PkLiveCidKey;
         NSString *inviterChannelId = response.channelInfo.channelId;
         
         [self _sendRejectPkWithInviterImAccId:inviterImAccId inviterRequestId:inviterRequestId inviterChannelId:inviterChannelId rejectType:NETSPkRejectedForBusyInvitee successBlock:^{
-            NETSLog(@"当前主播正在pk邀请中,拒绝新的pk邀请成功...");
+            ApiLogInfo(@"当前主播正在pk邀请中,拒绝新的pk邀请成功...");
         } failedBlock:^(NSError *error) {
-            NETSLog(@"当前主播正在pk邀请中,拒绝新的pk邀请失败, error: %@", error);
+            ApiLogInfo(@"当前主播正在pk邀请中,拒绝新的pk邀请失败, error: %@", error);
         }];
         return;
     }
@@ -219,7 +218,7 @@ static const void *PkLiveCidKey = &PkLiveCidKey;
     if (self.delegate && [self.delegate respondsToSelector:@selector(inviteeReceivedPkInviteByInviter:inviterImAccId:pkLiveCid:)]) {
         [self.delegate inviteeReceivedPkInviteByInviter:inviterNickname inviterImAccId:response.fromAccountId pkLiveCid:pkLiveCid];
     } else {
-        NETSLog(@"被邀请者 未实现收到pk邀请的代理方法");
+        ApiLogInfo(@"被邀请者 未实现收到pk邀请的代理方法");
     }
     
     // 超时计时器: 启动
@@ -229,9 +228,9 @@ static const void *PkLiveCidKey = &PkLiveCidKey;
         __strong __typeof(self) sSelf = wSelf;
         // 超时发送拒绝pk信令
         [sSelf inviteeSendRejectPkWithSuccessBlock:^{
-            NETSLog(@"被邀请者 pk邀请超时,发送拒绝pk邀请信令成功");
+            ApiLogInfo(@"被邀请者 pk邀请超时,发送拒绝pk邀请信令成功");
         } failedBlock:^(NSError * _Nonnull error) {
-            NETSLog(@"被邀请者 pk邀请超时,发送拒绝pk邀请信令失败, error: %@", error);
+            ApiLogInfo(@"被邀请者 pk邀请超时,发送拒绝pk邀请信令失败, error: %@", error);
         }];
         
         if (sSelf.delegate && [sSelf.delegate respondsToSelector:@selector(didPkServiceTimeoutForRole:)]) {
@@ -251,7 +250,7 @@ static const void *PkLiveCidKey = &PkLiveCidKey;
     if (self.delegate && [self.delegate respondsToSelector:@selector(inviteeReceivedCancelPkInviteResponse:)]) {
         [self.delegate inviteeReceivedCancelPkInviteResponse:response];
     } else {
-        NETSLog(@"被邀请者 未实现收到 邀请方取消pk邀请的代理方法");
+        ApiLogInfo(@"被邀请者 未实现收到 邀请方取消pk邀请的代理方法");
     }
 }
 

@@ -43,6 +43,7 @@
     return self;
 }
 
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
@@ -54,7 +55,7 @@
     [super viewDidAppear:animated];
     [UIViewController popGestureClose:self];
     
-    NETSLog(@"观众端 进入直播间播放页面: viewDidAppear");
+    YXAlogInfo(@"观众端 进入直播间播放页面: viewDidAppear");
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -63,7 +64,7 @@
     [UIViewController popGestureOpen:self];
     [IQKeyboardManager sharedManager].enable = YES;
     
-    NETSLog(@"观众端 离开直播间播放页面: viewWillDisappear");
+    YXAlogInfo(@"观众端 离开直播间播放页面: viewWillDisappear");
 }
 
 - (void)viewDidLoad {
@@ -111,6 +112,7 @@
         CGRect rectInSuperview = [self.collectionView convertRect:cellRect toView:self.view];
         if (rectInSuperview.origin.y >= kScreenHeight || rectInSuperview.origin.y + rectInSuperview.size.height <= 0) {
             [_playingCell shutdownPlayer];
+            [_playingCell closeConnectMicRoomAction];
         }
     }
 }
@@ -134,7 +136,7 @@
     self.currentPlayId    = [self.liveData[indexPathNow.row] chatRoomId];
     self.selectRoomIndex = indexPathNow.row;
     
-    NETSLog(@"观众端 滚动结束后的section %ld，row: %ld",(long)indexPathNow.section,(long)indexPathNow.row);
+    YXAlogInfo(@"观众端 滚动结束后的section %ld，row: %ld",(long)indexPathNow.section,(long)indexPathNow.row);
     NETSAudienceChatRoomCell *currentCell = (NETSAudienceChatRoomCell*)[self.collectionView cellForItemAtIndexPath:indexPathNow];
     [currentCell resetPageUserinterface];
     currentCell.roomModel = self.liveData[indexPathNow.row];
@@ -170,7 +172,7 @@
 }
 
 - (void)dealloc {
-    NETSLog(@"NETSAudienceCollectionViewVC dealloc...");
+    YXAlogInfo(@"NETSAudienceCollectionViewVC dealloc...");
 }
 
 @end

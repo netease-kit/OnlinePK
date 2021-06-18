@@ -8,7 +8,6 @@
 
 #import "NTFInputSmsVC.h"
 #import "UIImage+NTES.h"
-#import "UIView+NTES.h"
 #import "NTFSmsInputView.h"
 #import "NELoginOptions.h"
 #import "NSMacro.h"

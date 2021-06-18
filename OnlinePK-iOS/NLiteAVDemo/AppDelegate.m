@@ -13,7 +13,6 @@
 #import "NEPersonVC.h"
 #import <IQKeyboardManager/IQKeyboardManager.h>
 #import <NERtcSDK/NERtcSDK.h>
-#import <CocoaLumberjack/CocoaLumberjack.h>
 
 @interface AppDelegate ()<UNUserNotificationCenterDelegate,NERtcEngineDelegate>
 @end
@@ -22,7 +21,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self initWindow];
     [self setIQKeyboard];
-    [self _addLogger];
+    setupLogger();
     
     return YES;
 }
@@ -55,23 +54,6 @@
 - (void)setIQKeyboard {
     [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = YES;
     [IQKeyboardManager sharedManager].enableAutoToolbar = NO;
-}
-
-- (void)_addLogger
-{
-    // 添加DDASLLogger，你的日志语句将被发送到Xcode控制台
-    [DDLog addLogger:[DDTTYLogger sharedInstance]];
-
-    // 添加DDFileLogger，你的日志语句将写入到一个文件中，默认路径在沙盒的Library/Caches/Logs/目录下，文件名为bundleid+空格+日期.log。
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *logPath = [paths.firstObject stringByAppendingPathComponent:@"NETSPkLive"];
-    DDLogFileManagerDefault *mailFileManager = [[DDLogFileManagerDefault alloc] initWithLogsDirectory:logPath];
-    DDFileLogger *fileLogger = [[DDFileLogger alloc] initWithLogFileManager:mailFileManager];
-    NSString *logDirectory = [fileLogger.logFileManager logsDirectory];
-    DDLogDebug(@"PATH: %@", logDirectory);
-    fileLogger.rollingFrequency = 60 * 60 * 24;
-    fileLogger.logFileManager.maximumNumberOfLogFiles = 7;
-    [DDLog addLogger:fileLogger];
 }
 
 @end

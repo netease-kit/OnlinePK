@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <NIMSDK/NIMSDK.h>
 #import "NETSLiveModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -88,7 +87,20 @@ typedef NS_ENUM(NSUInteger, NETSLivePkState) {
 
 @end
 
-///
+
+@interface NETSConnectMicAttachment : NSObject<NIMCustomAttachment>
+//当前麦位状态 0-3
+@property(nonatomic, assign) NETSSeatsStatus status;
+//麦位状态通知type
+@property(nonatomic, assign) NETSSeatsNotification type;
+
+@property(nonatomic, strong) NETSConnectMicMemberModel *member;
+
+@property(nonatomic, strong) NSString *fromUser;
+
++ (nullable NETSConnectMicAttachment *)getAttachmentWithMessage:(NIMMessage *)message;
+@end
+
 
 /**
  PK直播消息反序列化

@@ -55,5 +55,7 @@
 	<string>Light</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>kGitHashCode</key>
+	<string>8435718</string>
 </dict>
 </plist>

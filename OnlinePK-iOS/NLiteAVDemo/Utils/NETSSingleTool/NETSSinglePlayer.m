@@ -27,7 +27,7 @@
 
 - (void)destoryPlayer {
     [self.videoPlayer shutdown];
-    NETSLog(@"SHUTDOWN PLAYER: %p...", self);
+    YXAlogInfo(@"SHUTDOWN PLAYER: %p...", self);
     [self.videoPlayer.view removeFromSuperview];
     self.videoPlayer = nil;
 }

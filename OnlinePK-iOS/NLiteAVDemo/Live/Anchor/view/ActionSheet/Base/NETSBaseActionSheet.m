@@ -10,7 +10,6 @@
 #import "UIButton+NTES.h"
 #import "TopmostView.h"
 #import "UIImage+NTES.h"
-#import "UIView+NTES.h"
 
 @interface NETSBaseActionSheet () <UIGestureRecognizerDelegate>
 

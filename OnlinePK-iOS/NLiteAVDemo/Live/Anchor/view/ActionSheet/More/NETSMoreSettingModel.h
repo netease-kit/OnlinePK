@@ -21,6 +21,7 @@ typedef enum : NSUInteger {
     NETSMoreSettingEarback,     // 耳返
     NETSMoreSettingReverse,     // 翻转
     NETSMoreSettingStats,       // 实时数据
+    NETSMoreSettingfilter,       //滤镜
     NETSMoreSettingEndLive      // 结束直播
 } NETSMoreSettingType;
 

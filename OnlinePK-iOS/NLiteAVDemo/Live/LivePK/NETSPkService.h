@@ -7,16 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <NIMSDK/NIMSDK.h>
 #import "NETSLiveModel.h"
 #import "NETSPkDelegate.h"
 #import "NETSGCDTimer.h"
+
 
 #define kPkServiceTimeoutMax            25
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class NERtcLiveStreamTaskInfo;
+@class NERtcLiveStreamTaskInfo,NETSConnectMicModel;
 
 /**
  pk直播服务类

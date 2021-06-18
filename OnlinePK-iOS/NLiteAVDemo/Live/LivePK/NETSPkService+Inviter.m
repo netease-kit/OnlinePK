@@ -10,7 +10,6 @@
 #import "NETSLiveApi.h"
 #import "NETSPushStreamService.h"
 #import "SKVObject.h"
-#import <NIMSDK/NIMSDK.h>
 #import <NERtcSDK/NERtcSDK.h>
 
 static const void *InviteRequestKey = &InviteRequestKey;
@@ -91,7 +90,7 @@ static const void *InviterNicknameKey = &InviterNicknameKey;
     [self _buildPkRoomWithInviterRoom:self.singleRoom successBlock:^(NETSCreateLiveRoomModel *pkRoom) {
         __strong __typeof(self) sSelf = wSelf;
         [sSelf _sendPkSignalWithInviteeImAccId:inviteeRoom.imAccid inviterNickname:self.singleRoom.nickname pkRoom:pkRoom successBlock:successBlock failedBlock:^(NSError * error) {
-            NETSLog(@"邀请方 发送pk邀请信令失败, error: %@", error);
+            ApiLogInfo(@"邀请方 发送pk邀请信令失败, error: %@", error);
             failedBlockWapper(error);
         }];
     } failedBlock:failedBlockWapper];
@@ -111,7 +110,7 @@ static const void *InviterNicknameKey = &InviterNicknameKey;
             if (successBlock) { successBlock(pkRoom); }
         }
     } errorHandle:^(NSError * _Nonnull error, NSDictionary * _Nullable response) {
-        NETSLog(@"创建PK直播间失败, error: %@", error);
+        ApiLogInfo(@"创建PK直播间失败, error: %@", error);
         if (error) {
             if (failedBlock) { failedBlock(error); }
         }
@@ -134,7 +133,7 @@ static const void *InviterNicknameKey = &InviterNicknameKey;
     
     [[NIMSDK sharedSDK].signalManager signalingCall:request completion:^(NSError * _Nullable error, NIMSignalingChannelDetailedInfo * _Nullable response) {
         if (error) {
-            NETSLog(@"邀请方 发送pk邀请信令失败, error: %@", error);
+            ApiLogInfo(@"邀请方 发送pk邀请信令失败, error: %@", error);
             self.inviteRequest = nil;
             self.inviterNickname = nil;
             self.pkRoom = nil;
@@ -156,9 +155,9 @@ static const void *InviterNicknameKey = &InviterNicknameKey;
             __strong __typeof(self) sSelf = wSelf;
             // 发送取消pk邀请信令
             [sSelf inviterSendCancelPkWithSuccessBlock:^{
-                NETSLog(@"邀请方 发送pk邀请信令超时,发送取消pk邀请信令成功");
+                ApiLogInfo(@"邀请方 发送pk邀请信令超时,发送取消pk邀请信令成功");
             } failedBlock:^(NSError * _Nonnull error) {
-                NETSLog(@"邀请方 发送pk邀请信令超时,发送取消pk邀请信令失败, error: %@", error);
+                ApiLogInfo(@"邀请方 发送pk邀请信令超时,发送取消pk邀请信令失败, error: %@", error);
             }];
             
             // 执行超时代理
@@ -210,7 +209,7 @@ static const void *InviterNicknameKey = &InviterNicknameKey;
     NSDictionary *info = [obj dictionaryValue];
     NSInteger cid = [info[@"cid"] integerValue];
     if (cid != 1) {
-        NETSLog(@"非法CID信息,不是邀请方PK同步信令");
+        ApiLogInfo(@"非法CID信息,不是邀请方PK同步信令");
         return;
     }
     
@@ -218,9 +217,9 @@ static const void *InviterNicknameKey = &InviterNicknameKey;
         // 离开当前房间
         int res = [[NERtcEngine sharedEngine] leaveChannel];
         if (res != 0) {
-            NETSLog(@"发起pk用户,离开当前直播间失败");
+            ApiLogInfo(@"发起pk用户,离开当前直播间失败");
         } else {
-            NETSLog(@"发起pk用户,离开当前直播间成功");
+            ApiLogInfo(@"发起pk用户,离开当前直播间成功");
             
             if (self.delegate && [self.delegate respondsToSelector:@selector(inviterReceivedPkStatusSyncFromInviteeImAccId:)]) {
                 [self.delegate inviterReceivedPkStatusSyncFromInviteeImAccId:response.fromAccountId];
@@ -232,10 +231,10 @@ static const void *InviterNicknameKey = &InviterNicknameKey;
         runDelegateBlock();
     } else {
         [NETSPushStreamService removeStreamTask:self.streamTask.taskID successBlock:^{
-            NETSLog(@"邀请者 收到被邀请者同步信息, 移除推流 taskId: %@, success", self.streamTask.taskID);
+            ApiLogInfo(@"邀请者 收到被邀请者同步信息, 移除推流 taskId: %@, success", self.streamTask.taskID);
             runDelegateBlock();
         } failedBlock:^(NSError * _Nonnull error) {
-            NETSLog(@"邀请者 收到被邀请者同步信息, 移除推流 taskId: %@, error: %@", self.streamTask.taskID, error);
+            ApiLogInfo(@"邀请者 收到被邀请者同步信息, 移除推流 taskId: %@, error: %@", self.streamTask.taskID, error);
         }];
     }
 }
@@ -244,7 +243,7 @@ static const void *InviterNicknameKey = &InviterNicknameKey;
 {
     // 校验requestId
     if (![response.requestId isEqualToString:self.inviteRequest.requestId]) {
-        NETSLog(@"非法PK邀请请求");
+        ApiLogInfo(@"非法PK邀请请求");
         return;
     }
     
@@ -265,7 +264,7 @@ static const void *InviterNicknameKey = &InviterNicknameKey;
 {
     // 校验requestId
     if (![response.requestId isEqualToString:self.inviteRequest.requestId]) {
-        NETSLog(@"非法PK邀请请求");
+        ApiLogInfo(@"非法PK邀请请求");
         return;
     }
     

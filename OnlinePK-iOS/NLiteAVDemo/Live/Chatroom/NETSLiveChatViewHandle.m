@@ -152,7 +152,12 @@
         if (_delegate && [_delegate respondsToSelector:@selector(didChatroomClosedWithRoomId:)]) {
             [_delegate didChatroomClosedWithRoomId:result.roomId];
         }
+    }else if (result.reason == NIMChatroomKickReasonByConflictLogin) {
+        if (_delegate && [_delegate respondsToSelector:@selector(didChatroomKickWithRoomId:)]) {
+            [_delegate didChatroomKickWithRoomId:result.roomId];
+        }
     }
+
 }
 
 @end

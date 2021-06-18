@@ -6,30 +6,39 @@
 //  Copyright © 2020 Netease. All rights reserved.
 //
 
-#import "NETSAudienceMask.h"
-#import "NETSAnchorTopInfoView.h"
-#import "NETSAudienceNum.h"
-#import "UIView+NTES.h"
-#import "NETSLiveChatView.h"
-#import "NETSLiveChatViewHandle.h"
-#import "NETSAudienceVM.h"
-#import "NETSAudienceBottomBar.h"
-#import "NETSLiveConfig.h"
-#import "NETSAudienceSendGiftSheet.h"
-#import "NETSMoreSettingActionSheet.h"
-#import "NENavigator.h"
-#import "NETSChatroomService.h"
-#import "NETSLiveAttachment.h"
-#import "NETSLiveApi.h"
-#import "NETSToast.h"
-#import "NETSPkStatusBar.h"
-#import "NETSLiveUtils.h"
+#import "NETSGiftAnimationView.h"
+#import "NETSInvitingBar.h"
 #import "LOTAnimationView.h"
 #import "NETSInviteeInfoView.h"
 #import "NTESKeyboardToolbarView.h"
+#import "NETSToast.h"
+#import "NETSPkStatusBar.h"
+#import "NETSLiveChatView.h"
+#import "NETSAudienceSendGiftSheet.h"
+#import "NETSMoreSettingActionSheet.h"
+#import "NETSAudienceMask.h"
+#import "NETSAnchorTopInfoView.h"
+#import "TopmostView.h"
+#import "NETSAudienceBottomBar.h"
+
+#import "NETSConnectStatusViewController.h"
+#import "NTESActionSheetNavigationController.h"
+
+#import "NETSConnectMicService.h"
+#import "NETSAudienceChatroomMessageHandle.h"
 #import <NELivePlayerFramework/NELivePlayerNotication.h>
 #import "NETSGCDTimer.h"
-#import "NETSGiftAnimationView.h"
+#import "NETSLiveUtils.h"
+#import "NETSChatroomService.h"
+#import "NETSLiveAttachment.h"
+#import "NETSLiveApi.h"
+#import "NENavigator.h"
+#import "NETSAudienceNum.h"
+#import "NETSLiveChatViewHandle.h"
+#import "NETSAudienceVM.h"
+#import "NETSLiveConfig.h"
+#import "NETSLiveAttachment.h"
+#import "NETSConnectMicModel.h"
 
 #define kPkAudienceTimerQueue            "com.netease.pk.audience.timer.queue"
 
@@ -38,7 +47,12 @@
     NETSLiveChatViewHandleDelegate,
     NETSAudienceBottomBarDelegate,
     NETSAudienceSendGiftSheetDelegate,
-    NTESKeyboardToolbarDelegate
+    NTESKeyboardToolbarDelegate,
+    NETSInvitingBarDelegate,
+    NETSConnectMicServiceDelegate,
+    NTESAudienceConnectStatusDelegate,
+    NETSAudienceChatroomMessageHandleDelegate
+
 >
 
 /// 主播信息
@@ -49,6 +63,9 @@
 @property (nonatomic, strong)   NETSLiveChatView        *chatView;
 /// 聊天室代理
 @property (nonatomic, strong)   NETSLiveChatViewHandle  *chatHandle;
+//观众的聊天室代理
+@property (nonatomic, strong)   NETSAudienceChatroomMessageHandle  *audienceMessageHandle;
+
 /// viewModel
 @property (nonatomic, strong)   NETSAudienceVM          *viewModel;
 /// 底部视图
@@ -75,7 +92,10 @@
 @property (nonatomic, strong)   NETSGiftAnimationView   *giftAnimation;
 /// 直播间状态
 @property (nonatomic, assign)   NETSRoomLiveStatus      liveStatus;
-
+//观众请求连麦状态条
+@property(nonatomic, strong) NETSInvitingBar *requestConnectMicBar;
+//处理透传消息类
+@property(nonatomic, strong) NETSConnectMicService *connectMicService;
 @end
 
 @implementation NETSAudienceMask
@@ -85,10 +105,14 @@
     self = [super initWithFrame:frame];
     if (self) {
         _chatHandle = [[NETSLiveChatViewHandle alloc] initWithDelegate:self];
-        
+        _audienceMessageHandle = [[NETSAudienceChatroomMessageHandle alloc] init];
+        _audienceMessageHandle.delegate = self;
+        [[NIMSDK sharedSDK].passThroughManager addDelegate:self.connectMicService];
         [[NIMSDK sharedSDK].chatManager addDelegate:_chatHandle];
         [[NIMSDK sharedSDK].chatroomManager addDelegate:_chatHandle];
         [[NIMSDK sharedSDK].systemNotificationManager addDelegate:_chatHandle];
+        
+        [[NIMSDK sharedSDK].chatManager addDelegate:_audienceMessageHandle];
         
         [self addSubview:self.anchorInfo];
         [self addSubview:self.audienceInfo];
@@ -104,19 +128,20 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didPlayerFrameChanged:) name:NELivePlayerVideoSizeChangedNotification object:nil];
-        
         _timerQueue = dispatch_queue_create(kPkAudienceTimerQueue, DISPATCH_QUEUE_SERIAL);
     }
     return self;
 }
 
-- (void)dealloc
-{
+
+- (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[NIMSDK sharedSDK].chatManager removeDelegate:_chatHandle];
     [[NIMSDK sharedSDK].chatroomManager removeDelegate:_chatHandle];
     [[NIMSDK sharedSDK].systemNotificationManager removeDelegate:_chatHandle];
-    NETSLog(@"dealloc NETSAudienceMask: %p", self);
+    [[NIMSDK sharedSDK].chatManager removeDelegate:_audienceMessageHandle];
+    [[NIMSDK sharedSDK].passThroughManager removeDelegate:_connectMicService];
+    YXAlogInfo(@"dealloc NETSAudienceMask: %p", self);
 }
 
 - (void)_bindEvent
@@ -127,6 +152,7 @@
         @strongify(self);
         if (x == nil) { return; }
         self.chatHandle.roomId = x.chatRoomId;
+        self.audienceMessageHandle.roomId = x.chatRoomId;
         [self _refreshAudienceInfoWitHRoomId:x.chatRoomId];
         self.anchorInfo.nickname = x.nickname;
         self.anchorInfo.avatarUrl = x.avatar;
@@ -171,6 +197,7 @@
 - (void)setRoom:(NETSLiveRoomModel *)room
 {
     _room = room;
+    self.connectMicService.roomModel = room;
 }
 
 - (void)refreshWithRoom:(NETSLiveRoomModel *)room info:(NETSLiveRoomInfoModel *)info
@@ -228,12 +255,22 @@
         // 惩罚态获取胜负信息
         if (_liveStatus == NETSRoomPunishment) {
             // 默认当前主播为邀请者
-            BOOL currentAuthorWin = info.pkRecord.inviterRewards >= info.pkRecord.inviteeRewards;
+            int currentAuthorWinValue = 0;//默认是平局
+            if (info.pkRecord.inviterRewards > info.pkRecord.inviteeRewards) {
+                currentAuthorWinValue = 1;
+            }else if(info.pkRecord.inviterRewards < info.pkRecord.inviteeRewards){
+                currentAuthorWinValue = -1;
+            }
+            
             if ([_room.liveCid isEqualToString:info.pkRecord.inviteeLiveCid]) {
                 // 当前主播为被邀请者
-                currentAuthorWin = info.pkRecord.inviteeRewards > info.pkRecord.inviterRewards;
+                if (info.pkRecord.inviteeRewards > info.pkRecord.inviterRewards) {
+                    currentAuthorWinValue = 1;
+                }else if(info.pkRecord.inviteeRewards < info.pkRecord.inviterRewards){
+                    currentAuthorWinValue = -1;
+                }
             }
-            [self _layoutPkResultWhenGetCurrentAnchorWin:currentAuthorWin];
+            [self _layoutPkResultWhenGetCurrentAnchorWin:currentAuthorWinValue];
         }
         
         // 设定播放器偏移
@@ -364,10 +401,10 @@
         if (list) {
             if (successBlock) { successBlock(list); }
         } else {
-            NETSLog(@"观众获取pk打赏榜数据为空...");
+            YXAlogInfo(@"观众获取pk打赏榜数据为空...");
         }
     } failedBlock:^(NSError * _Nonnull error, NSDictionary * _Nullable response) {
-        NETSLog(@"观众获取pk打赏榜失败, error: %@", error);
+        YXAlogInfo(@"观众获取pk打赏榜失败, error: %@", error);
     }];
 }
 
@@ -384,14 +421,14 @@
     if (![userId isEqualToString:_room.imAccid]) { return; }
     if (enter) {
         [self.timer invalidate];
-        NETSLog(@"主播进入直播间,清除计时器");
+        YXAlogInfo(@"主播进入直播间,清除计时器");
     } else {
         @weakify(self);
         self.timer = [NETSGCDTimer scheduledTimerWithTimeInterval:25 repeats:NO queue:self.timerQueue triggerImmediately:NO block:^{
             @strongify(self);
             [self _liveRoomClosed];
         }];
-        NETSLog(@"主播离开直播间,设定超时离开");
+        YXAlogInfo(@"主播离开直播间,设定超时离开");
     }
 }
 
@@ -416,6 +453,7 @@
         self.chatView.frame = CGRectMake(8, kScreenHeight - (kIsFullScreen ? 34 : 0) - chatViewHeight - keyBoardHeight - 50, kScreenWidth - 16 - 60 - 20, chatViewHeight);
         self.toolBar.frame = CGRectMake(0, kScreenHeight - keyBoardHeight - 50, kScreenWidth, 50);
     }];
+    [self bringSubviewToFront:self.toolBar];
 }
 
 - (void)keyboardWillHide:(NSNotification *)aNotification
@@ -431,10 +469,10 @@
 - (void)_refreshAudienceInfoWitHRoomId:(NSString *)roomId
 {
     [NETSChatroomService fetchMembersRoomId:self.room.chatRoomId limit:10 successBlock:^(NSArray<NIMChatroomMember *> * _Nullable members) {
-        NETSLog(@"members: %@", members);
+        YXAlogInfo(@"members: %@", members);
         [self.audienceInfo reloadWithDatas:members];
     } failedBlock:^(NSError * _Nonnull error) {
-        NETSLog(@"观众端获取IM聊天室成员失败, error: %@", error);
+        YXAlogInfo(@"观众端获取IM聊天室成员失败, error: %@", error);
     }];
 }
 
@@ -455,7 +493,7 @@
         });
     }
     
-    NETSLog(@"video size changed, width: %@, height: %@", userInfo[NELivePlayerVideoWidthKey] ?: @"-", userInfo[NELivePlayerVideoHeightKey] ?: @"-");
+    YXAlogInfo(@"video size changed, width: %@, height: %@", userInfo[NELivePlayerVideoWidthKey] ?: @"-", userInfo[NELivePlayerVideoHeightKey] ?: @"-");
 }
 
 #pragma mark - NETSLiveChatViewHandleDelegate 聊天室代理
@@ -470,17 +508,16 @@
     
     if (enter) {
         _viewModel.chatroom.onlineUserCount++;
-        NETSLog(@"[demo] user %@ enter room.", member.userId);
+        YXAlogInfo(@"[demo] user %@ enter room.", member.userId);
     } else {
         _viewModel.chatroom.onlineUserCount--;
-        NETSLog(@"[demo] user %@ leaved room.", member.userId);
+        YXAlogInfo(@"[demo] user %@ leaved room.", member.userId);
     }
     
     NIMMessage *message = [[NIMMessage alloc] init];
     message.text = [NSString stringWithFormat:@"\"%@\" %@房间", member.nick, (enter ? @"加入":@"离开")];
     message.remoteExt = @{@"type":@(1)};
     [_chatView addMessages:@[message]];
-    
     [self _refreshAudienceInfoWitHRoomId:_room.chatRoomId];
 }
 
@@ -490,10 +527,21 @@
     if (![roomId isEqualToString:_room.chatRoomId]) {
         return;
     }
-    NETSLog(@"聊天室关闭");
+    YXAlogInfo(@"聊天室关闭");
     [self _liveRoomClosed];
 }
 
+- (void)didChatroomKickWithRoomId:(NSString *)roomId {
+    if (![roomId isEqualToString:_room.chatRoomId]) {
+        return;
+    }
+    [NETSAlertPrompt showAlert:UIAlertControllerStyleAlert title:@"已被其他设备踢出" message:@"暂不支持多台设备进入同一直播间，\n您可以去其他直播间转转～" actionArr:@[@"确定"] actionColors:@[HEXCOLOR(0x007AFF)] cancel:nil index:^(NSInteger index) {
+        if (index) {
+            [self clickCloseBtn];
+        }
+    } presentVc:[NETSUniversalTool getCurrentActivityViewController]];
+    
+}
 /// 聊天室收到PK消息
 - (void)didReceivedPKMessage:(NIMMessage *)message
 {
@@ -504,7 +552,7 @@
     if (attch.type != NETSLiveAttachmentPkType) {
         return;
     }
-    NETSLog(@"观众端 聊天室收到PK消息, status: %lu", (unsigned long)attch.state);
+    YXAlogInfo(@"观众端 聊天室收到PK消息, status: %lu", (unsigned long)attch.state);
     
     if (attch.state == NETSLiveAttachmentStatusStart) {
         _liveStatus = NETSRoomPKing;
@@ -541,7 +589,7 @@
     if (attch.type != NETSLiveAttachmentPunishType) {
         return;
     }
-    NETSLog(@"观众端 聊天室收到惩罚消息, attch: %@", attch);
+    YXAlogInfo(@"观众端 聊天室收到惩罚消息, attch: %@", attch);
     // pk状态条
     if (attch.state == NETSLiveAttachmentStatusStart) {
         if (attch.currentAnchorWin == 0) {
@@ -582,7 +630,7 @@
     if (![message.session.sessionId isEqualToString:_room.chatRoomId]) {
         return;
     }
-    NETSLog(@"观众端 收到主播发出的云币同步消息");
+    YXAlogInfo(@"观众端 收到主播发出的云币同步消息");
     NETSLiveWealthChangeAttachment *attach = [NETSLiveWealthChangeAttachment getAttachmentWithMessage:message];
     
     // pk状态栏变更
@@ -614,7 +662,7 @@
     if (![message.session.sessionId isEqualToString:_room.chatRoomId]) {
         return;
     }
-    NETSLog(@"观众端 收到文本消息");
+    YXAlogInfo(@"观众端 收到文本消息");
     [self.chatView addMessages:@[message]];
 }
 
@@ -635,25 +683,84 @@
 
 - (void)clickTextLabel:(UILabel *)label
 {
-    NETSLog(@"点击输入框");
+    YXAlogInfo(@"点击输入框");
     [self.toolBar becomeFirstResponse];
 }
 
 - (void)clickGiftBtn
 {
-    NETSLog(@"点击礼物");
+    YXAlogInfo(@"点击礼物");
     NSArray *gifts = [NETSLiveConfig shared].gifts;
     [NETSAudienceSendGiftSheet showWithTarget:self gifts:gifts];
+    
 }
 
 - (void)clickCloseBtn
 {
-    NETSLog(@"退出直播间");
+    YXAlogInfo(@"退出直播间");
+    if (self.bottomBar.buttonType == NETSAudienceBottomRequestTypeAccept) {//进入rtc房间才做离开操作
+        [[NERtcEngine sharedEngine] leaveChannel];//离开rtc房间
+    }
+    if (_requestConnectMicBar) {
+        [self.requestConnectMicBar dismiss];
+    }
     // 关闭计时器
     [self.timer invalidate];
     [NETSChatroomService exitWithRoomId:_room.chatRoomId];
     [[NENavigator shared].navigationController popViewControllerAnimated:YES];
+
 }
+
+- (void)clickRequestConnect:(NETSAudienceBottomRequestType)requestType {
+    switch (requestType) {
+        case NETSAudienceBottomRequestTypeNormal:{
+            self.bottomBar.buttonType = NETSAudienceBottomRequestTypeApplying;
+
+            //请求上麦
+            [NETSLiveApi requestSeatManagerWithRoomId:self.room.liveCid userId:[NEAccount shared].userModel.accountId index:1 action:NETSSeatsOperationAudienceApplyJoinSeats successBlock:^(NSDictionary * _Nonnull response) {
+                self.requestConnectMicBar = [NETSInvitingBar showInvitingWithTarget:self title:@"等待主播接受连麦申请…"];
+                
+                YXAlogDebug(@"观众请求上麦成功，response = %@",response);
+                } failedBlock:^(NSError * _Nonnull error, NSDictionary * _Nullable response) {
+                    if (error) {
+                        [NETSToast showToast:response[@"msg"]];
+                    }
+                    YXAlogError(@"观众请求上麦失败，error = %@",error.description);
+            }];
+        }
+            break;
+        case NETSAudienceBottomRequestTypeApplying:{
+            
+        }
+            break;
+        case NETSAudienceBottomRequestTypeAccept:{
+            NETSConnectStatusViewController *statusCtrl = [[NETSConnectStatusViewController alloc]init];
+            statusCtrl.delegate = self;
+            NTESActionSheetNavigationController *nav = [[NTESActionSheetNavigationController alloc] initWithRootViewController:statusCtrl];
+            nav.dismissOnTouchOutside = YES;
+            [[NENavigator shared].navigationController presentViewController:nav animated:YES completion:nil];
+        }
+            break;
+        default:
+            break;
+    }
+}
+
+#pragma mark -  NETSInvitingBarDelegate 请求上麦状态条代理事件
+
+- (void)clickCancelInviting:(NETSInviteBarType)barType {
+    //观众取消请求上麦
+    [NETSLiveApi requestSeatManagerWithRoomId:self.room.liveCid userId:[NEAccount shared].userModel.accountId index:1 action:NETSSeatsOperationAudienceCancelApplyJoinSeats successBlock:^(NSDictionary * _Nonnull response) {
+        self.bottomBar.buttonType = NETSAudienceBottomRequestTypeNormal;
+        [self.requestConnectMicBar dismiss];
+        YXAlogDebug(@"观众取消上麦申请成功，response = %@",response);
+        } failedBlock:^(NSError * _Nonnull error, NSDictionary * _Nullable response) {
+            YXAlogError(@"观众取消上麦申请失败，error = %@",error.description);
+    }];
+ 
+}
+
+
 
 #pragma mark -  NETSAudienceSendGiftSheetDelegate 打赏面板代理事件
 
@@ -662,7 +769,7 @@
     [sheet dismiss];
     
     if (isEmptyString(_room.accountId) || isEmptyString(_room.liveCid)) {
-        NETSLog(@"观众打赏参数错误 Error");
+        YXAlogInfo(@"观众打赏参数错误 Error");
         return;
     }
     NETSLiveType type = NETSLiveTypeNormal;
@@ -673,11 +780,11 @@
         NSDictionary *res = response[@"/"];
         NSInteger code = [res[@"code"] integerValue];
         if (code != 200) {
-            NETSLog(@"观众打赏失败, Error: %ld", (long)code);
+            YXAlogInfo(@"观众打赏失败, Error: %ld", (long)code);
         }
     } errorHandle:^(NSError * _Nonnull error, NSDictionary * _Nullable response) {
         if (error) {
-            NETSLog(@"观众打赏失败, Error: %@", error);
+            YXAlogInfo(@"观众打赏失败, Error: %@", error);
         }
     }];
 }
@@ -695,7 +802,7 @@
     NSError *error = nil;
     [NETSChatroomService sendMessage:text inRoomId:roomId userMode:NETSUserModeAudience nickname:nickname errorPtr:&error];
     if (error) {
-        NETSLog(@"观众端发送消息失败: %@", error);
+        YXAlogInfo(@"观众端发送消息失败: %@", error);
     }
 }
 
@@ -704,6 +811,102 @@
     [self _liveRoomClosed];
 }
 
+- (void)closeConnectMicRoom {
+    
+    if (_requestConnectMicBar) {
+        [self.requestConnectMicBar dismiss];
+    }
+    [[NENavigator shared].navigationController dismissViewControllerAnimated:YES completion:nil];
+
+}
+
+- (void)setUpBottomBarButtonType:(NETSAudienceBottomRequestType)buttonType {
+    self.bottomBar.buttonType = buttonType;
+}
+#pragma mark - NETSConnectMicServiceDelegate
+//主播同意观众申请上麦
+-(void)adminAcceptJoinSeats {
+    self.bottomBar.buttonType = NETSAudienceBottomRequestTypeAccept;
+    //取消观众申请连麦的bar
+    [self.requestConnectMicBar dismiss];
+}
+
+//主播拒绝观众申请上麦
+- (void)adminRefuseAudienceApplyJoinSeats {
+    //恢复按钮正常状态
+    self.bottomBar.buttonType = NETSAudienceBottomRequestTypeNormal;
+    //取消观众申请连麦的bar
+    [self.requestConnectMicBar dismiss];
+}
+
+#pragma mark - NTESAudienceConnectStatusDelegate
+ //设置麦克风开关
+- (void)didSetMicOn:(BOOL)micOn {
+    
+    int isOpenAudio = micOn ? 1:0;
+    [NETSLiveApi requestChangeSeatsStatusWithRoomId:self.room.liveCid userId:[NEAccount shared].userModel.accountId video:-1 audio:isOpenAudio successBlock:^(NSDictionary * _Nonnull response) {
+        YXAlogInfo(@"连麦者操作麦克风成功,response = %@",response);
+        [NETSRtcConfig sharedConfig].micOn = micOn;
+    } failedBlock:^(NSError * _Nonnull error, NSDictionary * _Nullable response) {
+        YXAlogInfo(@"连麦者操作麦克风失败,response = %@",response);
+    }];
+}
+
+//设置摄像头开关
+- (void)didSetVideoOn:(BOOL)videoOn {
+    int isOpenVideo = videoOn ? 1:0;
+    [NETSLiveApi requestChangeSeatsStatusWithRoomId:self.room.liveCid userId:[NEAccount shared].userModel.accountId video:isOpenVideo audio:-1 successBlock:^(NSDictionary * _Nonnull response) {
+        YXAlogInfo(@"连麦者操作视屏成功,response = %@",response);
+        [NETSRtcConfig sharedConfig].cameraOn = videoOn;
+    } failedBlock:^(NSError * _Nonnull error, NSDictionary * _Nullable response) {
+        YXAlogInfo(@"连麦者操作视屏失败,response = %@",response);
+    }];
+}
+
+//挂断（下麦）
+- (void)didResignSeats {
+    [NETSLiveApi requestSeatManagerWithRoomId:self.room.liveCid userId:[NEAccount shared].userModel.accountId index:1 action:NETSSeatsOperationWheatherLeaveSeats successBlock:^(NSDictionary * _Nonnull response) {
+        YXAlogDebug(@"上麦者下麦成功,response = %@",response);
+    } failedBlock:^(NSError * _Nonnull error, NSDictionary * _Nullable response) {
+        YXAlogError(@"上麦者下麦失败，error = %@",error.description);
+    }];
+}
+
+#pragma mark - NETSAudienceChatroomMessageHandleDelegate
+- (void)receivedAudienceConnectMicSuccess:(NETSConnectMicAttachment *)msgAttachment {
+    
+    if ([msgAttachment.member.accountId isEqualToString:[NEAccount shared].userModel.accountId]) {//是自己在记录时间
+        [[NSUserDefaults standardUserDefaults]setObject:@(NSDate.date.timeIntervalSince1970).stringValue forKey:NTESConnectStartTimeKey];//记录上麦开始时间
+        [[NSUserDefaults standardUserDefaults]synchronize];
+        self.bottomBar.buttonType = NETSAudienceBottomRequestTypeAccept;
+        if (_requestConnectMicBar) {
+            [self.requestConnectMicBar dismiss];
+        }
+    }
+    NIMMessage *message = [[NIMMessage alloc] init];
+    message.text = [NSString stringWithFormat:@"\"%@\" 成功上麦", msgAttachment.member.nickName];
+    message.remoteExt = @{@"type":@(1)};
+    [_chatView addMessages:@[message]];
+}
+
+
+- (void)receivedAudienceLeaveMicSuccess:(NETSConnectMicAttachment *)msgAttachment{
+    NIMMessage *message = [[NIMMessage alloc] init];
+    message.text = [NSString stringWithFormat:@"\"%@\" 成功下麦", msgAttachment.member.nickName];
+    message.remoteExt = @{@"type":@(1)};
+    [_chatView addMessages:@[message]];
+    if ([msgAttachment.member.accountId isEqualToString:[NEAccount shared].userModel.accountId]) {//如果操作是自己重置麦克风和摄像头状态
+        NETSRtcConfig.sharedConfig.cameraOn = YES;
+        NETSRtcConfig.sharedConfig.micOn = YES;
+        self.bottomBar.buttonType = NETSAudienceBottomRequestTypeNormal;
+    }
+}
+
+- (void)receivedAudioAndVideoChange:(NETSConnectMicAttachment *)msgAttachment {
+    if ([self.delegate respondsToSelector:@selector(didAudioAndVideoChanged:)]) {
+        [self.delegate didAudioAndVideoChanged:msgAttachment];
+    }
+}
 #pragma mark - lazy load
 
 - (NETSAnchorTopInfoView *)anchorInfo
@@ -788,6 +991,14 @@
         _giftAnimation = [[NETSGiftAnimationView alloc] init];
     }
     return _giftAnimation;
+}
+
+- (NETSConnectMicService *)connectMicService {
+    if (!_connectMicService) {
+        _connectMicService = [[NETSConnectMicService alloc]init];
+        _connectMicService.delegate = self;
+    }
+    return _connectMicService;
 }
 
 @end

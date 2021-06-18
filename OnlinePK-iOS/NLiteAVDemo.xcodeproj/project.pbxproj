@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		390350FF2660D1E300B87E6B /* NETSRtcConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 390350FE2660D1E300B87E6B /* NETSRtcConfig.m */; };
+		3916F57A265643B80046695A /* NETSAnchorChatroomMessageHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = 3916F579265643B80046695A /* NETSAnchorChatroomMessageHandle.m */; };
+		3916F57E265643F50046695A /* NETSAudienceChatroomMessageHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = 3916F57D265643F50046695A /* NETSAudienceChatroomMessageHandle.m */; };
+		39179A33262D846C007F74A4 /* NETSMutiConnectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39179A32262D846C007F74A4 /* NETSMutiConnectView.m */; };
+		39179A37262D88AA007F74A4 /* NETSMultiConnectCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 39179A36262D88AA007F74A4 /* NETSMultiConnectCollectionCell.m */; };
 		393A6FDA25B1479000C9A0A2 /* LOTRenderNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 393A6F4E25B1478F00C9A0A2 /* LOTRenderNode.m */; };
 		393A6FDB25B1479000C9A0A2 /* LOTTrimPathNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 393A6F5325B1478F00C9A0A2 /* LOTTrimPathNode.m */; };
 		393A6FDC25B1479000C9A0A2 /* LOTColorInterpolator.m in Sources */ = {isa = PBXBuildFile; fileRef = 393A6F5525B1478F00C9A0A2 /* LOTColorInterpolator.m */; };
@@ -72,9 +77,32 @@
 		393A702525B149BF00C9A0A2 /* anim_gift_04.json in Resources */ = {isa = PBXBuildFile; fileRef = 393A702125B149BF00C9A0A2 /* anim_gift_04.json */; };
 		393A702625B149BF00C9A0A2 /* anim_gift_02.json in Resources */ = {isa = PBXBuildFile; fileRef = 393A702225B149BF00C9A0A2 /* anim_gift_02.json */; };
 		393A702725B149BF00C9A0A2 /* anim_gift_03.json in Resources */ = {isa = PBXBuildFile; fileRef = 393A702325B149BF00C9A0A2 /* anim_gift_03.json */; };
+		3945BFD4264E68AE001DDB22 /* NETSConnectMicModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3945BFD3264E68AE001DDB22 /* NETSConnectMicModel.m */; };
+		394E2494263179C20000F7F8 /* NTESConstantKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 394E2493263179C20000F7F8 /* NTESConstantKey.m */; };
+		394E249926317E3F0000F7F8 /* NETSRequestManageMainController.m in Sources */ = {isa = PBXBuildFile; fileRef = 394E249826317E3F0000F7F8 /* NETSRequestManageMainController.m */; };
+		39506C292653AFA8001ADCCE /* NETSAlertPrompt.m in Sources */ = {isa = PBXBuildFile; fileRef = 39506C282653AFA8001ADCCE /* NETSAlertPrompt.m */; };
+		39506C3F2653BB18001ADCCE /* NETSConnectMicService.m in Sources */ = {isa = PBXBuildFile; fileRef = 39506C3E2653BB18001ADCCE /* NETSConnectMicService.m */; };
+		39506C432653E8FD001ADCCE /* NETSUniversalTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 39506C422653E8FD001ADCCE /* NETSUniversalTool.m */; };
 		39796F7E25AD77CD0070301E /* UIViewController+Gesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 39796F7D25AD77CD0070301E /* UIViewController+Gesture.m */; };
+		39BDF0BF2636996400FFB3ED /* NTESSegmentCtrl.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BDF0BD2636996300FFB3ED /* NTESSegmentCtrl.m */; };
+		39BDF0C426369C3800FFB3ED /* UIView+Gradient.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BDF0C226369C3800FFB3ED /* UIView+Gradient.m */; };
+		39BDF0DA26369DF800FFB3ED /* NSObject+additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BDF0D926369DF800FFB3ED /* NSObject+additions.m */; };
+		39BDF0EF2636B00000FFB3ED /* NETSInviteMicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BDF0EE2636B00000FFB3ED /* NETSInviteMicViewController.m */; };
+		39BDF0F32636B02600FFB3ED /* NETSMicRequestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BDF0F22636B02600FFB3ED /* NETSMicRequestViewController.m */; };
+		39BDF0F72636B04C00FFB3ED /* NETSMicManageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BDF0F62636B04C00FFB3ED /* NETSMicManageViewController.m */; };
+		39BDF0FC2636B1D700FFB3ED /* NETSInviteMicCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BDF0FB2636B1D700FFB3ED /* NETSInviteMicCell.m */; };
+		39BDF1002636B30F00FFB3ED /* NETSBaseTabViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BDF0FE2636B30F00FFB3ED /* NETSBaseTabViewCell.m */; };
+		39BDF1082636D9DA00FFB3ED /* NETSRequestConnectMicCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BDF1072636D9DA00FFB3ED /* NETSRequestConnectMicCell.m */; };
+		39BDF10C2636D9FB00FFB3ED /* NETSConnectManageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BDF10B2636D9FB00FFB3ED /* NETSConnectManageCell.m */; };
+		39DE2F43263044CB00EDC2D5 /* NETSConnectStatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DE2F42263044CB00EDC2D5 /* NETSConnectStatusViewController.m */; };
+		39DE2F472630463C00EDC2D5 /* NTESActionSheetNavBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DE2F462630463C00EDC2D5 /* NTESActionSheetNavBar.m */; };
+		39DE2F4C263049FB00EDC2D5 /* NTESActionSheetNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DE2F4B263049FB00EDC2D5 /* NTESActionSheetNavigationController.m */; };
+		39DE2F5526304A1F00EDC2D5 /* NTESActionSheetDismissalController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DE2F5026304A1F00EDC2D5 /* NTESActionSheetDismissalController.m */; };
+		39DE2F5626304A1F00EDC2D5 /* NTESActionSheetTransitioningDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DE2F5126304A1F00EDC2D5 /* NTESActionSheetTransitioningDelegate.m */; };
+		39DE2F5726304A1F00EDC2D5 /* NTESActionSheetPresentationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DE2F5226304A1F00EDC2D5 /* NTESActionSheetPresentationController.m */; };
+		39DE2F5E263120E900EDC2D5 /* NTESCollectStatusCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DE2F5A263120E800EDC2D5 /* NTESCollectStatusCell.m */; };
+		39DE2F5F263120E900EDC2D5 /* NTESCollectStatusItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DE2F5D263120E900EDC2D5 /* NTESCollectStatusItem.m */; };
 		4B1CE8D87B045036DB9DCCAE /* Pods_NLiteAVDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 351BD670226DDD5B57B8EBF7 /* Pods_NLiteAVDemo.framework */; };
-		865FD35025B18D4400B28A8A /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 865FD34F25B18D3C00B28A8A /* libc++.tbd */; };
 		865FD37125B80D3200B28A8A /* 1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 865FD36F25B80D3200B28A8A /* 1.mp3 */; };
 		865FD37225B80D3200B28A8A /* 2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 865FD37025B80D3200B28A8A /* 2.mp3 */; };
 		865FD39725B9BCFF00B28A8A /* NETSGiftAnimationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 865FD39625B9BCFF00B28A8A /* NETSGiftAnimationView.m */; };
@@ -155,11 +183,7 @@
 		86D73DE725AC014400417AF1 /* NEMenuHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 86D73DE525AC014400417AF1 /* NEMenuHeader.m */; };
 		86D73DF025AC518D00417AF1 /* audio_effect_1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 86D73DEC25AC518D00417AF1 /* audio_effect_1.wav */; };
 		86D73DF225AC518D00417AF1 /* audio_effect_0.wav in Resources */ = {isa = PBXBuildFile; fileRef = 86D73DEE25AC518D00417AF1 /* audio_effect_0.wav */; };
-		86D73E2425AE9F0100417AF1 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86D73E2325AE9F0100417AF1 /* Accelerate.framework */; };
 		86D73E2625AE9F0B00417AF1 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86D73E2525AE9F0B00417AF1 /* AVFoundation.framework */; };
-		86D73E2825AE9F1400417AF1 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86D73E2725AE9F1400417AF1 /* CoreMedia.framework */; };
-		86D73E2A25AE9F1D00417AF1 /* CoreML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86D73E2925AE9F1D00417AF1 /* CoreML.framework */; };
-		86D73E2C25AE9F2800417AF1 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86D73E2B25AE9F2800417AF1 /* OpenGLES.framework */; };
 		C71DDB102566449700E28A27 /* NEModifyNicknameTask.m in Sources */ = {isa = PBXBuildFile; fileRef = C71DDB0F2566449700E28A27 /* NEModifyNicknameTask.m */; };
 		C758CCDA24EB7F5A003C406A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C758CCD924EB7F5A003C406A /* AppDelegate.m */; };
 		C758CCE324EB7F5A003C406A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C758CCE124EB7F5A003C406A /* Main.storyboard */; };
@@ -197,7 +221,6 @@
 		C7664EDE2511AE1E005E26A2 /* NSMacro.m in Sources */ = {isa = PBXBuildFile; fileRef = C7664EB62511AE1D005E26A2 /* NSMacro.m */; };
 		C7664EDF2511AE1E005E26A2 /* NENavigator.m in Sources */ = {isa = PBXBuildFile; fileRef = C7664EBA2511AE1D005E26A2 /* NENavigator.m */; };
 		C7664EE02511AE1E005E26A2 /* NEAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = C7664EBD2511AE1D005E26A2 /* NEAccount.m */; };
-		C7B80210256B680400446AF7 /* NSString+NE.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B8020F256B680400446AF7 /* NSString+NE.m */; };
 		C7B80214256B9B5700446AF7 /* NEStatementVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B80212256B9B5700446AF7 /* NEStatementVC.m */; };
 		C7B80215256B9B5700446AF7 /* NEStatementVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7B80213256B9B5700446AF7 /* NEStatementVC.xib */; };
 		C7B80218256BB74800446AF7 /* NEFeedbackDemoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B80217256BB74800446AF7 /* NEFeedbackDemoVC.m */; };
@@ -217,6 +240,16 @@
 
 /* Begin PBXFileReference section */
 		351BD670226DDD5B57B8EBF7 /* Pods_NLiteAVDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NLiteAVDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		390350FD2660D1E300B87E6B /* NETSRtcConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NETSRtcConfig.h; sourceTree = "<group>"; };
+		390350FE2660D1E300B87E6B /* NETSRtcConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NETSRtcConfig.m; sourceTree = "<group>"; };
+		3916F578265643B80046695A /* NETSAnchorChatroomMessageHandle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NETSAnchorChatroomMessageHandle.h; sourceTree = "<group>"; };
+		3916F579265643B80046695A /* NETSAnchorChatroomMessageHandle.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NETSAnchorChatroomMessageHandle.m; sourceTree = "<group>"; };
+		3916F57C265643F50046695A /* NETSAudienceChatroomMessageHandle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NETSAudienceChatroomMessageHandle.h; sourceTree = "<group>"; };
+		3916F57D265643F50046695A /* NETSAudienceChatroomMessageHandle.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NETSAudienceChatroomMessageHandle.m; sourceTree = "<group>"; };
+		39179A31262D846C007F74A4 /* NETSMutiConnectView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NETSMutiConnectView.h; sourceTree = "<group>"; };
+		39179A32262D846C007F74A4 /* NETSMutiConnectView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NETSMutiConnectView.m; sourceTree = "<group>"; };
+		39179A35262D88AA007F74A4 /* NETSMultiConnectCollectionCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NETSMultiConnectCollectionCell.h; sourceTree = "<group>"; };
+		39179A36262D88AA007F74A4 /* NETSMultiConnectCollectionCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NETSMultiConnectCollectionCell.m; sourceTree = "<group>"; };
 		393A6F4E25B1478F00C9A0A2 /* LOTRenderNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LOTRenderNode.m; sourceTree = "<group>"; };
 		393A6F4F25B1478F00C9A0A2 /* LOTAnimatorNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LOTAnimatorNode.h; sourceTree = "<group>"; };
 		393A6F5025B1478F00C9A0A2 /* LOTRenderNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LOTRenderNode.h; sourceTree = "<group>"; };
@@ -350,9 +383,59 @@
 		393A702125B149BF00C9A0A2 /* anim_gift_04.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = anim_gift_04.json; sourceTree = "<group>"; };
 		393A702225B149BF00C9A0A2 /* anim_gift_02.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = anim_gift_02.json; sourceTree = "<group>"; };
 		393A702325B149BF00C9A0A2 /* anim_gift_03.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = anim_gift_03.json; sourceTree = "<group>"; };
+		3945BFD2264E68AE001DDB22 /* NETSConnectMicModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NETSConnectMicModel.h; sourceTree = "<group>"; };
+		3945BFD3264E68AE001DDB22 /* NETSConnectMicModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NETSConnectMicModel.m; sourceTree = "<group>"; };
+		394E2492263179C20000F7F8 /* NTESConstantKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NTESConstantKey.h; sourceTree = "<group>"; };
+		394E2493263179C20000F7F8 /* NTESConstantKey.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NTESConstantKey.m; sourceTree = "<group>"; };
+		394E249726317E3F0000F7F8 /* NETSRequestManageMainController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NETSRequestManageMainController.h; sourceTree = "<group>"; };
+		394E249826317E3F0000F7F8 /* NETSRequestManageMainController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NETSRequestManageMainController.m; sourceTree = "<group>"; };
+		39506C272653AFA8001ADCCE /* NETSAlertPrompt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NETSAlertPrompt.h; sourceTree = "<group>"; };
+		39506C282653AFA8001ADCCE /* NETSAlertPrompt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NETSAlertPrompt.m; sourceTree = "<group>"; };
+		39506C3D2653BB18001ADCCE /* NETSConnectMicService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NETSConnectMicService.h; sourceTree = "<group>"; };
+		39506C3E2653BB18001ADCCE /* NETSConnectMicService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NETSConnectMicService.m; sourceTree = "<group>"; };
+		39506C412653E8FD001ADCCE /* NETSUniversalTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NETSUniversalTool.h; sourceTree = "<group>"; };
+		39506C422653E8FD001ADCCE /* NETSUniversalTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NETSUniversalTool.m; sourceTree = "<group>"; };
 		39796F7925AC25E60070301E /* authpack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = authpack.h; sourceTree = "<group>"; };
 		39796F7C25AD77CD0070301E /* UIViewController+Gesture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Gesture.h"; sourceTree = "<group>"; };
 		39796F7D25AD77CD0070301E /* UIViewController+Gesture.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Gesture.m"; sourceTree = "<group>"; };
+		39BDF0BD2636996300FFB3ED /* NTESSegmentCtrl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NTESSegmentCtrl.m; sourceTree = "<group>"; };
+		39BDF0BE2636996300FFB3ED /* NTESSegmentCtrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTESSegmentCtrl.h; sourceTree = "<group>"; };
+		39BDF0C226369C3800FFB3ED /* UIView+Gradient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Gradient.m"; sourceTree = "<group>"; };
+		39BDF0C326369C3800FFB3ED /* UIView+Gradient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Gradient.h"; sourceTree = "<group>"; };
+		39BDF0D826369DF800FFB3ED /* NSObject+additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+additions.h"; sourceTree = "<group>"; };
+		39BDF0D926369DF800FFB3ED /* NSObject+additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+additions.m"; sourceTree = "<group>"; };
+		39BDF0ED2636B00000FFB3ED /* NETSInviteMicViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NETSInviteMicViewController.h; sourceTree = "<group>"; };
+		39BDF0EE2636B00000FFB3ED /* NETSInviteMicViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NETSInviteMicViewController.m; sourceTree = "<group>"; };
+		39BDF0F12636B02600FFB3ED /* NETSMicRequestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NETSMicRequestViewController.h; sourceTree = "<group>"; };
+		39BDF0F22636B02600FFB3ED /* NETSMicRequestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NETSMicRequestViewController.m; sourceTree = "<group>"; };
+		39BDF0F52636B04C00FFB3ED /* NETSMicManageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NETSMicManageViewController.h; sourceTree = "<group>"; };
+		39BDF0F62636B04C00FFB3ED /* NETSMicManageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NETSMicManageViewController.m; sourceTree = "<group>"; };
+		39BDF0FA2636B1D700FFB3ED /* NETSInviteMicCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NETSInviteMicCell.h; sourceTree = "<group>"; };
+		39BDF0FB2636B1D700FFB3ED /* NETSInviteMicCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NETSInviteMicCell.m; sourceTree = "<group>"; };
+		39BDF0FE2636B30F00FFB3ED /* NETSBaseTabViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NETSBaseTabViewCell.m; sourceTree = "<group>"; };
+		39BDF0FF2636B30F00FFB3ED /* NETSBaseTabViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NETSBaseTabViewCell.h; sourceTree = "<group>"; };
+		39BDF1022636B31B00FFB3ED /* NETSBaseTabViewCellProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NETSBaseTabViewCellProtocol.h; sourceTree = "<group>"; };
+		39BDF1042636B3B100FFB3ED /* NETSBaseModelProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NETSBaseModelProtocol.h; sourceTree = "<group>"; };
+		39BDF1062636D9DA00FFB3ED /* NETSRequestConnectMicCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NETSRequestConnectMicCell.h; sourceTree = "<group>"; };
+		39BDF1072636D9DA00FFB3ED /* NETSRequestConnectMicCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NETSRequestConnectMicCell.m; sourceTree = "<group>"; };
+		39BDF10A2636D9FB00FFB3ED /* NETSConnectManageCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NETSConnectManageCell.h; sourceTree = "<group>"; };
+		39BDF10B2636D9FB00FFB3ED /* NETSConnectManageCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NETSConnectManageCell.m; sourceTree = "<group>"; };
+		39DE2F41263044CB00EDC2D5 /* NETSConnectStatusViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NETSConnectStatusViewController.h; sourceTree = "<group>"; };
+		39DE2F42263044CB00EDC2D5 /* NETSConnectStatusViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NETSConnectStatusViewController.m; sourceTree = "<group>"; };
+		39DE2F452630463C00EDC2D5 /* NTESActionSheetNavBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTESActionSheetNavBar.h; sourceTree = "<group>"; };
+		39DE2F462630463C00EDC2D5 /* NTESActionSheetNavBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NTESActionSheetNavBar.m; sourceTree = "<group>"; };
+		39DE2F4A263049FB00EDC2D5 /* NTESActionSheetNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTESActionSheetNavigationController.h; sourceTree = "<group>"; };
+		39DE2F4B263049FB00EDC2D5 /* NTESActionSheetNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NTESActionSheetNavigationController.m; sourceTree = "<group>"; };
+		39DE2F4F26304A1F00EDC2D5 /* NTESActionSheetPresentationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTESActionSheetPresentationController.h; sourceTree = "<group>"; };
+		39DE2F5026304A1F00EDC2D5 /* NTESActionSheetDismissalController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NTESActionSheetDismissalController.m; sourceTree = "<group>"; };
+		39DE2F5126304A1F00EDC2D5 /* NTESActionSheetTransitioningDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NTESActionSheetTransitioningDelegate.m; sourceTree = "<group>"; };
+		39DE2F5226304A1F00EDC2D5 /* NTESActionSheetPresentationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NTESActionSheetPresentationController.m; sourceTree = "<group>"; };
+		39DE2F5326304A1F00EDC2D5 /* NTESActionSheetDismissalController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTESActionSheetDismissalController.h; sourceTree = "<group>"; };
+		39DE2F5426304A1F00EDC2D5 /* NTESActionSheetTransitioningDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTESActionSheetTransitioningDelegate.h; sourceTree = "<group>"; };
+		39DE2F5A263120E800EDC2D5 /* NTESCollectStatusCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NTESCollectStatusCell.m; sourceTree = "<group>"; };
+		39DE2F5B263120E800EDC2D5 /* NTESCollectStatusItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTESCollectStatusItem.h; sourceTree = "<group>"; };
+		39DE2F5C263120E800EDC2D5 /* NTESCollectStatusCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTESCollectStatusCell.h; sourceTree = "<group>"; };
+		39DE2F5D263120E900EDC2D5 /* NTESCollectStatusItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NTESCollectStatusItem.m; sourceTree = "<group>"; };
 		865FD34F25B18D3C00B28A8A /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		865FD36F25B80D3200B28A8A /* 1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 1.mp3; sourceTree = "<group>"; };
 		865FD37025B80D3200B28A8A /* 2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 2.mp3; sourceTree = "<group>"; };
@@ -527,7 +610,7 @@
 		C71DDB0E2566449700E28A27 /* NEModifyNicknameTask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NEModifyNicknameTask.h; sourceTree = "<group>"; };
 		C71DDB0F2566449700E28A27 /* NEModifyNicknameTask.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NEModifyNicknameTask.m; sourceTree = "<group>"; };
 		C728EEE32500D77D00D27176 /* AppKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppKey.h; sourceTree = "<group>"; };
-		C758CCD524EB7F5A003C406A /* 网易云信NERtc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "网易云信NERtc.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C758CCD524EB7F5A003C406A /* 网易云信互动直播.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "网易云信互动直播.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C758CCD824EB7F5A003C406A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		C758CCD924EB7F5A003C406A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		C758CCE224EB7F5A003C406A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -599,8 +682,6 @@
 		C7664EBC2511AE1D005E26A2 /* NEAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NEAccount.h; sourceTree = "<group>"; };
 		C7664EBD2511AE1D005E26A2 /* NEAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NEAccount.m; sourceTree = "<group>"; };
 		C7B5068624F6439E00C4D992 /* NLiteAVDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NLiteAVDemo.entitlements; sourceTree = "<group>"; };
-		C7B8020E256B680400446AF7 /* NSString+NE.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+NE.h"; sourceTree = "<group>"; };
-		C7B8020F256B680400446AF7 /* NSString+NE.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+NE.m"; sourceTree = "<group>"; };
 		C7B80211256B9B5700446AF7 /* NEStatementVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NEStatementVC.h; sourceTree = "<group>"; };
 		C7B80212256B9B5700446AF7 /* NEStatementVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NEStatementVC.m; sourceTree = "<group>"; };
 		C7B80213256B9B5700446AF7 /* NEStatementVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NEStatementVC.xib; sourceTree = "<group>"; };
@@ -638,19 +719,25 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				86D73E2825AE9F1400417AF1 /* CoreMedia.framework in Frameworks */,
-				865FD35025B18D4400B28A8A /* libc++.tbd in Frameworks */,
 				4B1CE8D87B045036DB9DCCAE /* Pods_NLiteAVDemo.framework in Frameworks */,
-				86D73E2A25AE9F1D00417AF1 /* CoreML.framework in Frameworks */,
-				86D73E2425AE9F0100417AF1 /* Accelerate.framework in Frameworks */,
 				86D73E2625AE9F0B00417AF1 /* AVFoundation.framework in Frameworks */,
-				86D73E2C25AE9F2800417AF1 /* OpenGLES.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		39179A26262D78C3007F74A4 /* MultiPeopleConnectMic */ = {
+			isa = PBXGroup;
+			children = (
+				39179A31262D846C007F74A4 /* NETSMutiConnectView.h */,
+				39179A32262D846C007F74A4 /* NETSMutiConnectView.m */,
+				39179A35262D88AA007F74A4 /* NETSMultiConnectCollectionCell.h */,
+				39179A36262D88AA007F74A4 /* NETSMultiConnectCollectionCell.m */,
+			);
+			path = MultiPeopleConnectMic;
+			sourceTree = "<group>";
+		};
 		39278A13850E2BDF727DCC9E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -919,6 +1006,52 @@
 			path = json;
 			sourceTree = "<group>";
 		};
+		39BDF0BC2636996300FFB3ED /* NTESSegmentCtrl */ = {
+			isa = PBXGroup;
+			children = (
+				39BDF0BE2636996300FFB3ED /* NTESSegmentCtrl.h */,
+				39BDF0BD2636996300FFB3ED /* NTESSegmentCtrl.m */,
+			);
+			path = NTESSegmentCtrl;
+			sourceTree = "<group>";
+		};
+		39BDF0F92636B13400FFB3ED /* MicManageView */ = {
+			isa = PBXGroup;
+			children = (
+				39BDF0FA2636B1D700FFB3ED /* NETSInviteMicCell.h */,
+				39BDF0FB2636B1D700FFB3ED /* NETSInviteMicCell.m */,
+				39BDF1062636D9DA00FFB3ED /* NETSRequestConnectMicCell.h */,
+				39BDF1072636D9DA00FFB3ED /* NETSRequestConnectMicCell.m */,
+				39BDF10A2636D9FB00FFB3ED /* NETSConnectManageCell.h */,
+				39BDF10B2636D9FB00FFB3ED /* NETSConnectManageCell.m */,
+			);
+			path = MicManageView;
+			sourceTree = "<group>";
+		};
+		39DE2F4E26304A1F00EDC2D5 /* NTESActionSheetTransitioning */ = {
+			isa = PBXGroup;
+			children = (
+				39DE2F4F26304A1F00EDC2D5 /* NTESActionSheetPresentationController.h */,
+				39DE2F5226304A1F00EDC2D5 /* NTESActionSheetPresentationController.m */,
+				39DE2F5326304A1F00EDC2D5 /* NTESActionSheetDismissalController.h */,
+				39DE2F5026304A1F00EDC2D5 /* NTESActionSheetDismissalController.m */,
+				39DE2F5426304A1F00EDC2D5 /* NTESActionSheetTransitioningDelegate.h */,
+				39DE2F5126304A1F00EDC2D5 /* NTESActionSheetTransitioningDelegate.m */,
+			);
+			path = NTESActionSheetTransitioning;
+			sourceTree = "<group>";
+		};
+		39DE2F592631209900EDC2D5 /* CollectStatusView */ = {
+			isa = PBXGroup;
+			children = (
+				39DE2F5C263120E800EDC2D5 /* NTESCollectStatusCell.h */,
+				39DE2F5A263120E800EDC2D5 /* NTESCollectStatusCell.m */,
+				39DE2F5B263120E800EDC2D5 /* NTESCollectStatusItem.h */,
+				39DE2F5D263120E900EDC2D5 /* NTESCollectStatusItem.m */,
+			);
+			path = CollectStatusView;
+			sourceTree = "<group>";
+		};
 		865FD37325B82FC600B28A8A /* KeyboardToolBar */ = {
 			isa = PBXGroup;
 			children = (
@@ -997,8 +1130,8 @@
 			isa = PBXGroup;
 			children = (
 				86D73CD225ABFB5F00417AF1 /* NETSLiveConfig.h */,
-				86D73CD325ABFB5F00417AF1 /* NETSLiveUtils.m */,
 				86D73CD425ABFB5F00417AF1 /* NETSLiveConfig.m */,
+				86D73CD325ABFB5F00417AF1 /* NETSLiveUtils.m */,
 				86D73CD525ABFB5F00417AF1 /* NETSLiveUtils.h */,
 			);
 			path = Config;
@@ -1019,6 +1152,10 @@
 				86D73CE125ABFB5F00417AF1 /* NETSLiveAttachment.m */,
 				86D73CE325ABFB5F00417AF1 /* NETSLiveChatViewHandle.h */,
 				86D73CE825ABFB5F00417AF1 /* NETSLiveChatViewHandle.m */,
+				3916F578265643B80046695A /* NETSAnchorChatroomMessageHandle.h */,
+				3916F579265643B80046695A /* NETSAnchorChatroomMessageHandle.m */,
+				3916F57C265643F50046695A /* NETSAudienceChatroomMessageHandle.h */,
+				3916F57D265643F50046695A /* NETSAudienceChatroomMessageHandle.m */,
 			);
 			path = Chatroom;
 			sourceTree = "<group>";
@@ -1030,6 +1167,8 @@
 				86D73CEC25ABFB5F00417AF1 /* NETSLiveApi.m */,
 				86D73CEB25ABFB5F00417AF1 /* NETSLiveModel.h */,
 				86D73CEE25ABFB5F00417AF1 /* NETSLiveModel.m */,
+				3945BFD2264E68AE001DDB22 /* NETSConnectMicModel.h */,
+				3945BFD3264E68AE001DDB22 /* NETSConnectMicModel.m */,
 			);
 			path = Api;
 			sourceTree = "<group>";
@@ -1047,8 +1186,8 @@
 		86D73CF025ABFB5F00417AF1 /* vm */ = {
 			isa = PBXGroup;
 			children = (
-				86D73CF125ABFB5F00417AF1 /* NETSLiveChatroomInfo.m */,
 				86D73CF225ABFB5F00417AF1 /* NETSLiveChatroomInfo.h */,
+				86D73CF125ABFB5F00417AF1 /* NETSLiveChatroomInfo.m */,
 			);
 			path = vm;
 			sourceTree = "<group>";
@@ -1058,6 +1197,14 @@
 			children = (
 				86D73CF525ABFB5F00417AF1 /* NETSAnchorVC.h */,
 				86D73CF425ABFB5F00417AF1 /* NETSAnchorVC.m */,
+				394E249726317E3F0000F7F8 /* NETSRequestManageMainController.h */,
+				394E249826317E3F0000F7F8 /* NETSRequestManageMainController.m */,
+				39BDF0ED2636B00000FFB3ED /* NETSInviteMicViewController.h */,
+				39BDF0EE2636B00000FFB3ED /* NETSInviteMicViewController.m */,
+				39BDF0F12636B02600FFB3ED /* NETSMicRequestViewController.h */,
+				39BDF0F22636B02600FFB3ED /* NETSMicRequestViewController.m */,
+				39BDF0F52636B04C00FFB3ED /* NETSMicManageViewController.h */,
+				39BDF0F62636B04C00FFB3ED /* NETSMicManageViewController.m */,
 			);
 			path = vc;
 			sourceTree = "<group>";
@@ -1065,6 +1212,8 @@
 		86D73CF625ABFB5F00417AF1 /* view */ = {
 			isa = PBXGroup;
 			children = (
+				39BDF0F92636B13400FFB3ED /* MicManageView */,
+				39179A26262D78C3007F74A4 /* MultiPeopleConnectMic */,
 				865FD37325B82FC600B28A8A /* KeyboardToolBar */,
 				86D73CF725ABFB5F00417AF1 /* AnchorTopInfo */,
 				86D73CFA25ABFB5F00417AF1 /* ActionSheet */,
@@ -1093,7 +1242,6 @@
 		86D73CFA25ABFB5F00417AF1 /* ActionSheet */ = {
 			isa = PBXGroup;
 			children = (
-				86D73CFB25ABFB5F00417AF1 /* Status */,
 				86D73CFE25ABFB5F00417AF1 /* Beauty */,
 				86D73D0125ABFB5F00417AF1 /* More */,
 				86D73D0825ABFB6000417AF1 /* AudioMixing */,
@@ -1105,18 +1253,11 @@
 			path = ActionSheet;
 			sourceTree = "<group>";
 		};
-		86D73CFB25ABFB5F00417AF1 /* Status */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Status;
-			sourceTree = "<group>";
-		};
 		86D73CFE25ABFB5F00417AF1 /* Beauty */ = {
 			isa = PBXGroup;
 			children = (
-				86D73CFF25ABFB5F00417AF1 /* NETSBeautySettingActionSheet.m */,
 				86D73D0025ABFB5F00417AF1 /* NETSBeautySettingActionSheet.h */,
+				86D73CFF25ABFB5F00417AF1 /* NETSBeautySettingActionSheet.m */,
 			);
 			path = Beauty;
 			sourceTree = "<group>";
@@ -1124,12 +1265,12 @@
 		86D73D0125ABFB5F00417AF1 /* More */ = {
 			isa = PBXGroup;
 			children = (
-				86D73D0225ABFB6000417AF1 /* NETSMoreSettingModel.m */,
-				86D73D0325ABFB6000417AF1 /* NETSMoreSettingCell.h */,
 				86D73D0425ABFB6000417AF1 /* NETSMoreSettingActionSheet.h */,
-				86D73D0525ABFB6000417AF1 /* NETSMoreSettingModel.h */,
 				86D73D0625ABFB6000417AF1 /* NETSMoreSettingActionSheet.m */,
+				86D73D0325ABFB6000417AF1 /* NETSMoreSettingCell.h */,
 				86D73D0725ABFB6000417AF1 /* NETSMoreSettingCell.m */,
+				86D73D0525ABFB6000417AF1 /* NETSMoreSettingModel.h */,
+				86D73D0225ABFB6000417AF1 /* NETSMoreSettingModel.m */,
 			);
 			path = More;
 			sourceTree = "<group>";
@@ -1137,10 +1278,10 @@
 		86D73D0825ABFB6000417AF1 /* AudioMixing */ = {
 			isa = PBXGroup;
 			children = (
-				86D73D0925ABFB6000417AF1 /* NETSAudioMixingItem.m */,
-				86D73D0A25ABFB6000417AF1 /* NETSAudioMixingActionSheet.m */,
 				86D73D0B25ABFB6000417AF1 /* NETSAudioMixingItem.h */,
+				86D73D0925ABFB6000417AF1 /* NETSAudioMixingItem.m */,
 				86D73D0C25ABFB6000417AF1 /* NETSAudioMixingActionSheet.h */,
+				86D73D0A25ABFB6000417AF1 /* NETSAudioMixingActionSheet.m */,
 			);
 			path = AudioMixing;
 			sourceTree = "<group>";
@@ -1148,10 +1289,10 @@
 		86D73D0D25ABFB6000417AF1 /* ChoosePK */ = {
 			isa = PBXGroup;
 			children = (
-				86D73D0E25ABFB6000417AF1 /* NETSChoosePKCell.m */,
 				86D73D0F25ABFB6000417AF1 /* NETSChoosePKSheet.h */,
 				86D73D1025ABFB6000417AF1 /* NETSChoosePKSheet.m */,
 				86D73D1125ABFB6000417AF1 /* NETSChoosePKCell.h */,
+				86D73D0E25ABFB6000417AF1 /* NETSChoosePKCell.m */,
 			);
 			path = ChoosePK;
 			sourceTree = "<group>";
@@ -1193,8 +1334,8 @@
 			isa = PBXGroup;
 			children = (
 				86D73D2225ABFB6000417AF1 /* NETSPkTimeLabel.h */,
-				86D73D2325ABFB6000417AF1 /* NETSPkStatusBar.h */,
 				86D73D2425ABFB6000417AF1 /* NETSPkTimeLabel.m */,
+				86D73D2325ABFB6000417AF1 /* NETSPkStatusBar.h */,
 				86D73D2525ABFB6000417AF1 /* NETSPkStatusBar.m */,
 			);
 			path = PkBar;
@@ -1257,8 +1398,8 @@
 		86D73D3825ABFB6000417AF1 /* InviteBar */ = {
 			isa = PBXGroup;
 			children = (
-				86D73D3925ABFB6000417AF1 /* NETSInvitingBar.m */,
 				86D73D3A25ABFB6000417AF1 /* NETSInvitingBar.h */,
+				86D73D3925ABFB6000417AF1 /* NETSInvitingBar.m */,
 			);
 			path = InviteBar;
 			sourceTree = "<group>";
@@ -1297,6 +1438,10 @@
 			children = (
 				86D73D4325ABFB6000417AF1 /* NETSAudienceCollectionViewVC.h */,
 				86D73D4525ABFB6000417AF1 /* NETSAudienceCollectionViewVC.m */,
+				39DE2F41263044CB00EDC2D5 /* NETSConnectStatusViewController.h */,
+				39DE2F42263044CB00EDC2D5 /* NETSConnectStatusViewController.m */,
+				39DE2F4A263049FB00EDC2D5 /* NTESActionSheetNavigationController.h */,
+				39DE2F4B263049FB00EDC2D5 /* NTESActionSheetNavigationController.m */,
 			);
 			path = vc;
 			sourceTree = "<group>";
@@ -1304,6 +1449,7 @@
 		86D73D4725ABFB6000417AF1 /* view */ = {
 			isa = PBXGroup;
 			children = (
+				39DE2F592631209900EDC2D5 /* CollectStatusView */,
 				86D73D4825ABFB6000417AF1 /* ActionSheet */,
 				86D73D5325ABFB6000417AF1 /* AudienceBottomBar */,
 				86D73D5625ABFB6000417AF1 /* LiveEnd */,
@@ -1316,6 +1462,8 @@
 		86D73D4825ABFB6000417AF1 /* ActionSheet */ = {
 			isa = PBXGroup;
 			children = (
+				39DE2F452630463C00EDC2D5 /* NTESActionSheetNavBar.h */,
+				39DE2F462630463C00EDC2D5 /* NTESActionSheetNavBar.m */,
 				86D73D4925ABFB6000417AF1 /* SendGift */,
 			);
 			path = ActionSheet;
@@ -1391,6 +1539,8 @@
 				86D73D6B25ABFB6000417AF1 /* NETSPkService+im.m */,
 				86D73D6725ABFB6000417AF1 /* NETSPushStreamService.h */,
 				86D73D6F25ABFB6000417AF1 /* NETSPushStreamService.m */,
+				39506C3D2653BB18001ADCCE /* NETSConnectMicService.h */,
+				39506C3E2653BB18001ADCCE /* NETSConnectMicService.m */,
 			);
 			path = LivePK;
 			sourceTree = "<group>";
@@ -1407,8 +1557,8 @@
 		86D73DB225ABFC4B00417AF1 /* TopmostView */ = {
 			isa = PBXGroup;
 			children = (
-				86D73DB325ABFC4B00417AF1 /* TopmostView.m */,
 				86D73DB425ABFC4B00417AF1 /* TopmostView.h */,
+				86D73DB325ABFC4B00417AF1 /* TopmostView.m */,
 			);
 			path = TopmostView;
 			sourceTree = "<group>";
@@ -1425,9 +1575,13 @@
 		86D73DC025ABFCE500417AF1 /* Baseview */ = {
 			isa = PBXGroup;
 			children = (
+				39BDF1042636B3B100FFB3ED /* NETSBaseModelProtocol.h */,
 				86D73DC125ABFCE500417AF1 /* NETSBaseView.h */,
 				86D73DC225ABFCE500417AF1 /* NETSBaseViewProtocol.h */,
 				86D73DC325ABFCE500417AF1 /* NETSBaseView.m */,
+				39BDF0FF2636B30F00FFB3ED /* NETSBaseTabViewCell.h */,
+				39BDF0FE2636B30F00FFB3ED /* NETSBaseTabViewCell.m */,
+				39BDF1022636B31B00FFB3ED /* NETSBaseTabViewCellProtocol.h */,
 			);
 			path = Baseview;
 			sourceTree = "<group>";
@@ -1456,6 +1610,10 @@
 				86D73DD225ABFD0500417AF1 /* NETSViewFactory.m */,
 				86D73DD125ABFD0500417AF1 /* NETSDeviceSIzeInfo.h */,
 				86D73DD325ABFD0500417AF1 /* NETSDeviceSIzeInfo.m */,
+				39506C272653AFA8001ADCCE /* NETSAlertPrompt.h */,
+				39506C282653AFA8001ADCCE /* NETSAlertPrompt.m */,
+				39506C412653E8FD001ADCCE /* NETSUniversalTool.h */,
+				39506C422653E8FD001ADCCE /* NETSUniversalTool.m */,
 			);
 			path = NETSCustomTool;
 			sourceTree = "<group>";
@@ -1493,7 +1651,7 @@
 		C758CCD624EB7F5A003C406A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C758CCD524EB7F5A003C406A /* 网易云信NERtc.app */,
+				C758CCD524EB7F5A003C406A /* 网易云信互动直播.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1621,9 +1779,9 @@
 			isa = PBXGroup;
 			children = (
 				C7664E882511AE1D005E26A2 /* NEAccountTask.h */,
+				C7664E8B2511AE1D005E26A2 /* NEAccountTask.m */,
 				C7664E892511AE1D005E26A2 /* NESendSmsCodeTask.h */,
 				C7664E8A2511AE1D005E26A2 /* NESendSmsCodeTask.m */,
-				C7664E8B2511AE1D005E26A2 /* NEAccountTask.m */,
 			);
 			path = Task;
 			sourceTree = "<group>";
@@ -1680,6 +1838,8 @@
 		C7664EA22511AE1D005E26A2 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				390350FD2660D1E300B87E6B /* NETSRtcConfig.h */,
+				390350FE2660D1E300B87E6B /* NETSRtcConfig.m */,
 				C7664EA32511AE1D005E26A2 /* NEService.h */,
 				C7664EA62511AE1D005E26A2 /* NEService.m */,
 				C7664EA52511AE1D005E26A2 /* NEServiceTask.h */,
@@ -1692,6 +1852,8 @@
 		C7664EA82511AE1D005E26A2 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				39BDF0BC2636996300FFB3ED /* NTESSegmentCtrl */,
+				39DE2F4E26304A1F00EDC2D5 /* NTESActionSheetTransitioning */,
 				393A6F4B25B1478F00C9A0A2 /* Libs */,
 				86D73DD025ABFD0500417AF1 /* NETSCustomTool */,
 				86D73DC525ABFD0500417AF1 /* NETSRequest */,
@@ -1712,6 +1874,10 @@
 		C7664EA92511AE1D005E26A2 /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				39BDF0D826369DF800FFB3ED /* NSObject+additions.h */,
+				39BDF0D926369DF800FFB3ED /* NSObject+additions.m */,
+				39BDF0C326369C3800FFB3ED /* UIView+Gradient.h */,
+				39BDF0C226369C3800FFB3ED /* UIView+Gradient.m */,
 				86D73DBE25ABFCC700417AF1 /* NSString+NTES.h */,
 				86D73DBD25ABFCC700417AF1 /* NSString+NTES.m */,
 				86D73DBA25ABFCA300417AF1 /* UIButton+NTES.h */,
@@ -1724,8 +1890,6 @@
 				C7664EAE2511AE1D005E26A2 /* UIImage+NTES.m */,
 				C7664EAF2511AE1D005E26A2 /* UIView+NTES.h */,
 				C7664EAB2511AE1D005E26A2 /* UIView+NTES.m */,
-				C7B8020E256B680400446AF7 /* NSString+NE.h */,
-				C7B8020F256B680400446AF7 /* NSString+NE.m */,
 				39796F7C25AD77CD0070301E /* UIViewController+Gesture.h */,
 				39796F7D25AD77CD0070301E /* UIViewController+Gesture.m */,
 			);
@@ -1754,6 +1918,8 @@
 				86D73DE025ABFE5A00417AF1 /* NETSFontAndColor.h */,
 				C7664EB72511AE1D005E26A2 /* NSMacro.h */,
 				C7664EB62511AE1D005E26A2 /* NSMacro.m */,
+				394E2492263179C20000F7F8 /* NTESConstantKey.h */,
+				394E2493263179C20000F7F8 /* NTESConstantKey.m */,
 			);
 			path = Macro;
 			sourceTree = "<group>";
@@ -1814,6 +1980,7 @@
 				CD7A9B1FF40F66D34F55150E /* [CP] Embed Pods Frameworks */,
 				542DDA60BBC68804F67D3515 /* [CP] Copy Pods Resources */,
 				865FD39825BA6FB800B28A8A /* PackageScript */,
+				FD19AEC9261BFBDA00D3A476 /* Record Hash */,
 			);
 			buildRules = (
 			);
@@ -1821,7 +1988,7 @@
 			);
 			name = NLiteAVDemo;
 			productName = NLiteAVDemo;
-			productReference = C758CCD524EB7F5A003C406A /* 网易云信NERtc.app */;
+			productReference = C758CCD524EB7F5A003C406A /* 网易云信互动直播.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1954,6 +2121,24 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NLiteAVDemo/Pods-NLiteAVDemo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		FD19AEC9261BFBDA00D3A476 /* Record Hash */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Record Hash";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\ncurrent_git_branch_latest_short_id=`git rev-parse --short HEAD`\n\n/usr/libexec/PlistBuddy -c 'Delete :kGitHashCode' ./NLiteAVDemo/Info.plist\n/usr/libexec/PlistBuddy -c 'Add :kGitHashCode string '$current_git_branch_latest_short_id ./NLiteAVDemo/Info.plist\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1969,25 +2154,32 @@
 				C7C099C2256A5E0100086B1F /* NEFeedbackVC.m in Sources */,
 				86D73D9325ABFB6000417AF1 /* NETSPkStatusBar.m in Sources */,
 				393A701625B1479000C9A0A2 /* LOTMaskContainer.m in Sources */,
+				39506C3F2653BB18001ADCCE /* NETSConnectMicService.m in Sources */,
 				86D73DDF25ABFD0500417AF1 /* NETSSinglePlayer.m in Sources */,
 				393A6FFA25B1479000C9A0A2 /* LOTAsset.m in Sources */,
 				86D73D9025ABFB6000417AF1 /* NETSSettingSegmented.m in Sources */,
 				86D73D7E25ABFB6000417AF1 /* NETSLiveApi.m in Sources */,
+				39BDF1082636D9DA00FFB3ED /* NETSRequestConnectMicCell.m in Sources */,
 				86D73DC425ABFCE500417AF1 /* NETSBaseView.m in Sources */,
 				C7C099C6256A60B700086B1F /* NEFeedbackInputCell.m in Sources */,
 				393A700A25B1479000C9A0A2 /* LOTBlockCallback.m in Sources */,
 				393A6FFD25B1479000C9A0A2 /* LOTShapeCircle.m in Sources */,
+				39506C432653E8FD001ADCCE /* NETSUniversalTool.m in Sources */,
 				86D73D9F25ABFB6000417AF1 /* NETSAudienceSendGiftSheet.m in Sources */,
 				86D73D7A25ABFB6000417AF1 /* NETSLiveChatView.m in Sources */,
 				86D73D9525ABFB6000417AF1 /* NETSInputToolBar.m in Sources */,
+				39DE2F5626304A1F00EDC2D5 /* NTESActionSheetTransitioningDelegate.m in Sources */,
 				86D73CC225ABF8FA00417AF1 /* NETSFUManger.m in Sources */,
 				393A700925B1479000C9A0A2 /* LOTValueCallback.m in Sources */,
+				39BDF0C426369C3800FFB3ED /* UIView+Gradient.m in Sources */,
 				86D73D8725ABFB6000417AF1 /* NETSMoreSettingCell.m in Sources */,
 				C7664ECC2511AE1E005E26A2 /* NESendSmsCodeTask.m in Sources */,
 				C758CCDA24EB7F5A003C406A /* AppDelegate.m in Sources */,
 				393A6FEC25B1479000C9A0A2 /* LOTStrokeRenderer.m in Sources */,
+				39179A33262D846C007F74A4 /* NETSMutiConnectView.m in Sources */,
 				86D73D8F25ABFB6000417AF1 /* NETSLiveSettingActionSheet.m in Sources */,
 				86D73D7525ABFB6000417AF1 /* NETSLiveConfig.m in Sources */,
+				394E2494263179C20000F7F8 /* NTESConstantKey.m in Sources */,
 				393A700825B1479000C9A0A2 /* LOTComposition.m in Sources */,
 				86D73D7125ABFB6000417AF1 /* NETSLiveListVC.m in Sources */,
 				C7C099D1256AAAC400086B1F /* NEFeedbackListCell.m in Sources */,
@@ -1996,8 +2188,12 @@
 				FD67243925F766D50077EB9B /* NEEvaluateVC.m in Sources */,
 				393A6FE825B1479000C9A0A2 /* LOTCircleAnimator.m in Sources */,
 				86D73D8125ABFB6000417AF1 /* NETSAnchorVC.m in Sources */,
+				39DE2F5E263120E900EDC2D5 /* NTESCollectStatusCell.m in Sources */,
+				39DE2F4C263049FB00EDC2D5 /* NTESActionSheetNavigationController.m in Sources */,
 				393A6FDA25B1479000C9A0A2 /* LOTRenderNode.m in Sources */,
 				C75E3E4825637B0F001A4296 /* NEPersonView.m in Sources */,
+				39BDF0BF2636996400FFB3ED /* NTESSegmentCtrl.m in Sources */,
+				39BDF0FC2636B1D700FFB3ED /* NETSInviteMicCell.m in Sources */,
 				865FD39725B9BCFF00B28A8A /* NETSGiftAnimationView.m in Sources */,
 				86D73DAA25ABFB6000417AF1 /* NETSPkService+Invitee.m in Sources */,
 				C75E3E5F2563B9AF001A4296 /* NENicknameVC.m in Sources */,
@@ -2028,6 +2224,7 @@
 				C7C099D5256AABC100086B1F /* NEFeedbackInfo.m in Sources */,
 				86D73DA525ABFB6000417AF1 /* NETSLiveBaseErrorView.m in Sources */,
 				393A700B25B1479000C9A0A2 /* LOTAnimationView.m in Sources */,
+				3945BFD4264E68AE001DDB22 /* NETSConnectMicModel.m in Sources */,
 				C7664EDC2511AE1E005E26A2 /* NSDictionary+NTESJson.m in Sources */,
 				393A6FF325B1479000C9A0A2 /* LOTMask.m in Sources */,
 				86D73D9125ABFB6000417AF1 /* NETSBaseActionSheet.m in Sources */,
@@ -2038,9 +2235,11 @@
 				86D73D7F25ABFB6000417AF1 /* NETSLiveModel.m in Sources */,
 				393A6FF725B1479000C9A0A2 /* LOTShapeStar.m in Sources */,
 				393A6FE625B1479000C9A0A2 /* LOTPolystarAnimator.m in Sources */,
+				39DE2F43263044CB00EDC2D5 /* NETSConnectStatusViewController.m in Sources */,
 				393A6FDD25B1479000C9A0A2 /* LOTPathInterpolator.m in Sources */,
 				C7664EDB2511AE1E005E26A2 /* UIColor+NTES.m in Sources */,
 				86D73DDB25ABFD0500417AF1 /* NETSApiOptions.m in Sources */,
+				39BDF0F32636B02600FFB3ED /* NETSMicRequestViewController.m in Sources */,
 				393A6FEE25B1479000C9A0A2 /* LOTRepeaterRenderer.m in Sources */,
 				39796F7E25AD77CD0070301E /* UIViewController+Gesture.m in Sources */,
 				C7664ED12511AE1E005E26A2 /* NTELoginVC.m in Sources */,
@@ -2052,6 +2251,7 @@
 				393A6FDE25B1479000C9A0A2 /* LOTSizeInterpolator.m in Sources */,
 				393A700125B1479000C9A0A2 /* LOTShapeTransform.m in Sources */,
 				393A700E25B1479000C9A0A2 /* LOTCacheProvider.m in Sources */,
+				39BDF1002636B30F00FFB3ED /* NETSBaseTabViewCell.m in Sources */,
 				393A6FFC25B1479000C9A0A2 /* LOTShapeRectangle.m in Sources */,
 				393A701025B1479000C9A0A2 /* LOTInterpolatorCallback.m in Sources */,
 				393A700725B1479000C9A0A2 /* LOTAnimationCache.m in Sources */,
@@ -2071,36 +2271,46 @@
 				86D73D7225ABFB6000417AF1 /* NETSLiveListCell.m in Sources */,
 				393A6FE525B1479000C9A0A2 /* LOTPathAnimator.m in Sources */,
 				C7664ED72511AE1E005E26A2 /* NETask.m in Sources */,
+				390350FF2660D1E300B87E6B /* NETSRtcConfig.m in Sources */,
 				86D73D8825ABFB6000417AF1 /* NETSAudioMixingItem.m in Sources */,
 				C75E3E652563CD1E001A4296 /* NEBaseWebViewController.m in Sources */,
 				86D73DE725AC014400417AF1 /* NEMenuHeader.m in Sources */,
+				3916F57E265643F50046695A /* NETSAudienceChatroomMessageHandle.m in Sources */,
 				C75E3E512563A0A3001A4296 /* NEPersonTableViewCell.m in Sources */,
 				393A700F25B1479000C9A0A2 /* LOTAnimatedControl.m in Sources */,
 				86D73DA625ABFB6000417AF1 /* NETSPullStreamErrorView.m in Sources */,
 				86D73DBC25ABFCA300417AF1 /* UIButton+NTES.m in Sources */,
+				39DE2F5F263120E900EDC2D5 /* NTESCollectStatusItem.m in Sources */,
 				86D73DDA25ABFD0500417AF1 /* SKVObject.m in Sources */,
 				393A701525B1479000C9A0A2 /* LOTCompositionContainer.m in Sources */,
+				394E249926317E3F0000F7F8 /* NETSRequestManageMainController.m in Sources */,
 				393A6FF825B1479000C9A0A2 /* LOTShapeTrimPath.m in Sources */,
 				393A6FF525B1479000C9A0A2 /* LOTAssetGroup.m in Sources */,
 				393A6FE025B1479000C9A0A2 /* LOTValueInterpolator.m in Sources */,
 				C7664ECE2511AE1E005E26A2 /* NEAccountTask.m in Sources */,
 				C7664ED02511AE1E005E26A2 /* NELoginOptions.m in Sources */,
-				C7B80210256B680400446AF7 /* NSString+NE.m in Sources */,
 				C7664ED82511AE1E005E26A2 /* NEService.m in Sources */,
+				39506C292653AFA8001ADCCE /* NETSAlertPrompt.m in Sources */,
 				C7664EDE2511AE1E005E26A2 /* NSMacro.m in Sources */,
+				39DE2F472630463C00EDC2D5 /* NTESActionSheetNavBar.m in Sources */,
 				86D73DB525ABFC4B00417AF1 /* TopmostView.m in Sources */,
 				C7B80218256BB74800446AF7 /* NEFeedbackDemoVC.m in Sources */,
 				C7664ED42511AE1E005E26A2 /* NEMenuCell.m in Sources */,
 				86D73D8425ABFB6000417AF1 /* NETSBeautySettingActionSheet.m in Sources */,
 				86D73DDD25ABFD0500417AF1 /* NETSViewFactory.m in Sources */,
 				393A6FEF25B1479000C9A0A2 /* UIBezierPath.m in Sources */,
+				39BDF0F72636B04C00FFB3ED /* NETSMicManageViewController.m in Sources */,
 				C7664EE02511AE1E005E26A2 /* NEAccount.m in Sources */,
+				3916F57A265643B80046695A /* NETSAnchorChatroomMessageHandle.m in Sources */,
 				FD67244125F7A0250077EB9B /* NTESKeyboardToolbarView.m in Sources */,
+				39DE2F5726304A1F00EDC2D5 /* NTESActionSheetPresentationController.m in Sources */,
 				C75E3E4B25637C00001A4296 /* NEBaseTableViewController.m in Sources */,
 				86D73D8925ABFB6000417AF1 /* NETSAudioMixingActionSheet.m in Sources */,
+				39BDF10C2636D9FB00FFB3ED /* NETSConnectManageCell.m in Sources */,
 				86D73D9925ABFB6000417AF1 /* NETSAudienceNum.m in Sources */,
 				393A6FDB25B1479000C9A0A2 /* LOTTrimPathNode.m in Sources */,
 				393A6FE425B1479000C9A0A2 /* LOTAnimatorNode.m in Sources */,
+				39BDF0EF2636B00000FFB3ED /* NETSInviteMicViewController.m in Sources */,
 				86D73DA025ABFB6000417AF1 /* NETSGiftModel.m in Sources */,
 				393A6FF125B1479000C9A0A2 /* NSValue+Compat.m in Sources */,
 				86D73D8C25ABFB6000417AF1 /* NETSFilterSettingActionSheet.m in Sources */,
@@ -2119,8 +2329,10 @@
 				86D73DAB25ABFB6000417AF1 /* NETSPkService+Inviter.m in Sources */,
 				86D73DA825ABFB6000417AF1 /* NETSAudienceMask.m in Sources */,
 				393A6FFE25B1479000C9A0A2 /* LOTShapePath.m in Sources */,
+				39BDF0DA26369DF800FFB3ED /* NSObject+additions.m in Sources */,
 				393A700D25B1479000C9A0A2 /* LOTKeypath.m in Sources */,
 				C75E3E4E25637D5F001A4296 /* NEPersonVC.m in Sources */,
+				39179A37262D88AA007F74A4 /* NETSMultiConnectCollectionCell.m in Sources */,
 				C7C099CD256AA22400086B1F /* NEFeedbackListSectionView.m in Sources */,
 				393A700C25B1479000C9A0A2 /* LOTAnimationTransitionController.m in Sources */,
 				393A6FF625B1479000C9A0A2 /* LOTLayerGroup.m in Sources */,
@@ -2130,6 +2342,7 @@
 				393A6FE725B1479000C9A0A2 /* LOTPolygonAnimator.m in Sources */,
 				86D73D7C25ABFB6000417AF1 /* NETSLiveChatViewHandle.m in Sources */,
 				86D73DA325ABFB6000417AF1 /* NETSAudienceBottomBar.m in Sources */,
+				39DE2F5526304A1F00EDC2D5 /* NTESActionSheetDismissalController.m in Sources */,
 				86D73D7925ABFB6000417AF1 /* NETSMessageModel.m in Sources */,
 				86D73D7B25ABFB6000417AF1 /* NETSLiveChatCell.m in Sources */,
 				86D73D9A25ABFB6000417AF1 /* NETSInvitingBar.m in Sources */,
@@ -2222,7 +2435,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2274,7 +2487,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -2286,22 +2499,22 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9C3E631E57C6DCADE269362E /* Pods-NLiteAVDemo.debug.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = NLiteAVDemo/NLiteAVDemo.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 569GNZ5392;
 				ENABLE_BITCODE = NO;
-				"EXCLUDED_ARCHS[sdk=iphoneos*]" = "i386 x86_64";
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 arm64e armv7";
+				EXCLUDED_ARCHS = armv7;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Sources",
 				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/NLiteAVDemo/PrefixHeader.pch";
 				INFOPLIST_FILE = NLiteAVDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2310,10 +2523,10 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Sources/NELivePlayerFramework.framework",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.netease.yunxin.app.pklive;
-				PRODUCT_NAME = "网易云信NERtc";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PRODUCT_NAME = "网易云信互动直播";
+				PROVISIONING_PROFILE_SPECIFIER = "Wildcard Dev";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -2322,6 +2535,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F529C3FC806BA1848C19DF0C /* Pods-NLiteAVDemo.release.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = NLiteAVDemo/NLiteAVDemo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -2329,15 +2543,14 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 569GNZ5392;
 				ENABLE_BITCODE = NO;
-				"EXCLUDED_ARCHS[sdk=iphoneos*]" = "i386 x86_64";
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 arm64e armv7";
+				EXCLUDED_ARCHS = armv7;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Sources",
 				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/NLiteAVDemo/PrefixHeader.pch";
 				INFOPLIST_FILE = NLiteAVDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2346,9 +2559,9 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Sources/NELivePlayerFramework.framework",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.netease.yunxin.app.pklive;
-				PRODUCT_NAME = "网易云信NERtc";
+				PRODUCT_NAME = "网易云信互动直播";
 				PROVISIONING_PROFILE_SPECIFIER = "Wildcard Dev";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

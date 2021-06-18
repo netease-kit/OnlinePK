@@ -45,26 +45,22 @@ static NETSFUManger *shareManager = NULL;
     if (self = [super init]) {
         _asyncLoadQueue = dispatch_queue_create("com.faceLoadItem", DISPATCH_QUEUE_SERIAL);
         
-        if (sizeof(g_auth_package) > 0) {
-            CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
-            
-            [[FURenderer shareRenderer] setupWithData:nil dataSize:0 ardata:nil authPackage:&g_auth_package authSize:sizeof(g_auth_package) shouldCreateContext:YES];
-            
-            CFAbsoluteTime delay = (CFAbsoluteTimeGetCurrent() - startTime);
-            NETSLog(@"setup FU: ---%lf", delay);
-            
-            /* 加载AI模型 */
-            [self loadAIModle];
-            
-            /* 美颜 */
-            self.filters = [self originFilters];
-            self.seletedFliter = [self.filters firstObject];
-            self.skinParams = [self originSkinParams];
-            
-            [self loadFilter];
-            
-            [self setDefaultRotationMode:3];
-        }
+        CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+        [[FURenderer shareRenderer] setupWithData:nil dataSize:0 ardata:nil authPackage:&g_auth_package authSize:sizeof(g_auth_package) shouldCreateContext:YES];
+        CFAbsoluteTime delay = (CFAbsoluteTimeGetCurrent() - startTime);
+        YXAlogInfo(@"setup FU: ---%lf", delay);
+        
+        /* 加载AI模型 */
+        [self loadAIModle];
+        
+        /* 美颜 */
+        self.filters = [self originFilters];
+        self.seletedFliter = [self.filters firstObject];
+        self.skinParams = [self originSkinParams];
+        
+        [self loadFilter];
+        
+        [self setDefaultRotationMode:3];
     }
     return self;
 }
@@ -93,7 +89,7 @@ static NETSFUManger *shareManager = NULL;
             
             CFAbsoluteTime endTime = (CFAbsoluteTimeGetCurrent() - startTime);
 
-            NETSLog(@"加载美颜道具耗时: %f ms", endTime * 1000.0);
+            YXAlogInfo(@"加载美颜道具耗时: %f ms", endTime * 1000.0);
      
         }
     });
@@ -106,7 +102,7 @@ static NETSFUManger *shareManager = NULL;
     dispatch_async(_asyncLoadQueue, ^{
         if (self->items[type]) {
             int res = [FURenderer itemSetParam:self->items[type] withName:paramName value:@(value)];
-            NETSLog(@"设置type(%lu)----参数（%@）-----值(%lf) -----res(%d) ----tracking(%d)", (unsigned long)type, paramName, value, res, [self isTracking]);
+            YXAlogInfo(@"设置type(%lu)----参数（%@）-----值(%lf) -----res(%d) ----tracking(%d)", (unsigned long)type, paramName, value, res, [self isTracking]);
         }
     });
 }

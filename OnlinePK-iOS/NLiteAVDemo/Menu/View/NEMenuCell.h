@@ -13,14 +13,19 @@ NS_ASSUME_NONNULL_BEGIN
 typedef void(^NEMenuCellBlock)(void);
 
 @interface NEMenuCellModel : NSObject
-
+//主标题
 @property (nonatomic, copy) NSString    *title;
+//副标题
+@property (nonatomic, copy) NSString    *subtitle;
+//头像
 @property (nonatomic, copy) NSString    *icon;
+
 @property (nonatomic, copy) NEMenuCellBlock block;
 
 - (instancetype)initWithTitle:(NSString *)title
-                         icon:(NSString *)icon
-                        block:(NEMenuCellBlock)block;
+                     subtitle:(NSString *)subtitle
+                        icon:(NSString *)icon
+                       block:(NEMenuCellBlock)block;
 
 @end
 
@@ -28,8 +33,6 @@ typedef void(^NEMenuCellBlock)(void);
 
 @interface NEMenuCell : UITableViewCell
 
-@property(strong,nonatomic)UILabel *titleLabel;
-@property(strong,nonatomic)UIImageView *iconView;
 
 + (NEMenuCell *)cellWithTableView:(UITableView *)tableView
                         indexPath:(NSIndexPath *)indexPath

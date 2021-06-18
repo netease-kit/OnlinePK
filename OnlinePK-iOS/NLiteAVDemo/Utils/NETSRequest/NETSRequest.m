@@ -241,16 +241,16 @@
     [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [request setValue:[NEAccount shared].accessToken forHTTPHeaderField:@"accessToken"];
-//    NETSLog(@"accessToken:%@", [NEAccount shared].accessToken);
+//    YXAlogInfo(@"accessToken:%@", [NEAccount shared].accessToken);
     NSDictionary *paramsDic = [self _paramDict];
     NSError *error;
-//    NETSLog(@"parameterDic:\n %@", paramsDic);
+//    YXAlogInfo(@"parameterDic:\n %@", paramsDic);
     if (!paramsDic) {
         return request;
     }
     NSData *data = [NSJSONSerialization dataWithJSONObject:paramsDic options:NSJSONWritingPrettyPrinted error:&error];
     if (error) {
-//        NETSLog(@"创建POST请求参数失败: %@ \n", error);
+//        YXAlogInfo(@"创建POST请求参数失败: %@ \n", error);
         return [request copy];
     }
     [request setHTTPBody:data];
@@ -259,10 +259,10 @@
 
 - (NSURLRequest *)_getRequest
 {
-    NSDictionary *paramsDic = [self _paramDict];
-    NSString *paramStr = [self _paramsStr:paramsDic];
-    
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:paramStr]
+//    NSDictionary *paramsDic = [self _paramDict];
+//    NSString *paramStr = [self _paramsStr:paramsDic];
+    NSString *urlStr = [NSString stringWithFormat:@"%@%@", _options.host, _options.baseUrl];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:urlStr]
                                                                 cachePolicy:NSURLRequestUseProtocolCachePolicy
                                                             timeoutInterval:_options.timeoutInterval];
     [request addValue:@"" forHTTPHeaderField:@"accessToken"];
@@ -271,7 +271,7 @@
     [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [request setValue:[NEAccount shared].accessToken forHTTPHeaderField:@"accessToken"];
-    NETSLog(@"accessToken:%@", [NEAccount shared].accessToken);
+    YXAlogInfo(@"accessToken:%@", [NEAccount shared].accessToken);
     
     return [request copy];
 }

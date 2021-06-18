@@ -8,7 +8,6 @@
 
 #import "NETSLiveChatCell.h"
 #import "M80AttributedLabel.h"
-#import "UIView+NTES.h"
 #import "NETSMessageModel.h"
 
 @interface NETSLiveChatCell ()

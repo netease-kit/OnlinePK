@@ -10,7 +10,6 @@
 #import "TopmostView.h"
 #import "NETSGiftModel.h"
 #import "NETSAudienceSendGiftCell.h"
-#import "UIView+NTES.h"
 
 @interface NETSAudienceSendGiftSheet () <UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -94,7 +93,7 @@
 - (void)sendAction:(UIButton *)sender
 {
     if (!_selectedGift) {
-        NETSLog(@"请选择要发送的礼物");
+        YXAlogInfo(@"请选择要发送的礼物");
         return;
     }
     

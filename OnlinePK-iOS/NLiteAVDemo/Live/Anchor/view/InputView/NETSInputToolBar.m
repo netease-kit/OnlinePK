@@ -7,16 +7,16 @@
 //
 
 #import "NETSInputToolBar.h"
-#import "UIView+NTES.h"
 
 @interface NETSInputToolBar ()
 
 @property (nonatomic, strong, readwrite)   UITextField     *textField;
 @property (nonatomic, strong)   UILabel         *inputLab;
 @property (nonatomic, strong)   UIButton        *beautyBtn;
-@property (nonatomic, strong)   UIButton        *filterBtn;
+@property (nonatomic, strong)   UIButton        *connectRequestBtn;
 @property (nonatomic, strong)   UIButton        *musicBtn;
 @property (nonatomic, strong)   UIButton        *moreBtn;
+@property (nonatomic, strong)   UIView          *redTagView;
 
 @end
 
@@ -29,11 +29,23 @@
         [self addSubview:self.textField];
         [self addSubview:self.inputLab];
         [self addSubview:self.beautyBtn];
-        [self addSubview:self.filterBtn];
+        [self addSubview:self.connectRequestBtn];
         [self addSubview:self.musicBtn];
         [self addSubview:self.moreBtn];
+        [self addNotificationObserve];
     }
     return self;
+}
+
+
+- (void)addNotificationObserve{
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(micApplyCountDidChange:) name:NotificationName_Audience_ApplyConnectMic object:nil]; // 顶部歌曲变化通知
+}
+
+- (void)micApplyCountDidChange:(NSNotification *)notification {
+    NSDictionary *musicInfo = notification.userInfo;
+    BOOL isdisPlay  = [musicInfo[@"isDisPlay"] boolValue];
+    self.redTagView.hidden = !isdisPlay;
 }
 
 - (void)layoutSubviews
@@ -42,8 +54,8 @@
     self.textField.frame = CGRectMake(8, 0, inputWidth, self.height);
     self.inputLab.frame = CGRectMake(8, 0, inputWidth, self.height);
     self.beautyBtn.frame = CGRectMake(self.inputLab.right + 10, 0, 36, 36);
-    self.filterBtn.frame = CGRectMake(self.beautyBtn.right + 10, 0, 36, 36);
-    self.musicBtn.frame = CGRectMake(self.filterBtn.right + 10, 0, 36, 36);
+    self.connectRequestBtn.frame = CGRectMake(self.beautyBtn.right + 10, 0, 36, 36);
+    self.musicBtn.frame = CGRectMake(self.connectRequestBtn.right + 10, 0, 36, 36);
     self.moreBtn.frame = CGRectMake(self.musicBtn.right + 10, 0, 36, 36);
     self.textField.frame = self.inputLab.frame;
 }
@@ -62,8 +74,9 @@
     NETSInputToolBarAction action = NETSInputToolBarUnknown;
     if (button == self.beautyBtn) {
         action = NETSInputToolBarBeauty;
-    } else if (button == self.filterBtn) {
-        action = NETSInputToolBarFilter;
+    } else if (button == self.connectRequestBtn) {
+        //连麦申请
+        action = NETSInputToolBarConnectRequest;
     } else if (button == self.musicBtn) {
         action = NETSInputToolBarMusic;
     } else if (button == self.moreBtn) {
@@ -80,18 +93,19 @@
     }
 }
 
-- (void)resignFirstResponder
-{
+- (void)resignFirstResponder {
     [self.textField resignFirstResponder];
 }
 
+-(void)scenarioChanged:(NSString *)changeIconName {
+    [self.connectRequestBtn setImage:[UIImage imageNamed:changeIconName] forState:UIControlStateNormal];
+}
+
+#pragma mark - lazyMethod
 /// private button
 - (UIButton *)alphaCircleButton
 {
     UIButton *btn = [[UIButton alloc] init];
-    btn.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6];
-    btn.layer.cornerRadius = 18;
-    btn.layer.masksToBounds = YES;
     [btn addTarget:self action:@selector(clickButton:) forControlEvents:UIControlEventTouchUpInside];
     return btn;
 }
@@ -141,42 +155,47 @@
     return _inputLab;
 }
 
-- (UIButton *)beautyBtn
-{
+- (UIButton *)beautyBtn {
     if (!_beautyBtn) {
         _beautyBtn = [self alphaCircleButton];
-        UIImage *image = [[UIImage imageNamed:@"beauty_16_ico"] sd_tintedImageWithColor:[UIColor whiteColor]];
-        [_beautyBtn setImage:image forState:UIControlStateNormal];
+        [_beautyBtn setImage:[UIImage imageNamed:@"anchorBottom_beauty_icon"] forState:UIControlStateNormal];
     }
     return _beautyBtn;
 }
 
-- (UIButton *)filterBtn
-{
-    if (!_filterBtn) {
-        _filterBtn = [self alphaCircleButton];
-        UIImage *image = [[UIImage imageNamed:@"filter_16_ico"] sd_tintedImageWithColor:[UIColor whiteColor]];
-        [_filterBtn setImage:image forState:UIControlStateNormal];
+- (UIButton *)connectRequestBtn {
+    if (!_connectRequestBtn) {
+        _connectRequestBtn = [self alphaCircleButton];
+        [_connectRequestBtn setImage:[UIImage imageNamed:@"connectMic_able"] forState:UIControlStateNormal];
+        [_connectRequestBtn addSubview:self.redTagView];
     }
-    return _filterBtn;
+    return _connectRequestBtn;
 }
 
-- (UIButton *)moreBtn
-{
+- (UIButton *)moreBtn {
     if (!_moreBtn) {
         _moreBtn = [self alphaCircleButton];
-        [_moreBtn setImage:[UIImage imageNamed:@"more_16_ico"] forState:UIControlStateNormal];
+        [_moreBtn setImage:[UIImage imageNamed:@"anchorBottom_more_icon"] forState:UIControlStateNormal];
     }
     return _moreBtn;
 }
 
-- (UIButton *)musicBtn
-{
+- (UIButton *)musicBtn {
     if (!_musicBtn) {
         _musicBtn = [self alphaCircleButton];
-        [_musicBtn setImage:[UIImage imageNamed:@"music_ico"] forState:UIControlStateNormal];
+        [_musicBtn setImage:[UIImage imageNamed:@"anchorBottom_music_icon"] forState:UIControlStateNormal];
     }
     return _musicBtn;
+}
+
+- (UIView *)redTagView {
+    if (!_redTagView) {
+        _redTagView = [[UIView alloc]initWithFrame:CGRectMake(25, 0, 10, 10)];
+        _redTagView.backgroundColor = UIColor.redColor;
+        [_redTagView cornerAllCornersWithCornerRadius:5];
+        _redTagView.hidden = YES;
+    }
+    return _redTagView;
 }
 
 @end

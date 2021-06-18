@@ -7,7 +7,6 @@
 //
 
 #import "NETSAudienceBottomBar.h"
-#import "UIView+NTES.h"
 #import "NETSToast.h"
 
 @interface NETSAudienceBottomBar ()
@@ -16,37 +15,64 @@
 @property (nonatomic, strong)   UILabel         *textLabel;
 @property (nonatomic, strong)   UIButton        *giftBtn;
 @property (nonatomic, strong)   UIButton        *closeBtn;
+@property (nonatomic, strong)   UIButton        *requestConnectBtn;
+
 @end
 
 @implementation NETSAudienceBottomBar
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
         [self addSubview:self.textField];
         [self addSubview:self.textLabel];
         [self addSubview:self.giftBtn];
         [self addSubview:self.closeBtn];
+        [self addSubview:self.requestConnectBtn];
+        _buttonType = NETSAudienceBottomRequestTypeNormal;
     }
     return self;
 }
 
-- (void)layoutSubviews
-{
-    self.textField.frame = CGRectMake(8, 0, self.width - 16 - 36 * 2 - 10 * 2, 36);
-    self.textLabel.frame = CGRectMake(8, 0, self.width - 16 - 36 * 2 - 10 * 2, 36);
-    self.giftBtn.frame = CGRectMake(self.textLabel.right + 10, 0, 36, 36);
+- (void)layoutSubviews {
+    self.textField.frame = CGRectMake(8, 0, self.width - 16 - 36 * 3 - 10 * 2, 36);
+    self.textLabel.frame = self.textField.frame;
+    self.requestConnectBtn.frame = CGRectMake(self.textLabel.right + 10, 0, 36, 36);
+    self.giftBtn.frame = CGRectMake(self.requestConnectBtn.right + 10, 0, 36, 36);
     self.closeBtn.frame = CGRectMake(self.giftBtn.right + 10, 0, 36, 36);
 }
 
-- (void)clickButton:(UIButton *)button
-{
+#pragma mark - privite
+- (void)setButtonType:(NETSAudienceBottomRequestType)buttonType {
+    _buttonType = buttonType;
+    switch (buttonType) {
+        case NETSAudienceBottomRequestTypeNormal:{
+            [self.requestConnectBtn setImage:[UIImage imageNamed:@"connectMic_able"] forState:UIControlStateNormal];
+        }
+            break;
+        case NETSAudienceBottomRequestTypeApplying:{
+            [self.requestConnectBtn setImage:[UIImage imageNamed:@"connectMic_disable"] forState:UIControlStateNormal];
+        }
+            break;
+        case NETSAudienceBottomRequestTypeAccept:{
+            [self.requestConnectBtn setImage:[UIImage imageNamed:@"connectMic_accept"] forState:UIControlStateNormal];
+        }
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)clickButton:(UIButton *)button {
     if (button == self.giftBtn && self.delegate && [self.delegate respondsToSelector:@selector(clickGiftBtn)]) {
         [self.delegate clickGiftBtn];
     }
     if (button == self.closeBtn && self.delegate && [self.delegate respondsToSelector:@selector(clickCloseBtn)]) {
         [self.delegate clickCloseBtn];
+    }
+    if (button == self.requestConnectBtn && self.delegate && [self.delegate respondsToSelector:@selector(clickRequestConnect:)]) {
+        //申请连麦
+        [self.delegate clickRequestConnect:_buttonType];
     }
 }
 
@@ -92,8 +118,7 @@
     return _textLabel;
 }
 
-- (UIButton *)giftBtn
-{
+- (UIButton *)giftBtn {
     if (!_giftBtn) {
         _giftBtn = [[UIButton alloc] init];
         [_giftBtn setImage:[UIImage imageNamed:@"send_gift_ico"] forState:UIControlStateNormal];
@@ -102,8 +127,7 @@
     return _giftBtn;
 }
 
-- (UIButton *)closeBtn
-{
+- (UIButton *)closeBtn {
     if (!_closeBtn) {
         _closeBtn = [[UIButton alloc] init];
         [_closeBtn setImage:[UIImage imageNamed:@"cha_ico"] forState:UIControlStateNormal];
@@ -115,4 +139,12 @@
     return _closeBtn;
 }
 
+- (UIButton *)requestConnectBtn {
+    if (!_requestConnectBtn) {
+        _requestConnectBtn = [[UIButton alloc] init];
+        [_requestConnectBtn setImage:[UIImage imageNamed:@"connectMic_able"] forState:UIControlStateNormal];
+        [_requestConnectBtn addTarget:self action:@selector(clickButton:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _requestConnectBtn;
+}
 @end

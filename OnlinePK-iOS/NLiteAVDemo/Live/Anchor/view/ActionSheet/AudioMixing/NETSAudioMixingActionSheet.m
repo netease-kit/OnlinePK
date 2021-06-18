@@ -98,7 +98,7 @@ NSString * const kNetsRtcEffectStopNoti = @"kNetsRtcEffectStopNoti";
     NERtcCreateAudioMixingOption *opt = self.mixOpts[_index];
     int result = [[NERtcEngine sharedEngine] startAudioMixingWithOption:opt];
     if (result != 0) {
-        NETSLog(@"play audio mix failed ...");
+        YXAlogInfo(@"play audio mix failed ...");
     }
 }
 
@@ -133,7 +133,7 @@ NSString * const kNetsRtcEffectStopNoti = @"kNetsRtcEffectStopNoti";
     uint32_t eid = (uint32_t)_indexOfEffect;
     int result = [[NERtcEngine sharedEngine] playEffectWitdId:eid effectOption:opt];
     if (result != 0) {
-        NETSLog(@"play audio effect failed ...");
+        YXAlogInfo(@"play audio effect failed ...");
     }
 }
 

@@ -7,7 +7,6 @@
 //
 
 #import "NETSInviteeInfoView.h"
-#import "UIView+NTES.h"
 
 @interface NETSInviteeInfoView ()
 
@@ -50,7 +49,7 @@
             nickname:(NSString *)nickname
 {
     if (isEmptyString(avatar) || isEmptyString(nickname)) {
-        NETSLog(@"passthrough透传被邀请者头像或昵称为空");
+        YXAlogInfo(@"passthrough透传被邀请者头像或昵称为空");
     }
     NSURL *avatarUrl = [NSURL URLWithString:avatar];
     [self.avatar sd_setImageWithURL:avatarUrl];

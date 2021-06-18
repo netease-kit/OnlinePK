@@ -8,7 +8,6 @@
 
 #import "NETSBeautySettingActionSheet.h"
 #import "TopmostView.h"
-#import "UIView+NTES.h"
 #import "NETSBeautyParam.h"
 #import "NETSFUManger.h"
 
@@ -207,7 +206,7 @@
 
 - (void)resetSetting:(UIButton *)sender
 {
-    NETSLog(@"重置美颜参数...");
+    YXAlogInfo(@"重置美颜参数...");
     [[NETSFUManger shared] resetSkinParams];
     NSArray<NETSBeautyParam *> *params = [NETSFUManger shared].skinParams;
     [self configWithItems:params];
