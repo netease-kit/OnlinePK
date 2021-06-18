@@ -1,7 +1,12 @@
+/*
+ * Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+ * Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+ */
+
 package com.netease.biz_live.yunxin.live.chatroom.control;
 
 import com.netease.biz_live.yunxin.live.chatroom.custom.AnchorCoinChangedAttachment;
-import com.netease.biz_live.yunxin.live.chatroom.custom.PKStatusAttachment;
+import com.netease.biz_live.yunxin.live.chatroom.custom.PkStatusAttachment;
 import com.netease.biz_live.yunxin.live.chatroom.custom.PunishmentStatusAttachment;
 import com.netease.biz_live.yunxin.live.chatroom.model.AudienceInfo;
 import com.netease.biz_live.yunxin.live.chatroom.model.LiveChatRoomInfo;
@@ -67,7 +72,7 @@ public class SkeletonChatRoomNotify implements ChatRoomNotify {
     }
 
     @Override
-    public void onPKStatusChanged(PKStatusAttachment pkStatus) {
+    public void onPkStatusChanged(PkStatusAttachment pkStatus) {
 
     }
 

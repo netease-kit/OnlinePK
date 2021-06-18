@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+ * Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+ */
+
 apply plugin: 'com.android.library'
 
 android {
@@ -21,9 +26,11 @@ android {
         }
     }
 
-    defaultConfig{
-        buildConfigField "String", "APP_KEY", "set your app key."
-        buildConfigField "String", "BASE_URL", "\"https://yiyong.netease.im/\""
+    defaultConfig {
+        // app key for code
+        buildConfigField "String", "APP_KEY", "\"${rootProject.ext.AppKey}\""
+        // base server url
+        buildConfigField "String", "BASE_URL", "\"${rootProject.ext.BaseUrl}\""
     }
 
     compileOptions {

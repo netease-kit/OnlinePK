@@ -1,3 +1,8 @@
+<!--
+  ~ Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+  ~ Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+  -->
+
 <resources>
     <string name="login_btn_login">登录</string>
     <string name="load_more">上拉加载更多</string>
@@ -20,4 +25,33 @@
     <string name="other">对方</string>
     <string name="start_new_live">开启直播间</string>
     <string name="pk_live">PK直播</string>
+    <string name="biz_live_link_seats_status">连麦状态</string>
+    <string name="biz_live_beauty_text">美颜</string>
+    <string name="biz_live_filter_text">滤镜</string>
+    <string name="biz_live_hangup_text">挂断</string>
+    <string name="biz_live_camera_text">摄像头</string>
+    <string name="biz_live_microphone_text">麦克风</string>
+    <string name="biz_live_waiting_anchor_accept_link_seats">等待主播接受连麦申请…</string>
+    <string name="biz_live_cancel">取消</string>
+    <string name="biz_live_anchor_reject_link_seats_apply">主播拒绝了你的连麦申请</string>
+    <string name="biz_live_i_know">知道了</string>
+    <string name="biz_live_invite_join_seats">邀请上麦</string>
+    <string name="biz_live_anchor_invite_audience_join_seats">主播邀请你上麦</string>
+    <string name="biz_live_reject">拒绝</string>
+    <string name="biz_live_join_seats">上麦</string>
+    <string name="biz_live_audience_reject_link_seats_invited">对方拒绝了你的邀请</string>
+    <string name="biz_live_permission_error_tips">需要同意相机和麦克风权限才能正常连麦哦~</string>
+    <string name="anchor_invite_success">邀请成功</string>
+    <string name="have_accept">已接受</string>
+    <string name="have_reject">已拒绝</string>
+    <string name="hvae_leave_seat">已下麦</string>
+    <string name="biz_live_anchor_close_your_camera">主播关闭了你的摄像头</string>
+    <string name="biz_live_anchor_open_your_camera">主播打开了你的摄像头</string>
+    <string name="biz_live_anchor_close_your_microphone">主播关闭了你的麦克风</string>
+    <string name="biz_live_anchor_open_your_microphone">主播打开了你的麦克风</string>
+    <string name="biz_live_anchor_kick_audience">您已被主播踢下麦位</string>
+    <string name="biz_live_success_seat_enter">已成功上麦</string>
+    <string name="biz_live_seat_leave">断开连麦</string>
+    <string name="have_leave_seat">已踢下麦</string>
+    <string name="biz_live_network_error">网络异常</string>
 </resources>

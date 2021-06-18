@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+  ~ Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <include
+        layout="@layout/view_audience_head_layout"/>
+
+    <TextView
+        android:id="@+id/tv_invite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_14"
+        android:background="@drawable/pk_button_bg"
+        android:textColor="@color/colorWhite"
+        android:text="邀请上麦"
+        android:layout_centerVertical="true"
+        android:paddingStart="@dimen/dp_12"
+        android:paddingEnd="@dimen/dp_12"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:layout_marginEnd="@dimen/dp_20"
+        android:layout_alignParentRight="true"/>
+
+</RelativeLayout>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+  ~ Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+  -->
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.netease.lava.nertc.sdk.video.NERtcVideoView
+        android:id="@+id/rtc_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <FrameLayout
+        android:id="@+id/fl_mask"
+        android:background="#222222"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:scaleType="centerInside"
+            android:src="@drawable/icon_room_audience_close"
+            android:layout_gravity="end"
+            android:id="@+id/iv_close"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+
+        <TextView
+            android:textColor="@android:color/white"
+            android:textSize="10dp"
+            tools:text="昵称昵称昵称昵称昵称昵称昵称昵称"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:maxEms="9"
+            android:paddingRight="10dp"
+            android:id="@+id/tv_nickname"
+            android:layout_gravity="bottom"
+            android:paddingLeft="6dp"
+            android:paddingBottom="7dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/iv_microphone"
+            android:layout_gravity="end|bottom"
+            tools:src="@drawable/biz_live_microphone_open_status"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:layout_gravity="center"
+            android:id="@+id/iv_header"
+            tools:background="@android:color/holo_green_light"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+    </FrameLayout>
+</FrameLayout>

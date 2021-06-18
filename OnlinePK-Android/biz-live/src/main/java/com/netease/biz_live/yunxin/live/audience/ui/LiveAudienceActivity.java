@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+ * Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+ */
+
 package com.netease.biz_live.yunxin.live.audience.ui;
 
 import android.app.Activity;
@@ -14,9 +19,12 @@ import com.netease.biz_live.yunxin.live.audience.adapter.LiveAnchorListAdapter;
 import com.netease.biz_live.yunxin.live.audience.ui.view.AudienceContentView;
 import com.netease.biz_live.yunxin.live.audience.ui.view.ExtraTransparentView;
 import com.netease.biz_live.yunxin.live.audience.ui.view.PagerVerticalLayoutManager;
+import com.netease.biz_live.yunxin.live.audience.utils.LinkedSeatsAudienceActionManager;
 import com.netease.biz_live.yunxin.live.chatroom.control.Audience;
+import com.netease.biz_live.yunxin.live.liveroom.NERTCAudienceLiveRoom;
+import com.netease.biz_live.yunxin.live.liveroom.impl.NERTCAudienceLiveRoomImpl;
 import com.netease.biz_live.yunxin.live.model.LiveInfo;
-import com.netease.yunxin.android.lib.historian.Historian;
+import com.netease.yunxin.kit.alog.ALog;
 import com.blankj.utilcode.util.ToastUtils;
 import com.netease.yunxin.nertc.demo.basic.BaseActivity;
 import com.netease.yunxin.nertc.demo.basic.StatusBarConfig;
@@ -49,7 +57,7 @@ public class LiveAudienceActivity extends BaseActivity {
      * 观众端竖直翻页 LayoutManager
      */
     private PagerVerticalLayoutManager layoutManager;
-
+    private List<LiveInfo> infoList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,8 +66,7 @@ public class LiveAudienceActivity extends BaseActivity {
         // 使用 TextureView 添加硬件加速设置
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         setContentView(R.layout.activity_live_audience);
-        @SuppressWarnings("unchecked")
-        List<LiveInfo> infoList = (List<LiveInfo>) getIntent().getSerializableExtra(KEY_PARAM_LIVE_INFO_LIST);
+        infoList = (List<LiveInfo>) getIntent().getSerializableExtra(KEY_PARAM_LIVE_INFO_LIST);
         // 初始化内部 view 以及相关控制逻辑
         initViews(infoList);
     }
@@ -72,7 +79,7 @@ public class LiveAudienceActivity extends BaseActivity {
             @Override
             public void onPageInit(int position) {
                 // 当页面处于部分可见时即会回调
-                Historian.e("=====>", "init " + position);
+                ALog.e("=====>", "init " + position);
                 currentPosition = position;
                 View itemView = layoutManager.findViewByPosition(position);
                 if (itemView instanceof AudienceContentView) {
@@ -83,21 +90,24 @@ public class LiveAudienceActivity extends BaseActivity {
             @Override
             public void onPageSelected(int position, boolean isLimit) {
                 // 当页面完全可见时回调
-                Historian.e("=====>", "selected " + position + ", isLimit " + isLimit);
+                ALog.e("=====>", "selected " + position + ", isLimit " + isLimit);
                 if (isLimit) {
                     ToastUtils.showShort("没有更多了");
                     return;
                 }
                 View itemView = layoutManager.findViewByPosition(position);
                 if (itemView instanceof AudienceContentView) {
-                    ((AudienceContentView) itemView).select();
+                    if (infoList==null||infoList.isEmpty()){
+                        return;
+                    }
+                    ((AudienceContentView) itemView).select(infoList.get(position),false);
                 }
             }
 
             @Override
             public void onPageRelease(int position) {
                 // 页面不可见时回调
-                Historian.e("=====>", "release " + position);
+                ALog.e("=====>", "release " + position);
                 View itemView = layoutManager.findViewByPosition(position);
                 if (itemView instanceof AudienceContentView) {
                     ((AudienceContentView) itemView).release();
@@ -132,6 +142,7 @@ public class LiveAudienceActivity extends BaseActivity {
                 ((AudienceContentView) itemView).release();
                 Audience.getInstance().leaveRoom();
             }
+            LinkedSeatsAudienceActionManager.getInstance(this).destoryInstance();
         }
         super.finish();
     }

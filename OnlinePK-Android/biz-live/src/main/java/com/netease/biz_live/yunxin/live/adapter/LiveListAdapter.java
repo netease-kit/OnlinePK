@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+ * Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+ */
+
 package com.netease.biz_live.yunxin.live.adapter;
 
 import android.content.Context;
@@ -96,6 +101,10 @@ public class LiveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     .roundedCorner(liveInfo.liveCoverPic, SpUtils.dp2pix(context, 4), ((LiveItemHolder) holder).ivRoomPic);
             if (liveInfo.live == LiveStatus.PK_LIVING || liveInfo.live == LiveStatus.PK_PUNISHMENT) {
                 ((LiveItemHolder) holder).ivPkTag.setVisibility(View.VISIBLE);
+                ((LiveItemHolder) holder).ivPkTag.setImageResource(R.drawable.pk_icon);
+            } else if (liveInfo.live == LiveStatus.MULTI_MIC) {
+                ((LiveItemHolder) holder).ivPkTag.setVisibility(View.VISIBLE);
+                ((LiveItemHolder) holder).ivPkTag.setImageResource(R.drawable.icon_status_multi_micro);
             } else {
                 ((LiveItemHolder) holder).ivPkTag.setVisibility(View.GONE);
             }

@@ -1,13 +1,18 @@
+/*
+ * Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+ * Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+ */
+
 package com.netease.biz_live.yunxin.live.ui;
 
 import android.hardware.Camera;
 
 import androidx.fragment.app.FragmentActivity;
 
-import com.faceunity.FURenderer;
+import com.beautyFaceunity.FURenderer;
 import com.netease.biz_live.yunxin.live.dialog.BeautyDialog;
 import com.netease.biz_live.yunxin.live.dialog.FilterDialog;
-import com.netease.biz_live.yunxin.live.liveroom.model.NERTCLiveRoom;
+import com.netease.lava.nertc.sdk.NERtcEx;
 import com.netease.lava.nertc.sdk.video.NERtcVideoFrame;
 
 /**
@@ -16,7 +21,6 @@ import com.netease.lava.nertc.sdk.video.NERtcVideoFrame;
 public class BeautyControl {
 
     private FragmentActivity activity;
-    private NERTCLiveRoom liveRoom;
     private FURenderer mFuRender;//美颜效果
     //*******************美颜参数*******************
     private float mColorLevel = 0.3f;//美白
@@ -26,10 +30,11 @@ public class BeautyControl {
     private float mCheekThinning = 0f;//瘦脸
 
     private float mEyeEnlarging = 0.4f;//大眼
+    private BeautyDialog beautyDialog;
+    private FilterDialog filterDialog;
 
-    public BeautyControl(FragmentActivity activity, NERTCLiveRoom liveRoom) {
+    public BeautyControl(FragmentActivity activity) {
         this.activity = activity;
-        this.liveRoom = liveRoom;
     }
 
     public void initFaceUI() {
@@ -44,7 +49,7 @@ public class BeautyControl {
     }
 
     public void openBeauty() {
-        liveRoom.setVideoCallback(neRtcVideoFrame -> {
+        NERtcEx.getInstance().setVideoCallback(neRtcVideoFrame -> {
             //此处可自定义第三方的美颜实现
             neRtcVideoFrame.textureId = mFuRender.onDrawFrame(neRtcVideoFrame.data, neRtcVideoFrame.textureId,
                     neRtcVideoFrame.width, neRtcVideoFrame.height);
@@ -81,7 +86,9 @@ public class BeautyControl {
      * 展示美颜dialog
      */
     public void showBeautyDialog() {
-        BeautyDialog beautyDialog = new BeautyDialog();
+        if (beautyDialog==null){
+            beautyDialog = new BeautyDialog();
+        }
         beautyDialog.setBeautyParams(mColorLevel, mBlurLevel, mCheekThinning, mEyeEnlarging);
         beautyDialog.setValueChangeListener((type, newValue) -> {
             switch (type) {
@@ -108,7 +115,9 @@ public class BeautyControl {
     }
 
     public void showFilterDialog() {
-        FilterDialog filterDialog = new FilterDialog();
+        if (filterDialog==null){
+            filterDialog = new FilterDialog();
+        }
         filterDialog.setOnFUControlListener(mFuRender);
         filterDialog.show(activity.getSupportFragmentManager(), "filterDialog");
     }
@@ -117,6 +126,15 @@ public class BeautyControl {
         if (mFuRender != null) {
             mFuRender.onSurfaceDestroyed();
             mFuRender = null;
+        }
+    }
+
+    public void dismissAllDialog(){
+        if (beautyDialog!=null&&beautyDialog.getDialog()!=null&&beautyDialog.getDialog().isShowing()){
+            beautyDialog.dismiss();
+        }
+        if (filterDialog!=null&&filterDialog.getDialog()!=null&&filterDialog.getDialog().isShowing()){
+            filterDialog.dismiss();
         }
     }
 }

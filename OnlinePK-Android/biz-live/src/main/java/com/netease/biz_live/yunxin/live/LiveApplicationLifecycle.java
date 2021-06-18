@@ -1,10 +1,15 @@
+/*
+ * Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+ * Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+ */
+
 package com.netease.biz_live.yunxin.live;
 
 import android.app.Application;
 
 import com.netease.neliveplayer.sdk.NELivePlayer;
 import com.netease.neliveplayer.sdk.model.NESDKConfig;
-import com.netease.yunxin.android.lib.historian.Historian;
+import com.netease.yunxin.kit.alog.ALog;
 import com.netease.yunxin.android.lib.network.common.NetworkClient;
 import com.netease.yunxin.android.lib.network.common.NetworkConstant;
 import com.blankj.utilcode.util.ToastUtils;
@@ -26,7 +31,7 @@ public class LiveApplicationLifecycle extends AbsApplicationLifecycle {
     private final NELivePlayer.OnDataUploadListener dataUploadListener = new NELivePlayer.OnDataUploadListener() {
         @Override
         public boolean onDataUpload(String s, String s1) {
-            Historian.e("Player===>", "stream url is " + s + ", detail data is " + s1);
+            ALog.e("Player===>", "stream url is " + s + ", detail data is " + s1);
             return true;
         }
 
@@ -58,14 +63,14 @@ public class LiveApplicationLifecycle extends AbsApplicationLifecycle {
                                 if (success) {
                                     service.launchLogin(application.getApplicationContext());
                                 } else {
-                                    Historian.e(TAG, "logout fail code is " + code);
+                                    ALog.e(TAG, "logout fail code is " + code);
                                 }
                             }
 
                             @Override
                             public void onError(Throwable exception) {
                                 super.onError(exception);
-                                Historian.e(TAG, "logout error", exception);
+                                ALog.e(TAG, "logout error", exception);
                             }
                         });
                     } else {

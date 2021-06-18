@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+ * Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+ */
+
 package com.netease.biz_live.yunxin.live.dialog;
 
 import android.view.View;
@@ -27,7 +32,7 @@ public class AudioControlDialog extends BaseBottomDialog {
 
     private int effectVolume;//音效音量
 
-    private DialogActionsCallBack callBack;
+    private DialogActionsCallBack callback;
 
     private int musicIndex = -1;
 
@@ -71,11 +76,11 @@ public class AudioControlDialog extends BaseBottomDialog {
         }
         //======================伴音(背景音乐)控制=======================
         tvMusic1.setOnClickListener(v -> {
-            if (callBack != null) {
+            if (callback != null) {
                 if (!tvMusic1.isSelected()) {
-                    tvMusic1.setSelected(callBack.setMusicPlay(0));
+                    tvMusic1.setSelected(callback.setMusicPlay(0));
                 } else {
-                    callBack.stopMusicPlay();
+                    callback.stopMusicPlay();
                     tvMusic1.setSelected(!tvMusic1.isSelected());
                 }
             }
@@ -84,11 +89,11 @@ public class AudioControlDialog extends BaseBottomDialog {
         });
 
         tvMusic2.setOnClickListener(v -> {
-            if (callBack != null) {
+            if (callback != null) {
                 if (!tvMusic2.isSelected()) {
-                    tvMusic2.setSelected(callBack.setMusicPlay(1));
+                    tvMusic2.setSelected(callback.setMusicPlay(1));
                 } else {
-                    callBack.stopMusicPlay();
+                    callback.stopMusicPlay();
                     tvMusic2.setSelected(!tvMusic2.isSelected());
                 }
             }
@@ -98,8 +103,8 @@ public class AudioControlDialog extends BaseBottomDialog {
         sbrMusicVolume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (callBack != null) {
-                    callBack.onMusicVolumeChange(progress);
+                if (callback != null) {
+                    callback.onMusicVolumeChange(progress);
                 }
             }
 
@@ -117,12 +122,12 @@ public class AudioControlDialog extends BaseBottomDialog {
         //====================音效控制======================
         tvEffect1.setOnClickListener(v -> {
             if (!tvEffect1.isSelected()) {
-                if (callBack != null) {
-                    tvEffect1.setSelected(callBack.addEffect(0));
+                if (callback != null) {
+                    tvEffect1.setSelected(callback.addEffect(0));
                 }
             } else {
-                if (callBack != null) {
-                    tvEffect1.setSelected(!callBack.stopEffect(0));
+                if (callback != null) {
+                    tvEffect1.setSelected(!callback.stopEffect(0));
                 }
             }
             tvEffect2.setSelected(false);
@@ -130,12 +135,12 @@ public class AudioControlDialog extends BaseBottomDialog {
 
         tvEffect2.setOnClickListener(v -> {
             if (!tvEffect2.isSelected()) {
-                if (callBack != null) {
-                    tvEffect2.setSelected(callBack.addEffect(1));
+                if (callback != null) {
+                    tvEffect2.setSelected(callback.addEffect(1));
                 }
             } else {
-                if (callBack != null) {
-                    tvEffect2.setSelected(!callBack.stopEffect(1));
+                if (callback != null) {
+                    tvEffect2.setSelected(!callback.stopEffect(1));
                 }
             }
             tvEffect1.setSelected(false);
@@ -145,11 +150,11 @@ public class AudioControlDialog extends BaseBottomDialog {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
-                if (callBack != null) {
+                if (callback != null) {
                     int[] index = new int[2];
                     index[0] = tvEffect1.isSelected() ? 1 : 0;
                     index[1] = tvEffect2.isSelected() ? 1 : 0;
-                    callBack.onEffectVolumeChange(progress, index);
+                    callback.onEffectVolumeChange(progress, index);
                 }
 
             }
@@ -167,8 +172,8 @@ public class AudioControlDialog extends BaseBottomDialog {
         super.initData();
     }
 
-    public void setCallBack(DialogActionsCallBack callBack) {
-        this.callBack = callBack;
+    public void setCallBack(DialogActionsCallBack callback) {
+        this.callback = callback;
     }
 
     public void setInitData(int musicIndex, int[] effectIndex, int musicVolume, int effectVolume) {

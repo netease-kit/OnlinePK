@@ -1,3 +1,8 @@
+<!--
+  ~ Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+  ~ Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+  -->
+
 <resources>
     <string name="origin">原图</string>
     <string name="bailiang_1">白亮 1</string>

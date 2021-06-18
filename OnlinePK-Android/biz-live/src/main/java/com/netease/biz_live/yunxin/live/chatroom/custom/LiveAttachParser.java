@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+ * Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+ */
+
 package com.netease.biz_live.yunxin.live.chatroom.custom;
 
 import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
@@ -16,7 +21,7 @@ public class LiveAttachParser implements MsgAttachmentParser {
 
         switch (JsonUtils.getType(json)) {
             case CustomAttachmentType.CHAT_ROOM_PK: {
-                result = JsonUtils.toMsgAttachment(json, PKStatusAttachment.class);
+                result = JsonUtils.toMsgAttachment(json, PkStatusAttachment.class);
                 break;
             }
             case CustomAttachmentType.CHAT_ROOM_PUNISHMENT: {

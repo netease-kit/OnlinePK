@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+ * Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+ */
+
 package com.netease.yunxin.nertc.demo.list;
 
 import android.content.Context;
@@ -47,6 +52,8 @@ public class FunctionAdapter extends CommonAdapter<FunctionItem> {
         ivIcon.setImageResource(itemData.iconResId);
         TextView tvName = holder.getView(R.id.tv_function_name);
         tvName.setText(itemData.nameStr);
+        TextView tvDesc = holder.getView(R.id.tv_function_desc);
+        tvDesc.setText(itemData.descriptionStr);
         holder.itemView.setOnClickListener(v -> {
             if (itemData.action != null) {
                 itemData.action.run();

@@ -1,10 +1,16 @@
+/*
+ * Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+ * Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+ */
+
 package com.netease.biz_live.yunxin.live.audience.utils;
 
 import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.view.TextureView;
 
-import com.netease.biz_live.yunxin.live.constant.LiveParams;
+import com.blankj.utilcode.util.ScreenUtils;
+import com.netease.biz_live.yunxin.live.constant.LiveStreamParams;
 
 /**
  * Created by wangqiang04 on 1/8/21.
@@ -23,10 +29,10 @@ public final class PlayerVideoSizeUtils {
     }
 
     /**
-     * 调整播放区域以及位置，单人直播下以{@link LiveParams#SIGNAL_HOST_LIVE_HEIGHT,LiveParams#SIGNAL_HOST_LIVE_WIDTH}
+     * 调整播放区域以及位置，单人直播下以{@link LiveStreamParams#SIGNAL_HOST_LIVE_HEIGHT, LiveStreamParams#SIGNAL_HOST_LIVE_WIDTH}
      * 比例确定播放区域的大小，放缩到没有黑边；
      * <p>
-     * pk 直播下以{@link LiveParams#PK_LIVE_HEIGHT,LiveParams#PK_LIVE_WIDTH}
+     * pk 直播下以{@link LiveStreamParams#PK_LIVE_HEIGHT, LiveStreamParams#PK_LIVE_WIDTH}
      * 比例确定播放区域大小，放缩到一边填充完全为准；
      *
      * @param isPk 是否为 pk 状态
@@ -46,7 +52,7 @@ public final class PlayerVideoSizeUtils {
             if (isPk) {
                 adjustForPk(renderView, width, height, pivot);
             } else {
-                adjustForNormal(renderView, width, height);
+                adjustForNormal(renderView, ScreenUtils.getScreenWidth(), ScreenUtils.getScreenHeight());
             }
         });
     }
@@ -55,8 +61,8 @@ public final class PlayerVideoSizeUtils {
      * pk 态下页面调整
      */
     private static void adjustForPk(TextureView renderView, int viewWidth, int viewHeight, PointF pivot) {
-        float videoWidth = LiveParams.PK_LIVE_WIDTH * 2;
-        float videoHeight = LiveParams.PK_LIVE_HEIGHT;
+        float videoWidth = LiveStreamParams.PK_LIVE_WIDTH * 2;
+        float videoHeight = LiveStreamParams.PK_LIVE_HEIGHT;
 
         Matrix matrix = new Matrix();
         matrix.preTranslate((viewWidth - videoWidth) / 2f, (viewHeight - videoHeight) / 2f);
@@ -79,8 +85,8 @@ public final class PlayerVideoSizeUtils {
      */
     private static void adjustForNormal(TextureView renderView, float viewWidth, float viewHeight) {
         // 目标视频比例
-        float videoWidth = LiveParams.SIGNAL_HOST_LIVE_WIDTH;
-        float videoHeight = LiveParams.SIGNAL_HOST_LIVE_HEIGHT;
+        float videoWidth = LiveStreamParams.SIGNAL_HOST_LIVE_WIDTH;
+        float videoHeight = LiveStreamParams.SIGNAL_HOST_LIVE_HEIGHT;
 
         // 填充满 720*1280区域
         Matrix matrix = new Matrix();
@@ -88,10 +94,9 @@ public final class PlayerVideoSizeUtils {
         matrix.preTranslate((viewWidth - videoWidth) / 2f, (viewHeight - videoHeight) / 2f);
         // 缩放 view 至原视频大小
         matrix.preScale(videoWidth / viewWidth, videoHeight / viewHeight);
-        // 放缩至 720*1280
+//        // 放缩至 720*1280
         matrix.postScale(1.0f, 1.0f, viewWidth / 2f, viewHeight / 2f);
-
-        // 填充满页面整体区域
+//        // 填充满页面整体区域
         float sx = viewWidth / videoWidth;
         float sy = viewHeight / videoHeight;
         float maxScale = Math.max(sx, sy);
@@ -120,11 +125,11 @@ public final class PlayerVideoSizeUtils {
     }
 
     private static void adjustForPreparePk(TextureView renderView, int viewWidth, int viewHeight, PointF pivot) {
-        float tempWidth = LiveParams.PK_LIVE_WIDTH;
-        float tempHeight = LiveParams.PK_LIVE_HEIGHT;
+        float tempWidth = LiveStreamParams.PK_LIVE_WIDTH;
+        float tempHeight = LiveStreamParams.PK_LIVE_HEIGHT;
 
-        float videoWidth = LiveParams.SIGNAL_HOST_LIVE_WIDTH;
-        float videoHeight = LiveParams.SIGNAL_HOST_LIVE_HEIGHT;
+        float videoWidth = LiveStreamParams.SIGNAL_HOST_LIVE_WIDTH;
+        float videoHeight = LiveStreamParams.SIGNAL_HOST_LIVE_HEIGHT;
 
         float sx = tempWidth / videoWidth;
         float sy = tempHeight / videoHeight;

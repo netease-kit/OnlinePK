@@ -1,13 +1,20 @@
+/*
+ * Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+ * Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+ */
+
 package com.netease.biz_live.yunxin.live.chatroom.control;
 
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
+import androidx.annotation.NonNull;
+
 import com.netease.biz_live.yunxin.live.chatroom.ChatRoomMsgCreator;
 import com.netease.biz_live.yunxin.live.chatroom.custom.AnchorCoinChangedAttachment;
 import com.netease.biz_live.yunxin.live.chatroom.custom.LiveAttachParser;
-import com.netease.biz_live.yunxin.live.chatroom.custom.PKStatusAttachment;
+import com.netease.biz_live.yunxin.live.chatroom.custom.PkStatusAttachment;
 import com.netease.biz_live.yunxin.live.chatroom.custom.PunishmentStatusAttachment;
 import com.netease.biz_live.yunxin.live.chatroom.custom.TextWithRoleAttachment;
 import com.netease.biz_live.yunxin.live.chatroom.model.AudienceInfo;
@@ -33,7 +40,7 @@ import com.netease.nimlib.sdk.chatroom.model.EnterChatRoomResultData;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
-import com.netease.yunxin.android.lib.historian.Historian;
+import com.netease.yunxin.kit.alog.ALog;
 import com.netease.yunxin.nertc.demo.user.UserCenterService;
 import com.netease.yunxin.nertc.demo.user.UserModel;
 import com.netease.yunxin.nertc.module.base.ModuleServiceMgr;
@@ -44,8 +51,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-
-import androidx.annotation.NonNull;
 
 /**
  * Created by luc on 2020/R11/18.
@@ -143,8 +148,8 @@ final class ChatRoomControl {
         }
 
         @Override
-        public void onPKStatusChanged(PKStatusAttachment pkStatus) {
-            notifyAllRegisteredInfo(notify -> notify.onPKStatusChanged(pkStatus));
+        public void onPkStatusChanged(PkStatusAttachment pkStatus) {
+            notifyAllRegisteredInfo(notify -> notify.onPkStatusChanged(pkStatus));
         }
 
         @Override
@@ -179,27 +184,27 @@ final class ChatRoomControl {
                 MsgAttachment attachment = message.getAttachment();
                 if (attachment instanceof ChatRoomNotificationAttachment) {
                     onNotification((ChatRoomNotificationAttachment) attachment);
-                    return;
+                    continue;
                 }
                 // pk状态处理
-                if (attachment instanceof PKStatusAttachment) {
-                    onPKState((PKStatusAttachment) attachment);
-                    return;
+                if (attachment instanceof PkStatusAttachment) {
+                    onPkState((PkStatusAttachment) attachment);
+                    continue;
                 }
                 // 惩罚状态处理
                 if (attachment instanceof PunishmentStatusAttachment) {
                     onPunishmentState((PunishmentStatusAttachment) attachment);
-                    return;
+                    continue;
                 }
                 // 主播云币变化通知处理
                 if (attachment instanceof AnchorCoinChangedAttachment) {
                     onAnchorCoinChanged((AnchorCoinChangedAttachment) attachment);
-                    return;
+                    continue;
                 }
                 // 聊天室文本消息处理
                 if (attachment instanceof TextWithRoleAttachment) {
                     onTextMsg(message.getChatRoomMessageExtension().getSenderNick(), (TextWithRoleAttachment) attachment);
-                    return;
+                    continue;
                 }
             }
         }
@@ -270,7 +275,7 @@ final class ChatRoomControl {
      * @param roomInfo 聊天室房间信息
      */
     public void joinRoom(LiveChatRoomInfo roomInfo) {
-        Historian.e("====>", "joinRoom");
+        ALog.e("====>", "joinRoom");
         DELAY_HANDLER.removeMessages(MSG_TYPE_ANCHOR_LEAVE);
         // 加入新房间，信息重置
         if (this.roomInfo != null) {
@@ -390,7 +395,7 @@ final class ChatRoomControl {
      * 离开聊天室
      */
     public void leaveRoom() {
-        Historian.e("====>", "leaveRoom");
+        ALog.e("====>", "leaveRoom");
         isReleased = true;
         if (roomInfo != null) {
             chatRoomService.exitChatRoom(roomInfo.roomId);
@@ -422,8 +427,8 @@ final class ChatRoomControl {
                 ChatRoomMessageBuilder.createChatRoomCustomMessage(roomInfo.roomId, attachment), false);
 
         // pk状态处理
-        if (attachment instanceof PKStatusAttachment) {
-            onPKState((PKStatusAttachment) attachment);
+        if (attachment instanceof PkStatusAttachment) {
+            onPkState((PkStatusAttachment) attachment);
             return;
         }
         // 惩罚状态处理
@@ -535,7 +540,7 @@ final class ChatRoomControl {
      * 接收聊天室中 notification 类型消息
      */
     private void onNotification(ChatRoomNotificationAttachment notification) {
-        Historian.e("======>", "notification is " + notification + ", type is " + notification.getType());
+        ALog.e("======>", "notification is " + notification + ", type is " + notification.getType());
         switch (notification.getType()) {
             // 用户进入聊天室
             case ChatRoomMemberIn: {
@@ -618,8 +623,8 @@ final class ChatRoomControl {
     /**
      * 接收聊天室 PK 状态消息
      */
-    private void onPKState(PKStatusAttachment attachment) {
-        chatRoomNotify.onPKStatusChanged(attachment);
+    private void onPkState(PkStatusAttachment attachment) {
+        chatRoomNotify.onPkStatusChanged(attachment);
     }
 
     /**

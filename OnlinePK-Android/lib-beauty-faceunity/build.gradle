@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+ * Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+ */
+
 apply plugin: 'com.android.library'
 
 android {
@@ -21,10 +26,6 @@ android {
         }
     }
 
-    packagingOptions {
-        pickFirst 'lib/x86_64/libCNamaSDK.so'
-    }
-
 }
 
 dependencies {
@@ -33,5 +34,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    implementation 'com.faceunity:nama:7.1.0-lite'
 
 }

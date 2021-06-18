@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+ * Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+ */
+
 package com.netease.biz_live.yunxin.live.chatroom.custom;
 
 import com.google.gson.Gson;
@@ -37,12 +42,12 @@ public class AnchorCoinChangedAttachment extends BaseCustomAttachment {
      * 当前主播 pk 值
      */
     @SerializedName("PKCoinCount")
-    public long PKCoinCount;
+    public long pkCoinCount;
     /**
      * 对方主播 pk 值
      */
     @SerializedName("otherPKCoinCount")
-    public long otherPKCoinCount;
+    public long otherPkCoinCount;
     /**
      * 当前主播贡献观众榜单
      */
@@ -63,15 +68,15 @@ public class AnchorCoinChangedAttachment extends BaseCustomAttachment {
     public AnchorCoinChangedAttachment(String toAnchorId,
                                        long totalCoinCount,
                                        RewardGiftInfo info,
-                                       long PKCoinCount,
-                                       long otherPKCoinCount,
+                                       long pkCoinCount,
+                                       long otherPkCoinCount,
                                        List<AudienceInfo> rewardList,
                                        List<AudienceInfo> otherRewardList) {
         this.type = CustomAttachmentType.CHAT_ROOM_ANCHOR_COIN_CHANGED;
         this.toAnchorId = toAnchorId;
         this.totalCoinCount = totalCoinCount;
-        this.PKCoinCount = PKCoinCount;
-        this.otherPKCoinCount = otherPKCoinCount;
+        this.pkCoinCount = pkCoinCount;
+        this.otherPkCoinCount = otherPkCoinCount;
         this.rewardList = rewardList;
         this.otherRewardList = otherRewardList;
         this.giftId = info.giftId;

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+ * Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+ */
+
 package com.netease.biz_live.yunxin.live.dialog;
 
 import android.graphics.Color;
@@ -13,12 +18,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.faceunity.FilterEnum;
-import com.faceunity.OnFUControlListener;
-import com.faceunity.entity.Filter;
+import com.beautyFaceunity.FilterEnum;
+import com.beautyFaceunity.OnFUControlListener;
+import com.beautyFaceunity.entity.Filter;
+import com.blankj.utilcode.util.ToastUtils;
 import com.netease.biz_live.R;
 import com.netease.yunxin.android.lib.picture.ImageLoader;
-import com.blankj.utilcode.util.ToastUtils;
 import com.netease.yunxin.nertc.demo.utils.SpUtils;
 
 import java.util.HashMap;

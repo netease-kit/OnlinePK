@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+  ~ Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/dp_12"
+        android:paddingTop="@dimen/dp_12"
+        android:paddingStart="@dimen/dp_20"
+        android:paddingEnd="@dimen/dp_20">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dump"
+            android:textColor="#FF0F0C0A"
+            android:textSize="@dimen/text_size_16"
+            android:layout_centerInParent="true" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#30000000" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_10"
+        android:textColor="@color/biz_live_color_333333"
+        android:textSize="@dimen/text_size_12"
+        android:text="dump结束后请到/sdcard/Android/data/com.netease.yunxin.app.pklive/files/dump目录查看dump文件" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:paddingBottom="@dimen/dp_12"
+        android:paddingStart="@dimen/dp_20"
+        android:paddingEnd="@dimen/dp_20"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_start_dump"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_14"
+            android:textColor="#222222"
+            android:text="开始dump"
+            android:layout_marginEnd="@dimen/dp_20" />
+
+        <Button
+            android:id="@+id/btn_stop_dump"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_14"
+            android:textColor="#222222"
+            android:text="停止dump"
+            android:layout_marginStart="@dimen/dp_20" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

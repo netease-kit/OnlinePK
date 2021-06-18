@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+ * Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+ */
+
 package com.netease.biz_live.yunxin.live.ui;
 
 import android.content.Context;
@@ -5,7 +10,7 @@ import android.content.Context;
 import androidx.fragment.app.FragmentActivity;
 
 import com.netease.biz_live.yunxin.live.dialog.AudioControlDialog;
-import com.netease.biz_live.yunxin.live.liveroom.model.NERTCLiveRoom;
+import com.netease.biz_live.yunxin.live.liveroom.NERTCAnchorLiveRoom;
 import com.netease.lava.nertc.sdk.audio.NERtcCreateAudioEffectOption;
 import com.netease.lava.nertc.sdk.audio.NERtcCreateAudioMixingOption;
 
@@ -21,7 +26,7 @@ import java.io.InputStream;
 public class AudioControl {
 
     private FragmentActivity activity;
-    private NERTCLiveRoom liveRoom;
+    private NERTCAnchorLiveRoom liveRoom;
 
     //*************************伴音**********************
     private static String MUSIC_DIR = "music";
@@ -45,7 +50,7 @@ public class AudioControl {
         this.activity = activity;
     }
 
-    public void setLiveRoom(NERTCLiveRoom liveRoom) {
+    public void setLiveRoom(NERTCAnchorLiveRoom liveRoom) {
         this.liveRoom = liveRoom;
     }
 

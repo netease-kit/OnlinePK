@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+ * Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+ */
+
 package com.netease.biz_live.yunxin.live.dialog;
 
 import android.app.Activity;
@@ -9,7 +14,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.netease.biz_live.R;
-import com.netease.yunxin.android.lib.historian.Historian;
+import com.netease.yunxin.kit.alog.ALog;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
@@ -114,7 +119,7 @@ public class ChoiceDialog extends Dialog {
         try {
             super.show();
         } catch (WindowManager.BadTokenException e) {
-            Historian.e("ChoiceDialog", "error message is :" + e.getMessage());
+            ALog.e("ChoiceDialog", "error message is :" + e.getMessage());
         }
     }
 }

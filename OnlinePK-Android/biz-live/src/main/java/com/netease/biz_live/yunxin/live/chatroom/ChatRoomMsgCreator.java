@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+ * Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+ */
+
 package com.netease.biz_live.yunxin.live.chatroom;
 
 import android.content.Context;
@@ -42,6 +47,30 @@ public class ChatRoomMsgCreator {
                 .append(userNickName, HIGH_COLOR)
                 .append(" ")
                 .append("离开直播间", HIGH_COLOR)
+                .build()
+                .getMessageInfo();
+    }
+
+    /**
+     * 上麦
+     */
+    public static CharSequence createSeatEnter(String userNickName) {
+        return new ChatMessageSpannableStr.Builder()
+                .append(userNickName, HIGH_COLOR)
+                .append(" ")
+                .append("已成功上麦", HIGH_COLOR)
+                .build()
+                .getMessageInfo();
+    }
+
+    /**
+     * 下麦
+     */
+    public static CharSequence createSeatExit(String userNickName) {
+        return new ChatMessageSpannableStr.Builder()
+                .append(userNickName, HIGH_COLOR)
+                .append(" ")
+                .append("已下麦", HIGH_COLOR)
                 .build()
                 .getMessageInfo();
     }

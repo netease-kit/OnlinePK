@@ -1,0 +1,21 @@
+def getGitCommit() {
+    def gitDir = new File(rootDir,'.git')
+    if (!gitDir.isDirectory()) {
+        return 'non-git-build'
+    }
+
+    def cmd = 'git log --pretty=format:%h -1'
+    def gitCommit = cmd.execute().text.trim()
+    assert !gitCommit.isEmpty()
+    gitCommit
+}
+
+/*
+ * Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+ * Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+ */
+
+ext{
+    // 获取git commit hashcode
+    getGitCommit = this.&getGitCommit
+}

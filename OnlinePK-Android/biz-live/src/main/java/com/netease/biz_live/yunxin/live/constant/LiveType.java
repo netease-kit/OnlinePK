@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+ * Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+ */
+
 package com.netease.biz_live.yunxin.live.constant;
 
 /**
@@ -14,4 +19,9 @@ public @interface LiveType {
      * pk 直播
      */
     int PK_LIVING = 3;
+
+    /**
+     * 忽略类型，如观众端使用
+     */
+    int TYPE_IGNORE = 0;
 }

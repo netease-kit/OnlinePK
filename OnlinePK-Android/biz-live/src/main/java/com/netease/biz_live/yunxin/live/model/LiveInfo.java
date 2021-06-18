@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+ * Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+ */
+
 package com.netease.biz_live.yunxin.live.model;
 
 
@@ -25,4 +30,29 @@ public class LiveInfo implements Serializable {
     public String avatar;//主播头像
     public String avRoomCheckSum;//token，加入音视频房间用的鉴权
     public String roomUid;// 直播房间主播id
+    public String avRoomCid;//	String	音视频的房间号
+
+    @Override
+    public String toString() {
+        return "LiveInfo{" +
+                "roomTopic='" + roomTopic + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", audienceCount=" + audienceCount +
+                ", liveCoverPic='" + liveCoverPic + '\'' +
+                ", liveCid='" + liveCid + '\'' +
+                ", avRoomCName='" + avRoomCName + '\'' +
+                ", imAccid='" + imAccid + '\'' +
+                ", avRoomUid=" + avRoomUid +
+                ", status=" + status +
+                ", live=" + live +
+                ", chatRoomId='" + chatRoomId + '\'' +
+                ", liveConfig=" + liveConfig +
+                ", chatRoomCreator='" + chatRoomCreator + '\'' +
+                ", accountId='" + accountId + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", avRoomCheckSum='" + avRoomCheckSum + '\'' +
+                ", roomUid='" + roomUid + '\'' +
+                ", avRoomCid='" + avRoomCid + '\'' +
+                '}';
+    }
 }

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+ * Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+ */
+
 package com.netease.yunxin.nertc.demo;
 
 import android.os.Bundle;
@@ -5,6 +10,7 @@ import android.os.Bundle;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
+import com.netease.yunxin.kit.alog.ALog;
 import com.netease.yunxin.nertc.demo.basic.BaseActivity;
 import com.netease.yunxin.nertc.demo.basic.StatusBarConfig;
 import com.netease.yunxin.nertc.demo.pager.MainPagerAdapter;
@@ -51,6 +57,8 @@ public class MainActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
 //        CallService.stop(this);
+        ALog.flush(true);
+        ALog.release();
     }
 
     @Override

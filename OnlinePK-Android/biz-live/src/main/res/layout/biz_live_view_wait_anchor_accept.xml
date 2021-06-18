@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+  ~ Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+  -->
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_marginRight="10dp"
+    android:layout_marginLeft="10dp"
+    android:background="@drawable/biz_live_bg_wait_anchor_bar"
+    android:layout_height="44dp">
+
+    <TextView
+        android:layout_centerVertical="true"
+        android:id="@+id/tv_wait"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textSize="14dp"
+        android:paddingLeft="12dp"
+        android:textColor="@android:color/white"
+        android:text="@string/biz_live_waiting_anchor_accept_link_seats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv_cancel"
+        android:text="@string/biz_live_cancel"
+        android:textColor="@android:color/white"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/biz_live_bg_wait_anchor_bar_cancel"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:textSize="14dp"
+        android:layout_width="52dp"
+        android:layout_height="28dp" />
+</RelativeLayout>

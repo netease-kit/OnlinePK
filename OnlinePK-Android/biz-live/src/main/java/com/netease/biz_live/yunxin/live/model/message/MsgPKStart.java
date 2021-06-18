@@ -1,11 +1,16 @@
+/*
+ * Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+ * Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+ */
+
 package com.netease.biz_live.yunxin.live.model.message;
 
 /**
  * PK 开始的消息体
  */
-public class MsgPKStart extends NotificationMessage<MsgPKStart.StartPKBody> {
+public class MsgPkStart extends NotificationMessage<MsgPkStart.StartPkBody> {
 
-    public static class StartPKBody {
+    public static class StartPkBody {
         public String operUser;//: 11111,
         public String fromUser;//: 1111,
         public String fromUserAvRoomUid;//: 1111,

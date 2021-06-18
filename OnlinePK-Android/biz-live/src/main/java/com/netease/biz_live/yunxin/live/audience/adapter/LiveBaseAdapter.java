@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+ * Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+ */
+
 package com.netease.biz_live.yunxin.live.audience.adapter;
 
 import android.content.Context;
@@ -13,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public abstract class LiveBaseAdapter<T> extends RecyclerView.Adapter<LiveBaseAdapter.LiveViewHolder> {
+
     protected final List<T> dataSource = new ArrayList<>();
     protected final Context context;
 
@@ -25,6 +31,9 @@ public abstract class LiveBaseAdapter<T> extends RecyclerView.Adapter<LiveBaseAd
         if (dataSource != null) {
             this.dataSource.addAll(dataSource);
         }
+    }
+    public List<T> getDataSource() {
+        return dataSource;
     }
 
     @NonNull

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+  ~ Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+  -->
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/fl_root"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.netease.lava.nertc.sdk.video.NERtcVideoView
+        android:id="@+id/videoView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.netease.biz_live.yunxin.live.ui.widget.AnchorPreview
+        android:id="@+id/preview_anchor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        tools:visibility="gone"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cly_anchor_info"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/include_room_top"
+            layout="@layout/view_include_room_top"
+            android:layout_width="match_parent"
+            android:layout_height="44dp" />
+
+        <FrameLayout
+            android:id="@+id/fl_msg_group"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="87dp"
+            android:layout_marginBottom="14dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/tv_room_msg_input"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.netease.biz_live.yunxin.live.ui.widget.ChatRoomMsgRecyclerView
+                android:id="@+id/crv_msg_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:overScrollMode="never" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tv_room_msg_input"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="14dp"
+            android:background="@drawable/shape_chat_room_input_bg"
+            android:gravity="center_vertical"
+            android:paddingStart="13dp"
+            android:paddingEnd="13dp"
+            android:text="说点什么..."
+            android:maxWidth="175dp"
+            android:textColor="#ccffffff"
+            android:textSize="14dp"
+            android:drawablePadding="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/lly_control"
+            app:drawableStartCompat="@drawable/icon_chat_msg_input" />
+
+        <LinearLayout
+            android:id="@+id/lly_control"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_room_msg_input"
+            app:layout_constraintStart_toEndOf="@+id/tv_room_msg_input"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            android:layout_marginStart="@dimen/dp_10"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_beauty"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:padding="9dp"
+                android:layout_weight="1"
+                android:layout_marginRight="@dimen/dp_10"
+                android:src="@drawable/beauty_white"
+                android:background="@drawable/dark_cycle_bg" />
+
+            <RelativeLayout
+                android:id="@+id/rly_connect"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginEnd="@dimen/dp_10"
+                android:layout_weight="1">
+                <ImageView
+                    android:id="@+id/iv_connect"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true"
+                    android:background="@drawable/selector_seat_manager_icon" />
+
+                <View
+                    android:id="@+id/view_red_point"
+                    android:layout_width="6dp"
+                    android:layout_height="6dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_margin="@dimen/dp_2"
+                    android:visibility="gone"
+                    android:background="@drawable/shape_round_red_bg"/>
+            </RelativeLayout>
+
+
+            <ImageView
+                android:id="@+id/iv_music"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:padding="9dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="@dimen/dp_10"
+                android:src="@drawable/music"
+                android:background="@drawable/dark_cycle_bg" />
+
+            <ImageView
+                android:id="@+id/iv_more"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_weight="1"
+                android:padding="9dp"
+                android:layout_marginEnd="@dimen/dp_10"
+                android:src="@drawable/more"
+                android:background="@drawable/dark_cycle_bg" />
+
+        </LinearLayout>
+
+
+        <EditText
+            android:id="@+id/et_room_msg_input"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="#ff000000"
+            android:gravity="center_vertical"
+            android:hint="说点什么..."
+            android:singleLine="true"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:textColor="#ffffff"
+            android:textColorHint="#ccffffff"
+            android:textSize="14dp"
+            android:imeOptions="actionSend"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <FrameLayout
+        android:id="@+id/fly_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
+</FrameLayout>
