@@ -11,7 +11,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class NETSLiveRoomModel, NETSLiveRoomInfoModel;
+
+
+@class NETSLiveRoomModel, NETSLiveRoomInfoModel,NETSConnectMicAttachment;
 
 ///
 /// 客户端蒙层
@@ -29,6 +31,9 @@ NS_ASSUME_NONNULL_BEGIN
  直播间关闭
  */
 - (void)didLiveRoomClosed;
+
+//音视频变化通知
+- (void)didAudioAndVideoChanged:(NETSConnectMicAttachment *)msgAttachment;
 
 @end
 
@@ -49,7 +54,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 关闭直播间，调用关闭蒙版
 - (void)closeChatRoom;
-
+//关闭连麦房间相关操作
+- (void)closeConnectMicRoom;
+//设置maskview底部连麦状态按钮
+- (void)setUpBottomBarButtonType:(NETSAudienceBottomRequestType)buttonType;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -177,4 +177,16 @@
     self.layer.contentsScale = [[UIScreen mainScreen] scale];
     return self;
 }
+
+
+- (instancetype)cornerAllCornersWithCornerRadius:(CGFloat)cornerRadius {
+    
+    CAShapeLayer *shapeLayer = [CAShapeLayer layer];
+    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:UIRectCornerAllCorners cornerRadii:CGSizeMake(cornerRadius, cornerRadius)];
+    shapeLayer.path = path.CGPath;
+    self.layer.mask = shapeLayer;
+    self.layer.contentsScale = [[UIScreen mainScreen] scale];
+    return self;
+}
+
 @end

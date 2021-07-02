@@ -8,7 +8,6 @@
 
 #import "NETSAudienceNum.h"
 #import <NIMSDK/NIMChatroomMember.h>
-#import "UIView+NTES.h"
 
 @interface NETSAudienceNumCell : UICollectionViewCell
 
@@ -119,7 +118,8 @@
         [arr addObjectsFromArray:datas];
         _datas = [arr copy];
     } else {
-        _datas = datas;
+        NSArray* reversedArray = [[datas reverseObjectEnumerator] allObjects];
+        _datas = reversedArray;
     }
     
     _numLab.text = [NSString stringWithFormat:@"%ld", (long)[datas count]];

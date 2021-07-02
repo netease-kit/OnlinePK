@@ -8,7 +8,6 @@
 
 #import "NETSChoosePKSheet.h"
 #import "TopmostView.h"
-#import "UIView+NTES.h"
 #import "NETSChoosePKCell.h"
 #import "NETSLiveModel.h"
 #import "NETSLiveApi.h"

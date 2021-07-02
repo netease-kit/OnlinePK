@@ -174,7 +174,7 @@
 
 - (void)dealloc {
     //输出当前控制器销毁信息
-    NETSLog(@"releaseVc %@ %s",NSStringFromClass([self class]),__FUNCTION__);
+    YXAlogInfo(@"releaseVc %@ %s",NSStringFromClass([self class]),__FUNCTION__);
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

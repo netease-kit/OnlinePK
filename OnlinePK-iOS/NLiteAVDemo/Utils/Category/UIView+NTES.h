@@ -77,5 +77,12 @@
  *  cornerRadii : 圆角size
  */
 - (instancetype)cornerByRoundingCorners:(UIRectCorner)corners cornerRadius:(CGFloat)cornerRadius;
+
+/**
+ *  给view所有角切圆角
+ *  cornerRadii : 圆角size
+ */
+- (instancetype)cornerAllCornersWithCornerRadius:(CGFloat)cornerRadius;
+
 @end
 

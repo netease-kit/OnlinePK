@@ -14,11 +14,17 @@ NS_ASSUME_NONNULL_BEGIN
 /// 客户端底部工具条
 ///
 
+
+
 @protocol NETSAudienceBottomBarDelegate <NSObject>
 
 - (void)clickTextLabel:(UILabel *)label;
 - (void)clickGiftBtn;
 - (void)clickCloseBtn;
+
+/// //观众请求连麦按钮的点击事件(请求连麦，查看连麦状态)
+/// @param requestType 按钮状态
+- (void)clickRequestConnect:(NETSAudienceBottomRequestType)requestType;
 
 @end
 
@@ -26,7 +32,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, readonly) UITextField *textField;
 @property (nonatomic, weak) id<NETSAudienceBottomBarDelegate> delegate;
-
+//申请连麦按钮的状态
+@property(nonatomic, assign) NETSAudienceBottomRequestType buttonType;
 /// 取消第一响应
 - (void)resignFirstResponder;
 

@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <CocoaLumberjack/CocoaLumberjack.h>
 
 // base host
 #define BASE_HOST @""
@@ -39,6 +38,12 @@ void ntes_main_async_safe(dispatch_block_t block);
 #define KStatusHeight       [[UIApplication sharedApplication] statusBarFrame].size.height
 #define KNavBottom          KStatusHeight + 44
 #define KIsSmallSize        [UIScreen mainScreen].bounds.size.width <= 568 ? YES : NO
+#define IPHONE_X \
+({BOOL isPhoneX = NO;\
+if (@available(iOS 11.0, *)) {\
+isPhoneX = [[UIApplication sharedApplication] delegate].window.safeAreaInsets.bottom > 0.0;\
+}\
+(isPhoneX);})
 
 /// 颜色
 #define KThemColor          [UIColor colorWithRed:26/255.0 green:26/255.0 blue:36/255.0 alpha:1.0]
@@ -47,13 +52,14 @@ void ntes_main_async_safe(dispatch_block_t block);
 #define kIsFullScreen        (@available(iOS 11.0, *) && UIApplication.sharedApplication.keyWindow.safeAreaInsets.bottom > 0.0)
 
 /// 日志打印
-//#if DEBUG
-static const DDLogLevel ddLogLevel = DDLogLevelVerbose;
-#define NETSLog(FORMAT, ...) DDLogDebug(@"LOG >> Function:%s Line:%d Content:%@\n", __FUNCTION__, __LINE__, [NSString stringWithFormat:FORMAT, ##__VA_ARGS__]) 
-//#else
+#if DEBUG
+//static const DDLogLevel ddLogLevel = DDLogLevelVerbose;
+//#define NETSLog(FORMAT, ...) DDLogDebug(@"LOG >> Function:%s Line:%d Content:%@\n", __FUNCTION__, __LINE__, [NSString stringWithFormat:FORMAT, ##__VA_ARGS__])
+#define NETSLog(FORMAT, ...)
+#else
 //static const DDLogLevel ddLogLevel = DDLogLevelError;
-//#define NETSLog(FORMAT, ...)
-//#endif
+#define NETSLog(FORMAT, ...)
+#endif
 
 /// weakSelf strongSelf reference
 #define WEAK_SELF(weakSelf) __weak __typeof(&*self) weakSelf = self;
@@ -68,6 +74,9 @@ bool isEmptyString(NSString *string);
 
 // 格式化字符串(超过10000用万单位)
 NSString * kFormatNum(int32_t num);
+
+/// 配置日志
+void setupLogger(void);
 
 /// 默认PK直播时长150s(2:30)
 #define kPkLiveTotalTime        150

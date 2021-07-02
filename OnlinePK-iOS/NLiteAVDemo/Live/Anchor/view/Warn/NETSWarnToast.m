@@ -7,7 +7,7 @@
 //
 
 #import "NETSWarnToast.h"
-#import "UIView+NTES.h"
+
 
 @interface NETSWarnToast ()
 

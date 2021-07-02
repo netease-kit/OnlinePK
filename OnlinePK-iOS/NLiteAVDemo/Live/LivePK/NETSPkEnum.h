@@ -18,13 +18,25 @@ static NSString *kInviteeBusyRejectPk = @"busy_now";
 /// 邀请者超时,取消pk邀请自定义字段
 static NSString *kInviterTimeoutCancelPk = @"time_out_cancel";
 
+
+/**
+ 用户角色类型
+ */
+typedef NS_ENUM(NSUInteger, NETSUserMode) {
+    NETSUserModeAnchor      = 0,    // 主播
+    NETSUserModeAudience    = 1,    // 观众
+    NETSUserModeConnecter   = 2     //连麦者
+};
+
+
 /// 直播状态枚举
 typedef NS_ENUM(NSUInteger, NETSPkServiceStatus) {
-    NETSPkServiceInit       = 0,    // 初始化状态
-    NETSPkServicePrevew     = 1,    // 预览状态
-    NETSPkServiceSingleLive = 2,    // 单人直播状态
-    NETSPkServicePkInviting = 3,    // pk直播邀请中
-    NETSPkServicePkLive     = 4     // PK直播状态
+    NETSPkServiceInit               = 0,    // 初始化状态
+    NETSPkServicePrevew             = 1,    // 预览状态
+    NETSPkServiceSingleLive         = 2,    // 单人直播状态
+    NETSPkServicePkInviting         = 3,    // pk直播邀请中
+    NETSPkServicePkLive             = 4,    // PK直播状态
+    NETSPkServiceConnectMicInviting = 5     //连麦邀请中
 };
 
 /// 当前角色枚举
@@ -49,4 +61,91 @@ typedef NS_ENUM(NSUInteger, NETSPkResult) {
     NETSPkTieResult                 // 平局
 };
 
+//麦位操作的枚举
+typedef NS_ENUM(NSUInteger, NETSSeatsOperation) {
+    //管理员同意上麦
+    NETSSeatsOperationAdminAcceptJoinSeats = 1,
+    //管理员主动邀请上麦
+    NETSSeatsOperationAdminInviteJoinSeats = 2,
+    //管理员踢下麦
+    NETSSeatsOperationAdminKickSeats = 3,
+    //上麦者下麦
+    NETSSeatsOperationWheatherLeaveSeats = 4,
+    //观众申请上麦
+    NETSSeatsOperationAudienceApplyJoinSeats = 5,
+    //观众取消上麦申请
+    NETSSeatsOperationAudienceCancelApplyJoinSeats = 6,
+    //管理员拒绝观众上麦申请
+    NETSSeatsOperationAdminRejectAudienceApply = 7,
+    //观众拒绝同意上麦
+    NETSSeatsOperationAudienceRejectJoinSeats = 8,
+    //观众同意上麦
+    NETSSeatsOperationAudienceAcceptJoinSeats = 9,
+    //管理员取消屏蔽麦位
+    NETSSeatsOperationAdminReopenSeats = 10,
+    //管理员屏蔽麦位
+    NETSSeatsOperationAdminCloseSeats = 11,
+    //麦位音视频变化
+    NETSSeatsOperationAVChange = 12,
+    //观众上麦成功
+    NETSSeatsOperationAudienceJoinSeatsSuccess = 13
+};
+
+//麦位通知协议type
+typedef NS_ENUM(NSUInteger, NETSSeatsNotification) {
+    //管理员同意上麦
+    NETSSeatsNotificationAdminAcceptJoinSeats = 3001,
+    //管理员主动邀请上麦
+    NETSSeatsNotificationAdminInviteJoinSeats = 3002,
+    //管理员踢下麦
+    NETSSeatsNotificationAdminKickSeats = 3003,
+    //上麦者下麦
+    NETSSeatsNotificationWheatherLeaveSeats = 3004,
+    //观众申请上麦
+    NETSSeatsNotificationAudienceApplyJoinSeats = 3005,
+    //观众取消上麦申请
+    NETSSeatsNotificationAudienceCancelApplyJoinSeats = 3006,
+    //管理员拒绝观众上麦申请
+    NETSSeatsNotificationAdminRejectAudienceApply = 3007,
+    //观众拒绝同意上麦
+    NETSSeatsNotificationAudienceRejectJoinSeats = 3008,
+    //观众同意上麦
+    NETSSeatsNotificationAudienceAcceptJoinSeats = 3009,
+    //管理员取消屏蔽麦位
+    NETSSeatsNotificationAdminReopenSeats = 3010,
+    //管理员屏蔽麦位
+    NETSSeatsNotificationAdminCloseSeats = 3011,
+    //麦位音视频变化
+    NETSSeatsNotificationAVChange = 3012,
+    //观众上麦成功
+    NETSSeatsNotificationAudienceJoinSeatsSuccess = 3013
+};
+
+//麦位状态枚举
+typedef NS_ENUM(NSUInteger, NETSSeatsStatus) {
+    //麦位初始化（无人，可以上麦）
+    NETSSeatsStatusInitInitialize = 0,
+    //麦位正在被申请（无人）
+    NETSSeatsStatusIsApplying = 1,
+    //麦位上有人
+    NETSSeatsStatusHasSomeone = 2,
+    //麦位关闭（无人）
+    NETSSeatsStatusHasClosed = 3,
+};
+
+
+//连麦观众列表操作枚举
+typedef NS_ENUM(NSUInteger, NETSUserStatus) {
+    
+    NETSUserStatusApply = 1,//1 麦位申请
+    NETSUserStatusNormal = 2,//2 普通观众
+    NETSUserStatusAlreadyOnWheat = 3,//3：已经上麦
+};
+
+//连麦状态
+typedef NS_ENUM(NSUInteger, NETSAudienceBottomRequestType) {
+    NETSAudienceBottomRequestTypeNormal = 1,//正常状态
+    NETSAudienceBottomRequestTypeApplying = 2,//申请中
+    NETSAudienceBottomRequestTypeAccept = 3,//已同意上麦
+};
 #endif /* NETSPkEnum_h */

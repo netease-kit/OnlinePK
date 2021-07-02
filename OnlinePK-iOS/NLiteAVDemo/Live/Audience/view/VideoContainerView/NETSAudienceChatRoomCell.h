@@ -25,7 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
  关闭播放器,销毁资源
  */
 - (void)shutdownPlayer;
-
+//上下滑动时候，关闭上麦动作
+- (void)closeConnectMicRoomAction;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <NIMSDK/NIMSDK.h>
 #import "NETSLiveModel.h"
 #import "NETSGiftModel.h"
 #import "NETSLiveAttachment.h"

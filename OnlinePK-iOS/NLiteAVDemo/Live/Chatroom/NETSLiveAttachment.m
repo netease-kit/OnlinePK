@@ -7,6 +7,7 @@
 //
 
 #import "NETSLiveAttachment.h"
+#import "NETSConnectMicModel.h"
 
 @implementation NETSLivePKAttachment
 
@@ -187,8 +188,43 @@
 
 @end
 
-///
 
+
+
+@implementation NETSConnectMicAttachment
+
++ (nullable NETSConnectMicAttachment *)getAttachmentWithMessage:(NIMMessage *)message {
+    if (message.messageType != NIMMessageTypeCustom) {
+        return nil;
+    }
+    NIMCustomObject *object = message.messageObject;
+    if (![object.attachment isKindOfClass:[NETSConnectMicAttachment class]]) {
+        return nil;
+    }
+    return (NETSConnectMicAttachment *)object.attachment;
+}
+
+- (NSString *)encodeAttachment {
+    NSDictionary *dict = @{
+                            @"status"   : @(self.status),
+                            @"type"     : @(self.type),
+                            @"member"   : _member,
+                            @"fromUser" : self.fromUser
+                          };
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict  options:0  error:nil];
+    NSString *content = nil;
+    if (jsonData) {
+        content = [[NSString alloc] initWithData:jsonData
+                                        encoding:NSUTF8StringEncoding];
+    }
+    return content;
+}
+
+
+@end
+
+
+#pragma mark - NETSLiveAttachmentDecoder
 @implementation NETSLiveAttachmentDecoder
 
 // 所有的自定义消息都会走这个解码方法，如有多种自定义消息请在该方法中扩展，并自行做好类型判断和版本兼容。
@@ -204,6 +240,8 @@
         return attachment;
     }
     NSInteger type = [dict[@"type"] integerValue];
+    //判断是连麦还是其他的类型使用member字段来区分
+
     switch (type) {
         case NETSLiveAttachmentPkType:
         case NETSLiveAttachmentPunishType:
@@ -215,11 +253,15 @@
         case NETSLiveAttachmentTextType:
             attachment = [self _decodeTextWithDict:dict];
             break;
-            
+        case NETSSeatsNotificationWheatherLeaveSeats:
+        case NETSSeatsNotificationAudienceJoinSeatsSuccess:
+        case NETSSeatsNotificationAVChange:
+            attachment = [self _decodeCustomAttachment:dict];
+            break;
         default:
             break;
     }
-    
+
     return attachment;
 }
 
@@ -275,6 +317,16 @@
     attachment.isAnchor = [dict[@"isAnchor"] boolValue];
     attachment.message = dict[@"message"];
     
+    return attachment;
+}
+
+- (id<NIMCustomAttachment>)_decodeCustomAttachment:(nonnull NSDictionary *)dict {
+    NETSConnectMicAttachment *attachment = [[NETSConnectMicAttachment alloc] init];
+    attachment.type = [dict[@"type"] integerValue];
+    attachment.status = [dict[@"status"] integerValue];
+    attachment.fromUser = dict[@"fromUser"];
+    NETSConnectMicMemberModel *memberModel = [NETSConnectMicMemberModel yy_modelWithDictionary:dict[@"member"]];
+    attachment.member = memberModel;
     return attachment;
 }
 

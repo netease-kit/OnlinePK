@@ -8,7 +8,6 @@
 
 #import "NTELoginVC.h"
 #import "UIColor+NTES.h"
-#import "UIView+NTES.h"
 #import "UIImage+NTES.h"
 #import "NTFInputSmsVC.h"
 #import "NEService.h"

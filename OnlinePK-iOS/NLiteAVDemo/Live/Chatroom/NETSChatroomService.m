@@ -23,10 +23,10 @@
 
     [[NIMSDK sharedSDK].chatroomManager enterChatroom:request completion:^(NSError * _Nullable error, NIMChatroom * _Nullable chatroom, NIMChatroomMember * _Nullable me) {
         if (error) {
-            NETSLog(@"进入聊天室失败 error: %@", error);
+            YXAlogInfo(@"进入聊天室失败 error: %@", error);
             if (failed) { failed(error); }
         } else {
-            NETSLog(@"进入聊天室成功");
+            YXAlogInfo(@"进入聊天室成功");
             if (success) { success(chatroom, me); }
         }
     }];
@@ -35,14 +35,14 @@
 + (void)exitWithRoomId:(NSString *)roomId
 {
     if (isEmptyString(roomId)) {
-        NETSLog(@"尚未创建聊天室, 无需退出");
+        YXAlogInfo(@"尚未创建聊天室, 无需退出");
         return;
     }
     [[NIMSDK sharedSDK].chatroomManager exitChatroom:roomId completion:^(NSError * _Nullable error) {
         if (error) {
-            NETSLog(@"退出聊天室失败 error: %@", error);
+            YXAlogInfo(@"退出聊天室失败 error: %@", error);
         } else {
-            NETSLog(@"退出聊天室成功");
+            YXAlogInfo(@"退出聊天室成功");
         }
     }];
 }
@@ -50,7 +50,7 @@
 + (void)isOnlineWithRoomId:(NSString *)roomId completion:(void(^)(BOOL isOnline))completion
 {
     if (isEmptyString(roomId)) {
-        NETSLog(@"非法聊天室ID");
+        YXAlogInfo(@"非法聊天室ID");
         if (completion) { completion(NO); }
         return;
     }
@@ -58,7 +58,7 @@
     // 搜索聊天室信息
     [[NIMSDK sharedSDK].chatroomManager fetchChatroomInfo:roomId completion:^(NSError * _Nullable error, NIMChatroom * _Nullable chatroom) {
         if (error) {
-            NETSLog(@"获取聊天室信息失败, error: %@", error);
+            YXAlogInfo(@"获取聊天室信息失败, error: %@", error);
             if (completion) { completion(NO); }
             return;
         }
@@ -74,7 +74,7 @@
             }
             if (completion) { completion(isOnline); }
         } failedBlock:^(NSError *error) {
-            NETSLog(@"获取聊天室成员信息失败, error: %@", error);
+            YXAlogInfo(@"获取聊天室成员信息失败, error: %@", error);
             if (completion) { completion(NO); }
         }];
     }];

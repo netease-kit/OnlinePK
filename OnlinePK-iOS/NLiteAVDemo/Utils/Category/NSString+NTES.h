@@ -16,6 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable id)jsonObject;
 
+- (NSString *)ne_trimming;
+
+- (BOOL)ne_isNumber;
 @end
 
 NS_ASSUME_NONNULL_END

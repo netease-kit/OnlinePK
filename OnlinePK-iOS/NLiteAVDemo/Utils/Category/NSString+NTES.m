@@ -27,4 +27,13 @@
     return [predicate evaluateWithObject:self];
 }
 
+- (NSString *)ne_trimming {
+    return [self stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]];
+}
+
+- (BOOL)ne_isNumber {
+    NSString *string = [self ne_trimming];
+    string = [string stringByTrimmingCharactersInSet:[NSCharacterSet decimalDigitCharacterSet]];
+    return string.length > 0 ? NO : YES;
+}
 @end

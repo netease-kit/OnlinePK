@@ -7,6 +7,7 @@
 //
 
 #import "NETSLiveApi.h"
+#import "NETSConnectMicModel.h"
 
 @implementation NETSLiveApi
 
@@ -270,4 +271,81 @@
     [resuest asyncRequest];
 }
 
++ (void)requestSeatManagerWithRoomId:(NSString *)roomId
+                            userId:(NSString *)userId
+                             index:(int32_t)seatIndex
+                            action:(NETSSeatsOperation)action
+                       successBlock:(nullable NETSRequestCompletion)successBlock
+                        failedBlock:(nullable NETSRequestError)failedBlock {
+    
+    NETSApiOptions *options = [[NETSApiOptions alloc] init];
+    options.baseUrl = [NSString stringWithFormat:@"/room/%@/user/%@/seats",roomId,userId?:@""];
+    options.apiMethod = NETSRequestMethodPOST;
+    options.params = @{
+        @"index"  :  @(seatIndex),
+        @"action"  :  @(action)
+    };
+    options.modelMapping = @[
+        [NETSApiModelMapping mappingWith:@"/" mappingClass:[NSDictionary class]  isArray:NO]
+    ];
+    NETSRequest *resuest = [[NETSRequest alloc] initWithOptions:options];
+    resuest.completionBlock = successBlock;
+    resuest.errorBlock = failedBlock;
+    [resuest asyncRequest];
+}
+
+
++ (void)requestMicSeatsResultListWithRoomId:(NSString *)roomId
+                                    type:(NETSUserStatus)type
+                             successBlock:(nullable NETSRequestCompletion)successBlock
+                              failedBlock:(nullable NETSRequestError)failedBlock {
+    
+    NETSApiOptions *options = [[NETSApiOptions alloc] init];
+    options.baseUrl = [NSString stringWithFormat:@"/room/%@/seat/%@/list",roomId,@(type)];
+    options.apiMethod = NETSRequestMethodGET;
+    options.params = @{
+        
+    };
+    options.modelMapping = @[
+        [NETSApiModelMapping mappingWith:@"/data" mappingClass:[NSDictionary class]  isArray:NO],
+        [NETSApiModelMapping mappingWith:@"/data/seatList" mappingClass:[NETSConnectMicMemberModel class] isArray:YES],
+    ];
+    NETSRequest *resuest = [[NETSRequest alloc] initWithOptions:options];
+    resuest.completionBlock = successBlock;
+    resuest.errorBlock = failedBlock;
+    [resuest asyncRequest];
+}
+
+
+
++ (void)requestChangeSeatsStatusWithRoomId:(NSString *)roomId
+                                  userId:(NSString *)userId
+                                   video:(int)isOpenVideo
+                                   audio:(int)isOpenAudio
+                             successBlock:(nullable NETSRequestCompletion)successBlock
+                              failedBlock:(nullable NETSRequestError)failedBlock {
+    
+    NETSApiOptions *options = [[NETSApiOptions alloc] init];
+    options.baseUrl = [NSString stringWithFormat:@"/room/%@/user/%@/change",roomId,userId];
+    options.apiMethod = NETSRequestMethodPOST;
+    if (isOpenVideo == -1) {
+        options.params = @{
+            @"audio":@(isOpenAudio)
+        };
+    }
+    
+    if (isOpenAudio == -1) {
+        options.params = @{
+            @"video":@(isOpenVideo),
+        };
+    }
+    
+    options.modelMapping = @[
+        [NETSApiModelMapping mappingWith:@"/data" mappingClass:[NSDictionary class]  isArray:NO],
+    ];
+    NETSRequest *resuest = [[NETSRequest alloc] initWithOptions:options];
+    resuest.completionBlock = successBlock;
+    resuest.errorBlock = failedBlock;
+    [resuest asyncRequest];
+}
 @end

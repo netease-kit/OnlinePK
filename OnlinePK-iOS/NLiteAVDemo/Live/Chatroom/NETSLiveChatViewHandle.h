@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <NIMSDK/NIMSDK.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -35,6 +34,12 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 - (void)didChatroomClosedWithRoomId:(NSString *)roomId;
 
+
+///
+/// 聊天室被踢
+/// @param roomId   - 会话ID
+///
+- (void)didChatroomKickWithRoomId:(NSString *)roomId;
 /**
  聊天室收到PK消息
  @param message     - PK消息

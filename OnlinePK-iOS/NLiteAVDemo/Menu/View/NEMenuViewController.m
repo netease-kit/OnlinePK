@@ -11,7 +11,6 @@
 #import "NEMenuCell.h"
 
 #import "NEUser.h"
-#import <NIMSDK/NIMSDK.h>
 #import "AppKey.h"
 
 #import "NENavigator.h"
@@ -20,6 +19,8 @@
 #import "NEMenuHeader.h"
 #import "NETSToast.h"
 #import "NETSLiveAttachment.h"
+#import "NETSLiveAttachment.h"
+
 
 @interface NEMenuViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property(strong,nonatomic)UITableView *tableView;
@@ -49,11 +50,14 @@ static NSString *cellID = @"menuCellID";
 
 - (void)setupDatas
 {
-    NEMenuCellModel *live = [[NEMenuCellModel alloc] initWithTitle:@"PK直播" icon:@"menu_single_icon" block:^{
-        [[NENavigator shared] showLiveListVC];
+
+    NEMenuCellModel *live = [[NEMenuCellModel alloc]initWithTitle:@"PK直播" subtitle:@"从单人直播到主播间PK，观众连麦多种玩法" icon:@"home_pkLive_icon"  block:^{
+        [[NENavigator shared] showLiveListVCWithTitle:@"PK直播"];
     }];
-    
-    NSArray *sectionTwo = @[live];
+    NEMenuCellModel *connectMic = [[NEMenuCellModel alloc]initWithTitle:@"多人连麦直播"  subtitle:@"支持1V4主播和观众的视频互动" icon:@"home_connectMic_icon"  block:^{
+        [[NENavigator shared] showLiveListVCWithTitle:@"多人连麦直播"];
+    }];
+    NSArray *sectionTwo = @[live,connectMic];
     _datas = @[sectionTwo];
 }
 
@@ -128,27 +132,21 @@ static NSString *cellID = @"menuCellID";
         [[NENavigator shared] loginWithOptions:nil];
         return;
     }
-    
     if ([_datas count] > indexPath.section) {
         NSArray *array = _datas[indexPath.section];
         if ([array count] > indexPath.row) {
             NEMenuCellModel *data = array[indexPath.row];
             if (!data.block) { return; }
-            
-            if ([data.title isEqualToString:@"PK直播"]) {
                 [NETSToast showLoading];
                 [self setupIMWithLoginCompletion:^(NSError * _Nullable error) {
                     [NETSToast hideLoading];
                     if (error) {
-                        NETSLog(@"IM登录失败, error: %@", error);
+                        YXAlogInfo(@"IM登录失败, error: %@", error);
                     } else {
                         data.block();
                     }
                 }];
                 return;
-            }
-            
-            data.block();
         }
     }
 }
@@ -160,7 +158,8 @@ static NSString *cellID = @"menuCellID";
     NIMSDKOption *option = [NIMSDKOption optionWithAppKey:kAppKey];
     [[NIMSDK sharedSDK] registerWithOption:option];
     [NIMCustomObject registerCustomDecoder:[[NETSLiveAttachmentDecoder alloc] init]];
-    
+//    [NIMCustomObject registerCustomDecoder:[[NETSConnectMicAttachmentDecoder alloc] init]];
+
     if (![NIMSDK sharedSDK].loginManager.isLogined) {
         NEUser *user = [NEAccount shared].userModel;
         [[[NIMSDK sharedSDK] loginManager] login:user.imAccid token:user.imToken completion:loginCompletion];

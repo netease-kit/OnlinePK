@@ -35,7 +35,7 @@
         CGFloat tmpW = self.isAnchor ? (width - 32) : width;
         CGSize size = [label sizeThatFits:CGSizeMake(tmpW, CGFLOAT_MAX)];
         if (self.isAnchor) {
-            size = CGSizeMake(size.width + 32, size.height);
+            size = CGSizeMake(size.width + 40, size.height);
         }
         self->_size = size;
     });

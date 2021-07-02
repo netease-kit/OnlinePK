@@ -12,6 +12,7 @@
 #import "NETSMoreSettingModel.h"
 #import <NERtcSDK/NERtcSDK.h>
 #import "NENavigator.h"
+#import "NETSFilterSettingActionSheet.h"
 
 @interface NETSMoreSettingActionSheet () <UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -109,7 +110,7 @@
         case NETSMoreSettingCamera: {
             if (!statusModel) { return; }
             int res = [[NERtcEngine sharedEngine] enableLocalVideo:!statusModel.disable];
-            NETSLog(@"开关摄像头: res: %d", res);
+            YXAlogInfo(@"开关摄像头: res: %d", res);
             if (res == 0 && _delegate && [_delegate respondsToSelector:@selector(didSelectCameraEnable:)]) {
                 [_delegate didSelectCameraEnable:!statusModel.disable];
             }
@@ -118,18 +119,24 @@
         case NETSMoreSettingMicro: {
             if (!statusModel) { return; }
             int res = [[NERtcEngine sharedEngine] setRecordDeviceMute:statusModel.disable];
-            NETSLog(@"设置麦克风: %d", res);
+            YXAlogInfo(@"设置麦克风: %d", res);
         }
             break;
         case NETSMoreSettingEarback: {
             if (!statusModel) { return; }
             int res = [[NERtcEngine sharedEngine] enableEarback:!statusModel.disable volume:80];
-            NETSLog(@"设置耳返: %d", res);
+            YXAlogInfo(@"设置耳返: %d", res);
         }
             break;
         case NETSMoreSettingReverse: {
             int res = [[NERtcEngine sharedEngine] switchCamera];
-            NETSLog(@"切换前后摄像头: %d", res);
+            YXAlogInfo(@"切换前后摄像头: %d", res);
+        }
+            break;
+            
+        case  NETSMoreSettingfilter: {
+            [NETSFilterSettingActionSheet showWithMask:NO];
+            YXAlogInfo(@"设置滤镜");
         }
             break;
         case NETSMoreSettingEndLive: {

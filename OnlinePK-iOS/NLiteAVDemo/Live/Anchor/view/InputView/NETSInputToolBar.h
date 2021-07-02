@@ -21,7 +21,8 @@ typedef enum : NSUInteger {
     NETSInputToolBarBeauty,
     NETSInputToolBarFilter,
     NETSInputToolBarMusic,
-    NETSInputToolBarMore
+    NETSInputToolBarMore,
+    NETSInputToolBarConnectRequest
 } NETSInputToolBarAction;
 
 @protocol NETSInputToolBarDelegate <NSObject>
@@ -42,6 +43,8 @@ typedef enum : NSUInteger {
 /// 取消第一响应
 - (void)resignFirstResponder;
 
+//pk直播和非pk直播按钮icon的切换
+- (void)scenarioChanged:(NSString *)changeIconName;
 @end
 
 NS_ASSUME_NONNULL_END

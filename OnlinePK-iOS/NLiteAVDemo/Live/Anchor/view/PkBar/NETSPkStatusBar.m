@@ -7,10 +7,9 @@
 //
 
 #import "NETSPkStatusBar.h"
-#import "UIView+NTES.h"
 #import "NETSPkTimeLabel.h"
 #import "NETSLiveModel.h"
-#import "UIView+NTES.h"
+
 
 /**
  打赏头像
@@ -112,9 +111,9 @@
     if ([avatars count] > 3) {
         topArr = [avatars subarrayWithRange:NSMakeRange(0, 3)];
     }
-    if (!leftAlign) {
-        topArr = [[topArr reverseObjectEnumerator] allObjects];
-    }
+//    if (!leftAlign) {//这里不需要做翻转
+//        topArr = [[topArr reverseObjectEnumerator] allObjects];
+//    }
     for (NSInteger i = 0; i < [topArr count]; i++) {
         NSString *avatar = topArr[i];
         [self _installWithAvatar:avatar index:i leftAlign:leftAlign];

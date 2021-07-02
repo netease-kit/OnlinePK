@@ -26,7 +26,8 @@ typedef NS_ENUM(NSInteger, NETSAudienceStreamStatus) {
     NETSAudienceStreamDefault   = 0,    // 默认单人视频流
     NETSAudienceIMPkStart       = 1,    // 接到pk开始信令
     NETSAudienceStreamMerge     = 2,    // 合流成功
-    NETSAudienceIMPkEnd         = 3     // 接到pk结束信令
+    NETSAudienceIMPkEnd         = 3,     // 接到pk结束信令
+    NETSAudienceConnectStart    = 4      //接到pk连麦信令
 };
 
 /// pk角色枚举
@@ -52,18 +53,14 @@ typedef NS_ENUM(NSInteger, NETSLiveListType) {
 
 /// 创建直播/打赏直播间 类型
 typedef NS_ENUM(NSUInteger, NETSLiveType) {
-    NETSLiveTypeNormal  = 2,
-    NETSLiveTypePK      = 3
+    NETSLiveTypeNormal          = 2,
+    NETSLiveTypePK              = 3,
+    NETSLiveTypeConnectMic      = 6
+    
 };
 
-/**
- 用户角色类型
- */
-typedef NS_ENUM(NSUInteger, NETSUserMode) {
-    NETSUserModeAnchor      = 0,    // 主播
-    NETSUserModeAudience    = 1     // 观众
-};
 
+@class NETSConnectMicMemberModel;
 /**
  直播间配置模型
  */
@@ -88,7 +85,9 @@ typedef NS_ENUM(NSUInteger, NETSRoomLiveStatus) {
     NETSRoomPKing       = 2,    // PK直播
     NETSRoomPKEnd       = 3,    // PK直播结束
     NETSRoomLivingEnd   = 4,    // 直播结束
-    NETSRoomPunishment  = 5     // PK惩罚
+    NETSRoomPunishment  = 5,     // PK惩罚
+    NETSRoomConnectMic  = 6     // 连麦中
+
 };
 
 @interface NETSLiveRoomModel : NSObject
@@ -179,6 +178,8 @@ typedef NS_ENUM(NSUInteger, NETSRoomLiveStatus) {
 @property (nonatomic, copy)     NSString            *avRoomCid;
 @property (nonatomic, copy)     NSString            *liveCid;
 @property (nonatomic, strong)   NSArray<NETSLiveRoomModel *>    *members;
+@property (nonatomic, strong)   NSArray<NETSConnectMicMemberModel *>    *seatList;
+
 @property (nonatomic, strong)   NETSLivePkRecord    *pkRecord;
 @property (nonatomic, copy)     NSString            *pkStartTime;
 @property (nonatomic, assign)   NETSRoomLiveStatus  status;

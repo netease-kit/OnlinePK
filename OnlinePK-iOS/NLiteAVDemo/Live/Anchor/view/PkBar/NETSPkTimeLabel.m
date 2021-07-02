@@ -7,7 +7,6 @@
 //
 
 #import "NETSPkTimeLabel.h"
-#import "UIView+NTES.h"
 
 @interface NETSPkTimeLabel ()
 
@@ -46,7 +45,7 @@
 
 - (void)dealloc
 {
-    NETSLog(@"释放倒计时控件: %p...", self);
+    YXAlogInfo(@"释放倒计时控件: %p...", self);
 }
 
 - (void)setFrame:(CGRect)frame
@@ -117,7 +116,7 @@
     @try {
         dispatch_source_cancel(_timer);
     } @catch (NSException *exception) {
-        NETSLog(@"释放定时器错误: %@", exception);
+        YXAlogInfo(@"释放定时器错误: %@", exception);
     }
 }
 

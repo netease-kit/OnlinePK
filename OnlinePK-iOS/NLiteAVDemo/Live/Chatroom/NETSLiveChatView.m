@@ -7,7 +7,6 @@
 //
 
 #import "NETSLiveChatView.h"
-#import "UIView+NTES.h"
 #import "NETSMessageModel.h"
 #import "NETSLiveChatCell.h"
 

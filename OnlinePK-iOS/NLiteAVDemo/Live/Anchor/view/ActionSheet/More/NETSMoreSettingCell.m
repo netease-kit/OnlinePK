@@ -7,7 +7,6 @@
 //
 
 #import "NETSMoreSettingCell.h"
-#import "UIView+NTES.h"
 #import "NETSMoreSettingModel.h"
 #import "UIImage+NTES.h"
 

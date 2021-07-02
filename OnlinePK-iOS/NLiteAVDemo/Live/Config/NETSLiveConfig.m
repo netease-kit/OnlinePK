@@ -35,20 +35,19 @@
     _audioQuality = [self _defaultAudioQuality];
 }
 
-- (void)resetMoreSetting
-{
+- (void)resetMoreSetting {
     _moreSettings = [self _defaultMoreSettings];
 }
 
 /// 默认更多设置
-- (NSArray <NETSMoreSettingModel *> *)_defaultMoreSettings
-{
+- (NSArray <NETSMoreSettingModel *> *)_defaultMoreSettings {
     NETSMoreSettingStatusModel *camera = [[NETSMoreSettingStatusModel alloc] initWithDisplay:@"摄像头" icon:@"camera_ico" type:NETSMoreSettingCamera disableIcon:@"no_camera_ico" disable:NO];
     NETSMoreSettingStatusModel *micro = [[NETSMoreSettingStatusModel alloc] initWithDisplay:@"麦克风" icon:@"micro_ico" type:NETSMoreSettingMicro disableIcon:@"no_micro_ico" disable:NO];
     NETSMoreSettingStatusModel *earBack = [[NETSMoreSettingStatusModel alloc] initWithDisplay:@"耳返" icon:@"earback_ico" type:NETSMoreSettingEarback disableIcon:@"no_earback_ico" disable:YES];
     NETSMoreSettingModel *reverse = [[NETSMoreSettingModel alloc] initWithDisplay:@"翻转" icon:@"switch_camera_ico" type:NETSMoreSettingReverse];
+    NETSMoreSettingModel *filter = [[NETSMoreSettingModel alloc] initWithDisplay:@"滤镜" icon:@"anchor_more_filter" type:NETSMoreSettingfilter];
     NETSMoreSettingModel *end = [[NETSMoreSettingModel alloc] initWithDisplay:@"结束直播" icon:@"close_ico" type:NETSMoreSettingEndLive];
-    return @[camera, micro, earBack, reverse, end];
+    return @[camera, micro, earBack, reverse,filter, end];
 }
 
 /// 默认赠送礼物

@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "NETSPkEnum.h"
 
+#import "NETSConnectMicModel.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @class NIMSignalingCancelInviteNotifyInfo;
@@ -128,6 +128,11 @@ NS_ASSUME_NONNULL_BEGIN
  @param data    - 透传数据
  */
 - (void)receivePassThrourhLiveStartData:(NETSPassThroughHandleStartLiveData *)data;
+
+
+/// 收到观众申请上麦的消息
+/// @param data 透传数据
+- (void)receivePassThrourhApplyJoinSeatsData:(NETSConnectMicModel *)data;
 
 @end
 
