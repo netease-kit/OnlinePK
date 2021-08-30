@@ -237,8 +237,8 @@ public class FURenderer implements OnFUControlListener {
         // 获取 Nama SDK 版本信息
         Log.e(TAG, "fu sdk version " + faceunity.fuGetVersion());
         // Todo 缺少文件，注释相关代码，如果要实现美颜功能，请联系相芯获取证书
-//        int isSetup = faceunity.fuSetup(new byte[0], authpack.A());
-//        Log.d(TAG, "fuSetup. isSetup: " + (isSetup == 0 ? "no" : "yes"));
+        int isSetup = faceunity.fuSetup(new byte[0], authpack.A());
+        Log.d(TAG, "fuSetup. isSetup: " + (isSetup == 0 ? "no" : "yes"));
         // 提前加载算法数据模型，用于人脸检测
         loadAiModel(context, BUNDLE_AI_MODEL_FACE_PROCESSOR, faceunity.FUAITYPE_FACEPROCESSOR);
         // 提前加载舌头跟踪模型，如果用不到 animoji，就不用不加载。
