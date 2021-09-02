@@ -180,7 +180,6 @@ public class NERTCAudienceLiveRoomImpl extends NERTCAudienceLiveRoom {
 
         @Override
         public void onUserAudioStart(long userId) {
-            NERtcEx.getInstance().subscribeRemoteAudioStream(userId, true);
             ALog.d(LOG_TAG, "onUserAudioStart userId:" + userId);
         }
 
