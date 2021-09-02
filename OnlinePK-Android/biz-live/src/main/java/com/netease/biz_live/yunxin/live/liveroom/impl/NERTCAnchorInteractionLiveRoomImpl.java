@@ -489,7 +489,7 @@ public  class NERTCAnchorInteractionLiveRoomImpl extends NERTCAnchorBaseLiveRoom
 
             @Override
             public void onUserAudioStart(long l) {
-                NERtcEx.getInstance().subscribeRemoteAudioStream(l, true);
+
             }
 
             @Override
