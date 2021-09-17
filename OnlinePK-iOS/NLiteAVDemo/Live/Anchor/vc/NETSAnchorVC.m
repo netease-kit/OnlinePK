@@ -250,7 +250,10 @@
     // 关闭屏幕常亮
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[NIMSDK sharedSDK].chatManager removeDelegate:_chatHandle];
     [[NIMSDK sharedSDK].chatManager removeDelegate:self.anchorMessageHandle];
+    [[NIMSDK sharedSDK].chatroomManager removeDelegate:_chatHandle];
+    [[NIMSDK sharedSDK].systemNotificationManager removeDelegate:_chatHandle];
     YXAlogInfo(@"dealloc NETSAnchorVC: %p...", self);
 }
 
@@ -432,43 +435,12 @@
     NSAssert(![kAppKey isEqualToString:@"AppKey"], @"请设置AppKey");
     NERtcEngine *coreEngine = [NERtcEngine sharedEngine];
     
-    // 设置直播模式
-    [coreEngine setChannelProfile:kNERtcChannelProfileLiveBroadcasting];
-    
-    // 打开推流,回调摄像头采集数据
-    NSDictionary *params = @{
-        kNERtcKeyPublishSelfStreamEnabled: @YES,    // 打开推流
-        kNERtcKeyVideoCaptureObserverEnabled: @YES  // 将摄像头采集的数据回调给用户
-    };
-    [coreEngine setParameters:params];
-    [coreEngine setClientRole:kNERtcClientRoleBroadcaster];
-    
-    // 设置视频发送配置(帧率/分辨率)
-    NERtcVideoEncodeConfiguration *config = [NETSLiveConfig shared].videoConfig;
-    [coreEngine setLocalVideoConfig:config];
-    
-    // 设置音频质量
-    NSUInteger quality = [NETSLiveConfig shared].audioQuality;
-    [coreEngine setAudioProfile:kNERtcAudioProfileHighQuality scenario:quality];
-    [coreEngine setChannelProfile:kNERtcChannelProfileLiveBroadcasting];
-    
     NERtcEngineContext *context = [[NERtcEngineContext alloc] init];
     context.engineDelegate = self;
     context.appKey = kNertcAppkey;
-    
-    NERtcLogSetting *setting = [[NERtcLogSetting alloc] init];
-     #if DEBUG
-          setting.logLevel = kNERtcLogLevelInfo;
-     #else
-          setting.logLevel = kNERtcLogLevelWarning;
-     #endif
-     context.logSetting = setting;
     int res = [coreEngine setupEngineWithContext:context];
     YXAlogInfo(@"初始化设置 NERtcEngine, res: %d", res);
     
-    // 启用本地音/视频
-    [coreEngine enableLocalAudio:YES];
-    [coreEngine enableLocalVideo:YES];
 }
 
 - (void)clickAction:(UIButton *)sender

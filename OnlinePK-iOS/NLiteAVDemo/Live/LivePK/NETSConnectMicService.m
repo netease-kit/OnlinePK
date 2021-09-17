@@ -144,6 +144,19 @@
 
 #pragma mark - privite Method
 - (void)joinChannelWithData:(NETSConnectMicModel *)data {
+    
+    NERtcEngine *coreEngine = NERtcEngine.sharedEngine;
+    // 打开推流,回调摄像头采集数据
+    NSDictionary *params = @{
+        kNERtcKeyPublishSelfStreamEnabled: @YES,    // 打开推流
+        kNERtcKeyVideoCaptureObserverEnabled: @YES  // 将摄像头采集的数据回调给用户
+    };
+    [coreEngine setClientRole:kNERtcClientRoleBroadcaster];
+    [coreEngine setParameters:params];
+    // 启用本地音/视频
+    [coreEngine enableLocalAudio:YES];
+    [coreEngine enableLocalVideo:YES];
+    
     int result = [NERtcEngine.sharedEngine joinChannelWithToken:data.member.avRoomCheckSum channelName:data.member.avRoomCName myUid:[data.member.avRoomUid longLongValue] completion:^(NSError * _Nullable error, uint64_t channelId, uint64_t elapesd) {
         if (error) {
             YXAlogError(@"观众加入直播间失败 error:%@",error);
@@ -156,21 +169,11 @@
 
 - (void)initialRtc{
     NERtcEngine *coreEngine = [NERtcEngine sharedEngine];
-    // 打开推流,回调摄像头采集数据
-    NSDictionary *params = @{
-        kNERtcKeyPublishSelfStreamEnabled: @YES,    // 打开推流
-        kNERtcKeyVideoCaptureObserverEnabled: @YES  // 将摄像头采集的数据回调给用户
-    };
-    [coreEngine setClientRole:kNERtcClientRoleBroadcaster];
-    [coreEngine setParameters:params];
     NERtcEngineContext *context = [[NERtcEngineContext alloc] init];
     context.engineDelegate = self;
     context.appKey = kNertcAppkey;
     int res = [coreEngine setupEngineWithContext:context];
     YXAlogInfo(@"观众NERtc初始化设置 NERtcEngine, res: %d", res);
-    // 启用本地音/视频
-    [coreEngine enableLocalAudio:YES];
-    [coreEngine enableLocalVideo:YES];
 }
 
 #pragma mark - NERtcEngineDelegate
