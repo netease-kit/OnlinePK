@@ -3,8 +3,8 @@
 //  NLiteAVDemo
 //
 //  Created by Ease on 2020/11/9.
-// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+//  Copyright © 2020 Netease. All rights reserved.
+//
 
 #import "NETSLiveListVC.h"
 #import "NETSLiveListVM.h"
@@ -21,7 +21,7 @@
 @property (nonatomic, strong)   UICollectionView     *collectionView;
 @property (nonatomic, strong)   UIButton            *startPkBtn;
 @property (nonatomic, strong)   NETSEmptyListView    *emptyView;
-@property(nonatomic, strong)    NSString            *navTitle;
+@property(nonatomic, assign)    NERoomType          roomtType;
 @end
 
 @implementation NETSLiveListVC
@@ -35,13 +35,14 @@
     return self;
 }
 
-- (instancetype)initWithNavTitle:(NSString *)navTitle {
+- (instancetype)initWithNavRoomType:(NERoomType)roomType {
     if (self = [super init]) {
-        self.viewModel = [[NETSLiveListVM alloc] init];
-        _navTitle = navTitle;
+        _roomtType = roomType;
     }
     return self;
 }
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -58,9 +59,9 @@
     [self.viewModel load];
 }
 
-- (void)setupViews
-{
-    self.title = _navTitle;
+- (void)setupViews {
+
+    self.title = _roomtType == NERoomTypePkLive ? NSLocalizedString(@"PK直播", nil) : NSLocalizedString(@"多人连麦直播", nil);
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.view.backgroundColor = HEXCOLOR(0x000000);
@@ -81,9 +82,9 @@
         @strongify(self);
         [self.viewModel load];
     }];
-    [mjHeader setTitle:@"下拉更新" forState:MJRefreshStateIdle];
-    [mjHeader setTitle:@"下拉更新" forState:MJRefreshStatePulling];
-    [mjHeader setTitle:@"更新中..." forState:MJRefreshStateRefreshing];
+    [mjHeader setTitle:NSLocalizedString(@"下拉更新", nil) forState:MJRefreshStateIdle];
+    [mjHeader setTitle:NSLocalizedString(@"下拉更新", nil) forState:MJRefreshStatePulling];
+    [mjHeader setTitle:NSLocalizedString(@"更新中...", nil) forState:MJRefreshStateRefreshing];
     mjHeader.lastUpdatedTimeLabel.hidden = YES;
     [mjHeader setTintColor:[UIColor whiteColor]];
     self.collectionView.mj_header = mjHeader;
@@ -91,7 +92,7 @@
     self.collectionView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         @strongify(self);
         if (self.viewModel.isEnd) {
-            [NETSToast showToast:@"无更多内容"];
+            [NETSToast showToast:NSLocalizedString(@"无更多内容", nil)];
             [self.collectionView.mj_footer endRefreshing];
         } else {
             [self.viewModel loadMore];
@@ -113,18 +114,17 @@
     [RACObserve(self.viewModel, error) subscribeNext:^(NSError * _Nullable err) {
         if (!err) { return; }
         if (err.code == 1003) {
-            [NETSToast showToast:@"直播列表为空"];
+            [NETSToast showToast:NSLocalizedString(@"直播列表为空", nil)];
         } else {
-            NSString *msg = err.userInfo[NSLocalizedDescriptionKey] ?: @"请求直播列表错误";
+            NSString *msg = err.userInfo[NSLocalizedDescriptionKey] ?: NSLocalizedString(@"请求直播列表错误", nil);
             [NETSToast showToast:msg];
         }
     }];
 }
 
 /// 开始直播
-- (void)startLive
-{
-    [[NENavigator shared] showAnchorVC];
+- (void)startLive {
+    [[NENavigator shared] showAnchorVCWithRoomType:self.roomtType];
 }
 
 #pragma mark - UICollectionView delegate
@@ -188,6 +188,14 @@
         _emptyView = [[NETSEmptyListView alloc] initWithFrame:CGRectZero];
     }
     return _emptyView;
+}
+
+- (NETSLiveListVM *)viewModel {
+    if (!_viewModel) {
+        _viewModel = [[NETSLiveListVM alloc]init];
+        _viewModel.roomType = self.roomtType;
+    }
+    return _viewModel;
 }
 
 - (void)dealloc {

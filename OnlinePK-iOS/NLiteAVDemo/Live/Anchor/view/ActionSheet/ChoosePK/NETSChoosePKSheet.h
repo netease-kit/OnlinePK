@@ -3,15 +3,14 @@
 //  NLiteAVDemo
 //
 //  Created by Ease on 2020/11/25.
-// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+//  Copyright © 2020 Netease. All rights reserved.
+//
 
 #import "NETSBaseActionSheet.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class NETSLiveRoomModel;
-@class NETSChoosePKSheet;
+@class NELiveRoomListDetailModel,NETSChoosePKSheet;
 
 @protocol NETSChoosePKSheetDelegate <NSObject>
 
@@ -20,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param sheet    - 选择PK视图
 /// @param room     - 主播房间
 ///
-- (void)choosePkOnSheet:(NETSChoosePKSheet *)sheet withRoom:(NETSLiveRoomModel *)room;
+- (void)choosePkOnSheet:(NETSChoosePKSheet *)sheet withRoom:(NELiveRoomListDetailModel *)room;
 
 @end
 

@@ -3,11 +3,11 @@
 //  NLiteAVDemo
 //
 //  Created by Ease on 2020/12/3.
-// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+//  Copyright © 2020 Netease. All rights reserved.
+//
 
 #import "NETSLiveApi.h"
-#import "NETSConnectMicModel.h"
+
 
 @implementation NETSLiveApi
 
@@ -47,7 +47,7 @@
                             errorHandle:(nullable NETSRequestError)errorHandle
 {
     NETSApiOptions *options = [[NETSApiOptions alloc] init];
-    options.baseUrl = @"/v1/pkLive/liveRoom/getRandomRoomTopic";
+    options.baseUrl = @"/v1/room/getRandomRoomTopic";
     options.apiMethod = NETSRequestMethodPOST;
     options.params = @{@"accountId": [NEAccount shared].userModel.accountId ?: @""};
     options.modelMapping = @[
@@ -64,7 +64,7 @@
                             errorHandle:(nullable NETSRequestError)errorHandle
 {
     NETSApiOptions *options = [[NETSApiOptions alloc] init];
-    options.baseUrl = @"/v1/pkLive/liveRoom/getRandomLivePic";
+    options.baseUrl = @"/v1/room/getRandomLivePic";
     options.apiMethod = NETSRequestMethodPOST;
     options.modelMapping = @[
         [NETSApiModelMapping mappingWith:@"/data" mappingClass:[NSString class] isArray:NO]
@@ -200,24 +200,6 @@
     [resuest asyncRequest];
 }
 
-+ (void)roomInfoWithCid:(NSString *)cid
-       completionHandle:(nullable NETSRequestCompletion)completionHandle
-            errorHandle:(nullable NETSRequestError)errorHandle
-{
-    NETSApiOptions *options = [[NETSApiOptions alloc] init];
-    options.baseUrl = @"/v1/pkLive/liveRoom/info";
-    options.apiMethod = NETSRequestMethodPOST;
-    options.params = @{@"liveCid"  : cid ?: @""};
-    options.modelMapping = @[
-        [NETSApiModelMapping mappingWith:@"/data" mappingClass:[NETSLiveRoomInfoModel class] isArray:NO]
-    ];
-    
-    NETSRequest *resuest = [[NETSRequest alloc] initWithOptions:options];
-    resuest.completionBlock = completionHandle;
-    resuest.errorBlock = errorHandle;
-    
-    [resuest asyncRequest];
-}
 
 + (void)rewardLiveCid:(NSString *)liveCid
              liveType:(NETSLiveType)liveType
@@ -271,50 +253,8 @@
     [resuest asyncRequest];
 }
 
-+ (void)requestSeatManagerWithRoomId:(NSString *)roomId
-                            userId:(NSString *)userId
-                             index:(int32_t)seatIndex
-                            action:(NETSSeatsOperation)action
-                       successBlock:(nullable NETSRequestCompletion)successBlock
-                        failedBlock:(nullable NETSRequestError)failedBlock {
-    
-    NETSApiOptions *options = [[NETSApiOptions alloc] init];
-    options.baseUrl = [NSString stringWithFormat:@"/room/%@/user/%@/seats",roomId,userId?:@""];
-    options.apiMethod = NETSRequestMethodPOST;
-    options.params = @{
-        @"index"  :  @(seatIndex),
-        @"action"  :  @(action)
-    };
-    options.modelMapping = @[
-        [NETSApiModelMapping mappingWith:@"/" mappingClass:[NSDictionary class]  isArray:NO]
-    ];
-    NETSRequest *resuest = [[NETSRequest alloc] initWithOptions:options];
-    resuest.completionBlock = successBlock;
-    resuest.errorBlock = failedBlock;
-    [resuest asyncRequest];
-}
 
 
-+ (void)requestMicSeatsResultListWithRoomId:(NSString *)roomId
-                                    type:(NETSUserStatus)type
-                             successBlock:(nullable NETSRequestCompletion)successBlock
-                              failedBlock:(nullable NETSRequestError)failedBlock {
-    
-    NETSApiOptions *options = [[NETSApiOptions alloc] init];
-    options.baseUrl = [NSString stringWithFormat:@"/room/%@/seat/%@/list",roomId,@(type)];
-    options.apiMethod = NETSRequestMethodGET;
-    options.params = @{
-        
-    };
-    options.modelMapping = @[
-        [NETSApiModelMapping mappingWith:@"/data" mappingClass:[NSDictionary class]  isArray:NO],
-        [NETSApiModelMapping mappingWith:@"/data/seatList" mappingClass:[NETSConnectMicMemberModel class] isArray:YES],
-    ];
-    NETSRequest *resuest = [[NETSRequest alloc] initWithOptions:options];
-    resuest.completionBlock = successBlock;
-    resuest.errorBlock = failedBlock;
-    [resuest asyncRequest];
-}
 
 
 

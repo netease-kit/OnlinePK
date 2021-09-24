@@ -3,8 +3,8 @@
 //  NLiteAVDemo
 //
 //  Created by Ease on 2020/11/12.
-// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+//  Copyright © 2020 Netease. All rights reserved.
+//
 
 #import "NETSFilterSettingActionSheet.h"
 #import "TopmostView.h"
@@ -105,7 +105,7 @@
         _nameLab.font = [UIFont systemFontOfSize:12];
         _nameLab.textColor = HEXCOLOR(0x222222);
         _nameLab.textAlignment = NSTextAlignmentCenter;
-        _nameLab.text = @"原图";
+        _nameLab.text = NSLocalizedString(@"原图", nil);
     }
     return _nameLab;
 }
@@ -135,7 +135,7 @@
 + (void)showWithMask:(BOOL)mask
 {
     CGRect frame = [UIScreen mainScreen].bounds;
-    NETSFilterSettingActionSheet *sheet = [[NETSFilterSettingActionSheet alloc] initWithFrame:frame title:@"滤镜"];
+    NETSFilterSettingActionSheet *sheet = [[NETSFilterSettingActionSheet alloc] initWithFrame:frame title:NSLocalizedString(@"滤镜", nil)];
     if (!mask) {
         sheet.backgroundColor = [UIColor clearColor];
     }
@@ -263,7 +263,7 @@
         _nameLab.font = [UIFont systemFontOfSize:14];
         _nameLab.textColor = HEXCOLOR(0x222222);
         _nameLab.textAlignment = NSTextAlignmentLeft;
-        _nameLab.text = @"饱和度";
+        _nameLab.text = NSLocalizedString(@"饱和度", nil);
     }
     return _nameLab;
 }

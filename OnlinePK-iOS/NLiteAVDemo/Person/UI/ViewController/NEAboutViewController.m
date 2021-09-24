@@ -3,8 +3,8 @@
 //  NLiteAVDemo
 //
 //  Created by I am Groot on 2020/11/17.
-// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+//  Copyright © 2020 Netease. All rights reserved.
+//
 
 #import "NEAboutViewController.h"
 #import "NEPersonTableViewCell.h"
@@ -22,14 +22,25 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupUI];
-    self.dataArray = @[@[@"App版本",@"IM版本",@"音视频SDK版本"],@[@"隐私政策",@"用户协议",@"免责申明"]];
+    self.dataArray = @[
+        @[
+            NSLocalizedString(@"App版本", nil),
+            NSLocalizedString(@"IM版本", nil),
+            NSLocalizedString(@"音视频SDK版本", nil)
+        ],
+        @[
+            NSLocalizedString(@"隐私政策", nil),
+            NSLocalizedString(@"用户协议", nil),
+            NSLocalizedString(@"免责申明", nil)
+        ]
+    ];
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     NSString *rtcVersion = [NSBundle bundleForClass:[NERtcEngine class]].infoDictionary[@"CFBundleShortVersionString"];
     self.valueArray = @[@[version,NIMSDK.sharedSDK.sdkVersion,rtcVersion],@[@"",@"",@""]];
 
 }
 - (void)setupUI {
-    self.title = @"关于";
+    self.title = NSLocalizedString(@"关于", nil);
     [self.tableView registerClass:[NEPersonTableViewCell class] forCellReuseIdentifier:@"NEPersonTableViewCell"];
 //    UIView *headView = [[UIView alloc] init];
     UIImageView *imageView = [[UIImageView alloc] init];

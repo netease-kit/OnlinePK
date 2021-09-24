@@ -3,16 +3,14 @@
 //  NLiteAVDemo
 //
 //  Created by vvj on 2021/4/21.
-//  Copyright © 2021 Netease. All rights reserved.
-//
+// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
 
 #import "NETSConnectStatusViewController.h"
 #import "NTESCollectStatusItem.h"
 #import "NTESCollectStatusCell.h"
 #import "NETSBeautySettingActionSheet.h"
 #import "NETSFilterSettingActionSheet.h"
-
-
 
 
 @interface NETSConnectStatusViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
@@ -43,18 +41,18 @@
 
 - (void)nets_initializeConfig {
     self.view.backgroundColor = UIColor.whiteColor;
-    self.title = @"连麦状态";
+    self.title = NSLocalizedString(@"连麦状态", nil);
     
-    NTESCollectStatusItem *cameraItem =  [NTESCollectStatusItem itemWithTitle:@"摄像头" onImage:[UIImage imageNamed:@"connectStatus_camera_open"] offImage:[UIImage imageNamed:@"connectStatus_camera_close"] tag:10003];
+    NTESCollectStatusItem *cameraItem =  [NTESCollectStatusItem itemWithTitle:NSLocalizedString(@"摄像头", nil) onImage:[UIImage imageNamed:@"connectStatus_camera_open"] offImage:[UIImage imageNamed:@"connectStatus_camera_close"] tag:10003];
     cameraItem.on = NETSRtcConfig.sharedConfig.cameraOn;
     
-    NTESCollectStatusItem *micItem = [NTESCollectStatusItem itemWithTitle:@"麦克风" onImage:[UIImage imageNamed:@"connectStatus_mic"] offImage:[UIImage imageNamed:@"connectStatus_mic_close"] tag:10004];
+    NTESCollectStatusItem *micItem = [NTESCollectStatusItem itemWithTitle:NSLocalizedString(@"麦克风", nil) onImage:[UIImage imageNamed:@"connectStatus_mic"] offImage:[UIImage imageNamed:@"connectStatus_mic_close"] tag:10004];
     micItem.on = NETSRtcConfig.sharedConfig.micOn;
 
     self.allItems = @[
-        [NTESCollectStatusItem itemWithTitle:@"美颜" onImage:[UIImage imageNamed:@"connectStatus_beauty"] offImage:nil tag: 10000],
-        [NTESCollectStatusItem itemWithTitle:@"滤镜" onImage:[UIImage imageNamed:@"connectStatus_filter"] offImage:nil tag:10001],
-        [NTESCollectStatusItem itemWithTitle:@"挂断" onImage:[UIImage imageNamed:@"connectStatus_exitConnect"] offImage:nil tag:10002],
+        [NTESCollectStatusItem itemWithTitle:NSLocalizedString(@"美颜", nil) onImage:[UIImage imageNamed:@"connectStatus_beauty"] offImage:nil tag: 10000],
+        [NTESCollectStatusItem itemWithTitle:NSLocalizedString(@"滤镜", nil) onImage:[UIImage imageNamed:@"connectStatus_filter"] offImage:nil tag:10001],
+        [NTESCollectStatusItem itemWithTitle:NSLocalizedString(@"挂断", nil) onImage:[UIImage imageNamed:@"connectStatus_exitConnect"] offImage:nil tag:10002],
         cameraItem,
         micItem
     ];
@@ -88,7 +86,7 @@
     _countDownTimer = [NSTimer bk_scheduledTimerWithTimeInterval:1 block:^(NSTimer *timer) {
         NSString *str_minute = [NSString stringWithFormat:@"%02ld",(second%3600)/60];//分
         NSString *str_second = [NSString stringWithFormat:@"%02ld",second%60];//秒
-        NSString *content = [NSString stringWithFormat:@"连麦中，通话时长%@分%@秒",str_minute,str_second];
+        NSString *content = [NSString stringWithFormat:NSLocalizedString(@"连麦中，通话时长%@分%@秒", nil),str_minute,str_second];
         weakSelf.countdownLabel.text = content;
         second ++;
        } repeats:YES];
@@ -208,7 +206,7 @@
          NSInteger second = @(NSDate.date.timeIntervalSince1970).integerValue - localTime.integerValue;
         NSString *str_minute = [NSString stringWithFormat:@"%02ld",(second%3600)/60];//分
         NSString *str_second = [NSString stringWithFormat:@"%02ld",second%60];//秒
-        NSString *content = [NSString stringWithFormat:@"连麦中，通话时长%@分%@秒",str_minute,str_second];
+        NSString *content = [NSString stringWithFormat:NSLocalizedString(@"连麦中，通话时长%@分%@秒", nil),str_minute,str_second];
         _countdownLabel.text = content;
     }
     return _countdownLabel;

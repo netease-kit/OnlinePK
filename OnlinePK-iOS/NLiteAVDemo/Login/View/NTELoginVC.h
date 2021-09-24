@@ -3,8 +3,8 @@
 //  NIMAudioChatroom
 //
 //  Created by Think on 2020/8/18.
-// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+//  Copyright © 2020 netease. All rights reserved.
+//
 
 /**
  获取验证码VC
@@ -23,6 +23,12 @@ NS_ASSUME_NONNULL_BEGIN
  @param options - 登录配置项
  */
 - (instancetype)initWithOptions:(NELoginOptions * _Nullable)options;
+
+
+/// appdelegate 设置根控制器
+/// @param options 登录配置项
+/// @param close 是否展示关闭按钮
+- (instancetype)initWithOptions:(NELoginOptions * _Nullable)options isShowClose:(BOOL)close;
 
 @end
 

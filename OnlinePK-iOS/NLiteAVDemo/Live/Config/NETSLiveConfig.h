@@ -3,8 +3,8 @@
 //  NLiteAVDemo
 //
 //  Created by Ease on 2020/11/16.
-// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+//  Copyright © 2020 Netease. All rights reserved.
+//
 
 #import <Foundation/Foundation.h>
 #import <NERtcSDK/NERtcEngineBase.h>
@@ -37,7 +37,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 直播过程中 更多设置 数据项
 @property (nonatomic, strong)   NSArray <NETSMoreSettingModel *>    *moreSettings;
-
+//耳返状态
+@property(nonatomic, assign) NERtcAudioOutputRouting outputRoute;
 #pragma mark - 礼物相关
 
 /// 观众默认礼物

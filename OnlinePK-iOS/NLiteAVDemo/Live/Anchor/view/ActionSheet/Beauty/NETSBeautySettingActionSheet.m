@@ -3,8 +3,8 @@
 //  NLiteAVDemo
 //
 //  Created by Ease on 2020/11/12.
-// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+//  Copyright © 2020 Netease. All rights reserved.
+//
 
 #import "NETSBeautySettingActionSheet.h"
 #import "TopmostView.h"
@@ -150,7 +150,7 @@
 + (void)showWithMask:(BOOL)mask
 {
     CGRect frame = [UIScreen mainScreen].bounds;
-    NETSBeautySettingActionSheet *sheet = [[NETSBeautySettingActionSheet alloc] initWithFrame:frame title:@"美颜"];
+    NETSBeautySettingActionSheet *sheet = [[NETSBeautySettingActionSheet alloc] initWithFrame:frame title:NSLocalizedString(@"美颜", nil)];
     if (!mask) {
         sheet.backgroundColor = [UIColor clearColor];
     }

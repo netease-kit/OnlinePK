@@ -3,8 +3,8 @@
 //  NLiteAVDemo
 //
 //  Created by Ease on 2020/12/4.
-// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+//  Copyright © 2020 Netease. All rights reserved.
+//
 
 #import <Foundation/Foundation.h>
 
@@ -169,24 +169,6 @@ typedef NS_ENUM(NSUInteger, NETSRoomLiveStatus) {
 
 @end
 
-/**
- 直播间主播信息模型
- */
-@interface NETSLiveRoomInfoModel : NSObject
-
-@property (nonatomic, copy)     NSString            *avRoomCName;
-@property (nonatomic, copy)     NSString            *avRoomCid;
-@property (nonatomic, copy)     NSString            *liveCid;
-@property (nonatomic, strong)   NSArray<NETSLiveRoomModel *>    *members;
-@property (nonatomic, strong)   NSArray<NETSConnectMicMemberModel *>    *seatList;
-
-@property (nonatomic, strong)   NETSLivePkRecord    *pkRecord;
-@property (nonatomic, copy)     NSString            *pkStartTime;
-@property (nonatomic, assign)   NETSRoomLiveStatus  status;
-@property (nonatomic, assign)   NETSLiveType        type;
-@property (nonatomic, assign)   int32_t             coinTotal;
-
-@end
 
 #pragma mark - PassThought消息体模型
 

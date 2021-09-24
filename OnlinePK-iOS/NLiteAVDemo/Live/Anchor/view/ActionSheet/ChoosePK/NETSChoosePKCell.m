@@ -3,11 +3,11 @@
 //  NLiteAVDemo
 //
 //  Created by Ease on 2020/11/25.
-// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+//  Copyright © 2020 Netease. All rights reserved.
+//
 
 #import "NETSChoosePKCell.h"
-#import "NETSLiveModel.h"
+#import "NELiveRoomListModel.h"
 
 @interface NETSChoosePKCell ()
 
@@ -16,7 +16,7 @@
 @property (nonatomic, strong)   UILabel     *nick;
 @property (nonatomic, strong)   UILabel     *audience;
 @property (nonatomic, strong)   UIButton    *pkBtn;
-@property (nonatomic, strong)   NETSLiveRoomModel   *model;
+@property (nonatomic, strong)   NELiveRoomListDetailModel   *model;
 
 @end
 
@@ -59,18 +59,18 @@
     self.pkBtn.frame = CGRectMake(self.contentView.width - 20 - 70, 14, 70, 28);
 }
 
-- (void)installWithModel:(NETSLiveRoomModel *)model indexPath:(NSIndexPath *)indexPath
+- (void)installWithModel:(NELiveRoomListDetailModel *)model indexPath:(NSIndexPath *)indexPath
 {
     _model = model;
     
     self.topLine.hidden = (indexPath.row == 0);
-    [self.avatar sd_setImageWithURL:[NSURL URLWithString:model.avatar]];
-    self.nick.text = model.nickname;
-    int32_t num = MAX(0, model.audienceCount);
-    self.audience.text = [NSString stringWithFormat:@"观众数: %@", kFormatNum(num)];
+    [self.avatar sd_setImageWithURL:[NSURL URLWithString:model.anchor.avatar]];
+    self.nick.text = model.anchor.nickname;
+    int32_t num = MAX(0, model.live.audienceCount);
+    self.audience.text = [NSString stringWithFormat:NSLocalizedString(@"观众数: %@", nil), kFormatNum(num)];
 }
 
-+ (NETSChoosePKCell *)cellWithTableView:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath datas:(NSArray <NETSLiveRoomModel *> *)datas
++ (NETSChoosePKCell *)cellWithTableView:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath datas:(NSArray <NELiveRoomListDetailModel *> *)datas
 {
     NETSChoosePKCell *cell = [tableView dequeueReusableCellWithIdentifier:[NETSChoosePKCell description]];
     id model = nil;
@@ -141,7 +141,7 @@
         _pkBtn.layer.cornerRadius = 4;
         _pkBtn.layer.masksToBounds = YES;
         _pkBtn.titleLabel.font = [UIFont systemFontOfSize:14.0];
-        [_pkBtn setTitle:@"发起PK" forState:UIControlStateNormal];
+        [_pkBtn setTitle:NSLocalizedString(@"发起PK", nil) forState:UIControlStateNormal];
         [_pkBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_pkBtn addTarget:self action:@selector(pkBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         

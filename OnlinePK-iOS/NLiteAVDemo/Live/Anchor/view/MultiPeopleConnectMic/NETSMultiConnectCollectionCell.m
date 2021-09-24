@@ -3,11 +3,11 @@
 //  NLiteAVDemo
 //
 //  Created by vvj on 2021/4/19.
-//  Copyright © 2021 Netease. All rights reserved.
-//
+// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
 
 #import "NETSMultiConnectCollectionCell.h"
-#import "NETSConnectMicModel.h"
+
 
 @interface NETSMultiConnectCollectionCell ()
 @property(nonatomic, strong)UIButton *closeButton;
@@ -72,26 +72,32 @@
 }
 
 
-- (void)setMemberModel:(NETSConnectMicMemberModel *)memberModel {
+- (void)setMemberModel:(NESeatInfo *)memberModel {
     _memberModel = memberModel;
     NERtcVideoCanvas *canvas = [[NERtcVideoCanvas alloc] init];
     canvas.renderMode = kNERtcVideoRenderScaleCropFill;
     canvas.container = self.videoView;
-    
-    if ([memberModel.accountId isEqualToString:[NEAccount shared].userModel.accountId]) {
+    if ([memberModel.userInfo.accountId isEqualToString:[NEAccount shared].userModel.accountId]) {
         //自己
-        [[NERtcEngine sharedEngine] setupLocalVideoCanvas:canvas];
+        int res = [[NERtcEngine sharedEngine] setupLocalVideoCanvas:canvas];
+        if (res != 0) {
+            YXAlogError(@"setupLocalVideoCanvas failed,errorCode = %d",res);
+        }
         self.closeButton.hidden = NO;
     }else {
         self.closeButton.hidden = self.roleType == NETSUserModeAnchor ? NO : YES;
-        [[NERtcEngine sharedEngine] setupRemoteVideoCanvas:canvas forUserID:[memberModel.avRoomUid longLongValue]];
+        
+        int res = [[NERtcEngine sharedEngine] setupRemoteVideoCanvas:canvas forUserID:memberModel.avRoomUid];
+        if (res != 0) {
+            YXAlogError(@"setupRemoteVideoCanvas failed,errorCode = %d",res);
+        }
     }
-    self.nickNameLabel.text = memberModel.nickName;
-    self.muteMicImageView.image = memberModel.audio ? [UIImage imageNamed:@"mic_normal_icon"] :[UIImage imageNamed:@"muteMic_icon"];
-    [self.avatarImageView sd_setImageWithURL:[NSURL URLWithString:memberModel.avatar]];
-    self.avatarImageView.hidden = memberModel.video == 1 ?YES:NO;
-
+    self.nickNameLabel.text = memberModel.userInfo.userName;
+    self.muteMicImageView.image = memberModel.audioState ? [UIImage imageNamed:@"mic_normal_icon"] :[UIImage imageNamed:@"muteMic_icon"];
+    [self.avatarImageView sd_setImageWithURL:memberModel.userInfo.avatarURL];
+    self.avatarImageView.hidden = memberModel.videoState == 1 ?YES:NO;
 }
+
 
 -(void)layoutSubviews {
     [super layoutSubviews];
@@ -102,7 +108,7 @@
 
 - (void)closeRoomAction:(UIButton *)sender {
     if ([self.delegate respondsToSelector:@selector(didCloseConnectRoom:)]) {
-        [self.delegate didCloseConnectRoom:self.memberModel.accountId];
+        [self.delegate didCloseConnectRoom:self.memberModel.userInfo.accountId];
     }
 }
 
