@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2021 NetEase, Inc.  All rights reserved.
- * Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+ *  Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+ *  Use of this source code is governed by a MIT license that can be found in the LICENSE file
  */
 
 package com.beautyFaceunity;
@@ -104,9 +104,9 @@ public enum FilterEnum {
     heibai_4(BeautificationParam.HEIBAI_4, com.beautyFaceunity.R.drawable.demo_icon_heibai4, com.beautyFaceunity.R.string.heibai_4);
     //    heibai_5(BeautificationParam.HEIBAI_5, R.drawable.demo_icon_heibai5, R.string.heibai_5);
 
-    private String name;
-    private int iconId;
-    private int nameId;
+    private final String name;
+    private final int iconId;
+    private final int nameId;
 
     FilterEnum(String name, int iconId, int nameId) {
         this.name = name;

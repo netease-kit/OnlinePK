@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-  ~ Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+  ~  Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+  ~  Use of this source code is governed by a MIT license that can be found in the LICENSE file
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -18,7 +18,7 @@
         android:textSize="@dimen/text_size_14"
         android:background="@drawable/stroke_gray_radius_25"
         android:textColor="@color/biz_live_color_333333"
-        android:text="拒绝"
+        android:text="@string/biz_live_reject"
         android:layout_centerVertical="true"
         android:paddingStart="@dimen/dp_12"
         android:paddingEnd="@dimen/dp_12"
@@ -34,7 +34,7 @@
         android:textSize="@dimen/text_size_14"
         android:background="@drawable/pk_button_bg"
         android:textColor="@color/colorWhite"
-        android:text="接受"
+        android:text="@string/biz_live_accept"
         android:layout_centerVertical="true"
         android:paddingStart="@dimen/dp_12"
         android:paddingEnd="@dimen/dp_12"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-  ~ Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+  ~  Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+  ~  Use of this source code is governed by a MIT license that can be found in the LICENSE file
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_size_14"
             android:textColor="#222222"
-            android:text="开始dump"
+            android:text="begin dump"
             android:layout_marginEnd="@dimen/dp_20" />
 
         <Button
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_size_14"
             android:textColor="#222222"
-            android:text="停止dump"
+            android:text="end dump"
             android:layout_marginStart="@dimen/dp_20" />
 
     </LinearLayout>

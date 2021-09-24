@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-  ~ Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+  ~  Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+  ~  Use of this source code is governed by a MIT license that can be found in the LICENSE file
   -->
 
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
@@ -42,7 +42,7 @@
         app:layout_constraintBottom_toTopOf="@id/tv_anchor_coin_count"
         app:layout_constraintStart_toEndOf="@id/iv_anchor_portrait"
         app:layout_constraintTop_toTopOf="@id/iv_anchor_portrait"
-        test:text="可爱的雪梨妹" />
+        test:text="nickname" />
 
     <TextView
         android:id="@+id/tv_anchor_coin_count"
@@ -55,7 +55,7 @@
         app:layout_constraintBottom_toBottomOf="@id/iv_anchor_portrait"
         app:layout_constraintStart_toEndOf="@id/iv_anchor_portrait"
         app:layout_constraintTop_toBottomOf="@id/tv_anchor_nickname"
-        test:text="6.2万云币" />
+        test:text="6.2w coin" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/br_anchor_brief_info_end"

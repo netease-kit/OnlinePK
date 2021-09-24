@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-  ~ Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+  ~  Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+  ~  Use of this source code is governed by a MIT license that can be found in the LICENSE file
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -29,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="44dp"
         android:gravity="center"
-        android:text="意见反馈"
+        android:text="@string/app_suggestion_feedback"
         android:textColor="@color/colorWhite"
         android:textSize="17dp"
         app:layout_constraintTop_toTopOf="parent" />
@@ -49,7 +49,7 @@
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
         android:singleLine="true"
-        android:hint="请选择Demo名称"
+        android:hint="@string/app_please_select_demo_name"
         android:textColorHint="#ccffffff"
         android:drawablePadding="11dp"
         android:textColor="#ccffffff"
@@ -63,7 +63,7 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:gravity="center_vertical"
-        android:text="Demo名称"
+        android:text="@string/app_demo_name"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
         android:textColor="@color/colorWhite"
@@ -81,7 +81,7 @@
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
         android:singleLine="true"
-        android:hint="请选择问题类型"
+        android:hint="@string/app_please_select_problem_type"
         android:textColorHint="#ccffffff"
         android:drawablePadding="11dp"
         android:textColor="#ccffffff"
@@ -95,7 +95,7 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:gravity="center_vertical"
-        android:text="问题类型"
+        android:text="@string/app_problem_type"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
         android:textColor="@color/colorWhite"
@@ -114,7 +114,7 @@
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
         android:textSize="16dp"
-        android:hint="请输入您的意见"
+        android:hint="@string/app_please_input_your_suggestion"
         android:textColor="#ccffffff"
         android:textColorHint="#66ffffff"
         app:layout_constraintTop_toBottomOf="@id/tv_question_desc_title" />
@@ -124,7 +124,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="问题描述"
+        android:text="@string/app_problem_describe"
         android:paddingTop="17dp"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
@@ -139,7 +139,7 @@
         android:layout_marginTop="50dp"
         android:background="@drawable/selector_feedback_commit_bg"
         android:gravity="center"
-        android:text="提交"
+        android:text="@string/app_commit"
         android:enabled="false"
         android:textColor="@color/colorWhite"
         android:textSize="16dp"

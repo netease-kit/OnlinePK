@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-  ~ Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+  ~  Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+  ~  Use of this source code is governed by a MIT license that can be found in the LICENSE file
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -50,7 +50,7 @@
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:gravity="center"
-        android:text="我方"
+        android:text="@string/biz_live_self"
         android:textColor="#ffffffff"
         android:textSize="12dp"
         app:layout_constraintBottom_toBottomOf="@id/pk_progress"
@@ -76,7 +76,7 @@
         android:layout_height="0dp"
         android:layout_marginEnd="8dp"
         android:gravity="center"
-        android:text="对方"
+        android:text="@string/biz_live_other"
         android:textColor="#ffffffff"
         android:textSize="12dp"
         app:layout_constraintBottom_toBottomOf="@id/other_pk_progress"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-  ~ Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+  ~  Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+  ~  Use of this source code is governed by a MIT license that can be found in the LICENSE file
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
@@ -74,7 +74,7 @@
             android:launchMode="singleTask">
 
             <intent-filter>
-                <action android:name="com.nertc.g2.action.main" />
+                <action android:name="com.nertc.interaction.action.main" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 

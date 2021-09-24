@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-  ~ Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+  ~  Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+  ~  Use of this source code is governed by a MIT license that can be found in the LICENSE file
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -30,7 +30,7 @@
         android:paddingStart="@dimen/dp_8"
         android:paddingEnd="@dimen/dp_8"
         android:layout_marginEnd="@dimen/dp_10"
-        android:text="忽略"
+        android:text="@string/biz_live_ignore"
         android:visibility="gone"
         android:background="@drawable/stroke_white_radius_4" />
 
@@ -43,7 +43,7 @@
         android:padding="@dimen/dp_4"
         android:paddingStart="@dimen/dp_8"
         android:paddingEnd="@dimen/dp_8"
-        android:text="取消"
+        android:text="@string/biz_live_cancel"
         android:background="@drawable/pk_button_bg" />
 
 </LinearLayout>
