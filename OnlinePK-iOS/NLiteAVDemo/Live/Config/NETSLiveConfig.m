@@ -3,8 +3,8 @@
 //  NLiteAVDemo
 //
 //  Created by Ease on 2020/11/16.
-// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+//  Copyright © 2020 Netease. All rights reserved.
+//
 
 #import "NETSLiveConfig.h"
 
@@ -41,22 +41,22 @@
 
 /// 默认更多设置
 - (NSArray <NETSMoreSettingModel *> *)_defaultMoreSettings {
-    NETSMoreSettingStatusModel *camera = [[NETSMoreSettingStatusModel alloc] initWithDisplay:@"摄像头" icon:@"camera_ico" type:NETSMoreSettingCamera disableIcon:@"no_camera_ico" disable:NO];
-    NETSMoreSettingStatusModel *micro = [[NETSMoreSettingStatusModel alloc] initWithDisplay:@"麦克风" icon:@"micro_ico" type:NETSMoreSettingMicro disableIcon:@"no_micro_ico" disable:NO];
-    NETSMoreSettingStatusModel *earBack = [[NETSMoreSettingStatusModel alloc] initWithDisplay:@"耳返" icon:@"earback_ico" type:NETSMoreSettingEarback disableIcon:@"no_earback_ico" disable:YES];
-    NETSMoreSettingModel *reverse = [[NETSMoreSettingModel alloc] initWithDisplay:@"翻转" icon:@"switch_camera_ico" type:NETSMoreSettingReverse];
-    NETSMoreSettingModel *filter = [[NETSMoreSettingModel alloc] initWithDisplay:@"滤镜" icon:@"anchor_more_filter" type:NETSMoreSettingfilter];
-    NETSMoreSettingModel *end = [[NETSMoreSettingModel alloc] initWithDisplay:@"结束直播" icon:@"close_ico" type:NETSMoreSettingEndLive];
+    NETSMoreSettingStatusModel *camera = [[NETSMoreSettingStatusModel alloc] initWithDisplay:NSLocalizedString(@"摄像头", nil) icon:@"camera_ico" type:NETSMoreSettingCamera disableIcon:@"no_camera_ico" disable:NO];
+    NETSMoreSettingStatusModel *micro = [[NETSMoreSettingStatusModel alloc] initWithDisplay:NSLocalizedString(@"麦克风", nil) icon:@"micro_ico" type:NETSMoreSettingMicro disableIcon:@"no_micro_ico" disable:NO];
+    NETSMoreSettingStatusModel *earBack = [[NETSMoreSettingStatusModel alloc] initWithDisplay:NSLocalizedString(@"耳返", nil) icon:@"earback_ico" type:NETSMoreSettingEarback disableIcon:@"no_earback_ico" disable:YES];
+    NETSMoreSettingModel *reverse = [[NETSMoreSettingModel alloc] initWithDisplay:NSLocalizedString(@"翻转", nil) icon:@"switch_camera_ico" type:NETSMoreSettingReverse];
+    NETSMoreSettingModel *filter = [[NETSMoreSettingModel alloc] initWithDisplay:NSLocalizedString(@"滤镜", nil) icon:@"anchor_more_filter" type:NETSMoreSettingfilter];
+    NETSMoreSettingModel *end = [[NETSMoreSettingModel alloc] initWithDisplay:NSLocalizedString(@"结束直播", nil) icon:@"close_ico" type:NETSMoreSettingEndLive];
     return @[camera, micro, earBack, reverse,filter, end];
 }
 
 /// 默认赠送礼物
 - (NSArray <NETSGiftModel *> *)_defaultGifts
 {
-    NETSGiftModel *gift1 = [[NETSGiftModel alloc] initWithGiftId:1 icon:@"gift03_ico" display:@"荧光棒" price:9];
-    NETSGiftModel *gift2 = [[NETSGiftModel alloc] initWithGiftId:2 icon:@"gift04_ico" display:@"安排" price:99];
-    NETSGiftModel *gift3 = [[NETSGiftModel alloc] initWithGiftId:3 icon:@"gift02_ico" display:@"跑车" price:199];
-    NETSGiftModel *gift4 = [[NETSGiftModel alloc] initWithGiftId:4 icon:@"gift01_ico" display:@"火箭" price:999];
+    NETSGiftModel *gift1 = [[NETSGiftModel alloc] initWithGiftId:1 icon:@"gift03_ico" display:NSLocalizedString(@"荧光棒", nil) price:9];
+    NETSGiftModel *gift2 = [[NETSGiftModel alloc] initWithGiftId:2 icon:@"gift04_ico" display:NSLocalizedString(@"安排", nil) price:99];
+    NETSGiftModel *gift3 = [[NETSGiftModel alloc] initWithGiftId:3 icon:@"gift02_ico" display:NSLocalizedString(@"跑车", nil) price:199];
+    NETSGiftModel *gift4 = [[NETSGiftModel alloc] initWithGiftId:4 icon:@"gift01_ico" display:NSLocalizedString(@"火箭", nil) price:999];
     
     return @[gift1, gift2, gift3, gift4];
 }

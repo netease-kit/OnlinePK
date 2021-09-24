@@ -3,8 +3,8 @@
 //  NLiteAVDemo
 //
 //  Created by Ease on 2020/11/19.
-// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+//  Copyright © 2020 Netease. All rights reserved.
+//
 
 #import "NETSInputToolBar.h"
 
@@ -17,27 +17,32 @@
 @property (nonatomic, strong)   UIButton        *musicBtn;
 @property (nonatomic, strong)   UIButton        *moreBtn;
 @property (nonatomic, strong)   UIView          *redTagView;
-
+@property(nonatomic, assign) NERoomType roomType;
 @end
 
 @implementation NETSInputToolBar
 
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        [self addSubview:self.textField];
-        [self addSubview:self.inputLab];
-        [self addSubview:self.beautyBtn];
-        [self addSubview:self.connectRequestBtn];
-        [self addSubview:self.musicBtn];
-        [self addSubview:self.moreBtn];
-        [self addNotificationObserve];
+
+- (instancetype)initWithRoomType:(NERoomType)roomType {
+    if (self = [super init]) {
+        _roomType = roomType;
+        [self inputViewAddsubviews];
     }
     return self;
 }
 
-
+- (void)inputViewAddsubviews {
+    [self addSubview:self.textField];
+    [self addSubview:self.inputLab];
+    [self addSubview:self.beautyBtn];
+    if (self.roomType == NERoomTypeConnectMicLive) {
+        [self addSubview:self.connectRequestBtn];
+    }
+    [self addSubview:self.musicBtn];
+    [self addSubview:self.moreBtn];
+    [self addNotificationObserve];
+    
+}
 - (void)addNotificationObserve{
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(micApplyCountDidChange:) name:NotificationName_Audience_ApplyConnectMic object:nil]; // 顶部歌曲变化通知
 }
@@ -50,12 +55,21 @@
 
 - (void)layoutSubviews
 {
-    CGFloat inputWidth = self.width - 16 - 4 * 36 - 4 * 10;
+    CGFloat inputWidth = 0;
+    if (self.roomType == NERoomTypeConnectMicLive) {
+        inputWidth = self.width - 16 - 4 * 36 - 4 * 10;
+    }else {
+        inputWidth = self.width - 16 - 3 * 36 - 3 * 10;
+    }
     self.textField.frame = CGRectMake(8, 0, inputWidth, self.height);
     self.inputLab.frame = CGRectMake(8, 0, inputWidth, self.height);
     self.beautyBtn.frame = CGRectMake(self.inputLab.right + 10, 0, 36, 36);
-    self.connectRequestBtn.frame = CGRectMake(self.beautyBtn.right + 10, 0, 36, 36);
-    self.musicBtn.frame = CGRectMake(self.connectRequestBtn.right + 10, 0, 36, 36);
+    if (self.roomType == NERoomTypeConnectMicLive) {
+        self.connectRequestBtn.frame = CGRectMake(self.beautyBtn.right + 10, 0, 36, 36);
+        self.musicBtn.frame = CGRectMake(self.connectRequestBtn.right + 10, 0, 36, 36);
+    }else {
+        self.musicBtn.frame = CGRectMake(self.beautyBtn.right + 10, 0, 36, 36);
+    }
     self.moreBtn.frame = CGRectMake(self.musicBtn.right + 10, 0, 36, 36);
     self.textField.frame = self.inputLab.frame;
 }
@@ -121,7 +135,7 @@
     NSAttributedString *attachStr = [NSAttributedString attributedStringWithAttachment:attchment];
     [attributedString appendAttributedString:attachStr];
     
-    NSAttributedString *tipStr = [[NSAttributedString alloc] initWithString:@" 说点什么..."];
+    NSAttributedString *tipStr = [[NSAttributedString alloc] initWithString:NSLocalizedString(@" 说点什么...", nil)];
     [attributedString appendAttributedString:tipStr];
     
     return [attributedString copy];

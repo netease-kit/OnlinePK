@@ -3,17 +3,16 @@
 //  NLiteAVDemo
 //
 //  Created by vvj on 2021/4/19.
-//  Copyright © 2021 Netease. All rights reserved.
-//
+// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
 
 #import "NETSMutiConnectView.h"
 #import "NETSMultiConnectCollectionCell.h"
-#import "NETSConnectMicModel.h"
 #import "NETSLiveApi.h"
 
 @interface NETSMutiConnectView ()<UICollectionViewDelegate,UICollectionViewDataSource,NETSMultiConnectCollectionDelegate>
 @property(nonatomic, strong) UICollectionView *mutiConnectCollectionView;
-@property(nonatomic, strong) NSArray *dataArray;
+@property(nonatomic, strong) NSArray <NESeatInfo *>*dataArray;
 @end
 
 @implementation NETSMutiConnectView
@@ -37,10 +36,11 @@ static int buttonWH = 20;
     }];
 }
 
-- (void)reloadDataSource:(NSArray *)updateDataArray {
+-(void)reloadDataSource:(NSArray<NESeatInfo *> *)updateDataArray {
     self.dataArray = updateDataArray;
     [self.mutiConnectCollectionView reloadData];
 }
+
 #pragma mark - UICollectionViewDataSource,Delegate
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -49,7 +49,7 @@ static int buttonWH = 20;
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 
-    NETSConnectMicMemberModel *memberModel = self.dataArray[indexPath.row];
+    NESeatInfo *memberModel = self.dataArray[indexPath.row];
     NETSMultiConnectCollectionCell *multiVideoCell = [NETSMultiConnectCollectionCell settingCellWithCollectionView:collectionView indexPath:indexPath];
     multiVideoCell.roleType = self.roleType;
     multiVideoCell.memberModel = memberModel;

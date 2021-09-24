@@ -3,8 +3,8 @@
 //  NLiteAVDemo
 //
 //  Created by Ease on 2020/11/25.
-// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+//  Copyright © 2020 Netease. All rights reserved.
+//
 
 #import "NETSAudienceBottomBar.h"
 #import "NETSToast.h"
@@ -40,6 +40,13 @@
     self.requestConnectBtn.frame = CGRectMake(self.textLabel.right + 10, 0, 36, 36);
     self.giftBtn.frame = CGRectMake(self.requestConnectBtn.right + 10, 0, 36, 36);
     self.closeBtn.frame = CGRectMake(self.giftBtn.right + 10, 0, 36, 36);
+}
+
+- (void)setRoomType:(NERoomType)roomType {
+    _roomType = roomType;
+    if (roomType == NERoomTypeConnectMicLive) {
+        self.requestConnectBtn.hidden = NO;
+    }
 }
 
 #pragma mark - privite
@@ -109,8 +116,8 @@
         _textLabel.layer.masksToBounds = YES;
         _textLabel.font = [UIFont systemFontOfSize:14];
         _textLabel.textColor = HEXCOLOR(0xcccccc);
-        _textLabel.text = @"    说点什么...";
-        
+        _textLabel.text = NSLocalizedString(@"    说点什么...", nil);
+
         _textLabel.userInteractionEnabled = YES;
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapInputLabel:)];
         [_textLabel addGestureRecognizer:tap];
@@ -144,6 +151,7 @@
         _requestConnectBtn = [[UIButton alloc] init];
         [_requestConnectBtn setImage:[UIImage imageNamed:@"connectMic_able"] forState:UIControlStateNormal];
         [_requestConnectBtn addTarget:self action:@selector(clickButton:) forControlEvents:UIControlEventTouchUpInside];
+        _requestConnectBtn.hidden = YES;
     }
     return _requestConnectBtn;
 }

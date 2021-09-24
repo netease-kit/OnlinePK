@@ -3,8 +3,8 @@
 //  NLiteAVDemo
 //
 //  Created by I am Groot on 2020/8/20.
-// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+//  Copyright © 2020 Netease. All rights reserved.
+//
 
 #import "NEMenuViewController.h"
 #import "NENavCustomView.h"
@@ -18,8 +18,7 @@
 #import "NEFeedbackVC.h"
 #import "NEMenuHeader.h"
 #import "NETSToast.h"
-#import "NETSLiveAttachment.h"
-#import "NETSLiveAttachment.h"
+#import "NEPkLiveAttachment.h"
 
 
 @interface NEMenuViewController ()<UITableViewDelegate,UITableViewDataSource>
@@ -43,7 +42,6 @@ static NSString *cellID = @"menuCellID";
     [self setupDatas];
     [self setupUI];
     [self.tableView reloadData];
-    [self autoLogin];
 }
 
 #pragma mark - private
@@ -51,14 +49,15 @@ static NSString *cellID = @"menuCellID";
 - (void)setupDatas
 {
 
-    NEMenuCellModel *live = [[NEMenuCellModel alloc]initWithTitle:@"PK直播" subtitle:@"从单人直播到主播间PK，观众连麦多种玩法" icon:@"home_pkLive_icon"  block:^{
-        [[NENavigator shared] showLiveListVCWithTitle:@"PK直播"];
+    NEMenuCellModel *live = [[NEMenuCellModel alloc]initWithTitle:NSLocalizedString(@"PK直播", nil) subtitle:NSLocalizedString(@"从单人直播到主播间PK，观众连麦多种玩法", nil) icon:@"home_pkLive_icon"  block:^{
+        [[NENavigator shared] showLiveListVCWithRoomType:NERoomTypePkLive];
     }];
-    NEMenuCellModel *connectMic = [[NEMenuCellModel alloc]initWithTitle:@"多人连麦直播"  subtitle:@"支持1V4主播和观众的视频互动" icon:@"home_connectMic_icon"  block:^{
-        [[NENavigator shared] showLiveListVCWithTitle:@"多人连麦直播"];
+    NEMenuCellModel *connectMic = [[NEMenuCellModel alloc]initWithTitle:NSLocalizedString(@"多人连麦直播", nil)  subtitle:NSLocalizedString(@"支持1V4主播和观众的视频互动", nil) icon:@"home_connectMic_icon"  block:^{
+        [[NENavigator shared] showLiveListVCWithRoomType:NERoomTypeConnectMicLive];
     }];
     NSArray *sectionTwo = @[live,connectMic];
     _datas = @[sectionTwo];
+
 }
 
 - (void)setupUI {
@@ -83,16 +82,7 @@ static NSString *cellID = @"menuCellID";
         make.bottom.mas_equalTo(0);
     }];
 }
-- (void)autoLogin {
-    if ([[NEAccount shared].accessToken length] > 0) {
-        [NEAccount loginByTokenWithCompletion:^(NSDictionary * _Nullable data, NSError * _Nullable error) {
-            if (error) {
-                NSString *msg = data[@"msg"] ?: @"请求错误";
-                [self.view makeToast:msg];
-            }
-        }];
-    }
-}
+
 #pragma mark - UITableViewDelegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -141,6 +131,7 @@ static NSString *cellID = @"menuCellID";
                 [self setupIMWithLoginCompletion:^(NSError * _Nullable error) {
                     [NETSToast hideLoading];
                     if (error) {
+                        [NETSToast showToast:NSLocalizedString(@"IM登录失败", nil)];
                         YXAlogInfo(@"IM登录失败, error: %@", error);
                     } else {
                         data.block();
@@ -153,16 +144,20 @@ static NSString *cellID = @"menuCellID";
 
 #pragma mark - private Method
 /// 初始化IM引擎
-- (void)setupIMWithLoginCompletion:(void(^)(NSError * _Nullable))loginCompletion
-{
+- (void)setupIMWithLoginCompletion:(void(^)(NSError * _Nullable))loginCompletion {
+    
     NIMSDKOption *option = [NIMSDKOption optionWithAppKey:kAppKey];
     [[NIMSDK sharedSDK] registerWithOption:option];
-    [NIMCustomObject registerCustomDecoder:[[NETSLiveAttachmentDecoder alloc] init]];
-//    [NIMCustomObject registerCustomDecoder:[[NETSConnectMicAttachmentDecoder alloc] init]];
+    [NIMCustomObject registerCustomDecoder:[[NEPKLiveAttachmentDecoder alloc] init]];
 
     if (![NIMSDK sharedSDK].loginManager.isLogined) {
         NEUser *user = [NEAccount shared].userModel;
-        [[[NIMSDK sharedSDK] loginManager] login:user.imAccid token:user.imToken completion:loginCompletion];
+        [[[NIMSDK sharedSDK] loginManager] login:user.imAccid token:user.imToken completion:^(NSError * _Nullable error) {
+            if (loginCompletion) {
+                loginCompletion(error);
+            }
+        }];
+        
     } else {
         if (loginCompletion) {
             loginCompletion(nil);

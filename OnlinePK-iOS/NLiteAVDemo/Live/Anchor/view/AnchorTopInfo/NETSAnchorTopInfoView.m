@@ -3,8 +3,8 @@
 //  NLiteAVDemo
 //
 //  Created by Ease on 2020/11/19.
-// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+//  Copyright © 2020 Netease. All rights reserved.
+//
 
 #import "NETSAnchorTopInfoView.h"
 #import "NETSLiveUtils.h"
@@ -71,7 +71,7 @@
 - (void)setWealth:(int32_t)wealth
 {
     _wealth = wealth;
-    _money.text = [NSString stringWithFormat:@"%@云币", kFormatNum(wealth)];
+    _money.text = [NSString stringWithFormat:NSLocalizedString(@"%@云币", nil), kFormatNum(wealth)];
 }
 - (void)layoutSubviews
 {

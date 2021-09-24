@@ -3,8 +3,8 @@
 //  NLiteAVDemo
 //
 //  Created by I am Groot on 2020/11/16.
-// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+//  Copyright © 2020 Netease. All rights reserved.
+//
 
 #import "NEEvaluateVC.h"
 #import "NEEvaluateThankView.h"
@@ -65,7 +65,7 @@
     }];
     
     UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.text = @"通话品质如何？";
+    titleLabel.text = NSLocalizedString(@"通话品质如何？", nil);
     titleLabel.font = [UIFont boldSystemFontOfSize:22];
     [self.contentView addSubview:titleLabel];
     [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -125,7 +125,15 @@
     }];
 }
 - (void)initData {
-    self.itemName = @[@"听不到声音",@"机械音、杂音",@"声音卡顿",@"看不到画面",@"画面卡顿",@"画面模糊",@"声音画面不同步",@"意外退出"];
+    self.itemName = @[
+        NSLocalizedString(@"听不到声音", nil),
+        NSLocalizedString(@"机械音、杂音", nil),
+        NSLocalizedString(@"声音卡顿", nil),
+        NSLocalizedString(@"看不到画面", nil),
+        NSLocalizedString(@"画面卡顿", nil),
+        NSLocalizedString(@"画面模糊", nil),
+        NSLocalizedString(@"声音画面不同步", nil),
+        NSLocalizedString(@"意外退出", nil)];
 }
 
 #pragma mark - private method
@@ -326,7 +334,7 @@
         [_submitButton addTarget:self action:@selector(submitBtn:) forControlEvents:UIControlEventTouchUpInside];
         _submitButton.backgroundColor = [UIColor colorWithRed:51/255.0 green:126/255.0 blue:255/255.0 alpha:1/1.0];
         _submitButton.titleLabel.font = [UIFont systemFontOfSize:16.0];
-        [_submitButton setTitle:@"提交" forState:UIControlStateNormal];
+        [_submitButton setTitle:NSLocalizedString(@"提交", nil) forState:UIControlStateNormal];
     }
     return _submitButton;
 }

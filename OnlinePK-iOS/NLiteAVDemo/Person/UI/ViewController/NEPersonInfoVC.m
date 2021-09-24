@@ -3,8 +3,8 @@
 //  NLiteAVDemo
 //
 //  Created by I am Groot on 2020/11/17.
-// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+//  Copyright © 2020 Netease. All rights reserved.
+//
 
 #import "NEPersonInfoVC.h"
 #import "NEPersonTableViewCell.h"
@@ -25,13 +25,14 @@
     [super viewDidLoad];
     [self setupUI];
     if ([NEAccount shared].hasLogin) {
-        self.dataArray = @[@[@"头像",@"昵称"],@[@"退出登录"]];
-    }else {
-        self.dataArray = @[@[@"头像",@"昵称"]];
+        self.dataArray = @[@[NSLocalizedString(@"头像", nil),NSLocalizedString(@"昵称", nil)],@[NSLocalizedString(@"退出登录", nil)]];
+    } else {
+        self.dataArray = @[@[NSLocalizedString(@"头像", nil),NSLocalizedString(@"昵称", nil)]];
     }
 }
+
 - (void)setupUI {
-    self.title = @"个人信息";
+    self.title = NSLocalizedString(@"个人信息", nil);
     [self.tableView registerClass:[NEPersonTextCell class] forCellReuseIdentifier:@"NEPersonTextCell"];
     [self.tableView registerClass:[NEPersonTableViewCell class] forCellReuseIdentifier:@"NEPersonTableViewCell"];
 }
@@ -68,7 +69,7 @@
         return cell;
     }else {
         NEPersonTextCell *cell = [tableView dequeueReusableCellWithIdentifier:@"NEPersonTextCell" forIndexPath:indexPath];
-        cell.titleLabel.text = @"退出登录";
+        cell.titleLabel.text = NSLocalizedString(@"退出登录", nil);
         return cell;
     }
 }
@@ -92,11 +93,12 @@
         }
     }
 }
+
 - (void)logout {
-    UIAlertController *alerVC = [UIAlertController alertControllerWithTitle:@"" message:[NSString stringWithFormat:@"确认退出登录%@",[NEAccount shared].userModel.mobile] preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertController *alerVC = [UIAlertController alertControllerWithTitle:@"" message:[NSString stringWithFormat:NSLocalizedString(@"确认退出登录%@", nil),[NEAccount shared].userModel.mobile] preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"取消", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
     }];
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"确认", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [NEAccount localLogoutWithCompletion:^(NSDictionary * _Nullable data, NSError * _Nullable error) {
             if (error) {
                 [self.view makeToast:error.localizedDescription];

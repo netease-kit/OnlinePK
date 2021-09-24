@@ -3,8 +3,8 @@
 //  NLiteAVDemo
 //
 //  Created by I am Groot on 2020/11/22.
-// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+//  Copyright © 2020 Netease. All rights reserved.
+//
 
 #import "NEFeedbackVC.h"
 #import "NEPersonTableViewCell.h"
@@ -30,7 +30,7 @@
     
 }
 - (void)setupUI {
-    self.title = @"意见反馈";
+    self.title = NSLocalizedString(@"意见反馈", nil);
     [self.tableView registerClass:[NEPersonTableViewCell class] forCellReuseIdentifier:@"NEPersonTableViewCell"];
     [self.tableView registerNib:[UINib nibWithNibName:@"NEFeedbackInputCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"NEFeedbackInputCell"];
     
@@ -42,7 +42,7 @@
     [submitBtn addTarget:self action:@selector(submitBtn:) forControlEvents:UIControlEventTouchUpInside];
     submitBtn.backgroundColor = [UIColor colorWithRed:51/255.0 green:126/255.0 blue:255/255.0 alpha:1/1.0];
     submitBtn.titleLabel.font = [UIFont systemFontOfSize:16.0];
-    [submitBtn setTitle:@"提交" forState:UIControlStateNormal];
+    [submitBtn setTitle:NSLocalizedString(@"提交", nil) forState:UIControlStateNormal];
     [bgView addSubview:submitBtn];
     [submitBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(20);
@@ -57,12 +57,12 @@
     if (self.selectItemCodes.count || self.cell.textView.text.length) {
         // 提交请求
         [self submitFeedback];
-        [self.view makeToast:@"感谢您的反馈"];
+        [self.view makeToast:NSLocalizedString(@"感谢您的反馈", nil)];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self.navigationController popViewControllerAnimated:YES];
         });
-    }else {
-        [self.view makeToast:@"提交内容为空"];
+    } else {
+        [self.view makeToast:NSLocalizedString(@"提交内容为空", nil)];
     }
 }
 - (void)tap:(UITapGestureRecognizer *)tap {
@@ -111,12 +111,12 @@
     if (indexPath.section == 0) {
         NEPersonTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"NEPersonTableViewCell" forIndexPath:indexPath];
         if (indexPath.row == 0) {
-             cell.personView.titleLabel.text = @"Demo类型";
-            cell.personView.detailLabel.text = self.demoType ? self.demoType : @"请选择Demo类型";
+            cell.personView.titleLabel.text = NSLocalizedString(@"Demo类型", nil);
+            cell.personView.detailLabel.text = self.demoType ? self.demoType : NSLocalizedString(@"请选择Demo类型", nil);
             cell.personView.indicatorImageView.image = [UIImage imageNamed:@"menu_arrow"];
-        }else {
-            cell.personView.titleLabel.text = @"问题类型";
-            cell.personView.detailLabel.text = self.type ? self.type : @"请选择问题类型";
+        } else {
+            cell.personView.titleLabel.text = NSLocalizedString(@"问题类型", nil);
+            cell.personView.detailLabel.text = self.type ?: NSLocalizedString(@"请选择问题类型", nil);
             cell.personView.indicatorImageView.image = [UIImage imageNamed:@"menu_arrow"];
         }
         return cell;

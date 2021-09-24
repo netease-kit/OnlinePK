@@ -3,8 +3,8 @@
 //  NLiteAVDemo
 //
 //  Created by Ease on 2020/11/25.
-// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+//  Copyright © 2020 Netease. All rights reserved.
+//
 
 #import "NETSChoosePKSheet.h"
 #import "TopmostView.h"
@@ -15,6 +15,8 @@
 #import <MJRefresh/MJRefresh.h>
 #import "NETSToast.h"
 #import "NETSEmptyListView.h"
+#import "NEPkRoomApiService.h"
+#import "NELiveRoomListModel.h"
 
 @interface NETSChoosePKSheet () <UITableViewDelegate, UITableViewDataSource, NETSChoosePKCellDelegate>
 
@@ -23,7 +25,7 @@
 /// 展示主播列表
 @property (nonatomic, strong)   UITableView     *tableView;
 /// 数据集合
-@property (nonatomic, strong)   NSArray<NETSLiveRoomModel *> *datas;
+@property (nonatomic, strong)   NSArray<NELiveRoomListDetailModel *> *datas;
 /// 页码
 @property (nonatomic, assign)   int             page;
 /// 加载状态
@@ -35,6 +37,7 @@
 /// 空数据视图
 @property (nonatomic, strong)   NETSEmptyListView   *emptyView;
 
+@property(nonatomic, strong) NEPkRoomApiService *apiService;
 @end
 
 @implementation NETSChoosePKSheet
@@ -42,7 +45,7 @@
 + (void)showWithTarget:(id<NETSChoosePKSheetDelegate>)target
 {
     CGRect frame = [UIScreen mainScreen].bounds;
-    NETSChoosePKSheet *sheet = [[NETSChoosePKSheet alloc] initWithFrame:frame title:@"选择主播进行PK"];
+    NETSChoosePKSheet *sheet = [[NETSChoosePKSheet alloc] initWithFrame:frame title:NSLocalizedString(@"选择主播进行PK", nil)];
     sheet.delegate = target;
     sheet.resetBtn.hidden = YES;
     
@@ -75,7 +78,7 @@
 - (void)bindAction
 {
     @weakify(self);
-    [RACObserve(self, datas) subscribeNext:^(NSArray<NETSLiveRoomModel *> *datas) {
+    [RACObserve(self, datas) subscribeNext:^(NSArray<NELiveRoomListDetailModel *> *datas) {
         @strongify(self);
         self.emptyView.hidden = [datas count] > 0;
         [self.tableView reloadData];
@@ -91,7 +94,7 @@
         if (err.code == 1003) {
             [NETSToast showToast:@"PK列表为空"];
         } else {
-            NSString *msg = err.userInfo[NSLocalizedDescriptionKey] ?: @"请求PK列表错误";
+            NSString *msg = err.userInfo[NSLocalizedDescriptionKey] ?: NSLocalizedString(@"请求PK列表错误", nil);
             [NETSToast showToast:msg];
         }
     }];
@@ -100,7 +103,7 @@
         @strongify(self);
         if (self.isEnd) {
             [self.tableView.mj_footer endRefreshing];
-            [NETSToast showToast:@"无更多内容"];
+            [NETSToast showToast:NSLocalizedString(@"无更多内容", nil)];
             return;
         }
         [self loadData];
@@ -113,10 +116,8 @@
 {
     _page += 1;
     _isLoading = YES;
-    
-    [NETSToast showLoading];
-    [NETSLiveApi fetchListWithLive:NETSLiveListLive pageNum:_page pageSize:20 completionHandle:^(NSDictionary * _Nonnull response) {
-        [NETSToast hideLoading];
+  
+    [self.apiService requestLiveRoomListWithRoomType:NERoomTypePkLive pageNum:_page pageSize:20 completionHandle:^(NSDictionary * _Nonnull response) {
         NSArray *list = response[@"/data/list"];
         if ([list count] > 0) {
             NSMutableArray *tmp = [NSMutableArray arrayWithArray:self.datas];
@@ -127,10 +128,14 @@
         self.error = nil;
         self.isEnd = [list count] < 20;
     } errorHandle:^(NSError * _Nonnull error, NSDictionary * _Nullable response) {
-        [NETSToast hideLoading];
-        self.isLoading = NO;
-        self.error = error;
+        if (error) {
+            YXAlogError(@"requestLiveRoomList failed,error:%@",error);
+            [NETSToast hideLoading];
+            self.isLoading = NO;
+            self.error = error;
+        }
     }];
+ 
 }
 
 #pragma mark - UITableViewDelegate
@@ -154,7 +159,7 @@
 
 #pragma mark - NETSChoosePKCellDelegate
 
-- (void)didClickPKModel:(NETSLiveRoomModel *)model
+- (void)didClickPKModel:(NELiveRoomListDetailModel *)model
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(choosePkOnSheet:withRoom:)]) {
         [self.delegate choosePkOnSheet:self withRoom:model];
@@ -186,4 +191,10 @@
     return _emptyView;
 }
 
+-(NEPkRoomApiService *)apiService {
+    if (!_apiService) {
+        _apiService = [[NEPkRoomApiService alloc]init];
+    }
+    return _apiService;
+}
 @end

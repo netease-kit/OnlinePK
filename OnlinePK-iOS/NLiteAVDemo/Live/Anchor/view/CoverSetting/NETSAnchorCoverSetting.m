@@ -3,8 +3,8 @@
 //  NLiteAVDemo
 //
 //  Created by Ease on 2020/11/10.
-// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+//  Copyright © 2020 Netease. All rights reserved.
+//
 
 #import "NETSAnchorCoverSetting.h"
 #import "UIButton+NTES.h"
@@ -170,7 +170,7 @@
     if (!_tipLab) {
         _tipLab = [[UILabel alloc] init];
         _tipLab.font = [UIFont systemFontOfSize:10];
-        _tipLab.text = @"设置封面";
+        _tipLab.text = NSLocalizedString(@"设置封面", nil);
         _tipLab.textAlignment = NSTextAlignmentCenter;
         _tipLab.textColor = [UIColor whiteColor];
     }

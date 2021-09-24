@@ -3,8 +3,8 @@
 //  NLiteAVDemo
 //
 //  Created by Ease on 2020/12/18.
-// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+//  Copyright © 2020 Netease. All rights reserved.
+//
 
 #import "NETSLiveEndView.h"
 #import "NENavigator.h"
@@ -98,7 +98,7 @@
         _tipLab.font = [UIFont systemFontOfSize:14];
         _tipLab.textColor = [UIColor whiteColor];
         _tipLab.textAlignment = NSTextAlignmentCenter;
-        _tipLab.text = @"上下滑动,即可观看其他直播";
+        _tipLab.text = NSLocalizedString(@"上下滑动,即可观看其他直播", nil);
     }
     return _tipLab;
 }
@@ -114,7 +114,7 @@
 
 - (UIButton *)backButton {
     if (!_backButton) {
-        _backButton = [NETSViewFactory createSystemBtnFrame:CGRectZero title:@"返回" titleColor:UIColor.whiteColor backgroundColor:UIColor.clearColor target:self action:@selector(backButtonClickAction:)];
+        _backButton = [NETSViewFactory createSystemBtnFrame:CGRectZero title:NSLocalizedString(@"返回", nil) titleColor:UIColor.whiteColor backgroundColor:UIColor.clearColor target:self action:@selector(backButtonClickAction:)];
         _backButton.titleLabel.font = TextFont_16;
         _backButton.layer.cornerRadius = 25;
         _backButton.layer.borderColor = UIColor.whiteColor.CGColor;

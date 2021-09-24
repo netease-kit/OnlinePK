@@ -3,11 +3,11 @@
 //  NLiteAVDemo
 //
 //  Created by vvj on 2021/4/26.
-//  Copyright © 2021 Netease. All rights reserved.
-//
+// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
 
 #import "NETSInviteMicCell.h"
-#import "NETSConnectMicModel.h"
+#import "NESeatInfoFilterModel.h"
 
 @interface NETSInviteMicCell ()
 @property(nonatomic, strong) UILabel *rakeLabel;
@@ -92,7 +92,7 @@
 }
 
 
-- (void)setUserModel:(NETSConnectMicMemberModel *)userModel {
+- (void)setUserModel:(NESeatInfoFilterModel *)userModel {
     _userModel = userModel;
     self.nickNameLabel.text = userModel.nickName;
     [self.headImageView sd_setImageWithURL:[NSURL URLWithString:userModel.avatar] placeholderImage:[UIImage imageNamed:@"avator"]];
@@ -131,7 +131,7 @@
         _nickNameLabel = [[UILabel alloc]init];
         _nickNameLabel.font = TextFont_14;
         _nickNameLabel.textColor = HEXCOLOR(0x0F0C0A);
-        _nickNameLabel.text = @"杰西卡";
+        _nickNameLabel.text = @"";
     }
     return _nickNameLabel;;
 }
@@ -139,7 +139,7 @@
 - (UIButton *)inviteButton {
     if (!_inviteButton) {
         _inviteButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_inviteButton setTitle:@"邀请上麦" forState:UIControlStateNormal];
+        [_inviteButton setTitle:NSLocalizedString(@"邀请上麦", nil) forState:UIControlStateNormal];
         [_inviteButton setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
         _inviteButton.titleLabel.font = TextFont_14;
         _inviteButton.layer.cornerRadius = 4;

@@ -3,8 +3,8 @@
 //  NLiteAVDemo
 //
 //  Created by Ease on 2020/11/10.
-// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+//  Copyright © 2020 Netease. All rights reserved.
+//
 
 #import "NETSAnchorBottomPanel.h"
 
@@ -141,7 +141,7 @@
 - (NETSCircleBtn *)beautyBtn
 {
     if (!_beautyBtn) {
-        _beautyBtn = [[NETSCircleBtn alloc] initWithTitle:@"美颜" icon:@"beauty_ico"];
+        _beautyBtn = [[NETSCircleBtn alloc] initWithTitle:NSLocalizedString(@"美颜", nil) icon:@"beauty_ico"];
         _beautyBtn.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6];
         [_beautyBtn addTarget:self action:@selector(clickAction:) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -151,7 +151,7 @@
 - (NETSCircleBtn *)filterBtn
 {
     if (!_filterBtn) {
-        _filterBtn = [[NETSCircleBtn alloc] initWithTitle:@"滤镜" icon:@"filter_ico"];
+        _filterBtn = [[NETSCircleBtn alloc] initWithTitle:NSLocalizedString(@"滤镜", nil) icon:@"filter_ico"];
         _filterBtn.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6];
         [_filterBtn addTarget:self action:@selector(clickAction:) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -161,7 +161,7 @@
 - (NETSCircleBtn *)settingBtn
 {
     if (!_settingBtn) {
-        _settingBtn = [[NETSCircleBtn alloc] initWithTitle:@"设置" icon:@"setting_ico"];
+        _settingBtn = [[NETSCircleBtn alloc] initWithTitle:NSLocalizedString(@"设置", nil) icon:@"setting_ico"];
         _settingBtn.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6];
         [_settingBtn addTarget:self action:@selector(clickAction:) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -172,7 +172,7 @@
 {
     if (!_liveBtn) {
         _liveBtn = [[UIButton alloc] init];
-        [_liveBtn setTitle:@"开启直播间" forState:UIControlStateNormal];
+        [_liveBtn setTitle:NSLocalizedString(@"开启直播间", nil) forState:UIControlStateNormal];
         [_liveBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_liveBtn addTarget:self action:@selector(clickAction:) forControlEvents:UIControlEventTouchUpInside];
         _liveBtn.titleLabel.font = [UIFont systemFontOfSize:16];

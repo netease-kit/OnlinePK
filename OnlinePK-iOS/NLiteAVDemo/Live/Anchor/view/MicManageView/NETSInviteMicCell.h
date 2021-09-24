@@ -3,14 +3,14 @@
 //  NLiteAVDemo
 //
 //  Created by vvj on 2021/4/26.
-//  Copyright © 2021 Netease. All rights reserved.
-//
+// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
 
 #import "NETSBaseTabViewCell.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-
+@class NESeatInfoFilterModel;
 @protocol NETSInviteMicViewDelegate <NSObject>
 
 /// 邀请上麦
@@ -19,7 +19,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@class NETSConnectMicMemberModel;
 
 @interface NETSInviteMicCell : NETSBaseTabViewCell
 
@@ -31,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic, strong) NSIndexPath *cellIndexPath;
 
-@property(nonatomic, strong) NETSConnectMicMemberModel *userModel;
+@property(nonatomic, strong) NESeatInfoFilterModel *userModel;
 @end
 
 NS_ASSUME_NONNULL_END

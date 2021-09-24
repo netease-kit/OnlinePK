@@ -3,8 +3,8 @@
 //  NLiteAVDemo
 //
 //  Created by I am Groot on 2020/11/16.
-// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+//  Copyright © 2020 Netease. All rights reserved.
+//
 
 #import "NEEvaluateThankView.h"
 
@@ -25,7 +25,7 @@
         }];
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         [button setImage:[UIImage imageNamed:@"laugh"] forState:UIControlStateNormal];
-        [button setTitle:@"感谢您的评价～" forState:UIControlStateNormal];
+        [button setTitle:NSLocalizedString(@"感谢您的评价～", nil) forState:UIControlStateNormal];
         [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         button.contentMode = UIViewContentModeCenter;
         [self addSubview:button];

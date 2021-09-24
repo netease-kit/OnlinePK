@@ -3,8 +3,8 @@
 //  NLiteAVDemo
 //
 //  Created by Ease on 2020/11/25.
-// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+//  Copyright © 2020 Netease. All rights reserved.
+//
 
 #import "NETSAudienceSendGiftCell.h"
 #import "NETSGiftModel.h"
@@ -63,7 +63,7 @@
     NSDictionary *displayDic = @{NSFontAttributeName: [UIFont systemFontOfSize:13], NSForegroundColorAttributeName: HEXCOLOR(0x222222), NSParagraphStyleAttributeName: style};
     NSDictionary *priceDic = @{NSFontAttributeName: [UIFont systemFontOfSize:12], NSForegroundColorAttributeName: HEXCOLOR(0x666666), NSParagraphStyleAttributeName: style};
     NSMutableAttributedString *res = [[NSMutableAttributedString alloc] initWithString:gift.display attributes:displayDic];
-    NSAttributedString *price = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\n(%d云币)", gift.price]
+    NSAttributedString *price = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"\n(%d云币)", nil), gift.price]
                                                                 attributes:priceDic];
     [res appendAttributedString:price];
     return [res copy];

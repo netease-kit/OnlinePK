@@ -3,15 +3,13 @@
 //  NLiteAVDemo
 //
 //  Created by Ease on 2020/11/24.
-// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+//  Copyright © 2020 Netease. All rights reserved.
+//
 
 #import <UIKit/UIKit.h>
 #import "NETSLiveModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
-@class NETSPassThroughHandleRewardData;
 
 ///
 /// PK状态条(固定高度58, 左侧为pk邀请者, 右侧为pk被邀请者)
@@ -26,9 +24,9 @@ NS_ASSUME_NONNULL_BEGIN
  @param rightRewardCoins    - 右总打赏数量
  @param rightRewardAvatars  - 右打赏用户头像集合
  */
-- (void)refreshWithLeftRewardCoins:(int32_t)leftRewardCoins
+- (void)refreshWithLeftRewardCoins:(int64_t)leftRewardCoins
                  leftRewardAvatars:(nullable NSArray<NSString *> *)leftRewardAvatars
-                  rightRewardCoins:(int32_t)rightRewardCoins
+                  rightRewardCoins:(int64_t)rightRewardCoins
                 rightRewardAvatars:(nullable NSArray<NSString *> *)rightRewardAvatars;
 
 /**
