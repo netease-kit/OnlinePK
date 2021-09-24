@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-  ~ Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+  ~  Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+  ~  Use of this source code is governed by a MIT license that can be found in the LICENSE file
   -->
 
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
@@ -57,7 +57,7 @@
     <TextView
         android:id="@+id/tv_finishing_tip"
         android:layout_width="wrap_content"
-        android:text="直播已经结束啦！"
+        android:text="@string/biz_live_has_end"
         android:layout_marginTop="20dp"
         android:textColor="#ffffffff"
         android:textSize="24dp"
@@ -85,7 +85,7 @@
         android:background="@drawable/shape_finishing_back_bg"
         android:gravity="center"
         android:minWidth="120dp"
-        android:text="返回"
+        android:text="@string/biz_live_back"
         android:textColor="#ffffffff"
         android:textSize="16dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -119,7 +119,7 @@
         app:layout_constraintTop_toBottomOf="@+id/iv_finger"
         android:layout_marginTop="4dp"
         android:layout_width="wrap_content"
-        android:text="上下滑动，即可观看其他直播"
+        android:text="@string/biz_live_guide_tip"
         android:textColor="#ffffffff"
         android:textSize="14dp"
         android:layout_height="wrap_content"/>
@@ -147,7 +147,7 @@
         android:layout_height="50dp"
         android:minWidth="150dp"
         android:layout_marginBottom="180dp"
-        android:text="返回"
+        android:text="@string/biz_live_back"
         android:textSize="16dp"
         android:textColor="#ffffffff"
         android:gravity="center"
@@ -164,7 +164,7 @@
         android:background="@drawable/shape_finishing_back_bg"
         android:gravity="center"
         android:minWidth="150dp"
-        android:text="重新连接"
+        android:text="@string/biz_live_reconnection"
         android:textColor="#ffffffff"
         android:textSize="16dp"
         app:layout_constraintBottom_toBottomOf="parent"

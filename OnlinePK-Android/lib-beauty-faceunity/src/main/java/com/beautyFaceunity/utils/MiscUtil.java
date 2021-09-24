@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2021 NetEase, Inc.  All rights reserved.
- * Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+ *  Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+ *  Use of this source code is governed by a MIT license that can be found in the LICENSE file
  */
 
 package com.beautyFaceunity.utils;
@@ -32,7 +32,7 @@ public class MiscUtil {
     public static final String IMAGE_FORMAT_JPG = ".jpg";
     public static final String IMAGE_FORMAT_JPEG = ".jpeg";
     public static final String IMAGE_FORMAT_PNG = ".png";
-    private static String TAG = "FU-MiscUtil";
+    private static final String TAG = "FU-MiscUtil";
 
     public static String createFileName() {
         File dir = new File(Constant.EXTERNAL_FILE_PATH);

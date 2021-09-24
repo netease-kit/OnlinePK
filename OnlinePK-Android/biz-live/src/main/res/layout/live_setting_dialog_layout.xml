@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-  ~ Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+  ~  Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+  ~  Use of this source code is governed by a MIT license that can be found in the LICENSE file
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -20,7 +20,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/setting"
+            android:text="@string/biz_live_setting"
             android:textColor="#FF0F0C0A"
             android:textSize="@dimen/text_size_16"
             android:layout_centerInParent="true" />
@@ -55,7 +55,7 @@
             android:textColor="#222222"
             android:layout_centerVertical="true"
             android:textSize="@dimen/text_size_14"
-            android:text="分辨率" />
+            android:text="@string/biz_live_resolution" />
 
         <TextView
             android:id="@+id/tv_1080p"
@@ -112,7 +112,7 @@
             android:textColor="#222222"
             android:layout_centerVertical="true"
             android:textSize="@dimen/text_size_14"
-            android:text="帧率" />
+            android:text="@string/biz_live_frame" />
 
         <TextView
             android:id="@+id/tv_30"
@@ -170,7 +170,7 @@
             android:textColor="#222222"
             android:layout_centerVertical="true"
             android:textSize="@dimen/text_size_14"
-            android:text="音频质量" />
+            android:text="@string/biz_live_audio_quality" />
 
         <TextView
             android:id="@+id/tv_music"
@@ -180,7 +180,7 @@
             android:textSize="@dimen/text_size_14"
             android:textColor="@color/setting_button_text"
             android:background="@drawable/setting_button_bg"
-            android:text="音乐"
+            android:text="@string/biz_live_music"
             android:layout_marginStart="@dimen/dp_8" />
 
         <TextView
@@ -191,7 +191,7 @@
             android:layout_marginStart="@dimen/dp_8"
             android:textSize="@dimen/text_size_14"
             android:textColor="@color/setting_button_text"
-            android:text="标准"
+            android:text="@string/biz_live_standard"
             android:background="@drawable/setting_button_bg" />
 
     </RelativeLayout>

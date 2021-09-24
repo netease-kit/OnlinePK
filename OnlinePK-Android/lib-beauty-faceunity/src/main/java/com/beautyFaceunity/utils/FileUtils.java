@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2021 NetEase, Inc.  All rights reserved.
- * Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+ *  Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+ *  Use of this source code is governed by a MIT license that can be found in the LICENSE file
  */
 
 package com.beautyFaceunity.utils;
@@ -242,7 +242,7 @@ public class FileUtils {
             }
         }
         String name = srcFile.getName();
-        String type = name.substring(name.lastIndexOf("."), name.length());
+        String type = name.substring(name.lastIndexOf("."));
         String md5ByFile = null;
         try {
             md5ByFile = FileUtils.getMd5ByFile(srcFile);

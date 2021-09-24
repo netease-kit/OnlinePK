@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2021 NetEase, Inc.  All rights reserved.
- * Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+ *  Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+ *  Use of this source code is governed by a MIT license that can be found in the LICENSE file
  */
 
 package com.beautyFaceunity.gles;
@@ -20,13 +20,13 @@ public class Drawable2dFull extends Drawable2d {
      * The texture coordinates are Y-inverted relative to RECTANGLE.  (This seems to work out
      * right with external textures from SurfaceTexture.)
      */
-    private static final float FULL_RECTANGLE_COORDS[] = {
+    private static final float[] FULL_RECTANGLE_COORDS = {
             -1.0f, -1.0f,   // 0 bottom left
             1.0f, -1.0f,   // 1 bottom right
             -1.0f, 1.0f,   // 2 top left
             1.0f, 1.0f,   // 3 top right
     };
-    private static final float FULL_RECTANGLE_TEX_COORDS[] = {
+    private static final float[] FULL_RECTANGLE_TEX_COORDS = {
             0.0f, 0.0f,     // 0 bottom left
             1.0f, 0.0f,     // 1 bottom right
             0.0f, 1.0f,     // 2 top left

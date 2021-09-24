@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-  ~ Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+  ~  Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+  ~  Use of this source code is governed by a MIT license that can be found in the LICENSE file
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:gravity="center"
-        android:text="个人中心"
+        android:text="@string/app_user_center"
         android:textColor="@color/colorWhite"
         android:textSize="20dp" />
 
@@ -95,7 +95,7 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:gravity="center_vertical"
-            android:text="免费申请试用"
+            android:text="@string/app_free_apply_trial"
             android:textColor="@color/colorWhite"
             android:textSize="16dp"
             app:drawableEndCompat="@drawable/icon_right_arrow_light" />
@@ -105,16 +105,6 @@
             android:layout_height="0.5dp"
             android:layout_marginEnd="-20dp"
             android:background="#33ffffff" />
-
-        <TextView
-            android:id="@+id/tv_feedback"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:gravity="center_vertical"
-            android:text="问题反馈"
-            android:textColor="@color/colorWhite"
-            android:textSize="16dp"
-            app:drawableEndCompat="@drawable/icon_right_arrow_light" />
 
         <View
             android:layout_width="match_parent"
@@ -127,7 +117,7 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:gravity="center_vertical"
-            android:text="关于"
+            android:text="@string/app_about"
             android:textColor="@color/colorWhite"
             android:textSize="16dp"
             app:drawableEndCompat="@drawable/icon_right_arrow_light" />

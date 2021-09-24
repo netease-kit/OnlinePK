@@ -1,9 +1,10 @@
 /*
- * Copyright (c) 2021 NetEase, Inc.  All rights reserved.
- * Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+ *  Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+ *  Use of this source code is governed by a MIT license that can be found in the LICENSE file
  */
 
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -35,7 +36,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.android.support.constraint:constraint-layout:2.0.1'
 
-    implementation rootProject.ext.utilcodex
+    implementation rootProject.ext.androidUtil
     implementation(name: 'netease-network', ext: 'aar')
     implementation 'com.squareup.okhttp3:logging-interceptor:3.14.7'
     implementation 'com.squareup.okhttp3:okhttp:3.14.9'
@@ -47,8 +48,12 @@ dependencies {
     implementation project(':lib-basic')
 
     implementation project(':lib-user')
-    implementation project(':lib-utils')
 
     api rootProject.ext.imSdk
     api rootProject.ext.avsignallingSdk
+    implementation "androidx.core:core-ktx:1.6.0"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }

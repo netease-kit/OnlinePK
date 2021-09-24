@@ -1,8 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-  ~ Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+  ~  Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+  ~  Use of this source code is governed by a MIT license that can be found in the LICENSE file
   -->
 
 <resources>
     <string name="app_name">网易云信互动直播</string>
+    <string name="app_pk_live">PK 直播</string>
+    <string name="app_pk_live_desc_text">从单人直播到主播间PK，观众连麦多种玩法</string>
+    <string name="app_pk_live2">PK直播</string>
+    <string name="app_multiple_link_seat_live">多人连麦直播</string>
+    <string name="app_multiple_link_seat_live_desc_text">支持1V4主播和观众的视频互动</string>
+    <string name="app_onetoonevoiceroom">一对一音视频通话</string>
+    <string name="app_multiple_video_call">多人视频通话</string>
+    <string name="app_feedback_success">反馈成功</string>
+    <string name="app_feedback_failed">反馈失败</string>
+    <string name="app_audio_problem">音频问题</string>
+    <string name="app_video_problem">视频问题</string>
+    <string name="app_video_fuzzy">画面模糊</string>
+    <string name="app_video_block">画面卡顿</string>
+    <string name="app_audio_video_not_sync">音画不同步</string>
+    <string name="app_audio_delay">声音有延迟</string>
+    <string name="app_audio_off_and_on">声音断断续续</string>
+    <string name="app_audio_noise_or_instruments_sound">杂音、机械音</string>
+    <string name="app_interaction_experience">交互体验</string>
+    <string name="app_other_problem">其他问题</string>
+    <string name="app_privacy_policy">隐私政策</string>
+    <string name="app_user_agreement">用户协议</string>
+    <string name="app_disclaimer">免责声明</string>
+    <string name="app_user_info_update_failed">用户信息更新失败</string>
+    <string name="app_user_info_update_success">用户信息更新成功</string>
+    <string name="app_free_trial">免费试用</string>
+    <string name="app_about">关于</string>
+    <string name="app_app_version">App版本</string>
+    <string name="app_im_sdk_version">IM SDK版本</string>
+    <string name="app_rtc_sdk_version">音视频SDK版本</string>
+    <string name="app_suggestion_feedback">意见反馈</string>
+    <string name="app_logout">退出登录</string>
+    <string name="app_ok">完成</string>
+    <string name="app_modify_nickname">修改昵称</string>
+    <string name="app_please_select_demo_name">请选择Demo名称</string>
+    <string name="app_demo_name">Demo名称</string>
+    <string name="app_please_select_problem_type">请选择问题类型</string>
+    <string name="app_problem_type">问题类型</string>
+    <string name="app_please_input_your_suggestion">请输入您的意见</string>
+    <string name="app_problem_describe">问题描述</string>
+    <string name="app_commit">提交</string>
+    <string name="app_avatar">头像</string>
+    <string name="app_user_info">个人信息</string>
+    <string name="app_nickname">昵称</string>
+    <string name="app_user_center">个人中心</string>
+    <string name="app_free_apply_trial">免费申请试用</string>
+    <string name="app_tip">提示</string>
+    <string name="app_application">应用</string>
+    <string name="app_problem_feedback">问题反馈</string>
 </resources>

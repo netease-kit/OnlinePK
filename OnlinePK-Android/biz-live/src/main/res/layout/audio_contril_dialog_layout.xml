@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-  ~ Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+  ~  Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+  ~  Use of this source code is governed by a MIT license that can be found in the LICENSE file
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -25,7 +25,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="伴音"
+            android:text="@string/biz_live_with_music"
             android:textColor="#FF0F0C0A"
             android:textSize="@dimen/text_size_16"
             android:layout_centerInParent="true" />
@@ -45,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_marginTop="12dp"
         android:layout_height="wrap_content"
-        android:text="背景音乐"
+        android:text="@string/biz_live_bgm"
         android:layout_below="@+id/rly_title"
         android:textColor="#222222"
         android:textSize="16sp" />
@@ -58,7 +58,7 @@
         android:layout_alignParentRight="true"
         android:background="@drawable/setting_button_bg"
         android:layout_below="@+id/rly_title"
-        android:text="音乐2"
+        android:text="@string/biz_live_music_two"
         android:layout_marginTop="12dp"
         android:textColor="#222222"
         android:textSize="14sp" />
@@ -71,7 +71,7 @@
         android:layout_toLeftOf="@id/tv_music_2"
         android:layout_below="@+id/rly_title"
         android:background="@drawable/setting_button_bg"
-        android:text="音乐1"
+        android:text="@string/biz_live_music_one"
         android:layout_marginTop="12dp"
         android:textColor="#222222"
         android:textSize="14sp" />
@@ -113,7 +113,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/ll_music_container"
         android:layout_marginTop="20dp"
-        android:text="音效"
+        android:text="@string/biz_live_audio_effect"
         android:textColor="#222222"
         android:textSize="16sp" />
 
@@ -126,7 +126,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginTop="20dp"
         android:background="@drawable/setting_button_bg"
-        android:text="音效2"
+        android:text="@string/biz_live_audio_effect_two"
         android:textColor="#222222"
         android:textSize="14sp" />
 
@@ -140,7 +140,7 @@
         android:layout_marginRight="12dp"
         android:layout_toLeftOf="@id/tv_audio_effect_2"
         android:background="@drawable/setting_button_bg"
-        android:text="音效1"
+        android:text="@string/biz_live_audio_effect_one"
         android:textColor="#222222"
         android:textSize="14sp" />
 

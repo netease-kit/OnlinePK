@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-  ~ Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+  ~  Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+  ~  Use of this source code is governed by a MIT license that can be found in the LICENSE file
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="19dp"
-            android:text="退出登录"
+            android:text="@string/biz_user_logout"
             android:textColor="#ff000000"
             android:textSize="17dp" />
 
@@ -34,7 +34,7 @@
             android:layout_marginTop="4dp"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
-            android:text="确认退出当前登录账户？"
+            android:text="@string/biz_user_sure_logout_account"
             android:textColor="#ff333333"
             android:textSize="13dp" />
 
@@ -46,7 +46,7 @@
             android:layout_alignEnd="@id/line_divide"
             android:layout_alignParentStart="true"
             android:gravity="center"
-            android:text="否"
+            android:text="@string/biz_user_no"
             android:textColor="#ff666666"
             android:textSize="17dp" />
 
@@ -58,7 +58,7 @@
             android:layout_alignStart="@id/line_divide"
             android:layout_alignParentEnd="true"
             android:gravity="center"
-            android:text="是"
+            android:text="@string/biz_user_yes"
             android:textColor="#ff007aff"
             android:textSize="17dp" />
 

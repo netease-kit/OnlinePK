@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2021 NetEase, Inc.  All rights reserved.
- * Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+ *  Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+ *  Use of this source code is governed by a MIT license that can be found in the LICENSE file
  */
 
 package com.beautyFaceunity.param;
@@ -150,9 +150,9 @@ public class MakeupParamHelper {
     }
 
     public static final class TextureImage {
-        private int width;
-        private int height;
-        private byte[] bytes;
+        private final int width;
+        private final int height;
+        private final byte[] bytes;
 
         TextureImage(int width, int height, byte[] bytes) {
             this.width = width;

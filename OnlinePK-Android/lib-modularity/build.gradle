@@ -1,9 +1,10 @@
 /*
- * Copyright (c) 2021 NetEase, Inc.  All rights reserved.
- * Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+ *  Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+ *  Use of this source code is governed by a MIT license that can be found in the LICENSE file
  */
 
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 30
@@ -35,11 +36,17 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     implementation rootProject.ext.nertcSdk
-    implementation 'com.netease.yunxin:report:2.0.3'
+
+    //协程
+    api 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3'
+    api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.3'
 
     api rootProject.ext.imSdk
     api rootProject.ext.avsignallingSdk
     api project(':lib-beauty-faceunity')
-    api project(':lib-utils')
 
+
+}
+repositories {
+    mavenCentral()
 }

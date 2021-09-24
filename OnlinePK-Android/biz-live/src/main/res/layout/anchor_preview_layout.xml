@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-  ~ Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+  ~  Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+  ~  Use of this source code is governed by a MIT license that can be found in the LICENSE file
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -96,7 +96,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/demo_user_warning"
+            android:text="@string/biz_live_demo_user_warning"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/text_size_14" />
 
@@ -126,7 +126,7 @@
             android:layout_marginTop="2dp"
             android:textSize="@dimen/text_size_12"
             android:textColor="@color/colorWhite"
-            android:text="@string/filter" />
+            android:text="@string/biz_live_filter" />
 
     </LinearLayout>
 
@@ -154,7 +154,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_size_12"
             android:textColor="@color/colorWhite"
-            android:text="@string/beauty" />
+            android:text="@string/biz_live_beauty" />
 
     </LinearLayout>
 
@@ -182,7 +182,7 @@
             android:layout_marginTop="2dp"
             android:textSize="@dimen/text_size_12"
             android:textColor="@color/colorWhite"
-            android:text="@string/setting" />
+            android:text="@string/biz_live_setting" />
 
     </LinearLayout>
 
@@ -193,7 +193,7 @@
         android:layout_marginStart="@dimen/dp_20"
         android:layout_marginEnd="@dimen/dp_20"
         android:layout_marginBottom="@dimen/dp_20"
-        android:text="@string/start_new_live"
+        android:text="@string/biz_live_start_new_live"
         android:background="@drawable/live_start_bg"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />

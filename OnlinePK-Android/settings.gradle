@@ -1,18 +1,55 @@
 /*
- * Copyright (c) 2021 NetEase, Inc.  All rights reserved.
- * Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+ *  Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+ *  Use of this source code is governed by a MIT license that can be found in the LICENSE file
  */
 
 rootProject.name = "PkLiveDemo"
 
 include ':app'
-
+/**
+ * 用户相关实现
+ */
 include ':biz-user'
+
+/**
+ * 用户lib
+ */
+include ':lib-user'
+
+/**
+ * app模块化
+ */
+include ':lib-modularity'
+/**
+ * 基础lib
+ */
+include ':lib-basic'
+
+/**
+ * 美颜lib，基于相芯
+ */
+include ':lib-beauty-faceunity'
+
+/**
+ * kotlin 使用的网络库
+ */
+include ':lib-network-kt'
+
+/**
+ * 直播模块lib
+ */
+include ':lib-live'
+
+/**
+ * 直播业务实现，主要是UI方面
+ */
 include ':biz-live'
 
-include ':lib-modularity'
-include ':lib-basic'
-include ':lib-utils'
-include ':lib-live'
-include ':lib-beauty-faceunity'
-include ':lib-user'
+/**
+ * 直播房间服务
+ */
+include ':lib-live-room-service'
+/**
+ * Pk相关功能服务
+ */
+include ':lib-live-pk-service'
