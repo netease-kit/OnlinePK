@@ -192,11 +192,14 @@
         [alert addAction:confirm];
         [self presenAlert:alert];
     }else if (self.pkState == NEPKStatusPkInviting) {
-        if ([self.pkInvitingBar superview]) {
-            [NETSToast showToast:NSLocalizedString(@"您已经再邀请中,不可再邀请", nil)];
-        }else {
-            [NETSChoosePKSheet showWithTarget:self];
-        }
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            if ([self.pkInvitingBar superview]) {
+                [NETSToast showToast:NSLocalizedString(@"您已经再邀请中,不可再邀请", nil)];
+            }else {
+                [NETSChoosePKSheet showWithTarget:self];
+            }
+        });
+       
     }
 }
 
