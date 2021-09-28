@@ -3,8 +3,8 @@
 //  NLiteAVDemo
 //
 //  Created by Ease on 2020/11/25.
-//  Copyright © 2020 Netease. All rights reserved.
-//
+// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
 
 #import "NETSGiftAnimationView.h"
 #import "NETSInvitingBar.h"
@@ -101,6 +101,7 @@
 @property(nonatomic, strong) NSString *enterUserAccountId;
 //是否joinrtc房间
 @property(nonatomic, assign) BOOL isJoinedRtc;
+
 @end
 
 @implementation NETSAudienceMask
@@ -731,6 +732,9 @@
         NETSRtcConfig.sharedConfig.micOn = YES;
         self.bottomBar.buttonType = NETSAudienceBottomRequestTypeNormal;
         if (event.reason == NESeatInfoChangeReasonKickout) {
+            if ([[NENavigator shared].navigationController.presentedViewController isKindOfClass:[NTESActionSheetNavigationController class]]) {
+               [[NENavigator shared].navigationController dismissViewControllerAnimated:YES completion:nil];
+            }
             [NETSToast showToast:NSLocalizedString(@"您已被主播踢下麦位", nil)];
         }
     }
