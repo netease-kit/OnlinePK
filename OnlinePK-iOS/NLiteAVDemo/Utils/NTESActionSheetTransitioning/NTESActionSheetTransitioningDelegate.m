@@ -3,8 +3,8 @@
 //  NEChatroom-iOS-ObjC
 //
 //  Created by Wenchao Ding on 2021/1/26.
-//  Copyright © 2021 netease. All rights reserved.
-//
+// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
 
 #import "NTESActionSheetTransitioningDelegate.h"
 #import "NTESActionSheetPresentationController.h"

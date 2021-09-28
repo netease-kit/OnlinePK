@@ -282,7 +282,6 @@
     self.connectMicView.hidden = NO;
     [self.connectMicView reloadDataSource:self.connectMicArray];
     [self updateStreamUserTrans:event.seatInfo.avRoomUid];
-
 }
 
 - (void)onSeatLeft:(NESeatLeaveEvent * _Nonnull)event {
