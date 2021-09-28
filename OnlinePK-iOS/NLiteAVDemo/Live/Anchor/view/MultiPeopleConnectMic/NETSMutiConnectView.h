@@ -3,8 +3,8 @@
 //  NLiteAVDemo
 //
 //  Created by vvj on 2021/4/19.
-//  Copyright © 2021 Netease. All rights reserved.
-//
+// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
 
 #import <UIKit/UIKit.h>
 
@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 刷新本地数据状态
 /// @param updateDataArray 更新的数据
-- (void)reloadDataSource:(NSArray *)updateDataArray;
+- (void)reloadDataSource:(NSArray <NESeatInfo *>*)updateDataArray;
 @end
 
 NS_ASSUME_NONNULL_END

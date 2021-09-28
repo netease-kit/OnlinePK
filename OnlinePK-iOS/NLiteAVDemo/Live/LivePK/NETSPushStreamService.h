@@ -3,8 +3,8 @@
 //  NLiteAVDemo
 //
 //  Created by Ease on 2020/12/15.
-// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+//  Copyright © 2020 Netease. All rights reserved.
+//
 
 #import <Foundation/Foundation.h>
 
@@ -36,6 +36,14 @@ NS_ASSUME_NONNULL_BEGIN
             successBlock:(void(^)(void))successBlock
              failedBlock:(void(^)(NSError *))failedBlock;
 
+
+/*
+
+ */
++ (void)updateLiveStreamTask:(NERtcLiveStreamTaskInfo *)taskInfo
+               successBlock:(void(^)(void))successBlock
+                failedBlock:(void(^)(NSError *))failedBlock;
+
 /**
  构造推流任务
  @param url     - 推流地址
@@ -44,6 +52,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (nullable NERtcLiveStreamTaskInfo *)streamTaskWithUrl:(NSString *)url
                                                    uids:(NSArray<NSNumber *> *)uids;
+
+
 
 /**
  解析信令返回自定义字段

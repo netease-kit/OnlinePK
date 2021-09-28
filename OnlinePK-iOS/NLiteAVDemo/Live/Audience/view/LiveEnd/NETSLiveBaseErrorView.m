@@ -3,8 +3,8 @@
 //  NLiteAVDemo
 //
 //  Created by Ease on 2020/12/18.
-// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+//  Copyright © 2020 Netease. All rights reserved.
+//
 
 #import "NETSLiveBaseErrorView.h"
 #import <Masonry/Masonry.h>
@@ -154,7 +154,7 @@
         _statusLab.font = [UIFont systemFontOfSize:24];
         _statusLab.textColor = [UIColor whiteColor];
         _statusLab.textAlignment =NSTextAlignmentCenter;
-        _statusLab.text = @"直播已结束";
+        _statusLab.text = NSLocalizedString(@"直播已结束", nil);
     }
     return _statusLab;
 }

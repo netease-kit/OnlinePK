@@ -3,8 +3,8 @@
 //  NLiteAVDemo
 //
 //  Created by Think on 2020/12/31.
-// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+//  Copyright © 2020 Netease. All rights reserved.
+//
 
 #import "NETSEmptyListView.h"
 #import "UIImage+NTES.h"
@@ -59,7 +59,7 @@
         _tipLabel.font = [UIFont systemFontOfSize:14];
         _tipLabel.textColor = HEXCOLOR(0x2b2c39);
         _tipLabel.textAlignment = NSTextAlignmentCenter;
-        _tipLabel.text = @"暂无直播哦";
+        _tipLabel.text = NSLocalizedString(@"暂无直播哦", nil);
     }
     return _tipLabel;
 }

@@ -3,8 +3,8 @@
 //  NLiteAVDemo
 //
 //  Created by 徐善栋 on 2020/12/31.
-// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+//  Copyright © 2020 Netease. All rights reserved.
+//
 
 #import "NETSBaseViewController.h"
 #import "NETSDeviceSIzeInfo.h"
@@ -152,7 +152,7 @@
 #pragma mark ========= Lazy =========
 - (UIButton *)leftButton {
     if (!_leftButton) {
-        _leftButton = [NETSViewFactory createBtnFrame:CGRectMake(0, 0, 60, 30) title:@"取消" bgImage:nil selectBgImage:nil image:@"" target:nil action:nil];
+        _leftButton = [NETSViewFactory createBtnFrame:CGRectMake(0, 0, 60, 30) title:NSLocalizedString(@"取消", nil) bgImage:nil selectBgImage:nil image:@"" target:nil action:nil];
         [_leftButton setTitleColor:HEXCOLOR(0x333333) forState:UIControlStateNormal];
         _leftButton.titleLabel.font = [UIFont systemFontOfSize:15];
         [_leftButton setContentEdgeInsets:UIEdgeInsetsMake(0, -30, 0, 0)];

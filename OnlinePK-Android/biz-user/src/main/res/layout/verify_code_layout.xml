@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-  ~ Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+  ~  Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+  ~  Use of this source code is governed by a MIT license that can be found in the LICENSE file
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -20,7 +20,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="请输入验证码"
+        android:text="@string/biz_user_please_input_auth_code"
         android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
         android:textColor="#FF222222"
@@ -70,7 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#FF333333"
-            android:text=" 后重新发送验证码"
+            android:text="@string/biz_user_re_send_auth_code"
             android:textSize="12sp" />
     </LinearLayout>
 
@@ -85,7 +85,7 @@
         android:layout_marginTop="40dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
-        android:text="下一步" />
+        android:text="@string/biz_user_next" />
 
 
 </LinearLayout>

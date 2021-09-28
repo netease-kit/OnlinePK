@@ -3,17 +3,23 @@
 //  NLiteAVDemo
 //
 //  Created by Think on 2020/8/28.
-// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+//  Copyright © 2020 Netease. All rights reserved.
+//
 
-#import "NENavigator.h"
+
+
 #import "NTELoginVC.h"
-#import "NEAccount.h"
-//#import "NEGroupVideoJoinVC.h"
 #import "NETSLiveListVC.h"
-#import "NETSAnchorVC.h"
 #import "NETSAudienceCollectionViewVC.h"
+#import "NEPkLiveViewController.h"
+#import "NEPkConnectMicViewController.h"
+#import "NETabbarController.h"
+
 #import "NETSToast.h"
+
+#import "NEAccount.h"
+#import "NENavigator.h"
+#import "NELiveRoomListModel.h"
 
 @interface NENavigator ()
 
@@ -67,20 +73,35 @@
     }
 }
 
-- (void)showLiveListVCWithTitle:(NSString *)navTitle{
-    NETSLiveListVC *vc = [[NETSLiveListVC alloc] initWithNavTitle:navTitle];
+- (void)setUpRootWindowCtrl {
+    NETabbarController *tabBarVc = [[NETabbarController alloc]init];
+    [NENavigator shared].navigationController = tabBarVc.menuNavController;
+    [UIApplication sharedApplication].keyWindow.rootViewController = tabBarVc;
+}
+
+- (void)showLiveListVCWithRoomType:(NERoomType)roomType {
+    NETSLiveListVC *vc = [[NETSLiveListVC alloc] initWithNavRoomType:roomType];
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)showAnchorVC
-{
-    NETSAnchorVC *vc = [[NETSAnchorVC alloc] init];
-    vc.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:vc animated:YES];
+- (void)showAnchorVCWithRoomType:(NERoomType)roomType {
+//    NETSAnchorVC *vc = [[NETSAnchorVC alloc] init];
+//    vc.hidesBottomBarWhenPushed = YES;
+//    [self.navigationController pushViewController:vc animated:YES];
+    
+    if (roomType == NERoomTypePkLive) {
+        NEPkLiveViewController *ctrl = [[NEPkLiveViewController alloc]initWithRoomType:roomType];
+        ctrl.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:ctrl animated:YES];
+    }else if(roomType == NERoomTypeConnectMicLive){
+        NEPkConnectMicViewController *ctrl = [[NEPkConnectMicViewController alloc]initWithRoomType:roomType];
+        ctrl.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:ctrl animated:YES];
+    }
 }
 
-- (void)showLivingRoom:(NSArray<NETSLiveRoomModel*> *)roomData selectindex:(NSInteger)index
+- (void)showLivingRoom:(NSArray<NELiveRoomListDetailModel*> *)roomData selectindex:(NSInteger)index
 {
     NETSAudienceCollectionViewVC *vc = [[NETSAudienceCollectionViewVC alloc]initWithScrollData:roomData currentRoom:index];
     [self.navigationController pushViewController:vc animated:YES];

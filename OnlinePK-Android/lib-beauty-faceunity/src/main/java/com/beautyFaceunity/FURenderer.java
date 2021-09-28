@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2021 NetEase, Inc.  All rights reserved.
- * Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+ *  Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+ *  Use of this source code is governed by a MIT license that can be found in the LICENSE file
  */
 
 package com.beautyFaceunity;
@@ -68,7 +68,7 @@ public class FURenderer implements OnFUControlListener {
     public static final int TRACK_TYPE_HUMAN = faceunity.FUAITYPE_HUMAN_PROCESSOR;
     public static final int TRACK_TYPE_GESTURE = faceunity.FUAITYPE_HANDGESTURE;
 
-    private Context mContext;
+    private final Context mContext;
 
     // 图形道具文件夹
     private static final String GRAPHICS_ASSETS_DIR = "graphics/";
@@ -91,8 +91,6 @@ public class FURenderer implements OnFUControlListener {
     // 美体 bundle
     private static final String BUNDLE_BEAUTIFY_BODY = GRAPHICS_ASSETS_DIR + "body_slim.bundle";
 
-    //fixme 暂时用不到，为了减小包大小，删除资源,后续如果用到重新添加资源
-
     // 算法模型文件夹
     private static final String AI_MODEL_ASSETS_DIR = "model/";
     // 人脸识别算法模型
@@ -112,8 +110,8 @@ public class FURenderer implements OnFUControlListener {
     private static float mRedLevel = 0.3f;//红润
     private static float mEyeBright = 0.0f;//亮眼
     private static float mToothWhiten = 0.0f;//美牙
-    private static float mFaceShape = 4;//脸型：精细变形
-    private static float mFaceShapeLevel = 1.0f;//变形程度
+    private static final float mFaceShape = 4;//脸型：精细变形
+    private static final float mFaceShapeLevel = 1.0f;//变形程度
     private static float mCheekThinning = 0f;//瘦脸
     private static float mCheekV = 0.5f;//V脸
     private static float mCheekNarrow = 0f;//窄脸
@@ -165,7 +163,7 @@ public class FURenderer implements OnFUControlListener {
     private boolean isNeedPosterFace = false;
     private boolean isNeedBodySlim = false;
     private Effect mDefaultEffect;//默认道具
-    private boolean mIsCreateEGLContext; //是否需要手动创建EGLContext
+    private final boolean mIsCreateEGLContext; //是否需要手动创建EGLContext
     private int mInputTextureType = 0; //输入的图像texture类型，Camera提供的默认为EXTERNAL OES
     private int mInputImageFormat = 0;
     private volatile boolean mIsNeedUpdateFaceBeauty = true;
@@ -189,18 +187,18 @@ public class FURenderer implements OnFUControlListener {
     private int mHairColorIndex = 0;
 
     // 美妆妆容参数集合
-    private Map<String, Object> mMakeupParams = new ConcurrentHashMap<>(16);
+    private final Map<String, Object> mMakeupParams = new ConcurrentHashMap<>(16);
     // 轻美妆妆容集合，保证预定义的子妆容顺序，口红要最后上妆，这样才不会被覆盖
-    private Map<Integer, LightMakeupItem> mLightMakeupItemMap = new LinkedHashMap<>(16);
+    private final Map<Integer, LightMakeupItem> mLightMakeupItemMap = new LinkedHashMap<>(16);
     // 美妆组合妆
     private MakeupEntity mMakeupEntity;
     // 美妆子妆句柄集合
-    private Map<String, Integer> mMakeupItemHandleMap = new HashMap<>(16);
+    private final Map<String, Integer> mMakeupItemHandleMap = new HashMap<>(16);
     // 美妆点位是否镜像
     private boolean mIsMakeupFlipPoints;
 
-    private float[] rotationData = new float[4];
-    private float[] faceRectData = new float[4];
+    private final float[] rotationData = new float[4];
+    private final float[] faceRectData = new float[4];
 
     private List<Runnable> mEventQueue;
     private long mGlThreadId;
@@ -236,7 +234,7 @@ public class FURenderer implements OnFUControlListener {
 
         // 获取 Nama SDK 版本信息
         Log.e(TAG, "fu sdk version " + faceunity.fuGetVersion());
-        // Todo 缺少文件，注释相关代码，如果要实现美颜功能，请联系相芯获取证书
+        // fixme 这里加载相芯证书
         int isSetup = faceunity.fuSetup(new byte[0], authpack.A());
         Log.d(TAG, "fuSetup. isSetup: " + (isSetup == 0 ? "no" : "yes"));
         // 提前加载算法数据模型，用于人脸检测
@@ -1201,7 +1199,7 @@ public class FURenderer implements OnFUControlListener {
         }
 
         //queueEvent的Runnable在此处被调用
-        while (!mEventQueue.isEmpty()) {
+        while (mEventQueue != null && !mEventQueue.isEmpty()) {
             mEventQueue.remove(0).run();
         }
     }
@@ -2049,7 +2047,7 @@ public class FURenderer implements OnFUControlListener {
     private int mCurrentFrameCnt = 0;
     private long mLastOneHundredFrameTimeStamp = 0;
     private long mOneHundredFrameFUTime = 0;
-    private boolean mNeedBenchmark = true;
+    private final boolean mNeedBenchmark = true;
     private long mFuCallStartTime = 0;
 
     private OnFUDebugListener mOnFUDebugListener;
@@ -2176,7 +2174,7 @@ public class FURenderer implements OnFUControlListener {
         private Effect defaultEffect;
         private int maxFaces = 4;
         private int maxHumans = 1;
-        private Context context;
+        private final Context context;
         private int inputTextureType = 0;
         private int inputImageFormat = 0;
         private int inputOrientation = 270;

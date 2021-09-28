@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-  ~ Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+  ~  Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+  ~  Use of this source code is governed by a MIT license that can be found in the LICENSE file
   -->
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -30,7 +30,7 @@
         <TextView
             android:textColor="@android:color/white"
             android:textSize="10dp"
-            tools:text="昵称昵称昵称昵称昵称昵称昵称昵称"
+            tools:text="nickname"
             android:singleLine="true"
             android:ellipsize="end"
             android:maxEms="9"

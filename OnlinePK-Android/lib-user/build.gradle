@@ -1,9 +1,10 @@
 /*
- * Copyright (c) 2021 NetEase, Inc.  All rights reserved.
- * Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+ *  Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+ *  Use of this source code is governed by a MIT license that can be found in the LICENSE file
  */
 
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 30
@@ -37,4 +38,9 @@ dependencies {
 
     api project(':lib-modularity')
     compileOnly rootProject.ext.imSdk
+    implementation "androidx.core:core-ktx:1.6.0"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }

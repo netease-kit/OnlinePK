@@ -79,7 +79,7 @@
 - (UILabel *)titleLab {
     if (!_titleLab) {
         _titleLab = [[UILabel alloc] init];
-        _titleLab.text = @"未知";
+        _titleLab.text = NSLocalizedString(@"未知", nil);
         _titleLab.font = Font_Size(@"PingFangSC-Medium", 16);
         _titleLab.textColor = HEXCOLOR(0x222222);
         _titleLab.textAlignment = NSTextAlignmentCenter;
@@ -92,7 +92,7 @@
     if (!_backBtn) {
         _backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _backBtn.titleLabel.font = TextFont_14;
-        [_backBtn setTitle:@"取消" forState:UIControlStateNormal];
+        [_backBtn setTitle:NSLocalizedString(@"取消", nil) forState:UIControlStateNormal];
         [_backBtn addTarget:self action:@selector(backAction:)
            forControlEvents:UIControlEventTouchUpInside];
         [_backBtn setTitleColor:HEXCOLOR(0x222222) forState:UIControlStateNormal];

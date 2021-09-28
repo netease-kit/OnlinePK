@@ -1,0 +1,1005 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		39771BE026DDD608005B7EE1 /* NEAvRoomUserDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39771BDF26DDD608005B7EE1 /* NEAvRoomUserDetail.swift */; };
+		48222C95268EA5BA00D7134F /* NERoomUserDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48222C94268EA5BA00D7134F /* NERoomUserDetail.swift */; };
+		48325FE62673191000353B96 /* NERtcEngineCompat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325FE52673191000353B96 /* NERtcEngineCompat.swift */; };
+		483D5592268C0787006A5503 /* NSURLSession+LiveRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483D5591268C0787006A5503 /* NSURLSession+LiveRoom.swift */; };
+		487885022671A68C009A0457 /* NERoomAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487885012671A68B009A0457 /* NERoomAPIService.swift */; };
+		489283882679E17B0084C50E /* NERoomMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489283872679E17B0084C50E /* NERoomMessage.swift */; };
+		48AEB711266DB3B1000CCB0D /* NELiveRoom+Seat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48AEB710266DB3B1000CCB0D /* NELiveRoom+Seat.swift */; };
+		48B55DDF2670C02800628ECB /* NESeatAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B55DDE2670C02800628ECB /* NESeatAPIService.swift */; };
+		48B76EFE266E04D00090954A /* NELiveBaseParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B76EFD266E04D00090954A /* NELiveBaseParams.swift */; };
+		48B76F02266E05A00090954A /* NELiveRoom+Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B76F01266E05A00090954A /* NELiveRoom+Room.swift */; };
+		48B76F08266E0E480090954A /* NESeatPickResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B76F07266E0E480090954A /* NESeatPickResponse.swift */; };
+		48B76F0C266E38C50090954A /* NESeatServiceNotInRoomStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B76F0B266E38C50090954A /* NESeatServiceNotInRoomStub.swift */; };
+		48B76F12266E3A730090954A /* NESeatServiceNotLoginedStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B76F11266E3A730090954A /* NESeatServiceNotLoginedStub.swift */; };
+		48B76F16266E3B6C0090954A /* NERoomServiceNotLoginedStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B76F15266E3B6C0090954A /* NERoomServiceNotLoginedStub.swift */; };
+		48DB9AB32668E4A300F37201 /* NELiveRoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48DB9AA92668E4A300F37201 /* NELiveRoom.framework */; };
+		48DB9ABA2668E4A300F37201 /* NELiveRoom.h in Headers */ = {isa = PBXBuildFile; fileRef = 48DB9AAC2668E4A300F37201 /* NELiveRoom.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		48DB9B2B2668E4D200F37201 /* NELiveRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9AC52668E4D200F37201 /* NELiveRoom.swift */; };
+		48DB9B2D2668E4D200F37201 /* NELiveRoomOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9AC72668E4D200F37201 /* NELiveRoomOptions.swift */; };
+		48DB9C102668E7F000F37201 /* NEEnterRoomParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9BB02668E7EF00F37201 /* NEEnterRoomParams.swift */; };
+		48DB9C112668E7F000F37201 /* NEDestroyRoomParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9BB12668E7EF00F37201 /* NEDestroyRoomParams.swift */; };
+		48DB9C122668E7F000F37201 /* NELeaveRoomParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9BB22668E7EF00F37201 /* NELeaveRoomParams.swift */; };
+		48DB9C132668E7F000F37201 /* NECreateRoomParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9BB32668E7EF00F37201 /* NECreateRoomParams.swift */; };
+		48DB9C162668E7F000F37201 /* NERoomService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9BB82668E7EF00F37201 /* NERoomService.swift */; };
+		48DB9C172668E7F000F37201 /* NERoomServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9BB92668E7EF00F37201 /* NERoomServiceProtocol.swift */; };
+		48DB9C182668E7F000F37201 /* NERoomServiceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9BBA2668E7EF00F37201 /* NERoomServiceDelegate.swift */; };
+		48DB9C192668E7F000F37201 /* NEUserEnterRoomEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9BBC2668E7EF00F37201 /* NEUserEnterRoomEvent.swift */; };
+		48DB9C1A2668E7F000F37201 /* NERoomDestroyEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9BBD2668E7EF00F37201 /* NERoomDestroyEvent.swift */; };
+		48DB9C1B2668E7F000F37201 /* NEUserLeaveRoomEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9BBE2668E7EF00F37201 /* NEUserLeaveRoomEvent.swift */; };
+		48DB9C1C2668E7F000F37201 /* NERoomServiceDefs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9BC02668E7EF00F37201 /* NERoomServiceDefs.swift */; };
+		48DB9C5E2668E7F000F37201 /* NELiveRoomURLProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 48DB9C092668E7F000F37201 /* NELiveRoomURLProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		48DB9C5F2668E7F000F37201 /* NELiveRoomDelegateProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9C0A2668E7F000F37201 /* NELiveRoomDelegateProxy.m */; };
+		48DB9C602668E7F000F37201 /* NELiveRoomConsts.m in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9C0B2668E7F000F37201 /* NELiveRoomConsts.m */; };
+		48DB9C612668E7F000F37201 /* NELiveRoomURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9C0C2668E7F000F37201 /* NELiveRoomURLProtocol.m */; };
+		48DB9C622668E7F000F37201 /* NELiveRoomDelegateProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 48DB9C0D2668E7F000F37201 /* NELiveRoomDelegateProxy.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		48DB9C632668E7F000F37201 /* NELiveRoomConsts.h in Headers */ = {isa = PBXBuildFile; fileRef = 48DB9C0E2668E7F000F37201 /* NELiveRoomConsts.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		48DB9CB02668E9D300F37201 /* NESeatApplyResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9C862668E9D200F37201 /* NESeatApplyResponse.swift */; };
+		48DB9CB12668E9D300F37201 /* NECancelSeatApplyParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9C882668E9D200F37201 /* NECancelSeatApplyParams.swift */; };
+		48DB9CB22668E9D300F37201 /* NESetSeatCustomInfoParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9C892668E9D200F37201 /* NESetSeatCustomInfoParams.swift */; };
+		48DB9CB32668E9D300F37201 /* NECancelSeatPickParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9C8A2668E9D200F37201 /* NECancelSeatPickParams.swift */; };
+		48DB9CB42668E9D300F37201 /* NESetSeatOpenStateParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9C8B2668E9D200F37201 /* NESetSeatOpenStateParams.swift */; };
+		48DB9CB52668E9D300F37201 /* NEPickSeatParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9C8C2668E9D200F37201 /* NEPickSeatParams.swift */; };
+		48DB9CB62668E9D300F37201 /* NELeaveSeatParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9C8D2668E9D200F37201 /* NELeaveSeatParams.swift */; };
+		48DB9CB72668E9D300F37201 /* NEAcceptSeatPickParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9C8E2668E9D200F37201 /* NEAcceptSeatPickParams.swift */; };
+		48DB9CB82668E9D300F37201 /* NEApplySeatParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9C8F2668E9D200F37201 /* NEApplySeatParams.swift */; };
+		48DB9CB92668E9D300F37201 /* NEKickSeatParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9C902668E9D200F37201 /* NEKickSeatParams.swift */; };
+		48DB9CBA2668E9D300F37201 /* NERejectSeatApplyParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9C912668E9D200F37201 /* NERejectSeatApplyParams.swift */; };
+		48DB9CBB2668E9D300F37201 /* NEAcceptSeatApplyParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9C922668E9D200F37201 /* NEAcceptSeatApplyParams.swift */; };
+		48DB9CBC2668E9D300F37201 /* NESetSeatVideoStateParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9C932668E9D200F37201 /* NESetSeatVideoStateParams.swift */; };
+		48DB9CBD2668E9D300F37201 /* NESetSeatAudioStateParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9C942668E9D200F37201 /* NESetSeatAudioStateParams.swift */; };
+		48DB9CBE2668E9D300F37201 /* NERejectSeatPickParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9C952668E9D200F37201 /* NERejectSeatPickParams.swift */; };
+		48DB9CBF2668E9D300F37201 /* NEEnterSeatParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9C962668E9D200F37201 /* NEEnterSeatParams.swift */; };
+		48DB9CC02668E9D300F37201 /* NESeatInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9C982668E9D200F37201 /* NESeatInfo.swift */; };
+		48DB9CC12668E9D300F37201 /* NESeatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9C9A2668E9D200F37201 /* NESeatService.swift */; };
+		48DB9CC22668E9D300F37201 /* NESeatServiceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9C9B2668E9D200F37201 /* NESeatServiceDelegate.swift */; };
+		48DB9CC32668E9D300F37201 /* NESeatServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9C9C2668E9D200F37201 /* NESeatServiceProtocol.swift */; };
+		48DB9CC42668E9D300F37201 /* NESeatLeaveEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9C9E2668E9D200F37201 /* NESeatLeaveEvent.swift */; };
+		48DB9CC52668E9D300F37201 /* NESeatCustomInfoChangeEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9C9F2668E9D200F37201 /* NESeatCustomInfoChangeEvent.swift */; };
+		48DB9CC62668E9D300F37201 /* NESeatPickRequestEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9CA02668E9D200F37201 /* NESeatPickRequestEvent.swift */; };
+		48DB9CC72668E9D300F37201 /* NESeatVideoStateChangeEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9CA12668E9D200F37201 /* NESeatVideoStateChangeEvent.swift */; };
+		48DB9CC92668E9D300F37201 /* NESeatEnterEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9CA32668E9D200F37201 /* NESeatEnterEvent.swift */; };
+		48DB9CCA2668E9D300F37201 /* NESeatPickRequestCancelEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9CA42668E9D200F37201 /* NESeatPickRequestCancelEvent.swift */; };
+		48DB9CCB2668E9D300F37201 /* NESeatAudioStateChangeEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9CA52668E9D200F37201 /* NESeatAudioStateChangeEvent.swift */; };
+		48DB9CCC2668E9D300F37201 /* NESeatApplyRequestCancelEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9CA62668E9D200F37201 /* NESeatApplyRequestCancelEvent.swift */; };
+		48DB9CCD2668E9D300F37201 /* NESeatApplyRejectEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9CA72668E9D300F37201 /* NESeatApplyRejectEvent.swift */; };
+		48DB9CCE2668E9D300F37201 /* NESeatApplyAcceptEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9CA82668E9D300F37201 /* NESeatApplyAcceptEvent.swift */; };
+		48DB9CCF2668E9D300F37201 /* NESeatApplyRequestEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9CA92668E9D300F37201 /* NESeatApplyRequestEvent.swift */; };
+		48DB9CD02668E9D300F37201 /* NESeatStateChangeEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9CAA2668E9D300F37201 /* NESeatStateChangeEvent.swift */; };
+		48DB9CD22668E9D300F37201 /* NESeatPickRejectEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9CAC2668E9D300F37201 /* NESeatPickRejectEvent.swift */; };
+		48DB9CD32668E9D300F37201 /* NESeatPickAcceptEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9CAD2668E9D300F37201 /* NESeatPickAcceptEvent.swift */; };
+		48DB9CD42668E9D300F37201 /* NESeatServiceDefs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9CAF2668E9D300F37201 /* NESeatServiceDefs.swift */; };
+		48DB9CE52668ED8E00F37201 /* NERoomUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9CE32668ED8E00F37201 /* NERoomUserInfo.swift */; };
+		48DB9CE62668ED8E00F37201 /* NERoomInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB9CE42668ED8E00F37201 /* NERoomInfo.swift */; };
+		48DCD43C267AF50E00A9BE08 /* NEListRoomParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DCD43B267AF50E00A9BE08 /* NEListRoomParams.swift */; };
+		48DCD441267AF6DF00A9BE08 /* NEChatServiceDefs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DCD440267AF6DF00A9BE08 /* NEChatServiceDefs.swift */; };
+		48DCD447267AF72800A9BE08 /* NEListRoomResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DCD446267AF72800A9BE08 /* NEListRoomResult.swift */; };
+		48DCD44B267AFB1B00A9BE08 /* NERoomDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DCD44A267AFB1B00A9BE08 /* NERoomDetail.swift */; };
+		48E2A4CE2678573400F728F1 /* NEChatServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E2A4CD2678573400F728F1 /* NEChatServiceProtocol.swift */; };
+		48E2A4D72678578100F728F1 /* NEChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E2A4D62678578100F728F1 /* NEChatService.swift */; };
+		48E2A4DB267859D000F728F1 /* NEChatServiceNotLoginedStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E2A4DA267859D000F728F1 /* NEChatServiceNotLoginedStub.swift */; };
+		48E2A4DF267859F300F728F1 /* NEChatServiceNotInRoomStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E2A4DE267859F300F728F1 /* NEChatServiceNotInRoomStub.swift */; };
+		48E2A4E32678742F00F728F1 /* NEChatServiceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E2A4E22678742F00F728F1 /* NEChatServiceDelegate.swift */; };
+		48E2A4ED2678785A00F728F1 /* NELiveRoom+Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E2A4EC2678785A00F728F1 /* NELiveRoom+Chat.swift */; };
+		48E2A4F12678799500F728F1 /* NSError+Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E2A4F02678799500F728F1 /* NSError+Base.swift */; };
+		48E2A4F926787A8900F728F1 /* NEError+Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E2A4F826787A8900F728F1 /* NEError+Room.swift */; };
+		98D12B5DC2DFC31BE9A9BC9A /* libPods-NEPkDemo-NELiveRoom.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139F3056B7EA0A72687577B9 /* libPods-NEPkDemo-NELiveRoom.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		48DB9AB42668E4A300F37201 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 48DB9AA02668E4A300F37201 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 48DB9AA82668E4A300F37201;
+			remoteInfo = NELiveRoom;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		139F3056B7EA0A72687577B9 /* libPods-NEPkDemo-NELiveRoom.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NEPkDemo-NELiveRoom.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		39771BDF26DDD608005B7EE1 /* NEAvRoomUserDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NEAvRoomUserDetail.swift; sourceTree = "<group>"; };
+		48168EA5268B1D3800A0B163 /* libswiftCore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libswiftCore.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/usr/lib/swift/libswiftCore.tbd; sourceTree = DEVELOPER_DIR; };
+		48222C94268EA5BA00D7134F /* NERoomUserDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NERoomUserDetail.swift; sourceTree = "<group>"; };
+		48325FE52673191000353B96 /* NERtcEngineCompat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NERtcEngineCompat.swift; sourceTree = "<group>"; };
+		483D5591268C0787006A5503 /* NSURLSession+LiveRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSURLSession+LiveRoom.swift"; sourceTree = "<group>"; };
+		487885012671A68B009A0457 /* NERoomAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NERoomAPIService.swift; sourceTree = "<group>"; };
+		489283872679E17B0084C50E /* NERoomMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NERoomMessage.swift; sourceTree = "<group>"; };
+		48AEB710266DB3B1000CCB0D /* NELiveRoom+Seat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NELiveRoom+Seat.swift"; sourceTree = "<group>"; };
+		48B55DDE2670C02800628ECB /* NESeatAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NESeatAPIService.swift; sourceTree = "<group>"; };
+		48B76EFD266E04D00090954A /* NELiveBaseParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NELiveBaseParams.swift; sourceTree = "<group>"; };
+		48B76F01266E05A00090954A /* NELiveRoom+Room.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NELiveRoom+Room.swift"; sourceTree = "<group>"; };
+		48B76F07266E0E480090954A /* NESeatPickResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NESeatPickResponse.swift; sourceTree = "<group>"; };
+		48B76F0B266E38C50090954A /* NESeatServiceNotInRoomStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NESeatServiceNotInRoomStub.swift; sourceTree = "<group>"; };
+		48B76F11266E3A730090954A /* NESeatServiceNotLoginedStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NESeatServiceNotLoginedStub.swift; sourceTree = "<group>"; };
+		48B76F15266E3B6C0090954A /* NERoomServiceNotLoginedStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NERoomServiceNotLoginedStub.swift; sourceTree = "<group>"; };
+		48DB9AA92668E4A300F37201 /* NELiveRoom.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NELiveRoom.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		48DB9AAC2668E4A300F37201 /* NELiveRoom.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NELiveRoom.h; sourceTree = "<group>"; };
+		48DB9AAD2668E4A300F37201 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		48DB9AB22668E4A300F37201 /* NELiveRoomTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NELiveRoomTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		48DB9AC52668E4D200F37201 /* NELiveRoom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NELiveRoom.swift; sourceTree = "<group>"; };
+		48DB9AC72668E4D200F37201 /* NELiveRoomOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NELiveRoomOptions.swift; sourceTree = "<group>"; };
+		48DB9BB02668E7EF00F37201 /* NEEnterRoomParams.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NEEnterRoomParams.swift; sourceTree = "<group>"; };
+		48DB9BB12668E7EF00F37201 /* NEDestroyRoomParams.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NEDestroyRoomParams.swift; sourceTree = "<group>"; };
+		48DB9BB22668E7EF00F37201 /* NELeaveRoomParams.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NELeaveRoomParams.swift; sourceTree = "<group>"; };
+		48DB9BB32668E7EF00F37201 /* NECreateRoomParams.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NECreateRoomParams.swift; sourceTree = "<group>"; };
+		48DB9BB82668E7EF00F37201 /* NERoomService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NERoomService.swift; sourceTree = "<group>"; };
+		48DB9BB92668E7EF00F37201 /* NERoomServiceProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NERoomServiceProtocol.swift; sourceTree = "<group>"; };
+		48DB9BBA2668E7EF00F37201 /* NERoomServiceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NERoomServiceDelegate.swift; sourceTree = "<group>"; };
+		48DB9BBC2668E7EF00F37201 /* NEUserEnterRoomEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NEUserEnterRoomEvent.swift; sourceTree = "<group>"; };
+		48DB9BBD2668E7EF00F37201 /* NERoomDestroyEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NERoomDestroyEvent.swift; sourceTree = "<group>"; };
+		48DB9BBE2668E7EF00F37201 /* NEUserLeaveRoomEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NEUserLeaveRoomEvent.swift; sourceTree = "<group>"; };
+		48DB9BC02668E7EF00F37201 /* NERoomServiceDefs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NERoomServiceDefs.swift; sourceTree = "<group>"; };
+		48DB9C092668E7F000F37201 /* NELiveRoomURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NELiveRoomURLProtocol.h; sourceTree = "<group>"; };
+		48DB9C0A2668E7F000F37201 /* NELiveRoomDelegateProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NELiveRoomDelegateProxy.m; sourceTree = "<group>"; };
+		48DB9C0B2668E7F000F37201 /* NELiveRoomConsts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NELiveRoomConsts.m; sourceTree = "<group>"; };
+		48DB9C0C2668E7F000F37201 /* NELiveRoomURLProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NELiveRoomURLProtocol.m; sourceTree = "<group>"; };
+		48DB9C0D2668E7F000F37201 /* NELiveRoomDelegateProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NELiveRoomDelegateProxy.h; sourceTree = "<group>"; };
+		48DB9C0E2668E7F000F37201 /* NELiveRoomConsts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NELiveRoomConsts.h; sourceTree = "<group>"; };
+		48DB9C862668E9D200F37201 /* NESeatApplyResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NESeatApplyResponse.swift; sourceTree = "<group>"; };
+		48DB9C882668E9D200F37201 /* NECancelSeatApplyParams.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NECancelSeatApplyParams.swift; sourceTree = "<group>"; };
+		48DB9C892668E9D200F37201 /* NESetSeatCustomInfoParams.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NESetSeatCustomInfoParams.swift; sourceTree = "<group>"; };
+		48DB9C8A2668E9D200F37201 /* NECancelSeatPickParams.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NECancelSeatPickParams.swift; sourceTree = "<group>"; };
+		48DB9C8B2668E9D200F37201 /* NESetSeatOpenStateParams.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NESetSeatOpenStateParams.swift; sourceTree = "<group>"; };
+		48DB9C8C2668E9D200F37201 /* NEPickSeatParams.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NEPickSeatParams.swift; sourceTree = "<group>"; };
+		48DB9C8D2668E9D200F37201 /* NELeaveSeatParams.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NELeaveSeatParams.swift; sourceTree = "<group>"; };
+		48DB9C8E2668E9D200F37201 /* NEAcceptSeatPickParams.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NEAcceptSeatPickParams.swift; sourceTree = "<group>"; };
+		48DB9C8F2668E9D200F37201 /* NEApplySeatParams.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NEApplySeatParams.swift; sourceTree = "<group>"; };
+		48DB9C902668E9D200F37201 /* NEKickSeatParams.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NEKickSeatParams.swift; sourceTree = "<group>"; };
+		48DB9C912668E9D200F37201 /* NERejectSeatApplyParams.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NERejectSeatApplyParams.swift; sourceTree = "<group>"; };
+		48DB9C922668E9D200F37201 /* NEAcceptSeatApplyParams.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NEAcceptSeatApplyParams.swift; sourceTree = "<group>"; };
+		48DB9C932668E9D200F37201 /* NESetSeatVideoStateParams.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NESetSeatVideoStateParams.swift; sourceTree = "<group>"; };
+		48DB9C942668E9D200F37201 /* NESetSeatAudioStateParams.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NESetSeatAudioStateParams.swift; sourceTree = "<group>"; };
+		48DB9C952668E9D200F37201 /* NERejectSeatPickParams.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NERejectSeatPickParams.swift; sourceTree = "<group>"; };
+		48DB9C962668E9D200F37201 /* NEEnterSeatParams.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NEEnterSeatParams.swift; sourceTree = "<group>"; };
+		48DB9C982668E9D200F37201 /* NESeatInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NESeatInfo.swift; sourceTree = "<group>"; };
+		48DB9C9A2668E9D200F37201 /* NESeatService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NESeatService.swift; sourceTree = "<group>"; };
+		48DB9C9B2668E9D200F37201 /* NESeatServiceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NESeatServiceDelegate.swift; sourceTree = "<group>"; };
+		48DB9C9C2668E9D200F37201 /* NESeatServiceProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NESeatServiceProtocol.swift; sourceTree = "<group>"; };
+		48DB9C9E2668E9D200F37201 /* NESeatLeaveEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NESeatLeaveEvent.swift; sourceTree = "<group>"; };
+		48DB9C9F2668E9D200F37201 /* NESeatCustomInfoChangeEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NESeatCustomInfoChangeEvent.swift; sourceTree = "<group>"; };
+		48DB9CA02668E9D200F37201 /* NESeatPickRequestEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NESeatPickRequestEvent.swift; sourceTree = "<group>"; };
+		48DB9CA12668E9D200F37201 /* NESeatVideoStateChangeEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NESeatVideoStateChangeEvent.swift; sourceTree = "<group>"; };
+		48DB9CA32668E9D200F37201 /* NESeatEnterEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NESeatEnterEvent.swift; sourceTree = "<group>"; };
+		48DB9CA42668E9D200F37201 /* NESeatPickRequestCancelEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NESeatPickRequestCancelEvent.swift; sourceTree = "<group>"; };
+		48DB9CA52668E9D200F37201 /* NESeatAudioStateChangeEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NESeatAudioStateChangeEvent.swift; sourceTree = "<group>"; };
+		48DB9CA62668E9D200F37201 /* NESeatApplyRequestCancelEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NESeatApplyRequestCancelEvent.swift; sourceTree = "<group>"; };
+		48DB9CA72668E9D300F37201 /* NESeatApplyRejectEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NESeatApplyRejectEvent.swift; sourceTree = "<group>"; };
+		48DB9CA82668E9D300F37201 /* NESeatApplyAcceptEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NESeatApplyAcceptEvent.swift; sourceTree = "<group>"; };
+		48DB9CA92668E9D300F37201 /* NESeatApplyRequestEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NESeatApplyRequestEvent.swift; sourceTree = "<group>"; };
+		48DB9CAA2668E9D300F37201 /* NESeatStateChangeEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NESeatStateChangeEvent.swift; sourceTree = "<group>"; };
+		48DB9CAC2668E9D300F37201 /* NESeatPickRejectEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NESeatPickRejectEvent.swift; sourceTree = "<group>"; };
+		48DB9CAD2668E9D300F37201 /* NESeatPickAcceptEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NESeatPickAcceptEvent.swift; sourceTree = "<group>"; };
+		48DB9CAF2668E9D300F37201 /* NESeatServiceDefs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NESeatServiceDefs.swift; sourceTree = "<group>"; };
+		48DB9CE32668ED8E00F37201 /* NERoomUserInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NERoomUserInfo.swift; sourceTree = "<group>"; };
+		48DB9CE42668ED8E00F37201 /* NERoomInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NERoomInfo.swift; sourceTree = "<group>"; };
+		48DCD43B267AF50E00A9BE08 /* NEListRoomParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NEListRoomParams.swift; sourceTree = "<group>"; };
+		48DCD440267AF6DF00A9BE08 /* NEChatServiceDefs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NEChatServiceDefs.swift; sourceTree = "<group>"; };
+		48DCD446267AF72800A9BE08 /* NEListRoomResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NEListRoomResult.swift; sourceTree = "<group>"; };
+		48DCD44A267AFB1B00A9BE08 /* NERoomDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NERoomDetail.swift; sourceTree = "<group>"; };
+		48E2A4CD2678573400F728F1 /* NEChatServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NEChatServiceProtocol.swift; sourceTree = "<group>"; };
+		48E2A4D62678578100F728F1 /* NEChatService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NEChatService.swift; sourceTree = "<group>"; };
+		48E2A4DA267859D000F728F1 /* NEChatServiceNotLoginedStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NEChatServiceNotLoginedStub.swift; sourceTree = "<group>"; };
+		48E2A4DE267859F300F728F1 /* NEChatServiceNotInRoomStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NEChatServiceNotInRoomStub.swift; sourceTree = "<group>"; };
+		48E2A4E22678742F00F728F1 /* NEChatServiceDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NEChatServiceDelegate.swift; sourceTree = "<group>"; };
+		48E2A4EC2678785A00F728F1 /* NELiveRoom+Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NELiveRoom+Chat.swift"; sourceTree = "<group>"; };
+		48E2A4F02678799500F728F1 /* NSError+Base.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSError+Base.swift"; sourceTree = "<group>"; };
+		48E2A4F826787A8900F728F1 /* NEError+Room.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NEError+Room.swift"; sourceTree = "<group>"; };
+		A0C77328A349B1BE5D66605B /* Pods-NEPkDemo-NELiveRoom.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NEPkDemo-NELiveRoom.debug.xcconfig"; path = "Target Support Files/Pods-NEPkDemo-NELiveRoom/Pods-NEPkDemo-NELiveRoom.debug.xcconfig"; sourceTree = "<group>"; };
+		E8DC6D1749AC5C5C71BD532D /* Pods-NEPkDemo-NELiveRoom.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NEPkDemo-NELiveRoom.release.xcconfig"; path = "Target Support Files/Pods-NEPkDemo-NELiveRoom/Pods-NEPkDemo-NELiveRoom.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		48DB9AA62668E4A300F37201 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				98D12B5DC2DFC31BE9A9BC9A /* libPods-NEPkDemo-NELiveRoom.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		48DB9AAF2668E4A300F37201 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				48DB9AB32668E4A300F37201 /* NELiveRoom.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		431B25F6754FC6A8E3D88997 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A0C77328A349B1BE5D66605B /* Pods-NEPkDemo-NELiveRoom.debug.xcconfig */,
+				E8DC6D1749AC5C5C71BD532D /* Pods-NEPkDemo-NELiveRoom.release.xcconfig */,
+			);
+			name = Pods;
+			path = ../Pods;
+			sourceTree = "<group>";
+		};
+		482924FC266F5BFF009F76FE /* Commons */ = {
+			isa = PBXGroup;
+			children = (
+				48325FE52673191000353B96 /* NERtcEngineCompat.swift */,
+			);
+			path = Commons;
+			sourceTree = "<group>";
+		};
+		489283862679E1680084C50E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				489283872679E17B0084C50E /* NERoomMessage.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		48DB9A9F2668E4A300F37201 = {
+			isa = PBXGroup;
+			children = (
+				48DB9AAB2668E4A300F37201 /* NELiveRoom */,
+				48DB9AAA2668E4A300F37201 /* Products */,
+				FD3D016CF1C635CFCA566A02 /* Frameworks */,
+				431B25F6754FC6A8E3D88997 /* Pods */,
+			);
+			sourceTree = "<group>";
+		};
+		48DB9AAA2668E4A300F37201 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				48DB9AA92668E4A300F37201 /* NELiveRoom.framework */,
+				48DB9AB22668E4A300F37201 /* NELiveRoomTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		48DB9AAB2668E4A300F37201 /* NELiveRoom */ = {
+			isa = PBXGroup;
+			children = (
+				48DB9AC52668E4D200F37201 /* NELiveRoom.swift */,
+				48DB9AC72668E4D200F37201 /* NELiveRoomOptions.swift */,
+				48DB9AAC2668E4A300F37201 /* NELiveRoom.h */,
+				48DB9C082668E7F000F37201 /* Commons */,
+				48DB9BAD2668E7EF00F37201 /* Modules */,
+				48DB9AAD2668E4A300F37201 /* Info.plist */,
+			);
+			path = NELiveRoom;
+			sourceTree = "<group>";
+		};
+		48DB9BAD2668E7EF00F37201 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				48DB9BAE2668E7EF00F37201 /* Room */,
+				48E2A4CC267856C100F728F1 /* Chat */,
+				48DB9C842668E9D200F37201 /* Seat */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		48DB9BAE2668E7EF00F37201 /* Room */ = {
+			isa = PBXGroup;
+			children = (
+				48DB9BAF2668E7EF00F37201 /* Params */,
+				48DB9BB42668E7EF00F37201 /* Model */,
+				48DB9BB72668E7EF00F37201 /* Service */,
+				48DB9BBB2668E7EF00F37201 /* Event */,
+				48DB9BBF2668E7EF00F37201 /* Defs */,
+			);
+			path = Room;
+			sourceTree = "<group>";
+		};
+		48DB9BAF2668E7EF00F37201 /* Params */ = {
+			isa = PBXGroup;
+			children = (
+				48DB9BB02668E7EF00F37201 /* NEEnterRoomParams.swift */,
+				48DB9BB12668E7EF00F37201 /* NEDestroyRoomParams.swift */,
+				48DB9BB22668E7EF00F37201 /* NELeaveRoomParams.swift */,
+				48DB9BB32668E7EF00F37201 /* NECreateRoomParams.swift */,
+				48DCD43B267AF50E00A9BE08 /* NEListRoomParams.swift */,
+			);
+			path = Params;
+			sourceTree = "<group>";
+		};
+		48DB9BB42668E7EF00F37201 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				48DB9CE42668ED8E00F37201 /* NERoomInfo.swift */,
+				48DCD44A267AFB1B00A9BE08 /* NERoomDetail.swift */,
+				48DB9CE32668ED8E00F37201 /* NERoomUserInfo.swift */,
+				48DCD446267AF72800A9BE08 /* NEListRoomResult.swift */,
+				48222C94268EA5BA00D7134F /* NERoomUserDetail.swift */,
+				39771BDF26DDD608005B7EE1 /* NEAvRoomUserDetail.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		48DB9BB72668E7EF00F37201 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				48DB9BB92668E7EF00F37201 /* NERoomServiceProtocol.swift */,
+				48DB9BB82668E7EF00F37201 /* NERoomService.swift */,
+				487885012671A68B009A0457 /* NERoomAPIService.swift */,
+				48B76F15266E3B6C0090954A /* NERoomServiceNotLoginedStub.swift */,
+				48DB9BBA2668E7EF00F37201 /* NERoomServiceDelegate.swift */,
+				48B76F01266E05A00090954A /* NELiveRoom+Room.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		48DB9BBB2668E7EF00F37201 /* Event */ = {
+			isa = PBXGroup;
+			children = (
+				48DB9BBC2668E7EF00F37201 /* NEUserEnterRoomEvent.swift */,
+				48DB9BBE2668E7EF00F37201 /* NEUserLeaveRoomEvent.swift */,
+				48DB9BBD2668E7EF00F37201 /* NERoomDestroyEvent.swift */,
+			);
+			path = Event;
+			sourceTree = "<group>";
+		};
+		48DB9BBF2668E7EF00F37201 /* Defs */ = {
+			isa = PBXGroup;
+			children = (
+				48DB9BC02668E7EF00F37201 /* NERoomServiceDefs.swift */,
+				48E2A4F826787A8900F728F1 /* NEError+Room.swift */,
+			);
+			path = Defs;
+			sourceTree = "<group>";
+		};
+		48DB9C082668E7F000F37201 /* Commons */ = {
+			isa = PBXGroup;
+			children = (
+				48DB9C092668E7F000F37201 /* NELiveRoomURLProtocol.h */,
+				48DB9C0C2668E7F000F37201 /* NELiveRoomURLProtocol.m */,
+				48DB9C0D2668E7F000F37201 /* NELiveRoomDelegateProxy.h */,
+				48DB9C0A2668E7F000F37201 /* NELiveRoomDelegateProxy.m */,
+				48DB9C0E2668E7F000F37201 /* NELiveRoomConsts.h */,
+				48DB9C0B2668E7F000F37201 /* NELiveRoomConsts.m */,
+				48B76EFD266E04D00090954A /* NELiveBaseParams.swift */,
+				48E2A4F02678799500F728F1 /* NSError+Base.swift */,
+				483D5591268C0787006A5503 /* NSURLSession+LiveRoom.swift */,
+			);
+			path = Commons;
+			sourceTree = "<group>";
+		};
+		48DB9C842668E9D200F37201 /* Seat */ = {
+			isa = PBXGroup;
+			children = (
+				48DB9C852668E9D200F37201 /* Response */,
+				48DB9C872668E9D200F37201 /* Params */,
+				48DB9C972668E9D200F37201 /* Model */,
+				48DB9C992668E9D200F37201 /* Service */,
+				48DB9C9D2668E9D200F37201 /* Event */,
+				48DB9CAE2668E9D300F37201 /* Defs */,
+				482924FC266F5BFF009F76FE /* Commons */,
+			);
+			path = Seat;
+			sourceTree = "<group>";
+		};
+		48DB9C852668E9D200F37201 /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				48DB9C862668E9D200F37201 /* NESeatApplyResponse.swift */,
+				48B76F07266E0E480090954A /* NESeatPickResponse.swift */,
+			);
+			path = Response;
+			sourceTree = "<group>";
+		};
+		48DB9C872668E9D200F37201 /* Params */ = {
+			isa = PBXGroup;
+			children = (
+				48DB9C882668E9D200F37201 /* NECancelSeatApplyParams.swift */,
+				48DB9C892668E9D200F37201 /* NESetSeatCustomInfoParams.swift */,
+				48DB9C8A2668E9D200F37201 /* NECancelSeatPickParams.swift */,
+				48DB9C8B2668E9D200F37201 /* NESetSeatOpenStateParams.swift */,
+				48DB9C8C2668E9D200F37201 /* NEPickSeatParams.swift */,
+				48DB9C8D2668E9D200F37201 /* NELeaveSeatParams.swift */,
+				48DB9C8E2668E9D200F37201 /* NEAcceptSeatPickParams.swift */,
+				48DB9C8F2668E9D200F37201 /* NEApplySeatParams.swift */,
+				48DB9C902668E9D200F37201 /* NEKickSeatParams.swift */,
+				48DB9C912668E9D200F37201 /* NERejectSeatApplyParams.swift */,
+				48DB9C922668E9D200F37201 /* NEAcceptSeatApplyParams.swift */,
+				48DB9C932668E9D200F37201 /* NESetSeatVideoStateParams.swift */,
+				48DB9C942668E9D200F37201 /* NESetSeatAudioStateParams.swift */,
+				48DB9C952668E9D200F37201 /* NERejectSeatPickParams.swift */,
+				48DB9C962668E9D200F37201 /* NEEnterSeatParams.swift */,
+			);
+			path = Params;
+			sourceTree = "<group>";
+		};
+		48DB9C972668E9D200F37201 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				48DB9C982668E9D200F37201 /* NESeatInfo.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		48DB9C992668E9D200F37201 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				48DB9C9C2668E9D200F37201 /* NESeatServiceProtocol.swift */,
+				48DB9C9A2668E9D200F37201 /* NESeatService.swift */,
+				48B55DDE2670C02800628ECB /* NESeatAPIService.swift */,
+				48B76F0B266E38C50090954A /* NESeatServiceNotInRoomStub.swift */,
+				48B76F11266E3A730090954A /* NESeatServiceNotLoginedStub.swift */,
+				48DB9C9B2668E9D200F37201 /* NESeatServiceDelegate.swift */,
+				48AEB710266DB3B1000CCB0D /* NELiveRoom+Seat.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		48DB9C9D2668E9D200F37201 /* Event */ = {
+			isa = PBXGroup;
+			children = (
+				48DB9C9E2668E9D200F37201 /* NESeatLeaveEvent.swift */,
+				48DB9C9F2668E9D200F37201 /* NESeatCustomInfoChangeEvent.swift */,
+				48DB9CA02668E9D200F37201 /* NESeatPickRequestEvent.swift */,
+				48DB9CA12668E9D200F37201 /* NESeatVideoStateChangeEvent.swift */,
+				48DB9CA32668E9D200F37201 /* NESeatEnterEvent.swift */,
+				48DB9CA42668E9D200F37201 /* NESeatPickRequestCancelEvent.swift */,
+				48DB9CA52668E9D200F37201 /* NESeatAudioStateChangeEvent.swift */,
+				48DB9CA62668E9D200F37201 /* NESeatApplyRequestCancelEvent.swift */,
+				48DB9CA72668E9D300F37201 /* NESeatApplyRejectEvent.swift */,
+				48DB9CA82668E9D300F37201 /* NESeatApplyAcceptEvent.swift */,
+				48DB9CA92668E9D300F37201 /* NESeatApplyRequestEvent.swift */,
+				48DB9CAC2668E9D300F37201 /* NESeatPickRejectEvent.swift */,
+				48DB9CAA2668E9D300F37201 /* NESeatStateChangeEvent.swift */,
+				48DB9CAD2668E9D300F37201 /* NESeatPickAcceptEvent.swift */,
+			);
+			path = Event;
+			sourceTree = "<group>";
+		};
+		48DB9CAE2668E9D300F37201 /* Defs */ = {
+			isa = PBXGroup;
+			children = (
+				48DB9CAF2668E9D300F37201 /* NESeatServiceDefs.swift */,
+			);
+			path = Defs;
+			sourceTree = "<group>";
+		};
+		48DCD43F267AF6D100A9BE08 /* Defs */ = {
+			isa = PBXGroup;
+			children = (
+				48DCD440267AF6DF00A9BE08 /* NEChatServiceDefs.swift */,
+			);
+			path = Defs;
+			sourceTree = "<group>";
+		};
+		48E2A4CC267856C100F728F1 /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				48DCD43F267AF6D100A9BE08 /* Defs */,
+				489283862679E1680084C50E /* Model */,
+				48E2A4D32678574D00F728F1 /* Service */,
+			);
+			path = Chat;
+			sourceTree = "<group>";
+		};
+		48E2A4D32678574D00F728F1 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				48E2A4CD2678573400F728F1 /* NEChatServiceProtocol.swift */,
+				48E2A4D62678578100F728F1 /* NEChatService.swift */,
+				48E2A4DA267859D000F728F1 /* NEChatServiceNotLoginedStub.swift */,
+				48E2A4DE267859F300F728F1 /* NEChatServiceNotInRoomStub.swift */,
+				48E2A4E22678742F00F728F1 /* NEChatServiceDelegate.swift */,
+				48E2A4EC2678785A00F728F1 /* NELiveRoom+Chat.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		FD3D016CF1C635CFCA566A02 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				48168EA5268B1D3800A0B163 /* libswiftCore.tbd */,
+				139F3056B7EA0A72687577B9 /* libPods-NEPkDemo-NELiveRoom.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		48DB9AA42668E4A300F37201 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				48DB9C622668E7F000F37201 /* NELiveRoomDelegateProxy.h in Headers */,
+				48DB9C5E2668E7F000F37201 /* NELiveRoomURLProtocol.h in Headers */,
+				48DB9C632668E7F000F37201 /* NELiveRoomConsts.h in Headers */,
+				48DB9ABA2668E4A300F37201 /* NELiveRoom.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		48DB9AA82668E4A300F37201 /* NELiveRoom */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 48DB9ABD2668E4A300F37201 /* Build configuration list for PBXNativeTarget "NELiveRoom" */;
+			buildPhases = (
+				3C4A4E60A80C46E6320B09B5 /* [CP] Check Pods Manifest.lock */,
+				48DB9AA42668E4A300F37201 /* Headers */,
+				48DB9AA52668E4A300F37201 /* Sources */,
+				48DB9AA62668E4A300F37201 /* Frameworks */,
+				48DB9AA72668E4A300F37201 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NELiveRoom;
+			productName = NELiveRoom;
+			productReference = 48DB9AA92668E4A300F37201 /* NELiveRoom.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		48DB9AB12668E4A300F37201 /* NELiveRoomTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 48DB9AC02668E4A300F37201 /* Build configuration list for PBXNativeTarget "NELiveRoomTests" */;
+			buildPhases = (
+				48DB9AAE2668E4A300F37201 /* Sources */,
+				48DB9AAF2668E4A300F37201 /* Frameworks */,
+				48DB9AB02668E4A300F37201 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				48DB9AB52668E4A300F37201 /* PBXTargetDependency */,
+			);
+			name = NELiveRoomTests;
+			productName = NELiveRoomTests;
+			productReference = 48DB9AB22668E4A300F37201 /* NELiveRoomTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		48DB9AA02668E4A300F37201 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1240;
+				LastUpgradeCheck = 1240;
+				TargetAttributes = {
+					48DB9AA82668E4A300F37201 = {
+						CreatedOnToolsVersion = 12.4;
+						LastSwiftMigration = 1240;
+					};
+					48DB9AB12668E4A300F37201 = {
+						CreatedOnToolsVersion = 12.4;
+						LastSwiftMigration = 1240;
+					};
+				};
+			};
+			buildConfigurationList = 48DB9AA32668E4A300F37201 /* Build configuration list for PBXProject "NELiveRoom" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 48DB9A9F2668E4A300F37201;
+			productRefGroup = 48DB9AAA2668E4A300F37201 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				48DB9AA82668E4A300F37201 /* NELiveRoom */,
+				48DB9AB12668E4A300F37201 /* NELiveRoomTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		48DB9AA72668E4A300F37201 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		48DB9AB02668E4A300F37201 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3C4A4E60A80C46E6320B09B5 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-NEPkDemo-NELiveRoom-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		48DB9AA52668E4A300F37201 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				48DB9CD32668E9D300F37201 /* NESeatPickAcceptEvent.swift in Sources */,
+				48DB9C1B2668E7F000F37201 /* NEUserLeaveRoomEvent.swift in Sources */,
+				48DB9CBA2668E9D300F37201 /* NERejectSeatApplyParams.swift in Sources */,
+				48DB9C102668E7F000F37201 /* NEEnterRoomParams.swift in Sources */,
+				48DB9CC12668E9D300F37201 /* NESeatService.swift in Sources */,
+				48DB9CB72668E9D300F37201 /* NEAcceptSeatPickParams.swift in Sources */,
+				48E2A4F12678799500F728F1 /* NSError+Base.swift in Sources */,
+				48DB9CB92668E9D300F37201 /* NEKickSeatParams.swift in Sources */,
+				48DB9CE52668ED8E00F37201 /* NERoomUserInfo.swift in Sources */,
+				48DB9CB62668E9D300F37201 /* NELeaveSeatParams.swift in Sources */,
+				48DB9CCB2668E9D300F37201 /* NESeatAudioStateChangeEvent.swift in Sources */,
+				48B55DDF2670C02800628ECB /* NESeatAPIService.swift in Sources */,
+				48DB9C182668E7F000F37201 /* NERoomServiceDelegate.swift in Sources */,
+				487885022671A68C009A0457 /* NERoomAPIService.swift in Sources */,
+				48DB9C602668E7F000F37201 /* NELiveRoomConsts.m in Sources */,
+				48DB9CB32668E9D300F37201 /* NECancelSeatPickParams.swift in Sources */,
+				39771BE026DDD608005B7EE1 /* NEAvRoomUserDetail.swift in Sources */,
+				48DB9CCD2668E9D300F37201 /* NESeatApplyRejectEvent.swift in Sources */,
+				48DB9CB02668E9D300F37201 /* NESeatApplyResponse.swift in Sources */,
+				48DB9CC32668E9D300F37201 /* NESeatServiceProtocol.swift in Sources */,
+				48E2A4ED2678785A00F728F1 /* NELiveRoom+Chat.swift in Sources */,
+				48DB9C132668E7F000F37201 /* NECreateRoomParams.swift in Sources */,
+				48B76F12266E3A730090954A /* NESeatServiceNotLoginedStub.swift in Sources */,
+				48E2A4F926787A8900F728F1 /* NEError+Room.swift in Sources */,
+				48DB9C612668E7F000F37201 /* NELiveRoomURLProtocol.m in Sources */,
+				48DB9CCF2668E9D300F37201 /* NESeatApplyRequestEvent.swift in Sources */,
+				48DB9CD42668E9D300F37201 /* NESeatServiceDefs.swift in Sources */,
+				48DB9CBC2668E9D300F37201 /* NESetSeatVideoStateParams.swift in Sources */,
+				48DB9CD02668E9D300F37201 /* NESeatStateChangeEvent.swift in Sources */,
+				48AEB711266DB3B1000CCB0D /* NELiveRoom+Seat.swift in Sources */,
+				48DB9B2B2668E4D200F37201 /* NELiveRoom.swift in Sources */,
+				48DB9C192668E7F000F37201 /* NEUserEnterRoomEvent.swift in Sources */,
+				48DB9CBE2668E9D300F37201 /* NERejectSeatPickParams.swift in Sources */,
+				48B76EFE266E04D00090954A /* NELiveBaseParams.swift in Sources */,
+				48DB9CD22668E9D300F37201 /* NESeatPickRejectEvent.swift in Sources */,
+				48E2A4DB267859D000F728F1 /* NEChatServiceNotLoginedStub.swift in Sources */,
+				48DB9C1C2668E7F000F37201 /* NERoomServiceDefs.swift in Sources */,
+				48DB9C1A2668E7F000F37201 /* NERoomDestroyEvent.swift in Sources */,
+				48DB9CC72668E9D300F37201 /* NESeatVideoStateChangeEvent.swift in Sources */,
+				48DCD441267AF6DF00A9BE08 /* NEChatServiceDefs.swift in Sources */,
+				48DB9CE62668ED8E00F37201 /* NERoomInfo.swift in Sources */,
+				48DB9CB12668E9D300F37201 /* NECancelSeatApplyParams.swift in Sources */,
+				48DB9CBF2668E9D300F37201 /* NEEnterSeatParams.swift in Sources */,
+				489283882679E17B0084C50E /* NERoomMessage.swift in Sources */,
+				48B76F08266E0E480090954A /* NESeatPickResponse.swift in Sources */,
+				48DB9CC92668E9D300F37201 /* NESeatEnterEvent.swift in Sources */,
+				48DB9C5F2668E7F000F37201 /* NELiveRoomDelegateProxy.m in Sources */,
+				48325FE62673191000353B96 /* NERtcEngineCompat.swift in Sources */,
+				48DB9C112668E7F000F37201 /* NEDestroyRoomParams.swift in Sources */,
+				48DB9CC62668E9D300F37201 /* NESeatPickRequestEvent.swift in Sources */,
+				483D5592268C0787006A5503 /* NSURLSession+LiveRoom.swift in Sources */,
+				48DB9CC22668E9D300F37201 /* NESeatServiceDelegate.swift in Sources */,
+				48E2A4CE2678573400F728F1 /* NEChatServiceProtocol.swift in Sources */,
+				48DB9CCC2668E9D300F37201 /* NESeatApplyRequestCancelEvent.swift in Sources */,
+				48B76F16266E3B6C0090954A /* NERoomServiceNotLoginedStub.swift in Sources */,
+				48DB9B2D2668E4D200F37201 /* NELiveRoomOptions.swift in Sources */,
+				48DB9CCA2668E9D300F37201 /* NESeatPickRequestCancelEvent.swift in Sources */,
+				48B76F0C266E38C50090954A /* NESeatServiceNotInRoomStub.swift in Sources */,
+				48E2A4D72678578100F728F1 /* NEChatService.swift in Sources */,
+				48B76F02266E05A00090954A /* NELiveRoom+Room.swift in Sources */,
+				48DB9C172668E7F000F37201 /* NERoomServiceProtocol.swift in Sources */,
+				48DB9CB22668E9D300F37201 /* NESetSeatCustomInfoParams.swift in Sources */,
+				48DB9CB82668E9D300F37201 /* NEApplySeatParams.swift in Sources */,
+				48DB9CB52668E9D300F37201 /* NEPickSeatParams.swift in Sources */,
+				48DB9CCE2668E9D300F37201 /* NESeatApplyAcceptEvent.swift in Sources */,
+				48DCD447267AF72800A9BE08 /* NEListRoomResult.swift in Sources */,
+				48E2A4DF267859F300F728F1 /* NEChatServiceNotInRoomStub.swift in Sources */,
+				48DB9CC02668E9D300F37201 /* NESeatInfo.swift in Sources */,
+				48DB9CC52668E9D300F37201 /* NESeatCustomInfoChangeEvent.swift in Sources */,
+				48E2A4E32678742F00F728F1 /* NEChatServiceDelegate.swift in Sources */,
+				48DB9CB42668E9D300F37201 /* NESetSeatOpenStateParams.swift in Sources */,
+				48DB9CC42668E9D300F37201 /* NESeatLeaveEvent.swift in Sources */,
+				48222C95268EA5BA00D7134F /* NERoomUserDetail.swift in Sources */,
+				48DB9CBD2668E9D300F37201 /* NESetSeatAudioStateParams.swift in Sources */,
+				48DB9C162668E7F000F37201 /* NERoomService.swift in Sources */,
+				48DCD43C267AF50E00A9BE08 /* NEListRoomParams.swift in Sources */,
+				48DB9CBB2668E9D300F37201 /* NEAcceptSeatApplyParams.swift in Sources */,
+				48DCD44B267AFB1B00A9BE08 /* NERoomDetail.swift in Sources */,
+				48DB9C122668E7F000F37201 /* NELeaveRoomParams.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		48DB9AAE2668E4A300F37201 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		48DB9AB52668E4A300F37201 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 48DB9AA82668E4A300F37201 /* NELiveRoom */;
+			targetProxy = 48DB9AB42668E4A300F37201 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		48DB9ABB2668E4A300F37201 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		48DB9ABC2668E4A300F37201 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		48DB9ABE2668E4A300F37201 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A0C77328A349B1BE5D66605B /* Pods-NEPkDemo-NELiveRoom.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 569GNZ5392;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = NELiveRoom/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.netease.yunxin.kit.liveroom.NELiveRoom;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_WORKSPACE = NO;
+			};
+			name = Debug;
+		};
+		48DB9ABF2668E4A300F37201 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E8DC6D1749AC5C5C71BD532D /* Pods-NEPkDemo-NELiveRoom.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 569GNZ5392;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = NELiveRoom/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.netease.yunxin.kit.liveroom.NELiveRoom;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_WORKSPACE = NO;
+			};
+			name = Release;
+		};
+		48DB9AC12668E4A300F37201 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 569GNZ5392;
+				INFOPLIST_FILE = NELiveRoomTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.netease.yunxin.kit.liveroom.NELiveRoomTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "NELiveRoomTests/NELiveRoomTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		48DB9AC22668E4A300F37201 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 569GNZ5392;
+				INFOPLIST_FILE = NELiveRoomTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.netease.yunxin.kit.liveroom.NELiveRoomTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "NELiveRoomTests/NELiveRoomTests-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		48DB9AA32668E4A300F37201 /* Build configuration list for PBXProject "NELiveRoom" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				48DB9ABB2668E4A300F37201 /* Debug */,
+				48DB9ABC2668E4A300F37201 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		48DB9ABD2668E4A300F37201 /* Build configuration list for PBXNativeTarget "NELiveRoom" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				48DB9ABE2668E4A300F37201 /* Debug */,
+				48DB9ABF2668E4A300F37201 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		48DB9AC02668E4A300F37201 /* Build configuration list for PBXNativeTarget "NELiveRoomTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				48DB9AC12668E4A300F37201 /* Debug */,
+				48DB9AC22668E4A300F37201 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 48DB9AA02668E4A300F37201 /* Project object */;
+}

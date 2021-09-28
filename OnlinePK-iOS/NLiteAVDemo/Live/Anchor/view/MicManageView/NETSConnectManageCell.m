@@ -3,12 +3,11 @@
 //  NLiteAVDemo
 //
 //  Created by vvj on 2021/4/26.
-//  Copyright © 2021 Netease. All rights reserved.
-//
+// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
 
 #import "NETSConnectManageCell.h"
-#import "NETSConnectMicModel.h"
-
+#import "NESeatInfoFilterModel.h"
 
 @interface NETSConnectManageCell ()
 @property(nonatomic, strong) UILabel *rakeLabel;
@@ -90,13 +89,13 @@
 
 #pragma mark - setter
 
-- (void)setUserModel:(NETSConnectMicMemberModel *)userModel {
+- (void)setUserModel:(NESeatInfoFilterModel *)userModel {
     _userModel = userModel;
     self.nickNameLabel.text = userModel.nickName;
     [self.headImageView sd_setImageWithURL:[NSURL URLWithString:userModel.avatar] placeholderImage:[UIImage imageNamed:@"avator"]];
     //设置麦克风
-    _micButton.selected = userModel.audio ? NO : YES;
-    _videoButton.selected = userModel.video ? NO : YES;
+    _micButton.selected = userModel.audioState ? NO : YES;
+    _videoButton.selected = userModel.videoState ? NO : YES;
 }
 
 
@@ -150,7 +149,7 @@
         _nickNameLabel = [[UILabel alloc]init];
         _nickNameLabel.font = TextFont_14;
         _nickNameLabel.textColor = HEXCOLOR(0x0F0C0A);
-        _nickNameLabel.text = @"杰西卡";
+        _nickNameLabel.text = @"";
     }
     return _nickNameLabel;;
 }
@@ -158,7 +157,7 @@
 - (UIButton *)shutdownButton {
     if (!_shutdownButton) {
         _shutdownButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_shutdownButton setTitle:@"挂断" forState:UIControlStateNormal];
+        [_shutdownButton setTitle:NSLocalizedString(@"挂断", nil) forState:UIControlStateNormal];
         [_shutdownButton setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
         _shutdownButton.titleLabel.font = TextFont_14;
         _shutdownButton.layer.cornerRadius = 4;

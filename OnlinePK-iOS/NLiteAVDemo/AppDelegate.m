@@ -3,8 +3,8 @@
 //  NLiteAVDemo
 //
 //  Created by I am Groot on 2020/8/18.
-// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+//  Copyright © 2020 Netease. All rights reserved.
+//
 
 #import "AppDelegate.h"
 #import "NEMenuViewController.h"
@@ -13,6 +13,9 @@
 #import "NEPersonVC.h"
 #import <IQKeyboardManager/IQKeyboardManager.h>
 #import <NERtcSDK/NERtcSDK.h>
+#import "NETabbarController.h"
+#import "NTELoginVC.h"
+#import "AppKey.h"
 
 @interface AppDelegate ()<UNUserNotificationCenterDelegate,NERtcEngineDelegate>
 @end
@@ -22,35 +25,43 @@
     [self initWindow];
     [self setIQKeyboard];
     setupLogger();
-    
+    [self autoLogin];
     return YES;
 }
 
+
 - (void)initWindow {
-    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.window.backgroundColor = UIColor.whiteColor;
-    NEMenuViewController *menuVC = [[NEMenuViewController alloc] init];
-    UINavigationController *appNav = [[UINavigationController alloc] initWithRootViewController:menuVC];
-    appNav.tabBarItem.title = @"应用";
-    appNav.tabBarItem.image = [UIImage imageNamed:@"application"];
-    appNav.tabBarItem.selectedImage = [UIImage imageNamed:@"application_select"];
-
-    NEPersonVC *personVC = [[NEPersonVC alloc] init];
-    UINavigationController *personNav = [[UINavigationController alloc] initWithRootViewController:personVC];
-    personNav.tabBarItem.title = @"个人中心";
-    personNav.tabBarItem.image = [UIImage imageNamed:@"mine"];
-    personNav.tabBarItem.selectedImage = [UIImage imageNamed:@"mine_select"];
-
-    UITabBarController *tab = [[UITabBarController alloc] init];
-    tab.tabBar.tintColor = [UIColor whiteColor];
-    tab.tabBar.barStyle = UIBarStyleBlack;
-    tab.viewControllers = @[appNav,personNav];
     
-    self.window.rootViewController = tab;
-    [NENavigator shared].navigationController = appNav;
-    [self.window makeKeyAndVisible];
+     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+     self.window.backgroundColor = UIColor.whiteColor;
+     if (![NSObject isNullOrNilWithObject:[NEAccount shared].accessToken]) {
+         NETabbarController *tabbarCtrl = [[NETabbarController alloc]init];
+         self.window.rootViewController = tabbarCtrl;
+         [NENavigator shared].navigationController = tabbarCtrl.menuNavController;
+     }else {
+         UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:[[NTELoginVC alloc] initWithOptions:nil isShowClose:YES]];
+         self.window.rootViewController = nav;
+         [NENavigator shared].loginNavigationController  = nav;
+     }
+     
+     [self.window makeKeyAndVisible];
+    
+    //设置麦位组件
+    NELiveRoomOptions *options = [[NELiveRoomOptions alloc] initWithAppKey:kAppKey apiHost:kApiHost];
+    [NELiveRoom.sharedInstance setupWithOptions:options];
+    
 }
 
+- (void)autoLogin {
+    if ([[NEAccount shared].accessToken length] > 0) {
+        [NEAccount loginByTokenWithCompletion:^(NSDictionary * _Nullable data, NSError * _Nullable error) {
+            if (error) {
+                NSString *msg = data[@"msg"] ?: @"请求错误";
+                YXAlogError(@"loginByToken failed,error = %@",msg);
+            }
+        }];
+    }
+}
 - (void)setIQKeyboard {
     [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = YES;
     [IQKeyboardManager sharedManager].enableAutoToolbar = NO;

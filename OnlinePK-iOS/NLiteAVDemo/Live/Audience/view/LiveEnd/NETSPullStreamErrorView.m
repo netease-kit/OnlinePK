@@ -3,8 +3,8 @@
 //  NLiteAVDemo
 //
 //  Created by Ease on 2020/12/18.
-// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+//  Copyright © 2020 Netease. All rights reserved.
+//
 
 #import "NETSPullStreamErrorView.h"
 
@@ -37,7 +37,7 @@
         make.right.equalTo(self).offset(-20);
     }];
     
-    self.statusLab.text = @"跟主播走丢了";
+    self.statusLab.text = NSLocalizedString(@"跟主播走丢了", nil);
 }
 
 - (void)clickAction:(UIButton *)sender
@@ -60,7 +60,7 @@
 {
     if (!_backBtn) {
         _backBtn = [[UIButton alloc] init];
-        [_backBtn setTitle:@"返回" forState:UIControlStateNormal];
+        [_backBtn setTitle:NSLocalizedString(@"返回", nil) forState:UIControlStateNormal];
         [_backBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _backBtn.titleLabel.font = [UIFont systemFontOfSize:16];
         _backBtn.layer.cornerRadius = 25;
@@ -76,7 +76,7 @@
 {
     if (!_retryBtn) {
         _retryBtn = [[UIButton alloc] init];
-        [_retryBtn setTitle:@"重新连接" forState:UIControlStateNormal];
+        [_retryBtn setTitle:NSLocalizedString(@"重新连接", nil) forState:UIControlStateNormal];
         [_retryBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _retryBtn.titleLabel.font = [UIFont systemFontOfSize:16];
         _retryBtn.layer.cornerRadius = 25;

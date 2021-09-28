@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-  ~ Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+  ~  Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+  ~  Use of this source code is governed by a MIT license that can be found in the LICENSE file
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
@@ -23,7 +22,7 @@
         android:gravity="center_horizontal"
         android:id="@+id/tv_duration"
         android:textSize="14dp"
-        tools:text="连麦中，通话时长1分30秒"
+        tools:text="linking.."
         android:paddingTop="12dp"
         android:paddingBottom="32dp"
         android:textColor="@color/biz_live_color_333333"

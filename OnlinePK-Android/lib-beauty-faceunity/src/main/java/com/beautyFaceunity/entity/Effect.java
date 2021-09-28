@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2021 NetEase, Inc.  All rights reserved.
- * Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+ *  Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+ *  Use of this source code is governed by a MIT license that can be found in the LICENSE file
  */
 
 package com.beautyFaceunity.entity;
@@ -31,12 +31,12 @@ public class Effect {
     public static final int EFFECT_TYPE_PTA = 13;
     public static final int EFFECT_TYPE_BIG_HEAD = 14;
 
-    private String bundleName;
-    private int iconId;
-    private String bundlePath;
-    private int maxFace;
-    private int type;
-    private int descId;
+    private final String bundleName;
+    private final int iconId;
+    private final String bundlePath;
+    private final int maxFace;
+    private final int type;
+    private final int descId;
 
     public Effect(String bundleName, int iconId, String bundlePath, int maxFace, int type, int descId) {
         this.bundleName = bundleName;

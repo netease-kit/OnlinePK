@@ -3,11 +3,11 @@
 //  NLiteAVDemo
 //
 //  Created by vvj on 2021/4/26.
-//  Copyright © 2021 Netease. All rights reserved.
-//
+// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
 
 #import "NETSRequestConnectMicCell.h"
-#import "NETSConnectMicModel.h"
+#import "NESeatInfoFilterModel.h"
 
 @interface NETSRequestConnectMicCell ()
 @property(nonatomic, strong) UILabel *rakeLabel;
@@ -94,7 +94,7 @@
 
 }
 
-- (void)setUserModel:(NETSConnectMicMemberModel *)userModel {
+- (void)setUserModel:(NESeatInfoFilterModel *)userModel {
     _userModel = userModel;
     self.nickNameLabel.text = userModel.nickName;
     [self.headImageView sd_setImageWithURL:[NSURL URLWithString:userModel.avatar] placeholderImage:[UIImage imageNamed:@"avator"]];
@@ -134,7 +134,7 @@
         _nickNameLabel = [[UILabel alloc]init];
         _nickNameLabel.font = TextFont_14;
         _nickNameLabel.textColor = HEXCOLOR(0x0F0C0A);
-        _nickNameLabel.text = @"杰西卡";
+        _nickNameLabel.text = @"";
     }
     return _nickNameLabel;;
 }
@@ -142,7 +142,7 @@
 - (UIButton *)acceptButton {
     if (!_acceptButton) {
         _acceptButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_acceptButton setTitle:@"接受" forState:UIControlStateNormal];
+        [_acceptButton setTitle:NSLocalizedString(@"接受", nil) forState:UIControlStateNormal];
         [_acceptButton setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
         _acceptButton.titleLabel.font = TextFont_14;
         _acceptButton.layer.cornerRadius = 4;
@@ -155,7 +155,7 @@
 - (UIButton *)refuseButton {
     if (!_refuseButton) {
         _refuseButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_refuseButton setTitle:@"拒绝" forState:UIControlStateNormal];
+        [_refuseButton setTitle:NSLocalizedString(@"拒绝", nil) forState:UIControlStateNormal];
         [_refuseButton setTitleColor:HEXCOLOR(0x333333) forState:UIControlStateNormal];
         _refuseButton.titleLabel.font = TextFont_14;
         _refuseButton.layer.cornerRadius = 4;

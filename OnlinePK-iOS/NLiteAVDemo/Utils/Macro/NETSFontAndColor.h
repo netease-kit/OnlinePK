@@ -3,8 +3,8 @@
 //  NLiteAVDemo
 //
 //  Created by 徐善栋 on 2020/12/31.
-// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+//  Copyright © 2020 Netease. All rights reserved.
+//
 
 #ifndef NETSFontAndColor_h
 #define NETSFontAndColor_h

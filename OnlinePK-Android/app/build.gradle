@@ -1,9 +1,12 @@
 /*
- * Copyright (c) 2021 NetEase, Inc.  All rights reserved.
- * Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+ *  Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+ *  Use of this source code is governed by a MIT license that can be found in the LICENSE file
  */
 
-apply plugin: 'com.android.application'
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+}
 apply from:'../utils.gradle'
 
 android {
@@ -29,9 +32,19 @@ android {
         multiDexEnabled true
     }
 
+    signingConfigs {
+        release {
+            keyAlias 'netease-im'
+            keyPassword 'yunxin163'
+            storeFile file('release.jks')
+            storePassword 'yunxin163'
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -64,6 +77,7 @@ dependencies {
     implementation project(':biz-live')
     implementation project(':lib-basic')
     implementation project(":lib-user")
+    implementation project(":lib-network-kt")
     implementation (name: 'netease-network', ext: 'aar')
     implementation (name: 'netease-picture', ext: 'aar')
     implementation "com.google.code.gson:gson:2.8.6"
@@ -77,7 +91,7 @@ dependencies {
     implementation 'jp.wasabeef:glide-transformations:4.1.0'
     implementation 'com.github.bumptech.glide:glide:4.11.0'
 
-    implementation rootProject.ext.utilcodex
+    implementation rootProject.ext.androidUtil
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'com.google.android.material:material:1.2.1'

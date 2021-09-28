@@ -3,8 +3,8 @@
 //  NLiteAVDemo
 //
 //  Created by vvj on 2021/4/19.
-//  Copyright © 2021 Netease. All rights reserved.
-//
+// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
 
 #import <UIKit/UIKit.h>
 
@@ -37,7 +37,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic, weak) id<NETSMultiConnectCollectionDelegate> delegate;
 
-@property(nonatomic, strong) NETSConnectMicMemberModel *memberModel;
+
+@property(nonatomic, strong) NESeatInfo *memberModel;
 //角色类型
 @property(nonatomic, assign) NETSUserMode roleType;
 @end

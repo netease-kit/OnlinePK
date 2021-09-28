@@ -3,15 +3,15 @@
 //  NLiteAVDemo
 //
 //  Created by Ease on 2020/11/24.
-// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+//  Copyright © 2020 Netease. All rights reserved.
+//
 
 #import "NETSMessageModel.h"
 #import "M80AttributedLabel.h"
 #import "NEAccount.h"
-#import "NETSLiveAttachment.h"
 #import "NETSLiveUtils.h"
 #import "NETSGiftModel.h"
+#import "NEPkLiveAttachment.h"
 
 @interface NETSMessageModel ()
 
@@ -92,16 +92,15 @@
     return NSMakeRange(showMessage.length - self.message.text.length, self.message.text.length);
 }
 
-- (NSString *)showMessage
-{
+- (NSString *)showMessage {
     NSString *showMessage = @"";
     switch (_type) {
         case NETSMessageNormal:
         {
             NIMCustomObject *obj = _message.messageObject;
-            if ([obj.attachment isKindOfClass:[NETSLiveTextAttachment class]]) {
+            if ([obj.attachment isKindOfClass:[NELiveTextAttachment class]]) {
                 // 构造文本消息
-                NETSLiveTextAttachment *attach = (NETSLiveTextAttachment *)obj.attachment;
+                NELiveTextAttachment *attach = (NELiveTextAttachment *)obj.attachment;
                 
                 self.isAnchor = attach.isAnchor;
                 
@@ -111,15 +110,15 @@
                 _textRange = NSMakeRange(showMessage.length - attach.message.length, attach.message.length);
                 _nickRange = NSMakeRange(0, showMessage.length - attach.message.length);
             }
-            else if ([obj.attachment isKindOfClass:[NETSLiveWealthChangeAttachment class]]) {
+            else if ([obj.attachment isKindOfClass:[NEPkRewardAttachment class]]) {
                 // 构造打赏消息
-                NETSLiveWealthChangeAttachment *attach = (NETSLiveWealthChangeAttachment *)obj.attachment;
+                NEPkRewardAttachment *attach = (NEPkRewardAttachment *)obj.attachment;
                 
                 NETSGiftModel *reward = [NETSLiveUtils getRewardWithGiftId:attach.giftId];
                 self.giftIcon = reward.icon;
                 
-                NSString *nickname = attach.nickname;
-                NSString *msg = @"赠送礼物x1 ";
+                NSString *nickname = attach.rewarderNickname;
+                NSString *msg = NSLocalizedString(@"赠送礼物x1 ", nil);
                 showMessage = [NSString stringWithFormat:@"%@: %@", nickname, msg];
 
                 _textRange = NSMakeRange(showMessage.length - msg.length, msg.length);
@@ -145,7 +144,6 @@
     }
     return showMessage;
 }
-
 M80AttributedLabel *NTESCaculateLabel()
 {
     static M80AttributedLabel *label;

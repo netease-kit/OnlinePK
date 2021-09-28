@@ -3,12 +3,14 @@
 //  NLiteAVDemo
 //
 //  Created by Ease on 2020/12/15.
-// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+//  Copyright © 2020 Netease. All rights reserved.
+//
 
 #import "NETSPushStreamService.h"
 #import <NERtcSDK/NERtcSDK.h>
 #import "SKVObject.h"
+#import "NSString+NTES.h"
+
 
 @implementation NETSPushStreamService
 
@@ -23,7 +25,7 @@
         } else {
             ApiLogInfo(@"添加推流任务失败, taskId: %@, errorCode: %d", taskId, errorCode);
             if (failedBlock) {
-                NSError *error = [NSError errorWithDomain:@"NETSRtcErrorDomain" code:errorCode userInfo:@{NSLocalizedDescriptionKey: @"推流失败"}];
+                NSError *error = [NSError errorWithDomain:@"NETSRtcErrorDomain" code:errorCode userInfo:@{NSLocalizedDescriptionKey:  NSLocalizedString(@"推流失败", nil)}];
                 failedBlock(error, taskId);
             }
         }
@@ -31,7 +33,7 @@
     if (ret != 0) {
         ApiLogInfo(@"添加推流任务失败, ret: %d", ret);
         if (failedBlock) {
-            NSError *error = [NSError errorWithDomain:@"NETSRtcErrorDomain" code:ret userInfo:@{NSLocalizedDescriptionKey: @"添加推流任务失败"}];
+            NSError *error = [NSError errorWithDomain:@"NETSRtcErrorDomain" code:ret userInfo:@{NSLocalizedDescriptionKey: NSLocalizedString(@"添加推流任务失败", nil)}];
             failedBlock(error, task.taskID);
         }
     }
@@ -45,13 +47,13 @@
         if (errorCode == 0) {
             if (successBlock) { successBlock(); }
         } else {
-            NSError *error = [NSError errorWithDomain:@"NETSRtcErrorDomain" code:errorCode userInfo:@{NSLocalizedDescriptionKey: @"移除推流任务失败"}];
+            NSError *error = [NSError errorWithDomain:@"NETSRtcErrorDomain" code:errorCode userInfo:@{NSLocalizedDescriptionKey: NSLocalizedString(@"移除推流任务失败", nil)}];
             if (failedBlock) { failedBlock(error); }
         }
     }];
     if (ret != 0) {
         if (failedBlock) {
-            NSError *error = [NSError errorWithDomain:@"NETSRtcErrorDomain" code:ret userInfo:@{NSLocalizedDescriptionKey: @"移除推流任务失败"}];
+            NSError *error = [NSError errorWithDomain:@"NETSRtcErrorDomain" code:ret userInfo:@{NSLocalizedDescriptionKey: NSLocalizedString(@"移除推流任务失败", nil)}];
             failedBlock(error);
         }
     }
@@ -68,8 +70,7 @@
     BOOL isPking = ([uids count] == 2);
     
     NERtcLiveStreamTaskInfo *taskInfo = [[NERtcLiveStreamTaskInfo alloc] init];
-    NSDate* date = [NSDate dateWithTimeIntervalSinceNow:0];
-    taskInfo.taskID = [NSString stringWithFormat:@"%.0f", [date timeIntervalSince1970] * 1000];
+    taskInfo.taskID = [NSString md5ForLower32Bate:url];
     taskInfo.streamURL = url;
     taskInfo.lsMode = kNERtcLsModeVideo;
     
@@ -118,6 +119,30 @@
     return userTranscoding;
 }
 
+
+//更新推流任务
++ (void)updateLiveStreamTask:(NERtcLiveStreamTaskInfo *)taskInfo
+               successBlock:(void(^)(void))successBlock
+                failedBlock:(void(^)(NSError *))failedBlock {
+    int ret = [NERtcEngine.sharedEngine updateLiveStreamTask:taskInfo
+                                               compeltion:^(NSString * _Nonnull taskId, kNERtcLiveStreamError errorCode) {
+    if (errorCode == 0) {
+        
+        successBlock();
+          //推流任务添加成功
+        }else {
+          //推流任务添加失败
+            NSError *error = [NSError errorWithDomain:@"NETSRtcErrorDomain" code:errorCode userInfo:@{NSLocalizedDescriptionKey: @"updateLiveStream failed"}];
+            failedBlock(error);
+        }
+    }];
+    if (ret != 0) {
+      //更新失败
+        NSError *error = [NSError errorWithDomain:@"NETSRtcErrorDomain" code:ret userInfo:@{NSLocalizedDescriptionKey: @"updateLiveStream failed"}];
+        failedBlock(error);
+    }
+}
+
 + (nullable SKVObject *)parseCutomInfoForResponse:(NIMSignalingNotifyInfo *)response
 {
     NSString *jsonStr = response.customInfo;
@@ -143,7 +168,7 @@
 {
     if (isEmptyString(streamUrl) || isEmptyString(token) || isEmptyString(channelName)) {
         if (failedBlock) {
-            NSError *error = [NSError errorWithDomain:@"NETSPkLiveParamErrorDomain" code:1000 userInfo:@{NSLocalizedDescriptionKey: @"加入直播间并推流失败, 参数错误"}];
+            NSError *error = [NSError errorWithDomain:@"NETSPkLiveParamErrorDomain" code:1000 userInfo:@{NSLocalizedDescriptionKey: NSLocalizedString(@"加入直播间并推流失败, 参数错误", nil)}];
             failedBlock(error, nil);
         }
         return;
@@ -161,7 +186,10 @@
     }];
     if (res != 0) {
         if (failedBlock) {
-            NSError *error = [NSError errorWithDomain:@"NETSPkLiveParamErrorDomain" code:res userInfo:@{NSLocalizedDescriptionKey: @"加入直播间失败"}];
+            if (res == kNERtcErrInvalidState) {//30005是因为还未退出rtc导致的
+                [NERtcEngine.sharedEngine leaveChannel];
+            }
+            NSError *error = [NSError errorWithDomain:@"NETSPkLiveParamErrorDomain" code:res userInfo:@{NSLocalizedDescriptionKey:NSLocalizedString(@"加入直播间失败", nil)}];
             failedBlock(error, nil);
         }
         return;

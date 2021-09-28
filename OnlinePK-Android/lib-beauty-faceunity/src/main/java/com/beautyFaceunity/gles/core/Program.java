@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2021 NetEase, Inc.  All rights reserved.
- * Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+ *  Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+ *  Use of this source code is governed by a MIT license that can be found in the LICENSE file
  */
 
 package com.beautyFaceunity.gles.core;
@@ -20,7 +20,7 @@ public abstract class Program {
 
     protected Drawable2d mDrawable2d;
 
-    private int[] mOriginViewport = new int[4];
+    private final int[] mOriginViewport = new int[4];
 
     /**
      * Prepares the program in the current EGL context.

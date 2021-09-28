@@ -3,8 +3,8 @@
 //  NLiteAVDemo
 //
 //  Created by 徐善栋 on 2021/1/7.
-//  Copyright © 2021 Netease. All rights reserved.
-//
+// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
 
 #import "NETSAudienceCollectionViewVC.h"
 #import "NETSAudienceChatRoomCell.h"
@@ -15,10 +15,13 @@
 #import "Reachability.h"
 #import "NETSPullStreamErrorView.h"
 #import "IQKeyboardManager.h"
+#import "NELiveRoomListModel.h"
+#import "AppKey.h"
+#import "NETSFUManger.h"
 
-@interface NETSAudienceCollectionViewVC ()<UICollectionViewDelegate,UICollectionViewDataSource,UIGestureRecognizerDelegate>
+@interface NETSAudienceCollectionViewVC ()<UICollectionViewDelegate,UICollectionViewDataSource,UIGestureRecognizerDelegate,NERtcEngineDelegateEx>
 //数据源
-@property(nonatomic, strong) NSArray                   *liveData;
+@property(nonatomic, strong) NSArray<NELiveRoomListDetailModel *> *liveData;
 //选中的index
 @property(nonatomic, assign) NSInteger                 selectRoomIndex;
 @property(nonatomic, strong) UICollectionView          *collectionView;
@@ -35,7 +38,7 @@
 @implementation NETSAudienceCollectionViewVC
 
 
-- (instancetype)initWithScrollData:(NSArray *)liveData currentRoom:(NSInteger)selectRoomIndex {
+- (instancetype)initWithScrollData:(NSArray<NELiveRoomListDetailModel *> *)liveData currentRoom:(NSInteger)selectRoomIndex {
     if (self = [super init]) {
        _liveData = liveData;
        _selectRoomIndex = selectRoomIndex;
@@ -69,6 +72,23 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self initialRtc];
+}
+
+- (void)initialRtc{
+    
+    NERtcEngineContext *context = [[NERtcEngineContext alloc] init];
+    context.engineDelegate = self;
+    context.appKey = kAppKey;
+    NERtcLogSetting *setting = [[NERtcLogSetting alloc] init];
+     #if DEBUG
+          setting.logLevel = kNERtcLogLevelInfo;
+     #else
+          setting.logLevel = kNERtcLogLevelWarning;
+     #endif
+     context.logSetting = setting;
+    int res = [NERtcEngine.sharedEngine setupEngineWithContext:context];
+    YXAlogInfo(@"观众NERtc初始化设置 NERtcEngine, res: %d", res);
 }
 
 -(void)nets_addSubViews {
@@ -77,9 +97,14 @@
     //滚动到选择位置
     [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:self.selectRoomIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:true];
     self.currentIndexPath = [NSIndexPath indexPathForRow:self.selectRoomIndex inSection:0];
-    self.currentPlayId    = [self.liveData[self.selectRoomIndex] chatRoomId];
+    
+    NELiveRoomListDetailModel *detailModel = self.liveData[self.selectRoomIndex];
+    self.currentPlayId    = detailModel.live.chatRoomId ;
+    
     self.playingCellIndexPath = [NSIndexPath indexPathForRow:self.selectRoomIndex inSection:0];
 }
+
+
 
 #pragma mark <UICollectionViewDataSource>
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -91,7 +116,7 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    NETSLiveRoomModel *roomModel = self.liveData[indexPath.row];
+    NELiveRoomListDetailModel *roomModel = self.liveData[indexPath.row];
     NETSAudienceChatRoomCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[NETSAudienceChatRoomCell description]
                                                                                forIndexPath:indexPath];
     if (self.currentIndexPath.row == indexPath.row) {
@@ -101,6 +126,14 @@
         _playingCell = cell;
     }
     return cell;
+}
+#pragma mark - NERtcEngineDelegate
+-(void)onNERtcEngineUserVideoDidStartWithUserID:(uint64_t)userID videoProfile:(NERtcVideoProfileType)profile {
+    [NERtcEngine.sharedEngine subscribeRemoteVideo:YES forUserID:userID streamType:kNERtcRemoteVideoStreamTypeHigh];
+}
+
+- (void)onNERtcEngineVideoFrameCaptured:(CVPixelBufferRef)bufferRef rotation:(NERtcVideoRotationType)rotation {
+    [[NETSFUManger shared] renderItemsToPixelBuffer:bufferRef];
 }
 
 #pragma mark <UICollectionViewDelegate>
@@ -123,17 +156,18 @@
     NSIndexPath *indexPathNow = [self.collectionView indexPathForItemAtPoint:pointInView];
     
     // 滚动到相同的直播间 不做处理
-    if ([self.currentPlayId isEqualToString:[self.liveData[indexPathNow.row] chatRoomId]]) {
+    if ([self.currentPlayId isEqualToString:[self.liveData[indexPathNow.row] live].chatRoomId]) {
         return;
     }
     
     // 退出之前的聊天室
-    NETSLiveRoomModel *roomModel = self.liveData[self.selectRoomIndex];
-    [NETSChatroomService exitWithRoomId:roomModel.chatRoomId];
+    NELiveRoomListDetailModel *roomModel = self.liveData[self.selectRoomIndex];
+    [NETSChatroomService exitWithRoomId:roomModel.live.chatRoomId];
 
     // 赋值给记录当前坐标的变量
     self.currentIndexPath = indexPathNow;
-    self.currentPlayId    = [self.liveData[indexPathNow.row] chatRoomId];
+    self.currentPlayId = [self.liveData[indexPathNow.row] live].chatRoomId;
+    
     self.selectRoomIndex = indexPathNow.row;
     
     YXAlogInfo(@"观众端 滚动结束后的section %ld，row: %ld",(long)indexPathNow.section,(long)indexPathNow.row);

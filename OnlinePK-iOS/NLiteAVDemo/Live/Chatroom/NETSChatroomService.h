@@ -3,13 +3,13 @@
 //  NLiteAVDemo
 //
 //  Created by Ease on 2020/12/7.
-// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+//  Copyright © 2020 Netease. All rights reserved.
+//
 
 #import <Foundation/Foundation.h>
 #import "NETSLiveModel.h"
 #import "NETSGiftModel.h"
-#import "NETSLiveAttachment.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -65,30 +65,6 @@ NS_ASSUME_NONNULL_BEGIN
               successBlock:(void(^)(NSArray<NIMChatroomMember *> * _Nullable))successBlock
                failedBlock:(void(^)(NSError *))failedBlock;
 
-///
-///
-///
-
-/**
-发送pk开始/结束消息
-@param state       - pk状态
-*/
-+ (NIMMessage *)pkMessageWithState:(NETSLivePkState)state
-                  startedTimestamp:(int64_t)startedTimestamp
-                  currentTimestamp:(int64_t)currentTimestamp
-               otherAnchorNickname:(NSString *)otherAnchorNickname
-                 otherAnchorAvatar:(NSString *)otherAnchorAvatar
-                  currentAnchorWin:(int32_t)currentAnchorWin;
-
-/**
- 发送pk惩罚信息
- */
-+ (NIMMessage *)punishMessageWithState:(NETSLivePkState)state
-                      startedTimestamp:(int64_t)startedTimestamp
-                      currentTimestamp:(int64_t)currentTimestamp
-                   otherAnchorNickname:(NSString *)otherAnchorNickname
-                     otherAnchorAvatar:(NSString *)otherAnchorAvatar
-                      currentAnchorWin:(int32_t)currentAnchorWin;
 
 /**
  主播云币变化消息

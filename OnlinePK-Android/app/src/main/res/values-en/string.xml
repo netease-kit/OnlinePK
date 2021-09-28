@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~  Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+  ~  Use of this source code is governed by a MIT license that can be found in the LICENSE file
+  -->
+
+<resources>
+    <string name="app_name"> NetEase Interactive Live Streaming</string>
+    <string name="app_pk_live">PK Host</string>
+    <string name="app_pk_live_desc_text">a variety of ways to play，for example single live，multi-host PK, inviting audience to co-host to live streaming.etc</string>
+    <string name="app_pk_live2">PK Host</string>
+    <string name ="app_multiple_link_seat_live">Multi-hosted interactive streaming</string>
+    <string name="app_multiple_link_seat_live_desc_text">Supports video interaction between 1V4 live streaming host and audience</string>
+    <string name="app_onetoonevoiceroom">One-to-one audio and video call</string>
+    <string name="app_multiple_video_call">Multiplayer video call</string>
+    <string name="app_feedback_success">Feedback successful</string>
+    <string name="app_feedback_failed">Feedback failed</string>
+    <string name="app_audio_problem">Audio problem</string>
+    <string name="app_video_problem">Video problem</string>
+    <string name="app_video_fuzzy">Blurred screen</string>
+    <string name="app_video_block">screen freezes</string>
+    <string name="app_audio_video_not_sync">Audio and video are out of sync</string>
+    <string name="app_audio_delay">There is a delay in the sound</string>
+    <string name="app_audio_off_and_on">Intermittent sound</string>
+    <string name="app_audio_noise_or_instruments_sound">noise, mechanical sound</string>
+    <string name="app_interaction_experience">Interactive experience</string>
+    <string name="app_other_problem">Other questions</string>
+    <string name="app_privacy_policy">Privacy Policy</string>
+    <string name="app_user_agreement">User Agreement</string>
+    <string name="app_disclaimer">Disclaimer </string>
+    <string name="app_user_info_update_failed">User information update failed</string>
+    <string name="app_user_info_update_success">User information updated successfully</string>
+    <string name="app_free_trial">Free trial</string>
+    <string name="app_about">About</string>
+    <string name="app_app_version">App version</string>
+    <string name="app_im_sdk_version">IM SDK version</string>
+    <string name="app_rtc_sdk_version">Audio and Video SDK Version</string>
+    <string name="app_suggestion_feedback">Feedback</string>
+    <string name="app_logout">Logout</string>
+    <string name="app_ok">done</string>
+    <string name="app_modify_nickname">Modify nickname</string>
+    <string name="app_please_select_demo_name">Please select Demo name</string>
+    <string name="app_demo_name">Demo name</string>
+    <string name="app_please_select_problem_type">Please select the type of problem</string>
+    <string name="app_problem_type">Question type</string>
+    <string name="app_please_input_your_suggestion">Please enter your comments</string>
+    <string name="app_problem_describe">Problem description</string>
+    <string name="app_commit">commit</string>
+    <string name="app_avatar">avatar</string>
+    <string name="app_user_info">Personal information</string>
+    <string name="app_nickname">nickname</string>
+    <string name="app_user_center">Personal Center</string>
+    <string name="app_free_apply_trial">Apply for free trial</string>
+    <string name="app_tip">hint</string>
+    <string name="app_application">Application</string>
+    <string name="app_problem_feedback">Question feedback</string>
+</resources>
