@@ -5,6 +5,8 @@
 
 package com.netease.yunxin.lib_live_pk_service.bean
 
+import java.io.Serializable
+
 data class PkUserInfo(
     val roomId: String,//	房间编号
     val channelName: String,//	音视频房间名称
@@ -13,4 +15,4 @@ data class PkUserInfo(
     val avatar: String,//	头像地址
     val roomUid: Long,//rtc channel uid
     val rewardTotal: Long,//	打赏总额
-)
+) : Serializable

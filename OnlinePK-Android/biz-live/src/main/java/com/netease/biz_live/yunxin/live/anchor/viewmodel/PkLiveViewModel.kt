@@ -24,14 +24,14 @@ class PkLiveViewModel : ViewModel() {
     /**
      * the pk request you have received
      */
-    val pkActionData = MutableLiveData<PkActionMsg>()
+    val pkActionData = MutableLiveData<PkActionMsg?>()
 
 
-    val pkStartData = MutableLiveData<PkStartInfo>()
+    val pkStartData = MutableLiveData<PkStartInfo?>()
 
-    val punishData = MutableLiveData<PkPunishInfo>()
+    val punishData = MutableLiveData<PkPunishInfo?>()
 
-    val pkEndData = MutableLiveData<PkEndInfo>()
+    val pkEndData = MutableLiveData<PkEndInfo?>()
 
     private val pkDelegate = object : PkDelegate {
         /**
@@ -94,5 +94,9 @@ class PkLiveViewModel : ViewModel() {
 
     fun init() {
         PkService.shareInstance().setDelegate(pkDelegate)
+        pkActionData.value = null
+        pkEndData.value = null
+        pkStartData.value = null
+        punishData.value = null
     }
 }

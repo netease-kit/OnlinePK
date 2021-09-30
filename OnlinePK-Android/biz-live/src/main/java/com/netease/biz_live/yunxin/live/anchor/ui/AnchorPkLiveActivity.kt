@@ -8,6 +8,7 @@ package com.netease.biz_live.yunxin.live.anchor.ui
 import android.content.Context
 import android.content.Intent
 import android.hardware.Camera
+import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
@@ -30,7 +31,7 @@ import com.netease.yunxin.lib_live_pk_service.bean.*
 import com.netease.yunxin.lib_live_room_service.Constants
 import com.netease.yunxin.lib_live_room_service.bean.LiveInfo
 import com.netease.yunxin.lib_live_room_service.bean.reward.AnchorRewardInfo
-import com.netease.yunxin.lib_live_room_service.bean.reward.RewardInfo
+import com.netease.yunxin.lib_live_room_service.chatroom.RewardMsg
 import com.netease.yunxin.lib_live_room_service.param.CreateRoomParam
 import com.netease.yunxin.lib_live_room_service.param.LiveStreamTaskRecorder
 import com.netease.yunxin.lib_network_kt.NetRequestCallback
@@ -98,6 +99,11 @@ class AnchorPkLiveActivity : AnchorBaseLiveActivity() {
                 }
             }
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        pkViewBind.pkControlView.getVideoContainer()?.removeAllViews()
     }
 
     override fun initView() {
@@ -188,7 +194,7 @@ class AnchorPkLiveActivity : AnchorBaseLiveActivity() {
 
     private fun observePkData() {
         pkViewModel.pkActionData.observe(this, {
-            when (it.action) {
+            when (it?.action) {
                 PkAction.PK_INVITE -> {
                     onReceivedPkRequest(it)
                 }
@@ -304,7 +310,10 @@ class AnchorPkLiveActivity : AnchorBaseLiveActivity() {
         stopPkDialog?.show()
     }
 
-    fun onPkStart(startInfo: PkStartInfo) {
+    fun onPkStart(startInfo: PkStartInfo?) {
+        if (startInfo == null) {
+            return
+        }
         pkViewBind.llyPkProgress.visibility = View.GONE
         ImageLoader.with(this).circleLoad(R.drawable.icon_stop_pk, pkViewBind.ivRequestPk)
         otherAnchor = if (isInvite) startInfo.invitee else startInfo.inviter
@@ -335,7 +344,8 @@ class AnchorPkLiveActivity : AnchorBaseLiveActivity() {
         pkState = PK_STATE_PKING
         //update push live stream
         liveInfo?.let {
-            val liveRecoder = LiveStreamTaskRecorder(it.live.liveConfig.pushUrl, it.anchor.roomUid!!)
+            val liveRecoder =
+                LiveStreamTaskRecorder(it.live.liveConfig.pushUrl, it.anchor.roomUid!!)
             liveRecoder.type = Constants.LiveType.LIVE_TYPE_PK
             liveRecoder.otherAnchorUid = otherAnchor!!.roomUid
             roomService.updateLiveStream(liveRecoder)
@@ -343,7 +353,10 @@ class AnchorPkLiveActivity : AnchorBaseLiveActivity() {
 
     }
 
-    fun onPunishStart(punishInfo: PkPunishInfo) {
+    fun onPunishStart(punishInfo: PkPunishInfo?) {
+        if (punishInfo == null) {
+            return
+        }
         pkState = PK_STATE_PUNISH
         // 发送 pk 结束消息
         val anchorWin: Int = if (punishInfo.inviteeRewards == punishInfo.inviterRewards) {
@@ -367,7 +380,10 @@ class AnchorPkLiveActivity : AnchorBaseLiveActivity() {
         }
     }
 
-    private fun onPkEnd(endInfo: PkEndInfo) {
+    private fun onPkEnd(endInfo: PkEndInfo?) {
+        if (endInfo == null) {
+            return
+        }
         roomService.stopChannelMediaRelay()
         countDownTimer?.stop()
         ImageLoader.with(this).circleLoad(R.drawable.icon_pk, pkViewBind.ivRequestPk)
@@ -407,8 +423,8 @@ class AnchorPkLiveActivity : AnchorBaseLiveActivity() {
         pkState = PK_STATE_IDLE
     }
 
-    override fun onUserReward(reward: RewardInfo) {
-        if(pkState == PK_STATE_PKING) {
+    override fun onUserReward(reward: RewardMsg) {
+        if (pkState == PK_STATE_PKING) {
             val selfRewardInfo: AnchorRewardInfo
             val otherAnchor: AnchorRewardInfo
 

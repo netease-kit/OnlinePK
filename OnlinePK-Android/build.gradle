@@ -52,7 +52,6 @@ ext {
 
     nertcSdk = "com.netease.yunxin:nertc:$nertcVersion"
     imSdk = "com.netease.nimlib:basesdk:$nimVersion"
-    avsignallingSdk = "com.netease.nimlib:avsignalling:$nimVersion"
     chatroomSdk = "com.netease.nimlib:chatroom:$nimVersion"
     playerSdk = "com.netease.nimlib:neliveplayer:$playerVersion"
     playerGslbSdk = "com.netease:gslb:$playerGslbVersion"

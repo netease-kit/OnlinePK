@@ -38,7 +38,7 @@ import com.netease.yunxin.kit.alog.ALog
 import com.netease.yunxin.lib_live_room_service.LiveRoomService
 import com.netease.yunxin.lib_live_room_service.bean.LiveInfo
 import com.netease.yunxin.lib_live_room_service.bean.LiveUser
-import com.netease.yunxin.lib_live_room_service.bean.reward.RewardInfo
+import com.netease.yunxin.lib_live_room_service.chatroom.RewardMsg
 import com.netease.yunxin.lib_live_room_service.chatroom.TextWithRoleAttachment
 import com.netease.yunxin.lib_live_room_service.delegate.LiveRoomDelegate
 import com.netease.yunxin.lib_live_room_service.param.ErrorInfo
@@ -229,7 +229,7 @@ abstract class BaseAudienceContentView(val activity: BaseActivity) : FrameLayout
                 changeErrorState(true, AudienceErrorStateView.TYPE_FINISHED)
             }
 
-            override fun onUserReward(rewardInfo: RewardInfo) {
+            override fun onUserReward(rewardInfo: RewardMsg) {
                 onMsgArrived(
                     ChatRoomMsgCreator.createGiftReward(
                         rewardInfo.rewarderNickname,
@@ -271,9 +271,12 @@ abstract class BaseAudienceContentView(val activity: BaseActivity) : FrameLayout
         infoBinding.crvMsgList.toLatestMsg()
     }
 
-    open fun onUserRewardImpl(rewardInfo: RewardInfo){
-        if(TextUtils.equals(rewardInfo.anchorReward.accountId,
-                liveInfo?.anchor?.accountId)) {
+    open fun onUserRewardImpl(rewardInfo: RewardMsg) {
+        if (TextUtils.equals(
+                rewardInfo.anchorReward.accountId,
+                liveInfo?.anchor?.accountId
+            )
+        ) {
             includeRoomTopBinding.tvAnchorCoinCount.text =
                 StringUtils.getCoinCount(rewardInfo.anchorReward.rewardTotal)
             giftRender.addGift(GiftCache.getGift(rewardInfo.giftId).dynamicIconResId)

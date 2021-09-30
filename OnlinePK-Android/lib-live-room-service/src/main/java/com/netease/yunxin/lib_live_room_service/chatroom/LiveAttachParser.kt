@@ -21,6 +21,9 @@ class LiveAttachParser : MsgAttachmentParser {
             CustomAttachmentType.CHAT_ROOM_TEXT -> {
                 result = JsonUtils.toMsgAttachment(json, TextWithRoleAttachment::class.java)
             }
+            CustomAttachmentType.CHAT_ROOM_REWARD -> {
+                result = JsonUtils.toMsgAttachment(json, RewardMsg::class.java)
+            }
             else -> {
             }
         }
