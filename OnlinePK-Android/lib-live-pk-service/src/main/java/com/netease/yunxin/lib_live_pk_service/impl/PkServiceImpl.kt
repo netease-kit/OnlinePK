@@ -6,11 +6,11 @@
 package com.netease.yunxin.lib_live_pk_service.impl
 
 import com.blankj.utilcode.util.GsonUtils
-import com.google.gson.JsonObject
 import com.netease.nimlib.sdk.NIMClient
 import com.netease.nimlib.sdk.Observer
 import com.netease.nimlib.sdk.chatroom.ChatRoomServiceObserver
 import com.netease.nimlib.sdk.chatroom.model.ChatRoomMessage
+import com.netease.nimlib.sdk.msg.MsgService
 import com.netease.nimlib.sdk.passthrough.PassthroughServiceObserve
 import com.netease.nimlib.sdk.passthrough.model.PassthroughNotifyData
 import com.netease.yunxin.kit.alog.ALog
@@ -79,28 +79,17 @@ object PkServiceImpl : PkService {
                 return@Observer
             }
             for (message in chatRoomMessages) {
-                val attachStr = message.attachStr
-                ALog.d(LOG_TAG,"chat room message:$attachStr")
-                val jsonObject: JsonObject = GsonUtils.fromJson<JsonObject>(
-                    attachStr,
-                    JsonObject::class.java
-                )
-                when (jsonObject["type"]?.asInt) {
-                    Constants.PkMsgType.PK_START -> {
-                        val startPkInfo: PkStartInfo =
-                            GsonUtils.fromJson(attachStr, PkStartInfo::class.java)
-                        delegate?.onPkStart(startPkInfo)
+                when (val attachment = message.attachment) {
+                    is PkStartInfo -> {
+                        delegate?.onPkStart(attachment)
                         continue
                     }
-                    Constants.PkMsgType.PK_PUNISH -> {
-                        val punishInfo: PkPunishInfo =
-                            GsonUtils.fromJson(attachStr, PkPunishInfo::class.java)
-                        delegate?.onPunishStart(punishInfo)
+                    is PkPunishInfo -> {
+                        delegate?.onPunishStart(attachment)
                         continue
                     }
-                    Constants.PkMsgType.PK_STOP -> {
-                        val endInfo: PkEndInfo = GsonUtils.fromJson(attachStr, PkEndInfo::class.java)
-                        delegate?.onPkEnd(endInfo)
+                    is PkEndInfo -> {
+                        delegate?.onPkEnd(attachment)
                         continue
                     }
                 }
@@ -126,6 +115,8 @@ object PkServiceImpl : PkService {
 
         NIMClient.getService(PassthroughServiceObserve::class.java)
             .observePassthroughNotify(p2pMessage, register)
+
+
     }
 
     /**
@@ -134,6 +125,8 @@ object PkServiceImpl : PkService {
     override fun init(roomId: String) {
         this.roomId = roomId
         pkScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+        NIMClient.getService(MsgService::class.java)
+            .registerCustomAttachmentParser(PkAttachParser)
         listen(true)
     }
 

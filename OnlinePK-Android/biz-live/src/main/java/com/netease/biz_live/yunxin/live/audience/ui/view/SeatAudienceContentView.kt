@@ -235,20 +235,20 @@ class SeatAudienceContentView(activity: BaseActivity) : BaseAudienceContentView(
                 !AccountUtil.isCurrentUser(event.responder.accountId)
             ) {
                 //主播端对连麦观众进行了麦位音视频的操作
-                if (LinkedSeatsAudienceActionManager.enableLocalAudio && event.seatInfo.audioState == SeatAVState.CLOSE) {
-                    ToastUtils.showShort(activity.getString(R.string.biz_live_anchor_close_your_microphone))
-                    linkedSeatsAudienceActionManager.refreshLinkSeatDialog(
-                        LinkSeatsStatusDialog.MICROPHONE_POSITION,
-                        event.seatInfo.audioState
-                    )
-                    linkedSeatsAudienceActionManager.enableAudio(false)
+                 if (LinkedSeatsAudienceActionManager.enableLocalAudio && event.seatInfo.audioState == SeatAVState.CLOSE) {
+                     ToastUtils.showShort(activity.getString(R.string.biz_live_anchor_close_your_microphone))
+                     linkedSeatsAudienceActionManager.refreshLinkSeatDialog(
+                         LinkSeatsStatusDialog.MICROPHONE_POSITION,
+                         event.seatInfo.audioState
+                     )
+                     linkedSeatsAudienceActionManager.enableAudio(false)
                 } else if (!LinkedSeatsAudienceActionManager.enableLocalAudio && event.seatInfo.audioState == SeatAVState.OPEN) {
-                    ToastUtils.showShort(activity.getString(R.string.biz_live_anchor_open_your_microphone))
-                    linkedSeatsAudienceActionManager.refreshLinkSeatDialog(
-                        LinkSeatsStatusDialog.MICROPHONE_POSITION,
-                        event.seatInfo.audioState
-                    )
-                    linkedSeatsAudienceActionManager.enableAudio(true)
+                     ToastUtils.showShort(activity.getString(R.string.biz_live_anchor_open_your_microphone))
+                     linkedSeatsAudienceActionManager.refreshLinkSeatDialog(
+                         LinkSeatsStatusDialog.MICROPHONE_POSITION,
+                         event.seatInfo.audioState
+                     )
+                     linkedSeatsAudienceActionManager.enableAudio(true)
                 }
 
                 LinkedSeatsAudienceActionManager.enableLocalAudio =

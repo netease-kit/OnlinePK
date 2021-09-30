@@ -42,7 +42,6 @@ dependencies {
     api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.3'
 
     api rootProject.ext.imSdk
-    api rootProject.ext.avsignallingSdk
     api project(':lib-beauty-faceunity')
 
 

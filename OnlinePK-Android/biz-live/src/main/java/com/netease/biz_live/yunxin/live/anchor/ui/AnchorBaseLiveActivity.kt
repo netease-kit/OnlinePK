@@ -40,7 +40,7 @@ import com.netease.yunxin.android.lib.picture.ImageLoader
 import com.netease.yunxin.kit.alog.ALog
 import com.netease.yunxin.lib_live_room_service.LiveRoomService
 import com.netease.yunxin.lib_live_room_service.bean.LiveInfo
-import com.netease.yunxin.lib_live_room_service.bean.reward.RewardInfo
+import com.netease.yunxin.lib_live_room_service.chatroom.RewardMsg
 import com.netease.yunxin.lib_live_room_service.impl.AudioOption
 import com.netease.yunxin.lib_live_room_service.impl.VideoOption
 import com.netease.yunxin.lib_network_kt.NetRequestCallback
@@ -288,7 +288,7 @@ abstract class AnchorBaseLiveActivity : BaseActivity() {
     /**
      * on user reward to anchor
      */
-    open fun onUserReward(reward: RewardInfo) {
+    open fun onUserReward(reward: RewardMsg) {
         if (TextUtils.equals(reward.anchorReward.accountId, liveInfo?.anchor?.accountId)) {
             topViewBinding.tvAnchorCoinCount.text =
                 StringUtils.getCoinCount(reward.anchorReward.rewardTotal)
