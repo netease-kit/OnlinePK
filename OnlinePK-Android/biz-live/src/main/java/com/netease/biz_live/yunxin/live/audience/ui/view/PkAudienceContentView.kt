@@ -16,7 +16,7 @@ import com.netease.yunxin.lib_live_pk_service.PkService
 import com.netease.yunxin.lib_live_pk_service.bean.*
 import com.netease.yunxin.lib_live_pk_service.delegate.PkDelegate
 import com.netease.yunxin.lib_live_room_service.bean.reward.RewardAudience
-import com.netease.yunxin.lib_live_room_service.chatroom.RewardMsg
+import com.netease.yunxin.lib_live_room_service.bean.reward.RewardInfo
 import com.netease.yunxin.lib_network_kt.NetRequestCallback
 import com.netease.yunxin.nertc.demo.basic.BaseActivity
 
@@ -87,9 +87,9 @@ class PkAudienceContentView(activity: BaseActivity) : BaseAudienceContentView(ac
 
     }
 
-    override fun onUserRewardImpl(rewardInfo: RewardMsg) {
+    override fun onUserRewardImpl(rewardInfo: RewardInfo) {
         super.onUserRewardImpl(rewardInfo)
-        if (isPking) {
+        if(isPking) {
             when {
                 TextUtils.equals(
                     rewardInfo.anchorReward.accountId,

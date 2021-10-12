@@ -6,6 +6,8 @@
 package com.netease.yunxin.lib_live_room_service.chatroom.control
 
 import android.text.TextUtils
+import com.blankj.utilcode.util.GsonUtils
+import com.google.gson.JsonObject
 import com.netease.nimlib.sdk.NIMClient
 import com.netease.nimlib.sdk.Observer
 import com.netease.nimlib.sdk.RequestCallback
@@ -18,9 +20,10 @@ import com.netease.nimlib.sdk.msg.MsgService
 import com.netease.nimlib.sdk.msg.constant.NotificationType
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum
 import com.netease.yunxin.kit.alog.ALog
+import com.netease.yunxin.lib_live_room_service.Constants
 import com.netease.yunxin.lib_live_room_service.bean.LiveUser
+import com.netease.yunxin.lib_live_room_service.bean.reward.RewardInfo
 import com.netease.yunxin.lib_live_room_service.chatroom.LiveAttachParser
-import com.netease.yunxin.lib_live_room_service.chatroom.RewardMsg
 import com.netease.yunxin.lib_live_room_service.chatroom.TextWithRoleAttachment
 import com.netease.yunxin.lib_live_room_service.delegate.LiveRoomDelegate
 import com.netease.yunxin.lib_network_kt.NetRequestCallback
@@ -96,11 +99,17 @@ object ChatRoomControl {
                     )
                     continue
                 }
-
                 // 打赏
-                if (attachment is RewardMsg) {
-                    delegate?.onUserReward(attachment)
-                    continue
+                val attachStr = message.attachStr
+                val jsonObject: JsonObject = GsonUtils.fromJson<JsonObject>(
+                    attachStr,
+                    JsonObject::class.java
+                )
+                val type = jsonObject["type"].asInt
+                if (type == Constants.MsgType.MSG_TYPE_REWARD) {
+                    val rewardInfo: RewardInfo =
+                        GsonUtils.fromJson(attachStr, RewardInfo::class.java)
+                    delegate?.onUserReward(rewardInfo)
                 }
 
             }

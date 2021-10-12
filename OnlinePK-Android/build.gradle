@@ -42,7 +42,7 @@ ext {
     minSdkVersion = 19
     targetSdkVersion = 30
 
-    nimVersion = '8.3.1'
+    nimVersion = '8.6.2'
     nertcVersion = '4.2.102'
     playerVersion = '2.7.1'
     playerGslbVersion = '1.0.0'
