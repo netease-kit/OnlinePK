@@ -9,6 +9,7 @@ import android.app.Activity
 import android.graphics.PointF
 import android.view.TextureView
 import android.view.View
+import com.blankj.utilcode.util.Utils
 import com.netease.biz_live.R
 import com.netease.biz_live.yunxin.live.constant.LiveTimeDef
 import com.netease.biz_live.yunxin.live.ui.widget.PKControlView
@@ -101,14 +102,31 @@ class AudiencePKControl {
     }
 
 
-    fun onPunishmentStart(pkResult: Int,countDown: Int){
+    fun onPunishmentStart(
+        otherAnchor: PkUserInfo? = null,
+        pkResult: Int,
+        countDown: Int,
+        initView: Boolean = false
+    ) {
         countDownTimer?.stop()
+        if (initView) {
+            // pk 状态下view渲染
+            pkControlView?.visibility = View.VISIBLE
+            // 重置pk控制view
+            pkControlView?.reset()
+            // 设置pk 主播昵称/头像
+            pkControlView?.updatePkAnchorInfo(
+                otherAnchor?.nickname,
+                otherAnchor?.avatar
+            )
+            adjustVideoSizeForPk(true)
+        }
         pkControlView?.handleResultFlag(true, pkResult)
         // 定时器倒计时
         if (pkResult != PKControlView.PK_RESULT_DRAW) {
             val leftTime = countDown * 1000L
             countDownTimer = pkControlView?.createCountDownTimer(
-                LiveTimeDef.TYPE_PUNISHMENT,
+                Utils.getApp().getString(R.string.biz_live_punishment),
                 leftTime
             )
             countDownTimer?.start()

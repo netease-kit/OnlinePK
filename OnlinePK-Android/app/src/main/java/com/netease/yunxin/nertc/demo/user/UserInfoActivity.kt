@@ -5,54 +5,57 @@
 
 package com.netease.yunxin.nertc.demo.user
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import com.blankj.utilcode.util.ToastUtils
 import com.netease.yunxin.android.lib.picture.ImageLoader
+import com.netease.yunxin.login.sdk.AuthorManager
+import com.netease.yunxin.login.sdk.model.*
+import com.netease.yunxin.nertc.demo.Constants
 import com.netease.yunxin.nertc.demo.R
 import com.netease.yunxin.nertc.demo.basic.BaseActivity
 import com.netease.yunxin.nertc.demo.basic.StatusBarConfig
-import com.netease.yunxin.nertc.demo.user.UserCenterService
-import com.netease.yunxin.nertc.demo.user.UserInfoActivity
-import com.netease.yunxin.nertc.module.base.ModuleServiceMgr
 
 class UserInfoActivity : BaseActivity() {
-    private val service: UserCenterService = ModuleServiceMgr.instance.getService(
-        UserCenterService::class.java
-    )
-    private val notify: UserCenterServiceNotify = object : CommonUserNotify() {
-        override fun onUserInfoUpdate(model: UserModel?) {
-            currentUser = model
-            initUser()
+
+    private val loginObserver: LoginObserver<LoginEvent> = object : LoginObserver<LoginEvent> {
+        override fun onEvent(event: LoginEvent) {
+            if (event.eventType == EventType.TYPE_UPDATE){
+                currentUserInfo = event.userInfo
+                initUser()
+            }
         }
     }
-    private var currentUser: UserModel? = null
+    private var currentUserInfo: UserInfo? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        service.registerLoginObserver(notify, true)
+        AuthorManager.registerLoginObserver(loginObserver)
+        currentUserInfo = AuthorManager.getUserInfo()
         setContentView(R.layout.activity_user_info)
-        currentUser = service.currentUser
         initViews()
         paddingStatusBarHeight(findViewById(R.id.cl_root))
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        service.registerLoginObserver(notify, false)
+        AuthorManager.unregisterLoginObserver(loginObserver)
     }
 
     private fun initViews() {
         val logout = findViewById<View>(R.id.tv_logout)
         logout.setOnClickListener { v: View? ->
-            service.launchLogout(this,
-                UserCenterService.LOGOUT_DIALOG_TYPE_NORMAL, object : CommonUserNotify() {
-                    override fun onUserLogout(success: Boolean, code: Int) {
-                        if (success) {
-                            finish()
-                        }
-                    }
-                })
+            AuthorManager.logoutWitDialog(this,object :LoginCallback<Void>{
+                override fun onSuccess(data: Void?) {
+                    AuthorManager.launchLogin(this@UserInfoActivity,Constants.MAIN_PAGE_ACTION,true)
+                    finish()
+                }
+
+                override fun onError(errorCode: Int, errorMsg: String) {
+                    ToastUtils.showShort(getString(R.string.logout_error_msg))
+                }
+            })
         }
         val close = findViewById<View>(R.id.iv_close)
         close.setOnClickListener { v: View? -> finish() }
@@ -61,17 +64,18 @@ class UserInfoActivity : BaseActivity() {
 
     private fun initUser() {
         val ivUserPortrait = findViewById<ImageView>(R.id.iv_user_portrait)
-        ImageLoader.with(applicationContext).circleLoad(currentUser!!.avatar, ivUserPortrait)
+        ImageLoader.with(applicationContext).circleLoad(currentUserInfo!!.avatar, ivUserPortrait)
         val tvNickname = findViewById<TextView>(R.id.tv_nick_name)
-        tvNickname.setOnClickListener { v: View? ->
-            startActivity(
-                Intent(
-                    this@UserInfoActivity,
-                    EditUserInfoActivity::class.java
-                )
-            )
-        }
-        tvNickname.text = currentUser!!.nickname
+        //暂时关闭昵称修改入口
+//        tvNickname.setOnClickListener { v: View? ->
+//            startActivity(
+//                Intent(
+//                    this@UserInfoActivity,
+//                    EditUserInfoActivity::class.java
+//                )
+//            )
+//        }
+        tvNickname.text = currentUserInfo!!.nickname
     }
 
     override fun provideStatusBarConfig(): StatusBarConfig? {
@@ -79,4 +83,5 @@ class UserInfoActivity : BaseActivity() {
             .statusBarDarkFont(false)
             .build()
     }
+
 }

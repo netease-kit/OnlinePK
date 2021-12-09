@@ -10,18 +10,16 @@ import android.view.View
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import com.gyf.immersionbar.ImmersionBar
-import com.netease.yunxin.nertc.demo.user.CommonUserNotify
-import com.netease.yunxin.nertc.demo.user.UserCenterService
-import com.netease.yunxin.nertc.demo.user.UserCenterServiceNotify
-import com.netease.yunxin.nertc.module.base.ModuleServiceMgr
+import com.netease.yunxin.login.sdk.AuthorManager
+import com.netease.yunxin.login.sdk.model.EventType
+import com.netease.yunxin.login.sdk.model.LoginEvent
+import com.netease.yunxin.login.sdk.model.LoginObserver
 
 open class BaseActivity : AppCompatActivity() {
-    private val userCenterService = ModuleServiceMgr.instance.getService(
-        UserCenterService::class.java
-    )
-    private val loginNotify: UserCenterServiceNotify = object : CommonUserNotify() {
-        override fun onUserLogout(success: Boolean, code: Int) {
-            if (success && !ignoredLoginEvent()) {
+
+    private val loginObserver: LoginObserver<LoginEvent> = object : LoginObserver<LoginEvent> {
+        override fun onEvent(event: LoginEvent) {
+            if (event.eventType == EventType.TYPE_LOGOUT && !ignoredLoginEvent()){
                 finish()
             }
         }
@@ -29,7 +27,7 @@ open class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        userCenterService.registerLoginObserver(loginNotify, true)
+        AuthorManager.registerLoginObserver(loginObserver)
         val config = provideStatusBarConfig()
         if (config != null) {
             val bar = ImmersionBar.with(this)
@@ -46,7 +44,7 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        userCenterService.registerLoginObserver(loginNotify, false)
+        AuthorManager.unregisterLoginObserver(loginObserver)
         super.onDestroy()
     }
 

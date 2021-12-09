@@ -54,4 +54,6 @@
     <string name="app_tip">提示</string>
     <string name="app_application">应用</string>
     <string name="app_problem_feedback">问题反馈</string>
+
+    <string name="logout_error_msg">退出登录失败</string>
 </resources>

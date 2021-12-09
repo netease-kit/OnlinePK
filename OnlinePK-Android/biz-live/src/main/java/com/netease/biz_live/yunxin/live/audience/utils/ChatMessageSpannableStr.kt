@@ -91,8 +91,10 @@ class ChatMessageSpannableStr(private val messageInfo: CharSequence) {
          */
         private fun append(text: CharSequence?, what: Any?) {
             val start = builder.length
-            builder.append(text)
-            builder.setSpan(what, start, builder.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+            text?.let {
+                builder.append(text)
+                builder.setSpan(what, start, builder.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+            }
         }
 
     }

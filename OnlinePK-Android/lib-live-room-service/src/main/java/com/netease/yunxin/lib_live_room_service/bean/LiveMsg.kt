@@ -21,4 +21,8 @@ data class LiveMsg(
     val audienceCount: Int,//	观众人数
     val liveConfig: LiveConfig,//	直播配置
     val rewardTotal: Long//	打赏总额
-) : Serializable
+) : Serializable {
+    override fun toString(): String {
+        return "LiveMsg(roomId='$roomId', roomTopic='$roomTopic', type=$type, status=$status, liveStatus=$liveStatus, cover='$cover', roomCid='$roomCid', roomCname='$roomCname', chatRoomId='$chatRoomId', chatRoomCreator='$chatRoomCreator', audienceCount=$audienceCount, liveConfig=$liveConfig, rewardTotal=$rewardTotal)"
+    }
+}

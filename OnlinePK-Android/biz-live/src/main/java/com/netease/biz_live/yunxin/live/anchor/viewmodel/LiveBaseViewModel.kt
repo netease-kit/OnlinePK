@@ -12,7 +12,7 @@ import com.netease.biz_live.yunxin.live.chatroom.ChatRoomMsgCreator
 import com.netease.yunxin.kit.alog.ALog
 import com.netease.yunxin.lib_live_room_service.LiveRoomService
 import com.netease.yunxin.lib_live_room_service.bean.LiveUser
-import com.netease.yunxin.lib_live_room_service.bean.reward.RewardInfo
+import com.netease.yunxin.lib_live_room_service.chatroom.RewardMsg
 import com.netease.yunxin.lib_live_room_service.chatroom.TextWithRoleAttachment
 import com.netease.yunxin.lib_live_room_service.delegate.LiveRoomDelegate
 import com.netease.yunxin.lib_live_room_service.param.ErrorInfo
@@ -33,7 +33,7 @@ class LiveBaseViewModel : ViewModel() {
 
     val userAccountData = MutableLiveData<Int>()
 
-    val rewardData = MutableLiveData<RewardInfo>()
+    val rewardData = MutableLiveData<RewardMsg>()
 
     val audioEffectFinishData = MutableLiveData<Int>()
 
@@ -84,10 +84,10 @@ class LiveBaseViewModel : ViewModel() {
          * anchor leave chatRoom
          */
         override fun onAnchorLeave() {
-            //need not impl
+            kickedOutData.postValue(true)
         }
 
-        override fun onUserReward(rewardInfo: RewardInfo) {
+        override fun onUserReward(rewardInfo: RewardMsg) {
             rewardData.value = rewardInfo
         }
 

@@ -49,6 +49,8 @@ dependencies {
 
     implementation project(":lib-network-kt")
 
+    implementation project(":lib-live-room-service")
+
     //云信
     implementation rootProject.ext.imSdk
     implementation rootProject.ext.chatroomSdk

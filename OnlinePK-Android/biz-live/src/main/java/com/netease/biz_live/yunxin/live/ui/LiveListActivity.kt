@@ -22,6 +22,7 @@ import com.netease.biz_live.yunxin.live.adapter.LiveListAdapter
 import com.netease.biz_live.yunxin.live.anchor.ui.AnchorPkLiveActivity
 import com.netease.biz_live.yunxin.live.anchor.ui.AnchorSeatLiveActivity
 import com.netease.biz_live.yunxin.live.audience.ui.LiveAudienceActivity
+import com.netease.biz_live.yunxin.live.floatplay.FloatPlayManager
 import com.netease.biz_live.yunxin.live.model.response.LiveListResponse
 import com.netease.biz_live.yunxin.live.network.LiveInteraction
 import com.netease.biz_live.yunxin.live.ui.widget.FooterView
@@ -45,7 +46,7 @@ import java.util.*
  */
 class LiveListActivity : BaseActivity(), OnRefreshListener, OnLoadMoreListener {
     private var recyclerView: RecyclerView? = null
-    private var ivCreateLive: ImageView? = null
+    private var llyCreateLive: LinearLayout? = null
     private var refreshLayout: SmartRefreshLayout? = null
     private val rlyEmpty: RelativeLayout? = null
     private var liveListAdapter: LiveListAdapter? = null
@@ -71,14 +72,17 @@ class LiveListActivity : BaseActivity(), OnRefreshListener, OnLoadMoreListener {
         val tvTitle = findViewById<TextView?>(R.id.tv_title)
         tvTitle.text = if (TextUtils.isEmpty(title)) getString(R.string.biz_live_pk_live) else title
         recyclerView = findViewById(R.id.rcv_live)
-        ivCreateLive = findViewById(R.id.iv_new_live)
+        llyCreateLive = findViewById(R.id.lly_new_live)
         refreshLayout = findViewById(R.id.refreshLayout)
         ivClose = findViewById(R.id.iv_back)
         refreshLayout?.setRefreshHeader(HeaderView(this))
         refreshLayout?.setRefreshFooter(FooterView(this))
         refreshLayout?.setOnRefreshListener(this)
         refreshLayout?.setOnLoadMoreListener(this)
-        ivCreateLive?.setOnClickListener {
+        llyCreateLive?.setOnClickListener {
+            if (FloatPlayManager.isStartFloatWindow){
+                FloatPlayManager.closeFloatPlay()
+            }
             if (!ClickUtils.isFastClick()) {
                 if (type == Constants.LiveType.LIVE_TYPE_PK) {
                     AnchorPkLiveActivity.startActivity(this)

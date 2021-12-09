@@ -12,7 +12,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.0.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -39,11 +39,11 @@ task clean(type: Delete) {
 ext {
     compileSdkVersion = 30
     buildToolsVersion = "30.0.0"
-    minSdkVersion = 19
+    minSdkVersion = 21
     targetSdkVersion = 30
 
     nimVersion = '8.6.2'
-    nertcVersion = '4.2.102'
+    nertcVersion = '4.2.115'
     playerVersion = '2.7.1'
     playerGslbVersion = '1.0.0'
     lifecycleVersion = '1.1.1'
@@ -76,6 +76,7 @@ ext {
 ext {
     AppKey = ''
     BaseUrl = ''
+    buildEnv = ''
 }
 
 def loadLocalConfig() {
@@ -89,6 +90,7 @@ def loadLocalConfig() {
     }
     Properties config = new Properties()
     config.load(propertiesFile.newInputStream())
+    this.buildEnv = env
     this.AppKey = config.getProperty('APP_KEY')
     this.BaseUrl = config.getProperty('BASE_URL')
 }

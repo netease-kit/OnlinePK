@@ -24,7 +24,7 @@ interface LiveRoomApi {
     /**
      * enter room
      */
-    @POST("/live/v1/join")
+    @POST("/live/v1/info")
     suspend fun enterRoom(
         @Body params: Map<String, @JvmSuppressWildcards Any>
     ): Response<LiveInfo>

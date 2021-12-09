@@ -9,7 +9,13 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.REORDER_TASKS" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
+    <!--屏保解锁，亮屏后应用可打开屏保-->
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <!--电源锁，应用在熄屏的时候持有，可保持cpu继续运转-->
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <application>
         <activity android:name=".yunxin.live.audience.utils.DialogHelperActivity"
             android:screenOrientation="portrait"

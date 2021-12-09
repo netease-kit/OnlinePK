@@ -6,13 +6,12 @@
 package com.netease.biz_live.yunxin.live.audience.utils
 
 import android.text.TextUtils
-import com.netease.yunxin.nertc.demo.user.UserCenterService
-import com.netease.yunxin.nertc.module.base.ModuleServiceMgr
+import com.netease.yunxin.login.sdk.AuthorManager
 
 object AccountUtil {
     fun isCurrentUser(accountId: String?): Boolean {
         val currentUser =
-            ModuleServiceMgr.instance.getService(UserCenterService::class.java).currentUser
+            AuthorManager.getUserInfo()
         return currentUser != null && !TextUtils.isEmpty(currentUser.accountId) && currentUser.accountId == accountId
     }
 }

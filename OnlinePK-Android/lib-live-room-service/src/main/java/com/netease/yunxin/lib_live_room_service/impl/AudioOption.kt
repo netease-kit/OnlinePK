@@ -87,4 +87,12 @@ object AudioOption {
     fun stopAllEffects(): Boolean {
         return engine.stopAllEffects() == NERtcConstants.ErrorCode.OK
     }
+
+    fun muteRemoteUserAudio(uid: Long, mute: Boolean): Boolean {
+        return if (mute) {
+            engine.adjustUserPlaybackSignalVolume(uid, 0) == NERtcConstants.ErrorCode.OK
+        } else {
+            engine.adjustUserPlaybackSignalVolume(uid, 100) == NERtcConstants.ErrorCode.OK
+        }
+    }
 }

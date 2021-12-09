@@ -8,13 +8,13 @@ package com.netease.yunxin.nertc.demo
 import android.content.Intent
 import android.os.Bundle
 import com.netease.yunxin.kit.alog.ALog
+import com.netease.yunxin.login.sdk.AuthorManager
+import com.netease.yunxin.login.sdk.model.*
 import com.netease.yunxin.nertc.demo.basic.BaseActivity
 import com.netease.yunxin.nertc.demo.basic.StatusBarConfig
-import com.netease.yunxin.nertc.demo.user.CommonUserNotify
-import com.netease.yunxin.nertc.demo.user.UserCenterService
-import com.netease.yunxin.nertc.module.base.ModuleServiceMgr
 
 class SplashActivity : BaseActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (!this.isTaskRoot) {
@@ -26,24 +26,20 @@ class SplashActivity : BaseActivity() {
             }
         }
         setContentView(R.layout.activity_splash)
-        val service: UserCenterService = ModuleServiceMgr.instance.getService(
-            UserCenterService::class.java
-        )
-        service.tryLogin(object : CommonUserNotify() {
-            override fun onUserLogin(success: Boolean, code: Int) {
-                if (success) {
-                    navigationMain()
-                } else {
-                    service.launchLogin(this@SplashActivity)
-                }
+        AuthorManager.autoLogin(true,
+            object :LoginCallback<UserInfo>{
+            override fun onError(errorCode: Int, errorMsg: String) {
+                AuthorManager.launchLogin(this@SplashActivity,Constants.MAIN_PAGE_ACTION,true)
                 finish()
             }
 
-            override fun onError(exception: Throwable?) {
-                service.launchLogin(this@SplashActivity)
+            override fun onSuccess(data: UserInfo?) {
+                navigationMain()
                 finish()
             }
+
         })
+
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -69,3 +65,4 @@ class SplashActivity : BaseActivity() {
         private const val TAG = "SplashActivity"
     }
 }
+

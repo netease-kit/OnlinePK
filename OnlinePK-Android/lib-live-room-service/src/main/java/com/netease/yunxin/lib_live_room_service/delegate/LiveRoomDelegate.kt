@@ -6,7 +6,7 @@
 package com.netease.yunxin.lib_live_room_service.delegate
 
 import com.netease.yunxin.lib_live_room_service.bean.LiveUser
-import com.netease.yunxin.lib_live_room_service.bean.reward.RewardInfo
+import com.netease.yunxin.lib_live_room_service.chatroom.RewardMsg
 import com.netease.yunxin.lib_live_room_service.chatroom.TextWithRoleAttachment
 import com.netease.yunxin.lib_live_room_service.param.ErrorInfo
 
@@ -54,7 +54,7 @@ interface LiveRoomDelegate {
     /**
      * audience reward a gift
      */
-    fun onUserReward(rewardInfo: RewardInfo)
+    fun onUserReward(rewardInfo: RewardMsg)
 
     /**
      * audio effect callback

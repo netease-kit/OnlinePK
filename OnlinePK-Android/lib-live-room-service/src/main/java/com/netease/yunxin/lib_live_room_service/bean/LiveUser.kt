@@ -26,4 +26,9 @@ data class LiveUser(
     override fun hashCode(): Int {
         return accountId.hashCode()
     }
+
+    override fun toString(): String {
+        return "LiveUser(accountId='$accountId', imAccid='$imAccid', roomUid=$roomUid, nickname='$nickname', avatar='$avatar', roomCheckSum=$roomCheckSum)"
+    }
+
 }

@@ -8,12 +8,14 @@ package com.netease.yunxin.lib_live_room_service.impl
 import android.graphics.Color
 import com.netease.lava.nertc.impl.RtcCode
 import com.netease.lava.nertc.sdk.NERtcEx
+import com.netease.lava.nertc.sdk.live.NERtcLiveConfig
 import com.netease.lava.nertc.sdk.live.NERtcLiveStreamLayout
 import com.netease.lava.nertc.sdk.live.NERtcLiveStreamTaskInfo
 import com.netease.lava.nertc.sdk.live.NERtcLiveStreamUserTranscoding
 import com.netease.yunxin.kit.alog.ALog
 import com.netease.yunxin.lib_live_room_service.Constants
 import com.netease.yunxin.lib_live_room_service.param.LiveStreamTaskRecorder
+import com.netease.yunxin.lib_network_kt.NetRequestCallback
 import java.util.*
 
 /**
@@ -62,7 +64,7 @@ class LiveStream {
             return ret
         }
 
-        fun updateStreamTask(task: NERtcLiveStreamTaskInfo): Int {
+        fun updateStreamTask(task: NERtcLiveStreamTaskInfo,callback: NetRequestCallback<Int>?=null): Int {
             val ret: Int = NERtcEx.getInstance().updateLiveStreamTask(
                 task
             ) { s: String?, code: Int ->
@@ -71,11 +73,13 @@ class LiveStream {
                         LOG_TAG,
                         "updateStreamTask success : taskId " + task.taskId
                     )
+                    callback?.success(RtcCode.LiveCode.OK)
                 } else {
                     ALog.d(
                         LOG_TAG,
                         "updateStreamTask failed : taskId " + task.taskId + " , code : " + code
                     )
+                    callback?.error(code,s+"")
                 }
             }
             if (ret != 0) {
@@ -83,6 +87,7 @@ class LiveStream {
                     LOG_TAG,
                     "updateStreamTask failed : taskId " + task.taskId + " , ret : " + ret
                 )
+                callback?.error(-1,"updateLiveStreamTask return none zero")
             }
             return ret
         }
@@ -158,7 +163,7 @@ class LiveStream {
             liveRecoder.otherAnchorUid?.let {
                 val pkUser = NERtcLiveStreamUserTranscoding()
                 pkUser.uid = it // 用户id
-                pkUser.audioPush = true
+                pkUser.audioPush = !liveRecoder.muteOther
                 pkUser.videoPush = true
                 pkUser.adaption =
                     NERtcLiveStreamUserTranscoding.NERtcLiveStreamVideoScaleMode.kNERtcLsModeVideoScaleCropFill

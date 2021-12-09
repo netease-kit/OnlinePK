@@ -13,6 +13,8 @@ import android.view.*
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.NetworkUtils
 import com.blankj.utilcode.util.NetworkUtils.NetworkType
@@ -24,10 +26,12 @@ import com.netease.biz_live.databinding.ViewItemAudienceLiveRoomInfoBinding
 import com.netease.biz_live.yunxin.live.audience.ui.dialog.GiftDialog
 import com.netease.biz_live.yunxin.live.audience.ui.dialog.GiftDialog.GiftSendListener
 import com.netease.biz_live.yunxin.live.audience.ui.view.AudienceErrorStateView.ClickButtonListener
-import com.netease.biz_live.yunxin.live.audience.utils.*
+import com.netease.biz_live.yunxin.live.audience.utils.DialogHelperActivity
+import com.netease.biz_live.yunxin.live.audience.utils.InputUtils
 import com.netease.biz_live.yunxin.live.audience.utils.InputUtils.InputParamHelper
+import com.netease.biz_live.yunxin.live.audience.utils.StringUtils
 import com.netease.biz_live.yunxin.live.chatroom.ChatRoomMsgCreator
-import com.netease.biz_live.yunxin.live.constant.*
+import com.netease.biz_live.yunxin.live.floatplay.*
 import com.netease.biz_live.yunxin.live.gift.GiftCache
 import com.netease.biz_live.yunxin.live.gift.GiftRender
 import com.netease.biz_live.yunxin.live.gift.ui.GifAnimationView
@@ -38,15 +42,11 @@ import com.netease.yunxin.kit.alog.ALog
 import com.netease.yunxin.lib_live_room_service.LiveRoomService
 import com.netease.yunxin.lib_live_room_service.bean.LiveInfo
 import com.netease.yunxin.lib_live_room_service.bean.LiveUser
-import com.netease.yunxin.lib_live_room_service.bean.reward.RewardInfo
-import com.netease.yunxin.lib_live_room_service.chatroom.TextWithRoleAttachment
-import com.netease.yunxin.lib_live_room_service.delegate.LiveRoomDelegate
+import com.netease.yunxin.lib_live_room_service.chatroom.RewardMsg
 import com.netease.yunxin.lib_live_room_service.param.ErrorInfo
 import com.netease.yunxin.lib_network_kt.NetRequestCallback
 import com.netease.yunxin.nertc.demo.basic.BaseActivity
 import com.netease.yunxin.nertc.demo.basic.StatusBarConfig
-import com.netease.yunxin.nertc.demo.user.UserCenterService
-import com.netease.yunxin.nertc.module.base.ModuleServiceMgr
 
 /**
  * Created by luc on 2020/11/19.
@@ -72,12 +72,7 @@ import com.netease.yunxin.nertc.module.base.ModuleServiceMgr
 @SuppressLint("ViewConstructor")
 abstract class BaseAudienceContentView(val activity: BaseActivity) : FrameLayout(activity) {
 
-    /**
-     * 用户服务
-     */
-    protected val userCenterService = ModuleServiceMgr.instance.getService(
-        UserCenterService::class.java
-    )
+
 
     protected val roomService by lazy { LiveRoomService.sharedInstance() }
 
@@ -100,38 +95,30 @@ abstract class BaseAudienceContentView(val activity: BaseActivity) : FrameLayout
     /**
      * 观众端信息浮层，viewbinding 官方文档:https://developer.android.com/topic/libraries/view-bindinghl=zh-cn#java
      */
-    protected val infoBinding by lazy { ViewItemAudienceLiveRoomInfoBinding.inflate(
-        LayoutInflater.from(
-            context
-        ), this, false
-    ) }
-    
+    protected val infoBinding by lazy {
+        ViewItemAudienceLiveRoomInfoBinding.inflate(
+            LayoutInflater.from(
+                context
+            ), this, false
+        )
+    }
+
     private val includeRoomTopBinding by lazy { ViewIncludeRoomTopBinding.bind(infoBinding.root) }
 
     /**
-     * 直播间详细信息
+     * 主播错误状态展示（包含结束直播）
      */
-    protected var liveInfo: LiveInfo? = null
-
-        /**
-         * 主播错误状态展示（包含结束直播）
-         */
     protected var errorStateView: AudienceErrorStateView? = null
-
 
     /**
      * 礼物弹窗
      */
     private var giftDialog: GiftDialog? = null
 
-    /**
-     * 依赖对象中回调，[.prepare] 状态设置为 true；
-     * [.release] 状态设置为 false;
-     */
-    private var canRender = false
-
     private var joinRoomSuccess = false
 
+    var audienceViewModel: AudienceViewModel? = null
+    var roomDestroyed=false
     /**
      * 监听网络状态
      */
@@ -149,7 +136,6 @@ abstract class BaseAudienceContentView(val activity: BaseActivity) : FrameLayout
     protected open fun onNetworkDisconnected() {
         ToastUtils.showLong(R.string.biz_live_network_error)
         ALog.d(LOG_TAG, "onDisconnected():" + System.currentTimeMillis())
-        videoView?.visibility = GONE
         changeErrorState(true, AudienceErrorStateView.TYPE_ERROR)
         if (giftDialog?.isShowing == true) {
             giftDialog?.dismiss()
@@ -160,123 +146,30 @@ abstract class BaseAudienceContentView(val activity: BaseActivity) : FrameLayout
         ALog.d(LOG_TAG, "onConnected():" + System.currentTimeMillis())
     }
 
-
-    private val roomDelegate: LiveRoomDelegate =
-        object : LiveRoomDelegate {
-
-            override fun onError(errorInfo: ErrorInfo) {
-                ALog.d(LOG_TAG, "onError $errorInfo")
-                if (errorInfo.serious) {
-                    if (!activity.isFinishing) {
-                        activity.finish()
-                    }
-                } else {
-                    if (!TextUtils.isEmpty(errorInfo.msg)) {
-                        ToastUtils.showShort(errorInfo.msg)
-                    }
-                }
-            }
-
-            override fun onRoomDestroy() {
-                if (!canRender) {
-                    return
-                }
-                changeErrorState(true, AudienceErrorStateView.TYPE_FINISHED)
-            }
-
-            override fun onUserCountChange(userCount: Int) {
-                includeRoomTopBinding.tvAudienceCount.text =
-                    StringUtils.getAudienceCount(userCount)
-            }
-
-            override fun onRecvRoomTextMsg(nickname: String, attachment: TextWithRoleAttachment) {
-                val content = attachment.msg
-                val isAnchor = attachment.isAnchor
-                ALog.d(LOG_TAG,"onRecvRoomTextMsg $content")
-                onMsgArrived(ChatRoomMsgCreator.createText(isAnchor,nickname,content))
-            }
-
-            override fun onUserEntered(nickname: String) {
-                if (!TextUtils.equals(nickname, liveInfo?.anchor?.nickname)) {
-                    onMsgArrived(ChatRoomMsgCreator.createRoomEnter(nickname))
-                }
-            }
-
-            override fun onUserLeft(nickname: String) {
-                if (!TextUtils.equals(nickname, liveInfo?.anchor?.nickname)) {
-                    onMsgArrived(ChatRoomMsgCreator.createRoomExit(nickname))
-                }
-            }
-
-            /**
-             * kicked out by login in other set
-             */
-            override fun onKickedOut() {
-                if (!canRender) {
-                    return
-                }
-                activity.finish()
-                context.startActivity(Intent(context, DialogHelperActivity::class.java))
-            }
-
-            /**
-             * anchor leave chatRoom
-             */
-            override fun onAnchorLeave() {
-                if (!canRender) {
-                    return
-                }
-                changeErrorState(true, AudienceErrorStateView.TYPE_FINISHED)
-            }
-
-            override fun onUserReward(rewardInfo: RewardInfo) {
-                onMsgArrived(
-                    ChatRoomMsgCreator.createGiftReward(
-                        rewardInfo.rewarderNickname,
-                        1, GiftCache.getGift(rewardInfo.giftId).staticIconResId
-                    )
-                )
-                onUserRewardImpl(rewardInfo)
-            }
-
-            override fun onAudioEffectFinished(effectId: Int) {
-                //need not impl
-            }
-
-            override fun onAudioMixingFinished() {
-                //need not impl
-            }
-
-            /**
-             * audience change
-             * ten audience will return in live room
-             */
-            override fun onAudienceChange(infoList: MutableList<LiveUser>) {
-                includeRoomTopBinding.rvAnchorPortraitList.updateAll(infoList)
-            }
-
-        }
-
     protected open fun showCdnView() {
-        if (videoView == null) {
-            videoView = CDNStreamTextureView(context)
-            addView(videoView, 0, generateDefaultLayoutParams())
-        }
+        changeErrorState(false, -1)
         videoView?.visibility = VISIBLE
         // 初始化信息页面位置
         horSwitchView?.toSelectedPosition()
-        // 播放器控制加载信息
-        videoView?.prepare(liveInfo)
         // 聊天室信息更新到最新到最新一条
         infoBinding.crvMsgList.toLatestMsg()
+        errorStateView?.visibility = GONE
     }
 
-    open fun onUserRewardImpl(rewardInfo: RewardInfo){
-        if(TextUtils.equals(rewardInfo.anchorReward.accountId,
-                liveInfo?.anchor?.accountId)) {
-            includeRoomTopBinding.tvAnchorCoinCount.text =
-                StringUtils.getCoinCount(rewardInfo.anchorReward.rewardTotal)
+    open fun onUserRewardImpl(rewardInfo: RewardMsg) {
+        if (TextUtils.equals(
+                rewardInfo.anchorReward.accountId,
+                audienceViewModel?.data!!.liveInfo?.anchor?.accountId
+            )
+        ) {
+            refreshCoinCount(StringUtils.getCoinCount(rewardInfo.anchorReward.rewardTotal))
             giftRender.addGift(GiftCache.getGift(rewardInfo.giftId).dynamicIconResId)
+        }
+    }
+
+    private fun refreshCoinCount(coinCount: String?) {
+        coinCount?.let {
+            includeRoomTopBinding.tvAnchorCoinCount.text =coinCount
         }
     }
 
@@ -291,18 +184,19 @@ abstract class BaseAudienceContentView(val activity: BaseActivity) : FrameLayout
     private val clickButtonListener: ClickButtonListener = object : ClickButtonListener {
         override fun onBackClick(view: View?) {
             ALog.d(LOG_TAG, "onBackClick")
-            if (!activity.isFinishing) {
-                activity.finish()
-            }
+            finishLiveRoomActivity(true)
         }
 
         override fun onRetryClick(view: View?) {
             ALog.d(LOG_TAG, "onRetryClick")
-            if (canRender && liveInfo != null) {
+            if (!NetworkUtils.isConnected()){
+                ALog.d(LOG_TAG,"onRetryClick failed")
+                return
+            }
+            if ( audienceViewModel?.data!!.liveInfo != null) {
                 if (joinRoomSuccess) {
                     initLiveType(true)
-                } else {
-                    select(liveInfo!!.live.roomId)
+                    select(audienceViewModel?.data!!.liveInfo!!)
                 }
             }
         }
@@ -312,6 +206,7 @@ abstract class BaseAudienceContentView(val activity: BaseActivity) : FrameLayout
      * 添加并初始化内部子 view
      */
     fun initViews() {
+        ALog.d(LOG_TAG,"initViews()")
         // 设置 view 背景颜色
         setBackgroundColor(Color.parseColor("#ff201C23"))
         // 添加视频播放 TextureView
@@ -360,6 +255,61 @@ abstract class BaseAudienceContentView(val activity: BaseActivity) : FrameLayout
             })
         }
 
+        infoBinding.apply {
+            // 关闭按钮
+            ivRoomClose.setOnClickListener {
+                closeBtnClick()
+            }
+            // 礼物发送
+            ivRoomGift.setOnClickListener {
+                if (giftDialog == null) {
+                    giftDialog = GiftDialog(activity)
+                }
+                giftDialog!!.show(object : GiftSendListener {
+                    override fun onSendGift(giftId: Int?) {
+                        giftId?.let {
+                            roomService.reward(it, object : NetRequestCallback<Unit> {
+                                override fun success(info: Unit?) {
+                                    //do nothing
+                                }
+
+                                override fun error(code: Int, msg: String) {
+                                    ToastUtils.showShort(R.string.biz_live_reward_failed)
+                                }
+
+                            })
+                        }
+                    }
+                })
+            }
+
+            // 显示底部输入栏
+            tvRoomMsgInput.setOnClickListener {
+                InputUtils.showSoftInput(
+                    infoBinding.etRoomMsgInput
+                )
+            }
+
+            // 输入聊天框
+            etRoomMsgInput.setOnEditorActionListener(TextView.OnEditorActionListener { v: TextView?, actionId: Int, event: KeyEvent? ->
+                if (v === etRoomMsgInput) {
+                    ALog.d(LOG_TAG,"audienceViewModel:"+audienceViewModel?.data!!.liveInfo.toString())
+                    val input = etRoomMsgInput.text.toString()
+                    InputUtils.hideSoftInput(etRoomMsgInput)
+                    roomService.sendTextMessage(input)
+                    audienceViewModel?.appendChatRoomMsg(
+                        ChatRoomMsgCreator.createText(
+                            false,
+                            audienceViewModel?.data!!.liveInfo?.joinUserInfo?.nickname,
+                            input
+                        )
+                    )
+                    return@OnEditorActionListener true
+                }
+                false
+            })
+        }
+
     }
 
     /**
@@ -368,65 +318,10 @@ abstract class BaseAudienceContentView(val activity: BaseActivity) : FrameLayout
      * @param info 直播间信息
      */
     open fun renderData(info: LiveInfo) {
-        liveInfo = info
-        videoView?.setUp(canRender)
-        errorStateView?.renderInfo(info.anchor.avatar, info.anchor.nickname)
-        // 输入聊天框
-        infoBinding.etRoomMsgInput.setOnEditorActionListener(TextView.OnEditorActionListener { v: TextView?, actionId: Int, event: KeyEvent? ->
-            if (v === infoBinding.etRoomMsgInput) {
-                val input = infoBinding.etRoomMsgInput.text.toString()
-                InputUtils.hideSoftInput(infoBinding.etRoomMsgInput)
-                roomService.sendTextMessage(input)
-                onMsgArrived(ChatRoomMsgCreator.createText(false,liveInfo?.joinUserInfo?.nickname,input))
-                return@OnEditorActionListener true
-            }
-            false
-        })
-        infoBinding.etRoomMsgInput.visibility = GONE
-        // 直播间总人数
-        includeRoomTopBinding.tvAudienceCount.text =
-            StringUtils.getAudienceCount(info.live.audienceCount)
-        // 主播头像
-        ImageLoader.with(context.applicationContext)
-            .circleLoad(info.anchor.avatar, includeRoomTopBinding.ivAnchorPortrait)
-        // 主播昵称
-        includeRoomTopBinding.tvAnchorNickname.text = info.anchor.nickname
-        includeRoomTopBinding.tvAnchorCoinCount.text =
-            StringUtils.getCoinCount(info.live.rewardTotal)
-        // 关闭按钮
-        infoBinding.ivRoomClose.setOnClickListener {
-            // 资源释放，页面退出
-            activity.finish()
-        }
-        // 礼物发送
-        infoBinding.ivRoomGift.setOnClickListener { v: View ->
-            if (giftDialog == null) {
-                giftDialog = GiftDialog(activity)
-            }
-            giftDialog!!.show(object : GiftSendListener {
-                override fun onSendGift(giftId: Int?) {
-                    giftId?.let {
-                        roomService.reward(it, object : NetRequestCallback<Unit> {
-                            override fun success(info: Unit?) {
-                                //do nothing
-                            }
 
-                            override fun error(code: Int, msg: String) {
-                                ToastUtils.showShort(R.string.biz_live_reward_failed)
-                            }
 
-                        })
-                    }
-                }
-            })
-        }
 
-        // 显示底部输入栏
-        infoBinding.tvRoomMsgInput.setOnClickListener { v: View ->
-            InputUtils.showSoftInput(
-                infoBinding.etRoomMsgInput
-            )
-        }
+
     }
 
     /**
@@ -434,39 +329,198 @@ abstract class BaseAudienceContentView(val activity: BaseActivity) : FrameLayout
      */
     fun prepare() {
         showCdnView()
-        changeErrorState(false, -1)
-        canRender = true
     }
 
+    var roomId=""
     /**
      * 页面展示
      */
-    fun select(roomId: String) {
-        roomService.addDelegate(roomDelegate)
-        roomService.enterRoom(roomId, object : NetRequestCallback<LiveInfo> {
-            override fun success(info: LiveInfo?) {
-                ALog.d(LOG_TAG, "audience join room success")
-                joinRoomSuccess = true
-                liveInfo = info
-                // 根据房间当前状态初始化房间信息
-                initLiveType(false)
-            }
+    fun select(liveInfo: LiveInfo) {
+        roomId=liveInfo.live.roomId
+        ALog.d(LOG_TAG,"select(),roomId:$roomId")
+        audienceViewModel = ViewModelProvider(activity).get(AudienceViewModel::class.java)
+        subscribeUI()
+        if (!joinRoomSuccess&&!AudienceDataManager.hasCache(roomId)){
+            roomService.enterRoom(roomId, object : NetRequestCallback<LiveInfo> {
+                override fun success(info: LiveInfo?) {
+                    ALog.d(LOG_TAG, "audience join room success,roomId:$roomId")
+                    joinRoomSuccess = true
+                    // 根据房间当前状态初始化房间信息
+                    info?.let {
+                        audienceViewModel?.refreshLiveInfo(info)
+                    }
+                    if (!roomDestroyed){
+                        initLiveType(false)
+                    }
+                }
 
-            override fun error(code: Int, msg: String) {
-                ToastUtils.showShort(msg)
-                ALog.e(LOG_TAG, "join room failed msg:$msg code= $code")
-                // 加入聊天室出现异常直接退出当前页面
-                activity.finish()
-            }
+                override fun error(code: Int, msg: String) {
+                    ToastUtils.showShort(msg)
+                    ALog.e(LOG_TAG, "join room failed msg:$msg code= $code")
+                    // 加入聊天室出现异常直接退出当前页面
+                    finishLiveRoomActivity(true)
+                }
 
-        })
+            })
+        }else{
+            audienceViewModel?.queryRoomDetailInfo(liveInfo)
+        }
+        audienceViewModel?.select(liveInfo)
+        if (!roomDestroyed&&AudienceDataManager.hasCache(roomId)){
+            initLiveType(false)
+        }
+        videoView?.prepare(audienceViewModel?.data?.liveInfo)
+    }
+
+    fun saveListInfoAndPosition(infoList: MutableList<LiveInfo>, currentPosition: Int) {
+        audienceViewModel?.saveListInfoAndPosition(infoList, currentPosition)
+    }
+
+    private val cacheObserver=Observer<AudienceData>{
+            if (!needRefresh()){
+                return@Observer
+            }
+            it?.let {
+                ALog.d(LOG_TAG, "cacheObserver22:$it")
+                refreshBasicUI(it.liveInfo)
+                refreshAudienceCount(it.userCount)
+                infoBinding.crvMsgList.appendItems(it.chatRoomMsgList as MutableList<CharSequence?>)
+                refreshAudienceCount(it.userCount)
+                refreshCoinCount(StringUtils.getCoinCount(it.rewardTotal))
+                refreshUserList(it.userList)
+                adjustVideoSize(it)
+            }
+    }
+
+    open fun adjustVideoSize(data:AudienceData){
+
+    }
+
+    private val liveInfoObserver = Observer<LiveInfo> {
+        if (!needRefresh()){
+            return@Observer
+        }
+        ALog.d(LOG_TAG, "liveInfoObserver111,roomId:$roomId")
+        ALog.d(LOG_TAG, "liveInfoObserver222,roomId:${it.live.roomId}")
+        ALog.d(LOG_TAG, "liveInfoObserver333,chatRoomId:${it.live.chatRoomId}")
+        ALog.d(LOG_TAG, "liveInfoObserver444,anchor:${it.anchor.nickname}")
+        ALog.d(LOG_TAG, "liveInfoObserver444,audienceCount:${it.live.audienceCount}")
+        refreshBasicUI(it)
+    }
+
+    private val errorInfoObserver = Observer<ErrorInfo> {
+        if (!needRefresh()){
+            return@Observer
+        }
+        ALog.d(LOG_TAG, "onError $it")
+        if (it.serious) {
+            finishLiveRoomActivity(true)
+        } else {
+            if (!TextUtils.isEmpty(it.msg)) {
+                ToastUtils.showShort(it.msg)
+            }
+        }
+    }
+
+    private val errorStateObserver = Observer<Pair<Boolean, Int>> {
+        if (!needRefresh()){
+            return@Observer
+        }
+        roomDestroyed=it.first
+        ALog.d(LOG_TAG,"roomDestroyed:$roomDestroyed")
+        changeErrorState(it.first, it.second)
+    }
+
+    private val userCountObserver = Observer<Int> {
+        if (!needRefresh()){
+            return@Observer
+        }
+        refreshAudienceCount(it)
+
+    }
+
+    private val newChatRoomMsgObserver = Observer<CharSequence> {
+        if (!needRefresh()){
+            return@Observer
+        }
+        onMsgArrived(it)
+    }
+    private val kickedOutObserver = Observer<Boolean> {
+        if (!needRefresh()){
+            return@Observer
+        }
+        if (it) {
+            finishLiveRoomActivity(true)
+            context.startActivity(Intent(context, DialogHelperActivity::class.java))
+        }
+    }
+    private val userRewardObserver = Observer<RewardMsg> {
+        if (!needRefresh()){
+            return@Observer
+        }
+        onUserRewardImpl(it)
+    }
+    private val videoHeightObserver = Observer<Int> {
+        if (!needRefresh()){
+            return@Observer
+        }
+
+    }
+    private val userListObserver = Observer<MutableList<LiveUser>> {
+        if (!needRefresh()){
+            return@Observer
+        }
+        refreshUserList(it)
+    }
+
+    private fun refreshUserList(userList: MutableList<LiveUser>?) {
+        userList?.let {
+            includeRoomTopBinding.rvAnchorPortraitList.updateAll(userList)
+        }
+    }
+
+    private fun refreshAudienceCount(count: Int) {
+        includeRoomTopBinding.tvAudienceCount.text =
+            StringUtils.getAudienceCount(count)
+    }
+
+    private fun refreshBasicUI(liveInfo: LiveInfo?) {
+        liveInfo.let {
+            errorStateView?.renderInfo(liveInfo?.anchor?.avatar, liveInfo?.anchor?.nickname)
+            // 主播头像
+            ImageLoader.with(context.applicationContext)
+                .circleLoad(liveInfo?.anchor?.avatar, includeRoomTopBinding.ivAnchorPortrait)
+            // 主播昵称
+            includeRoomTopBinding.tvAnchorNickname.text = liveInfo?.anchor?.nickname
+            includeRoomTopBinding.tvAnchorCoinCount.text =
+                StringUtils.getCoinCount(liveInfo?.live?.rewardTotal!!)
+        }
+    }
+
+
+    private fun subscribeUI() {
+        ALog.d(LOG_TAG, "subscribeUI:$audienceViewModel")
+        audienceViewModel?.apply {
+            cacheData.observe(activity,cacheObserver)
+            liveInfoData.observe(activity,liveInfoObserver)
+            errorInfoData.observe(activity, errorInfoObserver)
+            errorStateData.observe(activity, errorStateObserver)
+            userCountData.observe(activity, userCountObserver)
+            newChatRoomMsgData.observe(activity, newChatRoomMsgObserver)
+            kickedOutData.observe(activity, kickedOutObserver)
+            userRewardData.observe(activity, userRewardObserver)
+            videoHeightData.observe(activity, videoHeightObserver)
+            userListData.observe(activity, userListObserver)
+        }
+
     }
 
     protected open fun initLiveType(isRetry: Boolean) {
         if (isRetry) {
             showCdnView()
-            changeErrorState(false, -1)
+            FloatPlayLogUtil.log(LOG_TAG, "initLiveType,showCdnView")
         }
+        changeErrorState(false, -1)
     }
 
 
@@ -474,50 +528,62 @@ abstract class BaseAudienceContentView(val activity: BaseActivity) : FrameLayout
      * 页面资源释放
      */
     open fun release() {
+        roomId=""
+        unSubscribeUI()
+        ALog.d(LOG_TAG,"leaveRoom")
         roomService.leaveRoom(object : NetRequestCallback<Unit> {
             override fun success(info: Unit?) {
-
+                ALog.d(LOG_TAG,"leaveRoom success")
             }
 
             override fun error(code: Int, msg: String) {
                 ToastUtils.showLong(msg)
+                ALog.d(LOG_TAG,"leaveRoom error")
             }
         })
-        if (!canRender) {
-            return
-        }
-        canRender = false
-        // 播放器资源释放
-        videoView?.release()
-        videoView = null
         // 礼物渲染释放
         giftRender.release()
         // 消息列表清空
         infoBinding.crvMsgList.clearAllInfo()
-
         joinRoomSuccess = false
     }
 
-    protected open fun changeErrorState(error: Boolean, type: Int) {
-        if (!canRender) {
-            return
+    private fun unSubscribeUI() {
+        audienceViewModel?.apply {
+            cacheData.removeObserver(cacheObserver)
+            liveInfoData.removeObserver(liveInfoObserver)
+            errorInfoData.removeObserver(errorInfoObserver)
+            errorStateData.removeObserver(errorStateObserver)
+            userCountData.removeObserver(userCountObserver)
+            newChatRoomMsgData.removeObserver(newChatRoomMsgObserver)
+            kickedOutData.removeObserver(kickedOutObserver)
+            userRewardData.removeObserver(userRewardObserver)
+            videoHeightData.removeObserver(videoHeightObserver)
+            userListData.removeObserver(userListObserver)
         }
+    }
+
+    protected open fun changeErrorState(error: Boolean, type: Int) {
+        FloatPlayLogUtil.log(LOG_TAG, "changeErrorState,error:$error,type:$type")
         if (error) {
             videoView?.visibility = GONE
-            videoView?.reset()
-            if (type == AudienceErrorStateView.TYPE_FINISHED) {
+            infoBinding.groupNormal.visibility= GONE
+            errorStateView?.visibility= VISIBLE
+            errorStateView?.updateType(type, clickButtonListener)
+            if (type==AudienceErrorStateView.TYPE_FINISHED){
                 release()
-            } else {
-                videoView?.release()
+            }
+        }else{
+            roomDestroyed=false
+            errorStateView?.visibility= GONE
+            if (!roomDestroyed&&audienceViewModel?.data?.liveInfo!=null){
+                infoBinding.groupNormal.visibility= VISIBLE
+            }else{
+                infoBinding.groupNormal.visibility= GONE
             }
         }
-        infoBinding.groupNormal.visibility =
-            if (error) GONE else VISIBLE
-
-        errorStateView?.visibility = if (error) VISIBLE else GONE
-
-        if (error ) {
-            errorStateView?.updateType(type, clickButtonListener)
+        if (roomDestroyed){
+            InputUtils.hideSoftInput(infoBinding.etRoomMsgInput)
         }
     }
 
@@ -540,6 +606,45 @@ abstract class BaseAudienceContentView(val activity: BaseActivity) : FrameLayout
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         NetworkUtils.unregisterNetworkStatusChangedListener(onNetworkStatusChangedListener)
+    }
+
+
+    fun finishLiveRoomActivity(needRelease: Boolean) {
+        if (needRelease) {
+            release()
+        }
+        if (!activity.isFinishing) {
+            activity.finish()
+        }
+    }
+
+    private fun needRefresh():Boolean{
+        val needRefresh=!TextUtils.isEmpty(roomId)&& roomId == audienceViewModel?.data?.liveInfo?.live?.roomId
+        ALog.d(LOG_TAG,"needRefreshRoom,needRefresh:$needRefresh")
+        return needRefresh
+    }
+
+    open fun closeBtnClick(){
+        // 资源释放，页面退出
+        val dialog=AudienceBottomTipsDialog()
+        dialog.show(activity.supportFragmentManager, LOG_TAG)
+        dialog.setClickCallback(object :AudienceBottomTipsDialog.OnClickCallback{
+            override fun minimize() {
+                if (FloatWindowPermissionManager.isFloatWindowOpAllowed(activity)) {
+                    FloatPlayManager.startFloatPlay(
+                        activity, roomId
+                    )
+                    finishLiveRoomActivity(false)
+                } else {
+                    FloatWindowPermissionManager.requestFloatWindowPermission(activity)
+                }
+            }
+
+            override fun exit() {
+                finishLiveRoomActivity(true)
+            }
+
+        })
     }
 
     companion object {

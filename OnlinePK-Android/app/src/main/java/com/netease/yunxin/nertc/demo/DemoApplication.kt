@@ -6,6 +6,7 @@
 package com.netease.yunxin.nertc.demo
 
 import android.app.Application
+import android.text.TextUtils
 import com.netease.biz_live.yunxin.live.LiveApplicationLifecycle
 import com.netease.biz_live.yunxin.live.LiveService
 import com.netease.biz_live.yunxin.live.LiveServiceImpl
@@ -13,8 +14,9 @@ import com.netease.yunxin.android.lib.network.common.NetworkClient
 import com.netease.yunxin.kit.alog.ALog
 import com.netease.yunxin.kit.alog.BasicInfo
 import com.netease.yunxin.lib_network_kt.network.ServiceCreator
-import com.netease.yunxin.nertc.demo.user.UserCenterService
-import com.netease.yunxin.nertc.demo.user.UserCenterServiceImpl
+import com.netease.yunxin.login.sdk.AuthorManager
+import com.netease.yunxin.login.sdk.model.AuthorConfig
+import com.netease.yunxin.login.sdk.model.LoginType
 import com.netease.yunxin.nertc.module.base.ApplicationLifecycleMgr
 import com.netease.yunxin.nertc.module.base.ModuleServiceMgr
 import com.netease.yunxin.nertc.module.base.sdk.NESdkBase
@@ -40,11 +42,17 @@ class DemoApplication : Application() {
             .configBaseUrl(com.netease.yunxin.nertc.demo.basic.BuildConfig.BASE_URL)
             .appKey(com.netease.yunxin.nertc.demo.basic.BuildConfig.APP_KEY)
             .configDebuggable(true)
+        val language = resources.configuration.locale.language
+        if (!language.contains("zh")) {
+            NetworkClient.getInstance().configLanguage("en")
+        }
 
         //kt网络配置
-        ServiceCreator.init(applicationContext,
+        ServiceCreator.init(
+            applicationContext,
             com.netease.yunxin.nertc.demo.basic.BuildConfig.BASE_URL,
-            com.netease.yunxin.nertc.demo.basic.BuildConfig.APP_KEY)
+            com.netease.yunxin.nertc.demo.basic.BuildConfig.APP_KEY
+        )
         // 初始化相关sdk
         NESdkBase.instance
             .initContext(this) // 初始化 IM sdk
@@ -57,13 +65,16 @@ class DemoApplication : Application() {
             .registerLifecycle(LiveApplicationLifecycle())
             .notifyOnCreate(this)
 
-        // 模块方法实例注册
-        ModuleServiceMgr.instance // 用户模块
-            .registerService(
-                UserCenterService::class.java,
-                applicationContext,
-                UserCenterServiceImpl()
-            ) // 直播模块
+        //初始化登录模块
+        val debug =
+            TextUtils.equals(com.netease.yunxin.nertc.demo.basic.BuildConfig.BUILD_ENV, "test")
+        val authorConfig =
+            AuthorConfig(com.netease.yunxin.nertc.demo.basic.BuildConfig.APP_KEY, 1, 3, debug)
+        authorConfig.loginType = LoginType.LANGUAGE_SWITCH
+        AuthorManager.initAuthor(applicationContext, authorConfig)
+
+        // 模块方法实例注册，直播模块
+        ModuleServiceMgr.instance
             .registerService(LiveService::class.java, applicationContext, LiveServiceImpl())
     }
 }

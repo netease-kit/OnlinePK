@@ -13,31 +13,30 @@ import android.view.View
 import android.view.View.OnFocusChangeListener
 import android.widget.EditText
 import com.blankj.utilcode.util.ToastUtils
+import com.netease.yunxin.login.sdk.AuthorManager
+import com.netease.yunxin.login.sdk.model.LoginCallback
+import com.netease.yunxin.login.sdk.model.UserInfo
 import com.netease.yunxin.nertc.demo.R
 import com.netease.yunxin.nertc.demo.basic.BaseActivity
 import com.netease.yunxin.nertc.demo.basic.StatusBarConfig
-import com.netease.yunxin.nertc.demo.user.UserCenterService
-import com.netease.yunxin.nertc.module.base.ModuleServiceMgr
 
 class EditUserInfoActivity : BaseActivity() {
-    private val service: UserCenterService = ModuleServiceMgr.instance.getService(
-        UserCenterService::class.java
-    )
-    private var currentUser: UserModel? = null
+
+    private var currentUserInfo: UserInfo? = null
     private var lastNickname: String? = null
     private var etNickname: EditText? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_user_info)
         paddingStatusBarHeight(findViewById(R.id.cl_root))
-        currentUser = service.currentUser
-        lastNickname = currentUser!!.nickname
+        currentUserInfo = AuthorManager.getUserInfo()
+        lastNickname = currentUserInfo!!.nickname
         initViews()
     }
 
     private fun initViews() {
         etNickname = findViewById(R.id.et_nick_name)
-        etNickname?.setText(currentUser!!.nickname)
+        etNickname?.setText(currentUserInfo!!.nickname)
         val close = findViewById<View>(R.id.iv_back)
         close.setOnClickListener { v: View? -> finish() }
         val clear = findViewById<View>(R.id.iv_clear)
@@ -62,15 +61,16 @@ class EditUserInfoActivity : BaseActivity() {
             return
         }
         if (newNickname != lastNickname) {
-            currentUser!!.nickname = newNickname
-            service.updateUserInfo(currentUser!!, object : CommonUserNotify() {
-                override fun onUserInfoUpdate(model: UserModel?) {
+            currentUserInfo!!.nickname = newNickname
+            AuthorManager.updateUserInfo(currentUserInfo!!,object :LoginCallback<UserInfo>{
+                override fun onError(errorCode: Int, errorMsg: String) {
+                    ToastUtils.showShort(getString(R.string.app_user_info_update_failed))
+                }
+
+                override fun onSuccess(data: UserInfo?) {
                     ToastUtils.showShort(getString(R.string.app_user_info_update_success))
                 }
 
-                override fun onError(exception: Throwable?) {
-                    ToastUtils.showShort(getString(R.string.app_user_info_update_failed))
-                }
             })
         }
     }

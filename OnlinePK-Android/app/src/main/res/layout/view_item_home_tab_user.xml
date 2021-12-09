@@ -24,5 +24,6 @@
         android:layout_marginTop="2dp"
         android:text="@string/app_user_center"
         android:textColor="#ffecedef"
-        android:textSize="10dp" />
+        android:gravity="center"
+        android:textSize="10sp" />
 </LinearLayout>

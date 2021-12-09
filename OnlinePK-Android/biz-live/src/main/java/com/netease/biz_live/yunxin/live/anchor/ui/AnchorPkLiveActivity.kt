@@ -8,15 +8,23 @@ package com.netease.biz_live.yunxin.live.anchor.ui
 import android.content.Context
 import android.content.Intent
 import android.hardware.Camera
+import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
+import com.blankj.utilcode.util.NetworkUtils
 import com.blankj.utilcode.util.ToastUtils
+import com.blankj.utilcode.util.Utils
 import com.netease.biz_live.R
 import com.netease.biz_live.databinding.PkLiveAnchorLayoutBinding
 import com.netease.biz_live.yunxin.live.anchor.dialog.AnchorListDialog
 import com.netease.biz_live.yunxin.live.anchor.viewmodel.LiveBaseViewModel
 import com.netease.biz_live.yunxin.live.anchor.viewmodel.PkLiveViewModel
+import com.netease.biz_live.yunxin.live.anchor.viewmodel.PkLiveViewModel.Companion.PK_STATE_AGREED
+import com.netease.biz_live.yunxin.live.anchor.viewmodel.PkLiveViewModel.Companion.PK_STATE_IDLE
+import com.netease.biz_live.yunxin.live.anchor.viewmodel.PkLiveViewModel.Companion.PK_STATE_PKING
+import com.netease.biz_live.yunxin.live.anchor.viewmodel.PkLiveViewModel.Companion.PK_STATE_PUNISH
+import com.netease.biz_live.yunxin.live.anchor.viewmodel.PkLiveViewModel.Companion.PK_STATE_REQUEST
 import com.netease.biz_live.yunxin.live.constant.LiveTimeDef
 import com.netease.biz_live.yunxin.live.dialog.ChoiceDialog
 import com.netease.biz_live.yunxin.live.ui.widget.PKControlView
@@ -24,13 +32,15 @@ import com.netease.biz_live.yunxin.live.ui.widget.PKVideoView
 import com.netease.lava.nertc.sdk.video.NERtcEncodeConfig
 import com.netease.yunxin.android.lib.picture.ImageLoader
 import com.netease.yunxin.kit.alog.ALog
-import com.netease.yunxin.lib_live_pk_service.Constants.PkAction
+import com.netease.yunxin.lib_live_pk_service.PkConstants
+import com.netease.yunxin.lib_live_pk_service.PkConstants.PkAction
 import com.netease.yunxin.lib_live_pk_service.PkService
 import com.netease.yunxin.lib_live_pk_service.bean.*
 import com.netease.yunxin.lib_live_room_service.Constants
 import com.netease.yunxin.lib_live_room_service.bean.LiveInfo
 import com.netease.yunxin.lib_live_room_service.bean.reward.AnchorRewardInfo
-import com.netease.yunxin.lib_live_room_service.bean.reward.RewardInfo
+import com.netease.yunxin.lib_live_room_service.chatroom.RewardMsg
+import com.netease.yunxin.lib_live_room_service.impl.AudioOption
 import com.netease.yunxin.lib_live_room_service.param.CreateRoomParam
 import com.netease.yunxin.lib_live_room_service.param.LiveStreamTaskRecorder
 import com.netease.yunxin.lib_network_kt.NetRequestCallback
@@ -42,13 +52,9 @@ class AnchorPkLiveActivity : AnchorBaseLiveActivity() {
 
         const val ANCHOR_LIST_DIALOG_TAG = "anchorListDialog"
 
-        const val PK_STATE_IDLE = 0
-        const val PK_STATE_REQUEST = 1
-        const val PK_STATE_PKING = 2
-        const val PK_STATE_PUNISH = 3
 
         @JvmStatic
-        fun startActivity(context:Context){
+        fun startActivity(context: Context) {
             context.startActivity(Intent(context, AnchorPkLiveActivity::class.java))
         }
     }
@@ -59,6 +65,7 @@ class AnchorPkLiveActivity : AnchorBaseLiveActivity() {
             ViewModelProvider.NewInstanceFactory()
         ).get(PkLiveViewModel::class.java)
     }
+
 
     val pkService by lazy { PkService.shareInstance() }
 
@@ -73,12 +80,11 @@ class AnchorPkLiveActivity : AnchorBaseLiveActivity() {
     private var pkInviteedDialog: ChoiceDialog? = null
     private var stopPkDialog: ChoiceDialog? = null
     private var anchorListDialog: AnchorListDialog? = null
+    private var pkLiveRecorder: LiveStreamTaskRecorder? = null
 
     private var selfStopPk = false
 
     private var otherAnchor: PkUserInfo? = null
-
-    private var pkState = 0
 
     override fun initContainer() {
     }
@@ -86,7 +92,7 @@ class AnchorPkLiveActivity : AnchorBaseLiveActivity() {
     override fun setListener() {
         super.setListener()
         pkViewBind.ivRequestPk.setOnClickListener {
-            when (pkState) {
+            when (pkViewModel.pkState) {
                 PK_STATE_IDLE -> {
                     showAnchorListDialog()
                 }
@@ -98,6 +104,11 @@ class AnchorPkLiveActivity : AnchorBaseLiveActivity() {
                 }
             }
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        pkViewBind.pkControlView.getVideoContainer()?.removeAllViews()
     }
 
     override fun initView() {
@@ -157,7 +168,8 @@ class AnchorPkLiveActivity : AnchorBaseLiveActivity() {
      * create a live room
      */
     override fun createLiveRoom(
-        videoProfile: Int,
+        width: Int,
+        height: Int,
         frameRate: NERtcEncodeConfig.NERtcVideoFrameRate,
         audioScenario: Int
     ) {
@@ -165,7 +177,7 @@ class AnchorPkLiveActivity : AnchorBaseLiveActivity() {
             baseViewBinding.previewAnchor.getTopic(),
             baseViewBinding.previewAnchor.getLiveCoverPic(),
             Constants.LiveType.LIVE_TYPE_PK,
-            videoProfile, frameRate, audioScenario,
+            width, height, frameRate, audioScenario,
             cameraFacing == Camera.CameraInfo.CAMERA_FACING_FRONT
         )
         roomService.createRoom(createRoomParam, callback = object : NetRequestCallback<LiveInfo> {
@@ -188,7 +200,7 @@ class AnchorPkLiveActivity : AnchorBaseLiveActivity() {
 
     private fun observePkData() {
         pkViewModel.pkActionData.observe(this, {
-            when (it.action) {
+            when (it?.action) {
                 PkAction.PK_INVITE -> {
                     onReceivedPkRequest(it)
                 }
@@ -219,6 +231,20 @@ class AnchorPkLiveActivity : AnchorBaseLiveActivity() {
             onPkEnd(it)
         })
 
+        pkViewModel.pkOtherAnchorJoinedData.observe(this, {
+            it?.let {
+                if (pkViewModel.pkState != PK_STATE_PKING) {
+                    AudioOption.muteRemoteUserAudio(it, true)
+                }
+            }
+        })
+
+        pkViewModel.countDownTimeOutData.observe(this, {
+            if (it) {
+                onTimeout()
+            }
+        })
+
     }
 
     override fun clearLocalImage() {
@@ -228,7 +254,12 @@ class AnchorPkLiveActivity : AnchorBaseLiveActivity() {
 
     fun onReceivedPkRequest(action: PkActionMsg) {
         isInvite = false
-        pkState = PK_STATE_REQUEST
+        //保存本次PK信息
+        pkViewModel.currentPkConfig = PkLiveViewModel.PkConfigInfo(
+            action.pkId,
+            action.pkConfig?.agreeTaskTime,
+            action.pkConfig?.inviteTaskTime
+        )
         if (pkInviteedDialog == null) {
             pkInviteedDialog = ChoiceDialog(this)
                 .setTitle(getString(R.string.biz_live_invite_pk))
@@ -259,7 +290,6 @@ class AnchorPkLiveActivity : AnchorBaseLiveActivity() {
     fun onPkRequestCancel() {
         if (pkInviteedDialog != null && pkInviteedDialog!!.isShowing) {
             pkInviteedDialog?.dismiss()
-            pkState = PK_STATE_IDLE
         }
         ToastUtils.showShort(getString(R.string.biz_live_the_other_cancel_invite))
     }
@@ -267,7 +297,7 @@ class AnchorPkLiveActivity : AnchorBaseLiveActivity() {
     fun onPkRequestRejected() {
         ToastUtils.showShort(R.string.biz_live_the_other_party_reject_your_accept)
         pkViewBind.viewAction.hide()
-        pkState = PK_STATE_IDLE
+
     }
 
     fun onPkAccept(action: PkActionMsg) {
@@ -284,6 +314,10 @@ class AnchorPkLiveActivity : AnchorBaseLiveActivity() {
             action.targetAnchor.checkSum,
             action.actionAnchor.channelName, action.targetAnchor.roomUid
         )
+        pkViewModel.currentPkConfig?.let {
+            pkViewModel.startAgreeCountTimer(it.agreeTaskTime, it.pkId)
+        }
+
     }
 
     /**
@@ -304,7 +338,10 @@ class AnchorPkLiveActivity : AnchorBaseLiveActivity() {
         stopPkDialog?.show()
     }
 
-    fun onPkStart(startInfo: PkStartInfo) {
+    fun onPkStart(startInfo: PkStartInfo?) {
+        if (startInfo == null) {
+            return
+        }
         pkViewBind.llyPkProgress.visibility = View.GONE
         ImageLoader.with(this).circleLoad(R.drawable.icon_stop_pk, pkViewBind.ivRequestPk)
         otherAnchor = if (isInvite) startInfo.invitee else startInfo.inviter
@@ -332,19 +369,52 @@ class AnchorPkLiveActivity : AnchorBaseLiveActivity() {
         )
         countDownTimer?.start()
         selfStopPk = false
-        pkState = PK_STATE_PKING
+        pkViewBind.pkControlView.ivMuteOther?.visibility = View.VISIBLE
+        pkViewBind.pkControlView.ivMuteOther?.isSelected = false
         //update push live stream
         liveInfo?.let {
-            val liveRecoder = LiveStreamTaskRecorder(it.live.liveConfig.pushUrl, it.anchor.roomUid!!)
-            liveRecoder.type = Constants.LiveType.LIVE_TYPE_PK
-            liveRecoder.otherAnchorUid = otherAnchor!!.roomUid
-            roomService.updateLiveStream(liveRecoder)
+            pkLiveRecorder =
+                LiveStreamTaskRecorder(it.live.liveConfig.pushUrl, it.anchor.roomUid!!)
+            pkLiveRecorder?.type = Constants.LiveType.LIVE_TYPE_PK
+            pkLiveRecorder?.otherAnchorUid = otherAnchor!!.roomUid
+            roomService.updateLiveStream(pkLiveRecorder!!, object : NetRequestCallback<Int> {
+                override fun success(info: Int?) {
+
+                }
+
+                override fun error(code: Int, msg: String) {
+                    stopPk()
+                }
+
+            })
+            AudioOption.muteRemoteUserAudio(otherAnchor!!.roomUid, false)
+            //set mute button
+            pkViewBind.pkControlView.ivMuteOther?.setOnClickListener { v ->
+
+                v.isSelected = !v.isSelected
+                updatePkAnchorAudio(v.isSelected)
+                AudioOption.muteRemoteUserAudio(otherAnchor!!.roomUid, v.isSelected)
+            }
         }
 
     }
 
-    fun onPunishStart(punishInfo: PkPunishInfo) {
-        pkState = PK_STATE_PUNISH
+    /**
+     * Update pk anchor audio
+     * 跟新对端PK主播的音频
+     * @param isMute
+     */
+    private fun updatePkAnchorAudio(isMute: Boolean) {
+        pkLiveRecorder?.let {
+            it.muteOther = isMute
+            roomService.updateLiveStream(it)
+        }
+    }
+
+    fun onPunishStart(punishInfo: PkPunishInfo?) {
+        if (punishInfo == null) {
+            return
+        }
         // 发送 pk 结束消息
         val anchorWin: Int = if (punishInfo.inviteeRewards == punishInfo.inviterRewards) {
             0
@@ -360,14 +430,15 @@ class AnchorPkLiveActivity : AnchorBaseLiveActivity() {
 
         if (anchorWin != 0) {
             countDownTimer = pkViewBind.pkControlView.createCountDownTimer(
-                LiveTimeDef.TYPE_PUNISHMENT,
+                Utils.getApp().getString(R.string.biz_live_punishment),
                 punishInfo.pkPenaltyCountDown * 1000L
             )
             countDownTimer?.start()
         }
     }
 
-    private fun onPkEnd(endInfo: PkEndInfo) {
+    private fun onPkEnd(endInfo: PkEndInfo?) {
+        pkViewModel.pkState = PK_STATE_IDLE
         roomService.stopChannelMediaRelay()
         countDownTimer?.stop()
         ImageLoader.with(this).circleLoad(R.drawable.icon_pk, pkViewBind.ivRequestPk)
@@ -375,7 +446,7 @@ class AnchorPkLiveActivity : AnchorBaseLiveActivity() {
         pkViewBind.pkControlView.visibility = View.GONE
         baseViewBinding.videoView.visibility = View.VISIBLE
         roomService.getVideoOption().setupLocalVideoCanvas(baseViewBinding.videoView, false)
-        if (endInfo.reason == 1 && !endInfo.countDownEnd && !selfStopPk) {
+        if (endInfo?.reason == 1 && !endInfo.countDownEnd && !selfStopPk) {
             ToastUtils.showShort("“" + otherAnchor?.nickname + getString(R.string.biz_live_end_of_pk))
         }
         if (stopPkDialog?.isShowing == true) {
@@ -383,6 +454,7 @@ class AnchorPkLiveActivity : AnchorBaseLiveActivity() {
         }
         //update push live stream
         liveInfo?.let {
+            pkLiveRecorder = null
             val liveRecoder =
                 LiveStreamTaskRecorder(it.live.liveConfig.pushUrl, it.anchor.roomUid!!)
             liveRecoder.type = Constants.LiveType.LIVE_TYPE_DEFAULT
@@ -390,25 +462,24 @@ class AnchorPkLiveActivity : AnchorBaseLiveActivity() {
             roomService.updateLiveStream(liveRecoder)
         }
         otherAnchor = null
-        pkState = PK_STATE_IDLE
     }
 
     fun onTimeout() {
         if (!isInvite) {
             if (pkInviteedDialog != null && pkInviteedDialog?.isShowing == true) {
                 pkInviteedDialog?.dismiss()
-                ToastUtils.showShort(R.string.biz_live_pk_request_time_out)
             }
         } else {
             pkViewBind.viewAction.hide()
-            ToastUtils.showShort(R.string.biz_live_pk_request_time_out)
         }
+        ToastUtils.showShort(R.string.biz_live_pk_request_time_out)
+        //停止转发，防止一端成功的情况
+        roomService.stopChannelMediaRelay()
         pkViewBind.llyPkProgress.visibility = View.GONE
-        pkState = PK_STATE_IDLE
     }
 
-    override fun onUserReward(reward: RewardInfo) {
-        if(pkState == PK_STATE_PKING) {
+    override fun onUserReward(reward: RewardMsg) {
+        if (pkViewModel.pkState == PK_STATE_PKING) {
             val selfRewardInfo: AnchorRewardInfo
             val otherAnchor: AnchorRewardInfo
 
@@ -436,8 +507,8 @@ class AnchorPkLiveActivity : AnchorBaseLiveActivity() {
     }
 
     fun requestPk(accId: String, nickname: String) {
-        pkService.requestPk(accId, object : NetRequestCallback<Unit> {
-            override fun success(info: Unit?) {
+        pkService.requestPk(accId, object : NetRequestCallback<AnchorPkInfo> {
+            override fun success(info: AnchorPkInfo?) {
                 isInvite = true
                 pkViewBind.viewAction.setText(
                     getString(R.string.biz_live_invite) + nickname + getString(
@@ -446,7 +517,17 @@ class AnchorPkLiveActivity : AnchorBaseLiveActivity() {
                 )
                     ?.setColorButton(getString(R.string.biz_live_cancel)) { cancelRequest() }
                     ?.show()
-                pkState = PK_STATE_REQUEST
+                pkViewModel.pkState = PK_STATE_REQUEST
+                info?.let {
+                    //保存进PK倒计时相关信息
+                    pkViewModel.currentPkConfig = PkLiveViewModel.PkConfigInfo(
+                        it.pkId,
+                        it.pkConfig?.agreeTaskTime,
+                        it.pkConfig?.inviteTaskTime
+                    )
+                    //开启邀请倒计时
+                    pkViewModel.startInviteCountTimer(it.pkConfig?.inviteTaskTime, it.pkId)
+                }
             }
 
             override fun error(code: Int, msg: String) {
@@ -460,7 +541,7 @@ class AnchorPkLiveActivity : AnchorBaseLiveActivity() {
         pkService.cancelPkRequest(object : NetRequestCallback<Unit> {
             override fun success(info: Unit?) {
                 pkViewBind.viewAction.hide()
-                pkState = PK_STATE_IDLE
+                pkViewModel.pkState = PK_STATE_IDLE
             }
 
             override fun error(code: Int, msg: String) {
@@ -474,7 +555,7 @@ class AnchorPkLiveActivity : AnchorBaseLiveActivity() {
         pkService.rejectPkRequest(object : NetRequestCallback<Unit> {
             override fun success(info: Unit?) {
                 pkViewBind.viewAction.hide()
-                pkState = PK_STATE_IDLE
+                pkViewModel.pkState = PK_STATE_IDLE
             }
 
             override fun error(code: Int, msg: String) {
@@ -485,12 +566,16 @@ class AnchorPkLiveActivity : AnchorBaseLiveActivity() {
     }
 
     private fun acceptPkRequest(cname: String, token: String, uid: Long) {
-        pkService.acceptPk(object : NetRequestCallback<Unit> {
-            override fun success(info: Unit?) {
-                if (pkState == PK_STATE_REQUEST) {
+        pkService.acceptPk(object : NetRequestCallback<AnchorPkInfo> {
+            override fun success(info: AnchorPkInfo?) {
+                if (pkViewModel.pkState == PK_STATE_REQUEST) {
                     pkViewBind.viewAction.hide()
                     pkViewBind.llyPkProgress.visibility = View.VISIBLE
                     roomService.startChannelMediaRelay(token, cname, uid)
+                    pkViewModel.pkState = PK_STATE_AGREED
+                    pkViewModel.currentPkConfig?.let {
+                        pkViewModel.startAgreeCountTimer(it.agreeTaskTime, it.pkId)
+                    }
                 }
             }
 
@@ -502,21 +587,66 @@ class AnchorPkLiveActivity : AnchorBaseLiveActivity() {
     }
 
     private fun stopPk() {
+        selfStopPk = true
         pkService.stopPk(object : NetRequestCallback<Unit> {
             override fun success(info: Unit?) {
-                selfStopPk = true
+
             }
 
             override fun error(code: Int, msg: String) {
+                selfStopPk = false
                 ToastUtils.showShort(msg)
+                onPkEnd(null)
             }
 
         })
     }
 
+    override fun onNetworkConnected(networkType: NetworkUtils.NetworkType?) {
+        super.onNetworkConnected(networkType)
+        //断网重连同步状态，恢复单主播或者从pk 到惩罚
+        if (pkViewModel.pkState == PK_STATE_PKING || pkViewModel.pkState == PK_STATE_PUNISH) {
+            pkService.fetchPkInfo(object : NetRequestCallback<PkInfo> {
+                override fun success(info: PkInfo?) {
+                    if (info != null) {
+                        //pk to punish
+                        if (pkViewModel.pkState == PK_STATE_PKING
+                            && info.status == PkConstants.PkStatus.PK_STATUS_PUNISHMENT
+                        ) {
+                            val punishInfo = PkPunishInfo(
+                                0,
+                                info.pkStartTime,
+                                info.countDown,
+                                info.inviterReward.rewardCoinTotal,
+                                info.inviteeReward.rewardCoinTotal
+                            )
+                            pkViewModel.pkState = PK_STATE_PUNISH
+                            onPunishStart(punishInfo)
+                        } else if (info.status != PkConstants.PkStatus.PK_STATUS_PUNISHMENT
+                            && info.status != PkConstants.PkStatus.PK_STATUS_PKING
+                        ) {
+                            //not in pk or punish
+                            onPkEnd(null)
+                        }
+                    } else {
+                        onPkEnd(null)
+                    }
+                }
+
+                override fun error(code: Int, msg: String) {
+                    if (code != PkConstants.ErrorCode.CODE_NO_PK) {
+                        ToastUtils.showLong(msg)
+                    }
+                    onPkEnd(null)
+                }
+
+            })
+        }
+    }
+
+
     override fun onDestroy() {
         super.onDestroy()
         PkService.destroyInstance()
     }
-
 }

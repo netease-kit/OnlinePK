@@ -5,6 +5,7 @@
 
 package com.netease.yunxin.lib_live_pk_service
 
+import com.netease.yunxin.lib_live_pk_service.bean.AnchorPkInfo
 import com.netease.yunxin.lib_live_pk_service.bean.PkInfo
 import com.netease.yunxin.lib_live_pk_service.delegate.PkDelegate
 import com.netease.yunxin.lib_live_pk_service.impl.PkServiceImpl
@@ -52,7 +53,7 @@ interface PkService {
      * request Pk for other anchor
      * accountId:the anchor you want pk
      */
-    fun requestPk(accountId: String, callback: NetRequestCallback<Unit>)
+    fun requestPk(accountId: String, callback: NetRequestCallback<AnchorPkInfo>)
 
     /**
      * cancel Pk request
@@ -62,7 +63,7 @@ interface PkService {
     /**
      * accept pk request
      */
-    fun acceptPk(callback: NetRequestCallback<Unit>)
+    fun acceptPk(callback: NetRequestCallback<AnchorPkInfo>)
 
     /**
      * reject pk request

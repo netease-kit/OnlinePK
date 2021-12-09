@@ -14,21 +14,18 @@ import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import com.blankj.utilcode.util.ToastUtils
+import com.netease.yunxin.login.sdk.AuthorManager
 import com.netease.yunxin.nertc.demo.R
 import com.netease.yunxin.nertc.demo.basic.BaseActivity
 import com.netease.yunxin.nertc.demo.basic.StatusBarConfig
 import com.netease.yunxin.nertc.demo.feedback.expand.QuestionItem
 import com.netease.yunxin.nertc.demo.feedback.network.FeedbackServiceImpl
-import com.netease.yunxin.nertc.demo.user.UserCenterService
-import com.netease.yunxin.nertc.module.base.ModuleServiceMgr
 import io.reactivex.observers.ResourceSingleObserver
 import java.util.*
 
 class FeedbackActivity : BaseActivity() {
-    private val userCenterService: UserCenterService = ModuleServiceMgr.instance.getService(
-        UserCenterService::class.java
-    )
-    private val userModel = userCenterService.currentUser
+
+    private val userModel = AuthorManager.getUserInfo()
     private val questionTypeList = ArrayList<QuestionItem>()
     private var tvDemoName: TextView? = null
     private var tvQuestionType: TextView? = null
@@ -72,7 +69,7 @@ class FeedbackActivity : BaseActivity() {
         btnCommit = findViewById(R.id.tv_commit)
         btnCommit?.setOnClickListener(View.OnClickListener { v: View? ->
             FeedbackServiceImpl.demoSuggest(
-                userModel, tvDemoName?.text.toString(),
+                userModel!!, tvDemoName?.text.toString(),
                 etQuestionDesc?.text.toString(),
                 *formatItemsForIntArray(questionTypeList)
             )

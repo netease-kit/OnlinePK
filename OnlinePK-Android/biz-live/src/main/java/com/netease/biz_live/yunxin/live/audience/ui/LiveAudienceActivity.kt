@@ -19,15 +19,17 @@ import com.netease.biz_live.yunxin.live.audience.ui.view.ExtraTransparentView
 import com.netease.biz_live.yunxin.live.audience.ui.view.PagerVerticalLayoutManager
 import com.netease.biz_live.yunxin.live.audience.ui.view.PagerVerticalLayoutManager.OnPageChangedListener
 import com.netease.biz_live.yunxin.live.audience.utils.LinkedSeatsAudienceActionManager
-import com.netease.yunxin.android.lib.network.common.NetworkClient
+import com.netease.biz_live.yunxin.live.floatplay.AudienceDataManager
+import com.netease.biz_live.yunxin.live.floatplay.FloatPlayManager
+import com.netease.biz_live.yunxin.live.floatplay.LiveVideoPlayerManager
 import com.netease.yunxin.kit.alog.ALog
 import com.netease.yunxin.lib_live_room_service.LiveRoomService
 import com.netease.yunxin.lib_live_room_service.bean.LiveInfo
 import com.netease.yunxin.lib_network_kt.network.ServiceCreator
+import com.netease.yunxin.login.sdk.AuthorManager
 import com.netease.yunxin.nertc.demo.basic.BaseActivity
 import com.netease.yunxin.nertc.demo.basic.BuildConfig
 import com.netease.yunxin.nertc.demo.basic.StatusBarConfig
-import java.util.*
 
 /**
  * 观众端页面 activity
@@ -51,16 +53,18 @@ class LiveAudienceActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // 屏幕常亮
-        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
+                or WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+                or WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON)
+        window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED)
         // 使用 TextureView 添加硬件加速设置
         window.addFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED)
         setContentView(R.layout.activity_live_audience)
         infoList = intent.getSerializableExtra(KEY_PARAM_LIVE_INFO_LIST) as MutableList<LiveInfo>?
         // 初始化内部 view 以及相关控制逻辑
         initViews(infoList)
-        //TODO （接入统一登录之后优化）
-        ServiceCreator.setToken(NetworkClient.getInstance().accessToken)
-        LiveRoomService.sharedInstance().setupWithOptions(this,BuildConfig.APP_KEY)
+        ServiceCreator.setToken(AuthorManager.getUserInfo()?.accessToken)
+        LiveRoomService.sharedInstance().setupWithOptions(this, BuildConfig.APP_KEY)
     }
 
     private fun initViews(infoList: MutableList<LiveInfo>?) {
@@ -89,7 +93,8 @@ class LiveAudienceActivity : BaseActivity() {
                     if (infoList == null || infoList.isEmpty()) {
                         return
                     }
-                    (itemView as BaseAudienceContentView?)?.select(infoList[position].live.roomId)
+                    (itemView as BaseAudienceContentView?)?.select(infoList[position])
+                    (itemView as BaseAudienceContentView?)?.saveListInfoAndPosition(infoList as ArrayList<LiveInfo>, position)
                 }
             }
 
@@ -123,18 +128,20 @@ class LiveAudienceActivity : BaseActivity() {
     override fun finish() {
         // 页面销毁时资源释放，由于页面直接销毁时不会回调最后一个页面的 onPageRelease 所以在此处进行最后资源的释放；
         if (currentPosition >= 0) {
-            val itemView = layoutManager.findViewByPosition(currentPosition)
-            if (itemView is BaseAudienceContentView) {
-                (itemView as BaseAudienceContentView?)?.release()
-            }
             LinkedSeatsAudienceActionManager.destoryInstance()
-            LiveRoomService.destroyInstance()
+            if (!FloatPlayManager.isStartFloatWindow){
+                LiveRoomService.destroyInstance()
+                LiveVideoPlayerManager.getInstance().release()
+                AudienceDataManager.clear()
+            }
         }
         ALog.flush(true)
         super.finish()
     }
 
     companion object {
+        private const val TAG="LiveAudienceActivity"
+
         /**
          * 传递至观众端页面的主播信息列表
          */
@@ -152,12 +159,17 @@ class LiveAudienceActivity : BaseActivity() {
          * @param infoList 主播列表信息
          * @return 是否成功启动
          */
+        @JvmStatic
         fun launchAudiencePage(
             context: Context?,
             infoList: ArrayList<LiveInfo>?,
             position: Int
         ): Boolean {
+            if (FloatPlayManager.isStartFloatWindow) {
+                FloatPlayManager.stopFloatPlay()
+            }
             if (infoList == null || infoList.isEmpty()) {
+                ALog.d(TAG,"infoList == null || infoList.isEmpty()")
                 return false
             }
             val intent = Intent(context, LiveAudienceActivity::class.java)
@@ -169,5 +181,7 @@ class LiveAudienceActivity : BaseActivity() {
             context?.startActivity(intent)
             return true
         }
+
+
     }
 }

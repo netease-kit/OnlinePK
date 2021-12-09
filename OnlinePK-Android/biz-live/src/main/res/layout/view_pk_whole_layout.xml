@@ -192,6 +192,16 @@
         android:layout_height="wrap_content"
         app:constraint_referenced_ids="tv_other_anchor_name,iv_other_anchor_portrait,other_info_bg" />
 
+    <ImageView
+        android:id="@+id/iv_pk_mute"
+        android:layout_width="@dimen/dp_16"
+        android:layout_height="@dimen/dp_16"
+        android:src="@drawable/icon_audio_sound"
+        android:layout_margin="@dimen/dp_10"
+        android:visibility="gone"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/other_pk_progress" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_pk_ranking"
         android:layout_width="0dp"

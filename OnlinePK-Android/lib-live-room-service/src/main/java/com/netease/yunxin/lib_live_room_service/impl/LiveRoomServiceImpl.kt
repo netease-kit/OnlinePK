@@ -9,6 +9,7 @@ import android.content.Context
 import com.netease.lava.nertc.sdk.*
 import com.netease.lava.nertc.sdk.video.NERtcRemoteVideoStreamType
 import com.netease.lava.nertc.sdk.video.NERtcVideoConfig
+import com.netease.nimlib.sdk.chatroom.model.ChatRoomInfo
 import com.netease.yunxin.kit.alog.ALog
 import com.netease.yunxin.lib_live_room_service.BuildConfig
 import com.netease.yunxin.lib_live_room_service.Constants
@@ -29,6 +30,7 @@ object LiveRoomServiceImpl : LiveRoomService {
     const val LOG_TAG = "LiveRoomServiceImpl"
 
     var delegate: LiveRoomDelegate? = null
+    var rtcDelegate: NERtcCallbackTemp? = null
 
     var liveInfo: LiveInfo? = null
 
@@ -39,6 +41,11 @@ object LiveRoomServiceImpl : LiveRoomService {
     private var isAnchor: Boolean = false
 
     private val rtcCallback: NERtcCallbackEx = object : NERtcCallbackTemp {
+        override fun onUserJoined(uid: Long) {
+            super.onUserJoined(uid)
+            ALog.d(LOG_TAG, "onUserJoined,uid:$uid")
+            rtcDelegate?.onUserJoined(uid)
+        }
 
         override fun onDisconnect(p0: Int) {
             super.onDisconnect(p0)
@@ -63,13 +70,13 @@ object LiveRoomServiceImpl : LiveRoomService {
             delegate?.onAudioEffectFinished(p0)
         }
 
-        override fun onJoinChannel(p0: Int, p1: Long, p2: Long) {
-            super.onJoinChannel(p0, p1, p2)
+        override fun onJoinChannel(p0: Int, p1: Long, p2: Long, p3: Long) {
+            super.onJoinChannel(p0, p1, p2, p3)
             if (p0 != NERtcConstants.ErrorCode.OK) {
-                ALog.d(LOG_TAG,"join rtc error code = $p0")
+                ALog.d(LOG_TAG, "join rtc error code = $p0")
                 delegate?.onError(ErrorInfo(true, p0, "join rtc error"))
             } else {
-                ALog.d(LOG_TAG,"join rtc success")
+                ALog.d(LOG_TAG, "join rtc success,p0:$p0,p1:$p1,p2:$p2,p3:$p3")
                 liveInfo?.let {
                     val liveRecoder =
                         LiveStreamTaskRecorder(it.live.liveConfig.pushUrl, it.anchor.roomUid!!)
@@ -162,7 +169,9 @@ object LiveRoomServiceImpl : LiveRoomService {
     override fun createRoom(param: CreateRoomParam, callback: NetRequestCallback<LiveInfo>) {
         isAnchor = true
         val videoConfig = NERtcVideoConfig()
-        videoConfig.videoProfile = param.videoProfile
+        videoConfig.width = param.videoWidth
+        videoConfig.height = param.videoHeight
+        videoConfig.videoCropMode = NERtcConstants.VideoCropMode.CROP_16x9
         videoConfig.frameRate = param.frameRate
         videoConfig.frontCamera = param.isFrontCam
         engine.setLocalVideoConfig(videoConfig)
@@ -174,7 +183,7 @@ object LiveRoomServiceImpl : LiveRoomService {
         } else {
             engine.setAudioProfile(NERtcConstants.AudioProfile.HIGH_QUALITY, param.mAudioScenario)
         }
-        engine.setChannelProfile(NERtcConstants.RTCChannelProfile.LIVE_BROADCASTING)
+        engine.setChannelProfile(NERtcConstants.RTCChannelProfile.COMMUNICATION)
         engine.setClientRole(NERtcConstants.UserRole.CLIENT_ROLE_BROADCASTER)
         val parameters = NERtcParameters()
         parameters.set(NERtcParameters.KEY_PUBLISH_SELF_STREAM, true)
@@ -289,7 +298,7 @@ object LiveRoomServiceImpl : LiveRoomService {
     /**
      * update push stream task
      */
-    override fun updateLiveStream(liveRecoder: LiveStreamTaskRecorder): Int {
+    override fun updateLiveStream(liveRecoder: LiveStreamTaskRecorder,callback: NetRequestCallback<Int>?): Int {
         val task = LiveStream.getStreamTask(liveRecoder)
         task.layout = when (liveRecoder.type) {
             Constants.LiveType.LIVE_TYPE_DEFAULT -> {
@@ -303,7 +312,7 @@ object LiveRoomServiceImpl : LiveRoomService {
             }
             else -> null
         }
-        return LiveStream.updateStreamTask(task)
+        return LiveStream.updateStreamTask(task,callback)
     }
 
     /**
@@ -327,14 +336,20 @@ object LiveRoomServiceImpl : LiveRoomService {
         }
     }
 
-    override fun startChannelMediaRelay(token: String, channelName: String, uid: Long): Int {
+    override fun startChannelMediaRelay(token: String, channelName: String, uid: Long): Boolean {
         //初始化目标房间结构体
         val addRelayConfig = NERtcMediaRelayParam().ChannelMediaRelayConfiguration()
         //设置目标房间1
         val dstInfoA = NERtcMediaRelayParam().ChannelMediaRelayInfo(token, channelName, uid)
         addRelayConfig.setDestChannelInfo(channelName, dstInfoA)
         //开启转发
-        return NERtcEx.getInstance().startChannelMediaRelay(addRelayConfig)
+        val result = NERtcEx.getInstance().startChannelMediaRelay(addRelayConfig)
+        return if (result == NERtcConstants.ErrorCode.ENGINE_ERROR_CHANNEL_MEDIARELAY_STATE_INVALID) {
+            NERtcEx.getInstance()
+                .updateChannelMediaRelay(addRelayConfig) == NERtcConstants.ErrorCode.OK
+        } else {
+            result == NERtcConstants.ErrorCode.OK
+        }
     }
 
     override fun stopChannelMediaRelay(): Int {
@@ -375,5 +390,13 @@ object LiveRoomServiceImpl : LiveRoomService {
      */
     override fun getVideoOption(): VideoOption {
         return VideoOption
+    }
+
+    override fun addNERTCDelegate(delegate: NERtcCallbackTemp) {
+        rtcDelegate=delegate
+    }
+
+    override fun queryChatRoomInfo(roomId: String, callback: NetRequestCallback<ChatRoomInfo>) {
+        ChatRoomControl.queryChatRoomInfo(roomId, callback)
     }
 }

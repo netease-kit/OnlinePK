@@ -6,15 +6,6 @@
 rootProject.name = "PkLiveDemo"
 
 include ':app'
-/**
- * 用户相关实现
- */
-include ':biz-user'
-
-/**
- * 用户lib
- */
-include ':lib-user'
 
 /**
  * app模块化

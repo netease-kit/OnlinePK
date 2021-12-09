@@ -6,8 +6,6 @@
 package com.netease.yunxin.lib_live_room_service.chatroom.control
 
 import android.text.TextUtils
-import com.blankj.utilcode.util.GsonUtils
-import com.google.gson.JsonObject
 import com.netease.nimlib.sdk.NIMClient
 import com.netease.nimlib.sdk.Observer
 import com.netease.nimlib.sdk.RequestCallback
@@ -20,10 +18,10 @@ import com.netease.nimlib.sdk.msg.MsgService
 import com.netease.nimlib.sdk.msg.constant.NotificationType
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum
 import com.netease.yunxin.kit.alog.ALog
-import com.netease.yunxin.lib_live_room_service.Constants
 import com.netease.yunxin.lib_live_room_service.bean.LiveUser
-import com.netease.yunxin.lib_live_room_service.bean.reward.RewardInfo
+import com.netease.yunxin.lib_live_room_service.chatroom.ChatRoomParserManager
 import com.netease.yunxin.lib_live_room_service.chatroom.LiveAttachParser
+import com.netease.yunxin.lib_live_room_service.chatroom.RewardMsg
 import com.netease.yunxin.lib_live_room_service.chatroom.TextWithRoleAttachment
 import com.netease.yunxin.lib_live_room_service.delegate.LiveRoomDelegate
 import com.netease.yunxin.lib_network_kt.NetRequestCallback
@@ -78,6 +76,7 @@ object ChatRoomControl {
                 return@Observer
             }
             for (message in chatRoomMessages) {
+                ALog.d(LOG_TAG, message.attachment.toString())
                 // 只接收此聊天室的相应消息
                 if (message.sessionType != SessionTypeEnum.ChatRoom ||
                     roomId != message.sessionId
@@ -99,17 +98,11 @@ object ChatRoomControl {
                     )
                     continue
                 }
+
                 // 打赏
-                val attachStr = message.attachStr
-                val jsonObject: JsonObject = GsonUtils.fromJson<JsonObject>(
-                    attachStr,
-                    JsonObject::class.java
-                )
-                val type = jsonObject["type"].asInt
-                if (type == Constants.MsgType.MSG_TYPE_REWARD) {
-                    val rewardInfo: RewardInfo =
-                        GsonUtils.fromJson(attachStr, RewardInfo::class.java)
-                    delegate?.onUserReward(rewardInfo)
+                if (attachment is RewardMsg) {
+                    delegate?.onUserReward(attachment)
+                    continue
                 }
 
             }
@@ -123,6 +116,10 @@ object ChatRoomControl {
             if (chatRoomKickOutEvent == null) {
                 return@Observer
             }
+            ALog.d(
+                LOG_TAG,
+                "ChatRoom kickOut roomId:" + chatRoomKickOutEvent.roomId + " reason:" + chatRoomKickOutEvent.reason
+            )
             if (chatRoomKickOutEvent.reason.value == ChatRoomKickOutEvent.ChatRoomKickOutReason.KICK_OUT_BY_CONFLICT_LOGIN.value) {
                 delegate?.onKickedOut()
             } else {
@@ -258,8 +255,9 @@ object ChatRoomControl {
         this.liveUser = liveUser
         this.isAnchor = isAnchor
         // 注册自定义消息类型解析器
+        ChatRoomParserManager.addParser(LiveAttachParser)
         NIMClient.getService(MsgService::class.java)
-            .registerCustomAttachmentParser(LiveAttachParser())
+            .registerCustomAttachmentParser(ChatRoomParserManager)
         val roomData = EnterChatRoomData(roomId)
         roomData.nick = liveUser.nickname
         roomData.avatar = liveUser.avatar
@@ -279,7 +277,7 @@ object ChatRoomControl {
                  * @param code 错误码。
                  */
                 override fun onFailed(code: Int) {
-                    ALog.d(LOG_TAG, "join chat room failed code$code")
+                    ALog.d(LOG_TAG, "join chat room failed code$code,roomId:$roomId")
                     callback.error(code, "join chat room failed")
                 }
 
@@ -349,6 +347,7 @@ object ChatRoomControl {
     fun leaveChatRoom() {
         chatRoomService.exitChatRoom(roomId)
         roomId = null
+        ChatRoomParserManager.remove(LiveAttachParser)
     }
 
     /**
@@ -361,4 +360,27 @@ object ChatRoomControl {
         )
     }
 
+
+    /**
+     * 查询聊天室信息
+     */
+     fun queryChatRoomInfo(roomId: String,callback: NetRequestCallback<ChatRoomInfo>) {
+        chatRoomService.fetchRoomInfo(roomId)
+            .setCallback(object : RequestCallback<ChatRoomInfo?> {
+                override fun onSuccess(param: ChatRoomInfo?) {
+                    if (param == null) {
+                        return
+                    }
+                    onlineUserCount.set((param.onlineUserCount - 1).coerceAtLeast(0))
+                    callback.success(param)
+                }
+
+                override fun onFailed(code: Int) {
+                    callback.error(code,"onFailed:$code")
+                }
+                override fun onException(exception: Throwable?) {
+                    callback.error(-1,"onException:$exception")
+                }
+            })
+    }
 }
