@@ -11,6 +11,5 @@ package com.netease.biz_live.yunxin.live.constant
 interface LiveTimeDef {
     companion object {
         const val TYPE_PK: String = "PK"
-        const val TYPE_PUNISHMENT: String = "惩罚"
     }
 }

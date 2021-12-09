@@ -13,33 +13,36 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.netease.yunxin.android.lib.picture.ImageLoader
+import com.netease.yunxin.login.sdk.AuthorManager
+import com.netease.yunxin.login.sdk.model.EventType
+import com.netease.yunxin.login.sdk.model.LoginEvent
+import com.netease.yunxin.login.sdk.model.LoginObserver
+import com.netease.yunxin.login.sdk.model.UserInfo
 import com.netease.yunxin.nertc.demo.R
 import com.netease.yunxin.nertc.demo.basic.BaseFragment
 import com.netease.yunxin.nertc.demo.basic.CommonBrowseActivity
 import com.netease.yunxin.nertc.demo.basic.Constants
-import com.netease.yunxin.nertc.demo.user.UserCenterService
-import com.netease.yunxin.nertc.module.base.ModuleServiceMgr
 
 class UserCenterFragment : BaseFragment() {
-    private val service: UserCenterService = ModuleServiceMgr.instance.getService(
-        UserCenterService::class.java
-    )
-    private val notify: UserCenterServiceNotify = object : CommonUserNotify() {
-        override fun onUserInfoUpdate(model: UserModel?) {
-            currentUser = model
-            initUser(rootView)
+
+    private val loginObserver:LoginObserver<LoginEvent> = object :LoginObserver<LoginEvent>{
+        override fun onEvent(event: LoginEvent) {
+            if (event.eventType == EventType.TYPE_UPDATE){
+                currentUserInfo = event.userInfo
+                initUser(rootView)
+            }
         }
     }
-    private var currentUser: UserModel?
+    private var currentUserInfo: UserInfo?
     private var rootView: View? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        service.registerLoginObserver(notify, true)
+        AuthorManager.registerLoginObserver(loginObserver)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        service.registerLoginObserver(notify, false)
+        AuthorManager.unregisterLoginObserver(loginObserver)
     }
 
     override fun onCreateView(
@@ -81,19 +84,19 @@ class UserCenterFragment : BaseFragment() {
     }
 
     private fun initUser(rootView: View?) {
-        if (currentUser == null) {
+        if (currentUserInfo == null) {
             if (activity != null) {
-                activity!!.finish()
+                requireActivity().finish()
             }
             return
         }
         val ivUserPortrait = rootView!!.findViewById<ImageView>(R.id.iv_user_portrait)
-        ImageLoader.with(context).circleLoad(currentUser!!.avatar, ivUserPortrait)
+        ImageLoader.with(context).circleLoad(currentUserInfo!!.avatar, ivUserPortrait)
         val tvUserName = rootView.findViewById<TextView>(R.id.tv_user_name)
-        tvUserName.text = currentUser!!.nickname
+        tvUserName.text = currentUserInfo!!.nickname
     }
 
     init {
-        currentUser = service.currentUser
+        currentUserInfo = AuthorManager.getUserInfo()
     }
 }

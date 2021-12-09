@@ -26,6 +26,7 @@ import com.netease.lava.nertc.sdk.video.NERtcVideoView
 import com.netease.yunxin.android.lib.network.common.NetworkClient
 import com.netease.yunxin.kit.alog.ALog
 import com.netease.yunxin.lib_live_room_service.bean.LiveInfo
+import com.netease.yunxin.login.sdk.AuthorManager
 import com.netease.yunxin.nertc.demo.basic.BaseActivity
 import com.netease.yunxin.nertc.demo.basic.BuildConfig
 import com.netease.yunxin.seatlibrary.CompletionCallback
@@ -235,20 +236,20 @@ class SeatAudienceContentView(activity: BaseActivity) : BaseAudienceContentView(
                 !AccountUtil.isCurrentUser(event.responder.accountId)
             ) {
                 //主播端对连麦观众进行了麦位音视频的操作
-                if (LinkedSeatsAudienceActionManager.enableLocalAudio && event.seatInfo.audioState == SeatAVState.CLOSE) {
-                    ToastUtils.showShort(activity.getString(R.string.biz_live_anchor_close_your_microphone))
-                    linkedSeatsAudienceActionManager.refreshLinkSeatDialog(
-                        LinkSeatsStatusDialog.MICROPHONE_POSITION,
-                        event.seatInfo.audioState
-                    )
-                    linkedSeatsAudienceActionManager.enableAudio(false)
+                 if (LinkedSeatsAudienceActionManager.enableLocalAudio && event.seatInfo.audioState == SeatAVState.CLOSE) {
+                     ToastUtils.showShort(activity.getString(R.string.biz_live_anchor_close_your_microphone))
+                     linkedSeatsAudienceActionManager.refreshLinkSeatDialog(
+                         LinkSeatsStatusDialog.MICROPHONE_POSITION,
+                         event.seatInfo.audioState
+                     )
+                     linkedSeatsAudienceActionManager.enableAudio(false)
                 } else if (!LinkedSeatsAudienceActionManager.enableLocalAudio && event.seatInfo.audioState == SeatAVState.OPEN) {
-                    ToastUtils.showShort(activity.getString(R.string.biz_live_anchor_open_your_microphone))
-                    linkedSeatsAudienceActionManager.refreshLinkSeatDialog(
-                        LinkSeatsStatusDialog.MICROPHONE_POSITION,
-                        event.seatInfo.audioState
-                    )
-                    linkedSeatsAudienceActionManager.enableAudio(true)
+                     ToastUtils.showShort(activity.getString(R.string.biz_live_anchor_open_your_microphone))
+                     linkedSeatsAudienceActionManager.refreshLinkSeatDialog(
+                         LinkSeatsStatusDialog.MICROPHONE_POSITION,
+                         event.seatInfo.audioState
+                     )
+                     linkedSeatsAudienceActionManager.enableAudio(true)
                 }
 
                 LinkedSeatsAudienceActionManager.enableLocalAudio =
@@ -350,11 +351,9 @@ class SeatAudienceContentView(activity: BaseActivity) : BaseAudienceContentView(
             addView(rtcVideoView, 0, generateDefaultLayoutParams())
         }
         //设置主播的RTC流画面
-        linkedSeatsAudienceActionManager.setupRemoteView(rtcVideoView, liveInfo!!.anchor.roomUid!!)
+        linkedSeatsAudienceActionManager.setupRemoteView(rtcVideoView, audienceViewModel?.data!!.liveInfo!!.anchor.roomUid!!)
         rtcVideoView?.visibility = VISIBLE
         videoView?.visibility = GONE
-        videoView?.reset()
-        videoView?.release()
         linkSeatsRv?.visibility = VISIBLE
 
         if (fetchSeat) {
@@ -427,7 +426,7 @@ class SeatAudienceContentView(activity: BaseActivity) : BaseAudienceContentView(
             if (!isLinkingSeats) {
                 videoView?.setLinkingSeats(
                     linkSeatsRv?.haveMemberInSeats() == true && linkSeatsRv?.contains(
-                        userCenterService.currentUser.accountId
+                        AuthorManager.getUserInfo()!!.accountId
                     ) == false
                 )
             }
@@ -539,7 +538,7 @@ class SeatAudienceContentView(activity: BaseActivity) : BaseAudienceContentView(
         if (!isRetry) {
             val option = SeatOptions(
                 BuildConfig.BASE_URL, BuildConfig.APP_KEY, NetworkClient.getInstance().accessToken,
-                userCenterService.currentUser.accountId!!, liveInfo!!.live.roomId, false
+                AuthorManager.getUserInfo()!!.accountId!!, audienceViewModel?.data!!.liveInfo!!.live.roomId, false
             )
             seatService.setupWithOptions(context, option)
             seatService.addDelegate(seatDelegate)
@@ -568,6 +567,10 @@ class SeatAudienceContentView(activity: BaseActivity) : BaseAudienceContentView(
             isLinkingSeats = false
         }
         super.release()
+    }
+
+    override fun closeBtnClick() {
+        finishLiveRoomActivity(true)
     }
 
 }

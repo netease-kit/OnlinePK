@@ -42,6 +42,8 @@ class PKControlView : FrameLayout {
     private var ivOtherAnchorPortrait: ImageView? = null
     private var gpOtherAnchorInfo: Group? = null
 
+    var ivMuteOther: ImageView? = null
+
     constructor(context: Context) : super(context) {
         initView()
     }
@@ -70,6 +72,11 @@ class PKControlView : FrameLayout {
 
         // 倒计时view
         tvCountTime = findViewById(R.id.tv_countdown_time)
+
+        /**
+         * 静音对方主播
+         */
+        ivMuteOther = findViewById(R.id.iv_pk_mute)
 
         // 排行榜UI
         val rvRanking: RecyclerView = findViewById(R.id.rv_pk_ranking)
@@ -151,16 +158,16 @@ class PKControlView : FrameLayout {
         }
         when (anchorSuccess) {
             PK_RESULT_FAILED -> {
-                ImageLoader.with(context).load(R.drawable.icon_pk_success).into(otherPkResultFlag)
-                ImageLoader.with(context).load(R.drawable.icon_pk_fail).into(pkResultFlag)
+                ImageLoader.with(context.applicationContext).load(R.drawable.icon_pk_success).into(otherPkResultFlag)
+                ImageLoader.with(context.applicationContext).load(R.drawable.icon_pk_fail).into(pkResultFlag)
             }
             PK_RESULT_SUCCESS -> {
-                ImageLoader.with(context).load(R.drawable.icon_pk_success).into(pkResultFlag)
-                ImageLoader.with(context).load(R.drawable.icon_pk_fail).into(otherPkResultFlag)
+                ImageLoader.with(context.applicationContext).load(R.drawable.icon_pk_success).into(pkResultFlag)
+                ImageLoader.with(context.applicationContext).load(R.drawable.icon_pk_fail).into(otherPkResultFlag)
             }
             PK_RESULT_DRAW -> {
-                ImageLoader.with(context).load(R.drawable.icon_pk_draw).into(otherPkResultFlag)
-                ImageLoader.with(context).load(R.drawable.icon_pk_draw).into(pkResultFlag)
+                ImageLoader.with(context.applicationContext).load(R.drawable.icon_pk_draw).into(otherPkResultFlag)
+                ImageLoader.with(context.applicationContext).load(R.drawable.icon_pk_draw).into(pkResultFlag)
             }
         }
     }

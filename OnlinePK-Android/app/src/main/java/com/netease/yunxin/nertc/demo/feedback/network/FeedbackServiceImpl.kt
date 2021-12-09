@@ -7,8 +7,8 @@ package com.netease.yunxin.nertc.demo.feedback.network
 
 import com.netease.yunxin.android.lib.network.common.BaseResponse
 import com.netease.yunxin.android.lib.network.common.NetworkClient
+import com.netease.yunxin.login.sdk.model.UserInfo
 import com.netease.yunxin.nertc.demo.basic.BuildConfig
-import com.netease.yunxin.nertc.demo.user.UserModel
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -27,7 +27,7 @@ object FeedbackServiceImpl {
      * @param contentType 反馈类型数组
      */
     fun demoSuggest(
-        model: UserModel,
+        model: UserInfo,
         demoName: String?,
         content: String?,
         vararg contentType: Int
@@ -36,9 +36,9 @@ object FeedbackServiceImpl {
             FeedbackServiceApi::class.java
         )
         val map: MutableMap<String, Any?> = HashMap()
-        map["tel"] = model.mobile
+        map["tel"] = model.getUserContact()
         map["uid"] = model.accountId
-        map["contact"] = model.mobile
+        map["contact"] = model.getUserContact()
         map["content_type"] = contentType
         map["feedback_source"] = demoName
         map["content"] = content

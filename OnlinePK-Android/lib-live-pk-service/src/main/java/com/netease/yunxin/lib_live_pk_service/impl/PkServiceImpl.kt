@@ -6,7 +6,6 @@
 package com.netease.yunxin.lib_live_pk_service.impl
 
 import com.blankj.utilcode.util.GsonUtils
-import com.google.gson.JsonObject
 import com.netease.nimlib.sdk.NIMClient
 import com.netease.nimlib.sdk.Observer
 import com.netease.nimlib.sdk.chatroom.ChatRoomServiceObserver
@@ -14,11 +13,12 @@ import com.netease.nimlib.sdk.chatroom.model.ChatRoomMessage
 import com.netease.nimlib.sdk.passthrough.PassthroughServiceObserve
 import com.netease.nimlib.sdk.passthrough.model.PassthroughNotifyData
 import com.netease.yunxin.kit.alog.ALog
-import com.netease.yunxin.lib_live_pk_service.Constants
+import com.netease.yunxin.lib_live_pk_service.PkConstants
 import com.netease.yunxin.lib_live_pk_service.PkService
 import com.netease.yunxin.lib_live_pk_service.bean.*
 import com.netease.yunxin.lib_live_pk_service.delegate.PkDelegate
 import com.netease.yunxin.lib_live_pk_service.repository.PkRepository
+import com.netease.yunxin.lib_live_room_service.chatroom.ChatRoomParserManager
 import com.netease.yunxin.lib_network_kt.NetRequestCallback
 import com.netease.yunxin.lib_network_kt.network.Request
 import kotlinx.coroutines.*
@@ -46,22 +46,22 @@ object PkServiceImpl : PkService {
                 LOG_TAG,
                 "p2pMessage type=$type,action =$msgAction"
             )
-            if (type == Constants.PkMsgType.PK_ACTION) {
+            if (type == PkConstants.PkMsgType.PK_ACTION) {
                 when (msgAction.action) {
-                    Constants.PkAction.PK_INVITE -> {
+                    PkConstants.PkAction.PK_INVITE -> {
                         targetAccId = msgAction.actionAnchor.accountId
                         delegate?.onPkRequestReceived(msgAction)
                     }
-                    Constants.PkAction.PK_CANCEL -> {
+                    PkConstants.PkAction.PK_CANCEL -> {
                         delegate?.onPkRequestCancel(msgAction)
                     }
-                    Constants.PkAction.PK_ACCEPT -> {
+                    PkConstants.PkAction.PK_ACCEPT -> {
                         delegate?.onPkRequestAccept(msgAction)
                     }
-                    Constants.PkAction.PK_REJECT -> {
+                    PkConstants.PkAction.PK_REJECT -> {
                         delegate?.onPkRequestRejected(msgAction)
                     }
-                    Constants.PkAction.PK_TIME_OUT -> {
+                    PkConstants.PkAction.PK_TIME_OUT -> {
                         delegate?.onPkRequestTimeout(msgAction)
                     }
                 }
@@ -79,28 +79,17 @@ object PkServiceImpl : PkService {
                 return@Observer
             }
             for (message in chatRoomMessages) {
-                val attachStr = message.attachStr
-                ALog.d(LOG_TAG,"chat room message:$attachStr")
-                val jsonObject: JsonObject = GsonUtils.fromJson<JsonObject>(
-                    attachStr,
-                    JsonObject::class.java
-                )
-                when (jsonObject["type"]?.asInt) {
-                    Constants.PkMsgType.PK_START -> {
-                        val startPkInfo: PkStartInfo =
-                            GsonUtils.fromJson(attachStr, PkStartInfo::class.java)
-                        delegate?.onPkStart(startPkInfo)
+                when (val attachment = message.attachment) {
+                    is PkStartInfo -> {
+                        delegate?.onPkStart(attachment)
                         continue
                     }
-                    Constants.PkMsgType.PK_PUNISH -> {
-                        val punishInfo: PkPunishInfo =
-                            GsonUtils.fromJson(attachStr, PkPunishInfo::class.java)
-                        delegate?.onPunishStart(punishInfo)
+                    is PkPunishInfo -> {
+                        delegate?.onPunishStart(attachment)
                         continue
                     }
-                    Constants.PkMsgType.PK_STOP -> {
-                        val endInfo: PkEndInfo = GsonUtils.fromJson(attachStr, PkEndInfo::class.java)
-                        delegate?.onPkEnd(endInfo)
+                    is PkEndInfo -> {
+                        delegate?.onPkEnd(attachment)
                         continue
                     }
                 }
@@ -111,8 +100,8 @@ object PkServiceImpl : PkService {
         listen(false)
         delegate = null
         roomId = null
-        pkScope?.cancel()
         pkScope = null
+        ChatRoomParserManager.remove(PkAttachParser)
     }
 
     /**
@@ -126,6 +115,7 @@ object PkServiceImpl : PkService {
 
         NIMClient.getService(PassthroughServiceObserve::class.java)
             .observePassthroughNotify(p2pMessage, register)
+
     }
 
     /**
@@ -134,6 +124,9 @@ object PkServiceImpl : PkService {
     override fun init(roomId: String) {
         this.roomId = roomId
         pkScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+//        NIMClient.getService(MsgService::class.java)
+//            .registerCustomAttachmentParser(PkAttachParser)
+        ChatRoomParserManager.addParser(PkAttachParser)
         listen(true)
     }
 
@@ -155,13 +148,13 @@ object PkServiceImpl : PkService {
      * request Pk for other anchor
      * accountId:the anchor you want pk
      */
-    override fun requestPk(accountId: String, callback: NetRequestCallback<Unit>) {
+    override fun requestPk(accountId: String, callback: NetRequestCallback<AnchorPkInfo>) {
         targetAccId = accountId
         pkScope?.launch {
             Request.request(
-                { PkRepository.pkAction(Constants.PkAction.PK_INVITE, accountId) },
+                { PkRepository.pkAction(PkConstants.PkAction.PK_INVITE, accountId) },
                 success = {
-                    callback.success()
+                    callback.success(it)
                 },
                 error = { code: Int, msg: String ->
                     callback.error(code, msg)
@@ -176,7 +169,7 @@ object PkServiceImpl : PkService {
     override fun cancelPkRequest(callback: NetRequestCallback<Unit>) {
         pkScope?.launch {
             Request.request(
-                { PkRepository.pkAction(Constants.PkAction.PK_CANCEL, targetAccId) },
+                { PkRepository.pkAction(PkConstants.PkAction.PK_CANCEL, targetAccId) },
                 success = {
                     callback.success()
                 },
@@ -190,12 +183,12 @@ object PkServiceImpl : PkService {
     /**
      * accept pk request
      */
-    override fun acceptPk(callback: NetRequestCallback<Unit>) {
+    override fun acceptPk(callback: NetRequestCallback<AnchorPkInfo>) {
         pkScope?.launch {
             Request.request(
-                { PkRepository.pkAction(Constants.PkAction.PK_ACCEPT, targetAccId) },
+                { PkRepository.pkAction(PkConstants.PkAction.PK_ACCEPT, targetAccId) },
                 success = {
-                    callback.success()
+                    callback.success(it)
                 },
                 error = { code: Int, msg: String ->
                     callback.error(code, msg)
@@ -210,7 +203,7 @@ object PkServiceImpl : PkService {
     override fun rejectPkRequest(callback: NetRequestCallback<Unit>) {
         pkScope?.launch {
             Request.request(
-                { PkRepository.pkAction(Constants.PkAction.PK_REJECT, targetAccId) },
+                { PkRepository.pkAction(PkConstants.PkAction.PK_REJECT, targetAccId) },
                 success = {
                     callback.success()
                 },

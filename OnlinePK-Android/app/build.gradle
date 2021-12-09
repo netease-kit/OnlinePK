@@ -68,18 +68,29 @@ android {
         pickFirst 'lib/arm64-v8a/libc++_shared.so'
         pickFirst 'lib/armeabi-v7a/libc++_shared.so'
     }
+
+    //delete some bundles  not been used to reduce the package size
+    applicationVariants.all{ variant ->
+        variant.mergeAssetsProvider.configure {
+            doLast{
+                delete(
+                        fileTree(dir:outputDir,
+                                includes: ['model/ai_gesture.bundle'])
+                )
+            }
+        }
+    }
 }
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation project(':biz-user')
     implementation project(':biz-live')
     implementation project(':lib-basic')
-    implementation project(":lib-user")
     implementation project(":lib-network-kt")
     implementation (name: 'netease-network', ext: 'aar')
     implementation (name: 'netease-picture', ext: 'aar')
+    implementation (name: 'yunxin-login-sdk', ext: 'aar')
     implementation "com.google.code.gson:gson:2.8.6"
     implementation 'com.squareup.okhttp3:logging-interceptor:3.14.7'
     implementation 'com.squareup.okhttp3:okhttp:3.14.9'
@@ -95,6 +106,5 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'com.google.android.material:material:1.2.1'
-
     implementation rootProject.ext.aLog
 }

@@ -5,6 +5,7 @@
 
 package com.netease.yunxin.lib_live_pk_service.repository
 
+import com.netease.yunxin.lib_live_pk_service.bean.AnchorPkInfo
 import com.netease.yunxin.lib_live_pk_service.bean.PkInfo
 import com.netease.yunxin.lib_network_kt.network.Response
 import retrofit2.http.Body
@@ -18,7 +19,7 @@ interface PkApi {
     @POST("/pk/v1/inviteControl")
     suspend fun pkAction(
         @Body params: Map<String, @JvmSuppressWildcards Any?>
-    ): Response<Unit>
+    ): Response<AnchorPkInfo>
 
     /**
      * get pk info

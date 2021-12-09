@@ -12,9 +12,10 @@ data class CreateRoomParam(
     val roomTopic: String?,
     val cover: String?,
     val roomType: Int,
-    val videoProfile: Int,
+    val videoWidth: Int,
+    val videoHeight: Int,
     val frameRate: NERtcEncodeConfig.NERtcVideoFrameRate,
     val mAudioScenario: Int,
     val isFrontCam: Boolean = true,
-    val pushType:Int = Constants.PushType.PUSH_TYPE_CDN
+    val pushType: Int = Constants.PushType.PUSH_TYPE_CDN
 )

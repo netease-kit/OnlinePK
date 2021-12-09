@@ -32,7 +32,7 @@
     <string name="biz_live_hangup_text">hang up</string>
     <string name="biz_live_camera_text">Camera</string>
     <string name="biz_live_microphone_text">microphone</string>
-    <string name="biz_live_waiting_anchor_accept_link_seats">Waiting for the host/hostess to accept the sync application...</string>
+    <string name="biz_live_waiting_anchor_accept_link_seats">Waiting for the host/hostess to accept</string>
     <string name="biz_live_cancel">Cancel</string>
     <string name="biz_live_anchor_reject_link_seats_apply">The host/hostess rejected your mic-sync application</string>
     <string name="biz_live_i_know">Got it</string>
@@ -55,7 +55,7 @@
     <string name="biz_live_network_error">network anomaly</string>
     <string name="biz_live_audience_count">Number of viewers:</string>
     <string name="biz_live_send_gift">Send Gifts</string>
-    <string name="biz_live_coin">cloud coins</string>
+    <string name="biz_live_coin">coins</string>
     <string name="biz_live_you_have_success_reject_anchor_invite">You have successfully rejected the mic-sync invitation from the host/hostess</string>
     <string name="biz_live_reward_failed">Failed to reward the gift</string>
     <string name="biz_live_follow_anchor_be_lost">Lost with the host/hostess</string>
@@ -73,8 +73,8 @@
     <string name="biz_live_count"> </string>
     <string name="biz_live_donate">gifted</string>
     <string name="biz_live_hangup">hang up</string>
-    <string name="biz_live_sure_hanup_link_seat">Do you want to hang up the link with% s?</string>
-    <string name="biz_live_end_live">End the live broadcast</string>
+    <string name="biz_live_sure_hanup_link_seat">Do you want to hang up the link with %s?</string>
+    <string name="biz_live_end_live">End</string>
     <string name="biz_live_flip">Flip</string>
     <string name="biz_live_earback">earphone monitor</string>
     <string name="biz_live_more">More</string>
@@ -83,7 +83,7 @@
     <string name="biz_live_start_audio_dump">Start dumping audio</string>
     <string name="biz_live_dump_end">dump ended</string>
     <string name="biz_live_glow_stick">glow stick</string>
-    <string name="biz_live_arrange">Arrangement</string>
+    <string name="biz_live_arrange">Arrange</string>
     <string name="biz_live_sports_car">sports car</string>
     <string name="biz_live_rockets">Rocket</string>
     <string name="biz_live_try_again_after">Try again later</string>
@@ -135,9 +135,9 @@
     <string name="biz_live_bgm">Background music</string>
     <string name="biz_live_music_two">Music 2</string>
     <string name="biz_live_music_one">Music 1</string>
-    <string name="biz_live_audio_effect">sound effect</string>
-    <string name="biz_live_audio_effect_two">Sound effect 2</string>
-    <string name="biz_live_audio_effect_one">sound effect 1</string>
+    <string name="biz_live_audio_effect">Sound effect</string>
+    <string name="biz_live_audio_effect_two">Effect 2</string>
+    <string name="biz_live_audio_effect_one">Effect 1</string>
     <string name="biz_live_empty_live">No live broadcast yet</string>
     <string name="biz_live_say_something">Say something...</string>
     <string name="biz_live_resolution">Resolution</string>
@@ -150,4 +150,6 @@
     <string name="biz_live_guide_tip">Swipe up and down to watch other live broadcasts</string>
     <string name="biz_live_reconnection">Reconnect</string>
     <string name="biz_live_send">Send</string>
+    <string name="biz_live_start_live">Start</string>
+    <string name="biz_live_punishment">Punishment</string>
 </resources>

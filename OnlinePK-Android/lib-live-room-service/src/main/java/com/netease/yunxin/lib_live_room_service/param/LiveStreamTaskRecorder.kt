@@ -20,6 +20,8 @@ data class LiveStreamTaskRecorder(
 
     var otherAnchorUid: Long? = null
 
+    var muteOther: Boolean = false
+
     var type: Int = Constants.LiveType.LIVE_TYPE_DEFAULT
 
     fun addAudienceUid(uid: Long) {

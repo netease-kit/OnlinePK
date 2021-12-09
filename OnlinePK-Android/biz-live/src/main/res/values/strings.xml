@@ -150,4 +150,6 @@
     <string name="biz_live_guide_tip">上下滑动，即可观看其他直播</string>
     <string name="biz_live_reconnection">重新连接</string>
     <string name="biz_live_send">发送</string>
+    <string name="biz_live_start_live">开始直播</string>
+    <string name="biz_live_punishment">惩罚</string>
 </resources>

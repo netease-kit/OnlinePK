@@ -5,7 +5,8 @@
 
 package com.netease.yunxin.lib_live_pk_service.repository
 
-import com.netease.yunxin.lib_live_pk_service.Constants.PkAction
+import com.netease.yunxin.lib_live_pk_service.PkConstants.PkAction
+import com.netease.yunxin.lib_live_pk_service.bean.AnchorPkInfo
 import com.netease.yunxin.lib_live_pk_service.bean.PkInfo
 import com.netease.yunxin.lib_network_kt.network.Response
 import com.netease.yunxin.lib_network_kt.network.ServiceCreator
@@ -21,7 +22,7 @@ object PkRepository {
      */
     suspend fun pkAction(
         action: Int, targetAccountId: String?
-    ): Response<Unit> = withContext(Dispatchers.IO) {
+    ): Response<AnchorPkInfo> = withContext(Dispatchers.IO) {
         val params = mapOf<String, Any?>(
             "action" to action, "targetAccountId" to targetAccountId
         )

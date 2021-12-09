@@ -15,4 +15,8 @@ class LiveInfo : Serializable {
     lateinit var anchor: LiveUser//主播信息
     var joinUserInfo: LiveUser? = null//加入房间的观众信息
     lateinit var live: LiveMsg //房间信息
+    override fun toString(): String {
+        return "LiveInfo(appId=$appId, anchor=$anchor, joinUserInfo=$joinUserInfo, live=$live)"
+    }
+
 }

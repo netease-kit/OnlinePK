@@ -8,15 +8,25 @@ package com.netease.yunxin.nertc.demo
 import android.os.Bundle
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
+import com.netease.biz_live.yunxin.live.floatplay.FloatPlayManager
+import com.netease.yunxin.android.lib.network.common.NetworkClient
 import com.netease.yunxin.kit.alog.ALog
+import com.netease.yunxin.login.sdk.AuthorManager
+import com.netease.yunxin.login.sdk.model.EventType
+import com.netease.yunxin.login.sdk.model.LoginEvent
+import com.netease.yunxin.login.sdk.model.LoginObserver
 import com.netease.yunxin.nertc.demo.basic.BaseActivity
 import com.netease.yunxin.nertc.demo.basic.StatusBarConfig
 import com.netease.yunxin.nertc.demo.pager.MainPagerAdapter
 
 class MainActivity : BaseActivity() {
+    companion object{
+        private const val TAG="MainActivity"
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        NetworkClient.getInstance().configAccessToken(AuthorManager.getUserInfo()?.accessToken)
         val mainPager = findViewById<ViewPager>(R.id.vp_fragment)
         mainPager.adapter = MainPagerAdapter(supportFragmentManager)
         mainPager.offscreenPageLimit = 2
@@ -38,6 +48,18 @@ class MainActivity : BaseActivity() {
                 item?.select()
                 super.onPageSelected(position)
             }
+        })
+
+        AuthorManager.registerLoginObserver(object : LoginObserver<LoginEvent> {
+            override fun onEvent(t: LoginEvent) {
+                if (t.eventType == EventType.TYPE_LOGOUT) {
+                    ALog.d(TAG,"LOGOUT")
+                    if (FloatPlayManager.isStartFloatWindow) {
+                        FloatPlayManager.closeFloatPlay()
+                    }
+                }
+            }
+
         })
     }
 

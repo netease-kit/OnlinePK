@@ -9,14 +9,18 @@ import android.annotation.SuppressLint
 import android.text.TextUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.netease.biz_live.yunxin.live.audience.utils.AudiencePKControl
+import com.netease.biz_live.yunxin.live.floatplay.AudienceData
+import com.netease.biz_live.yunxin.live.floatplay.CDNStreamTextureView
 import com.netease.biz_live.yunxin.live.ui.widget.PKControlView
 import com.netease.yunxin.kit.alog.ALog
-import com.netease.yunxin.lib_live_pk_service.Constants
+import com.netease.yunxin.lib_live_pk_service.PkConstants
 import com.netease.yunxin.lib_live_pk_service.PkService
 import com.netease.yunxin.lib_live_pk_service.bean.*
 import com.netease.yunxin.lib_live_pk_service.delegate.PkDelegate
+import com.netease.yunxin.lib_live_room_service.Constants
+import com.netease.yunxin.lib_live_room_service.LiveTypeManager
 import com.netease.yunxin.lib_live_room_service.bean.reward.RewardAudience
-import com.netease.yunxin.lib_live_room_service.bean.reward.RewardInfo
+import com.netease.yunxin.lib_live_room_service.chatroom.RewardMsg
 import com.netease.yunxin.lib_network_kt.NetRequestCallback
 import com.netease.yunxin.nertc.demo.basic.BaseActivity
 
@@ -26,7 +30,6 @@ class PkAudienceContentView(activity: BaseActivity) : BaseAudienceContentView(ac
 
     companion object{
         const val LOG_TAG = "PkAudienceContentView"
-        const val CODE_NO_PK = 55004
     }
 
     val pkService by lazy {
@@ -51,7 +54,7 @@ class PkAudienceContentView(activity: BaseActivity) : BaseAudienceContentView(ac
          */
         override fun onPkStart(startInfo: PkStartInfo) {
             val otherAnchor: PkUserInfo =
-                if (TextUtils.equals(liveInfo?.anchor?.accountId, startInfo.invitee.accountId)) {
+                if (TextUtils.equals(audienceViewModel?.data!!.liveInfo?.anchor?.accountId, startInfo.invitee.accountId)) {
                     isInvited = false
                     startInfo.inviter
                 } else {
@@ -74,7 +77,7 @@ class PkAudienceContentView(activity: BaseActivity) : BaseAudienceContentView(ac
             }else{
                 PKControlView.PK_RESULT_FAILED
             }
-           getAudiencePKControl().onPunishmentStart(pkResult,punishInfo.pkPenaltyCountDown)
+           getAudiencePKControl().onPunishmentStart(null, pkResult, punishInfo.pkPenaltyCountDown)
         }
 
         /**
@@ -87,13 +90,13 @@ class PkAudienceContentView(activity: BaseActivity) : BaseAudienceContentView(ac
 
     }
 
-    override fun onUserRewardImpl(rewardInfo: RewardInfo) {
+    override fun onUserRewardImpl(rewardInfo: RewardMsg) {
         super.onUserRewardImpl(rewardInfo)
-        if(isPking) {
+        if (isPking) {
             when {
                 TextUtils.equals(
                     rewardInfo.anchorReward.accountId,
-                    liveInfo?.anchor?.accountId
+                    audienceViewModel?.data!!.liveInfo?.anchor?.accountId
                 ) -> {
                     getAudiencePKControl().onAnchorCoinChanged(
                         rewardInfo.anchorReward.pkRewardTotal,
@@ -104,7 +107,7 @@ class PkAudienceContentView(activity: BaseActivity) : BaseAudienceContentView(ac
                 }
                 TextUtils.equals(
                     rewardInfo.otherAnchorReward!!.accountId,
-                    liveInfo?.anchor?.accountId
+                    audienceViewModel?.data!!.liveInfo?.anchor?.accountId
                 ) -> {
                     getAudiencePKControl().onAnchorCoinChanged(
                         rewardInfo.otherAnchorReward!!.pkRewardTotal,
@@ -122,10 +125,10 @@ class PkAudienceContentView(activity: BaseActivity) : BaseAudienceContentView(ac
 
     override fun initLiveType(isRetry: Boolean) {
         super.initLiveType(isRetry)
-        pkService.init(liveInfo!!.live.roomId)
+        pkService.init(audienceViewModel?.data!!.liveInfo!!.live.roomId)
         pkService.setDelegate(pkDelegate)
-        if (liveInfo?.live?.status == com.netease.yunxin.lib_live_room_service.Constants.LiveStatus.LIVE_STATUS_ON_PUNISHMENT
-            || liveInfo?.live?.status == com.netease.yunxin.lib_live_room_service.Constants.LiveStatus.LIVE_STATUS_PKING
+        if (audienceViewModel?.data!!.liveInfo?.live?.status == com.netease.yunxin.lib_live_room_service.Constants.LiveStatus.LIVE_STATUS_ON_PUNISHMENT
+            || audienceViewModel?.data!!.liveInfo?.live?.status == com.netease.yunxin.lib_live_room_service.Constants.LiveStatus.LIVE_STATUS_PKING
         ) {
             pkService.fetchPkInfo(object : NetRequestCallback<PkInfo> {
                 override fun success(info: PkInfo?) {
@@ -134,7 +137,7 @@ class PkAudienceContentView(activity: BaseActivity) : BaseAudienceContentView(ac
                         val otherAnchor: PkUserInfo
                         val selfReward: PkReward
                         val otherReward: PkReward
-                        if (TextUtils.equals(liveInfo?.anchor?.accountId, it.invitee.accountId)) {
+                        if (TextUtils.equals(audienceViewModel?.data!!.liveInfo?.anchor?.accountId, it.invitee.accountId)) {
                             isInvited = true
                             selfAnchor = it.invitee
                             selfReward = it.inviteeReward
@@ -148,11 +151,11 @@ class PkAudienceContentView(activity: BaseActivity) : BaseAudienceContentView(ac
                             otherReward = it.inviteeReward
                         }
                         when (info.status) {
-                            Constants.PkStatus.PK_STATUS_PKING -> {
+                            PkConstants.PkStatus.PK_STATUS_PKING -> {
                                 isPking = true
                                 getAudiencePKControl().onPkStart(otherAnchor, it.countDown, false)
                             }
-                            Constants.PkStatus.PK_STATUS_PUNISHMENT -> {
+                            PkConstants.PkStatus.PK_STATUS_PUNISHMENT -> {
                                 val pkResult = when {
                                     selfAnchor.rewardTotal == otherAnchor.rewardTotal -> {
                                         PKControlView.PK_RESULT_DRAW
@@ -164,7 +167,12 @@ class PkAudienceContentView(activity: BaseActivity) : BaseAudienceContentView(ac
                                         PKControlView.PK_RESULT_FAILED
                                     }
                                 }
-                                getAudiencePKControl().onPunishmentStart(pkResult, it.countDown)
+                                getAudiencePKControl().onPunishmentStart(
+                                    otherAnchor,
+                                    pkResult,
+                                    it.countDown,
+                                    true
+                                )
 
                             }
                         }
@@ -174,11 +182,16 @@ class PkAudienceContentView(activity: BaseActivity) : BaseAudienceContentView(ac
                             transferOfAudienceList(otherReward.rewardTop)
                         )
                     }
-
+                    // 基于直播类型，来调整播放内容样式.
+                    if (isPking){
+                        LiveTypeManager.setCurrentLiveType(com.netease.yunxin.lib_live_room_service.Constants.LiveType.LIVE_TYPE_PK)
+                    }else{
+                        LiveTypeManager.setCurrentLiveType(com.netease.yunxin.lib_live_room_service.Constants.LiveType.LIVE_TYPE_DEFAULT)
+                    }
                 }
 
                 override fun error(code: Int, msg: String) {
-                    if (code != CODE_NO_PK) {
+                    if (code != PkConstants.ErrorCode.CODE_NO_PK) {
                         ToastUtils.showLong(msg)
                     }
                 }
@@ -219,4 +232,20 @@ class PkAudienceContentView(activity: BaseActivity) : BaseAudienceContentView(ac
         PkService.destroyInstance()
     }
 
+    override fun adjustVideoSize(data: AudienceData) {
+        // 现有的方案描述：PK蒙层与视频画面大小变更存在时间差，画面是CDN流，延迟2-5s，蒙层由透传消息触发。
+        // 以下代码是解决小窗切换到大窗的瞬间直播状态发生变化导致PK蒙层与视频画面不匹配问题
+        if (LiveTypeManager.getCurrentLiveType()== Constants.LiveType.LIVE_TYPE_DEFAULT
+            &&CDNStreamTextureView.isSingleAnchorSize(data.videoInfo?.videoWidth!!,data.videoInfo?.videoHeight!!)) {
+            videoView?.adjustVideoSizeForNormal()
+            ALog.d(LOG_TAG,"adjustVideoSizeForNormal")
+        }else if (LiveTypeManager.getCurrentLiveType()== Constants.LiveType.LIVE_TYPE_PK
+            &&CDNStreamTextureView.isPkSize(data.videoInfo?.videoWidth!!,data.videoInfo?.videoHeight!!)){
+            videoView?.adjustVideoSizeForPk(false)
+            ALog.d(LOG_TAG,"adjustVideoSizeForPk")
+        }else{
+            // 继续走现有方案，与当前进直播间逻辑保持同步
+            ALog.d(LOG_TAG,"adjust video canvas by onVideoSizeChanged callback")
+        }
+    }
 }

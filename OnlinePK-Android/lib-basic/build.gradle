@@ -11,7 +11,7 @@ android {
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -31,6 +31,8 @@ android {
         buildConfigField "String", "APP_KEY", "\"${rootProject.ext.AppKey}\""
         // base server url
         buildConfigField "String", "BASE_URL", "\"${rootProject.ext.BaseUrl}\""
+        //build evn
+        buildConfigField "String", "BUILD_ENV", "\"${rootProject.ext.buildEnv}\""
     }
 
     compileOptions {
@@ -47,9 +49,8 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-
+    implementation(name: 'yunxin-login-sdk', ext: 'aar')
     implementation project(':lib-modularity')
-    implementation project(':lib-user')
     implementation "androidx.core:core-ktx:1.6.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 

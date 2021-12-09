@@ -6,10 +6,12 @@
 package com.netease.yunxin.lib_live_room_service
 
 import android.content.Context
+import com.netease.nimlib.sdk.chatroom.model.ChatRoomInfo
 import com.netease.yunxin.lib_live_room_service.bean.LiveInfo
 import com.netease.yunxin.lib_live_room_service.delegate.LiveRoomDelegate
 import com.netease.yunxin.lib_live_room_service.impl.AudioOption
 import com.netease.yunxin.lib_live_room_service.impl.LiveRoomServiceImpl
+import com.netease.yunxin.lib_live_room_service.impl.NERtcCallbackTemp
 import com.netease.yunxin.lib_live_room_service.impl.VideoOption
 import com.netease.yunxin.lib_live_room_service.param.CreateRoomParam
 import com.netease.yunxin.lib_live_room_service.param.LiveStreamTaskRecorder
@@ -70,7 +72,7 @@ interface LiveRoomService {
     /**
      * update push stream task
      */
-    fun updateLiveStream(liveRecoder: LiveStreamTaskRecorder): Int
+    fun updateLiveStream(liveRecoder: LiveStreamTaskRecorder,callback: NetRequestCallback<Int>? = null): Int
 
     /**
      * send a gift to anchor
@@ -80,7 +82,7 @@ interface LiveRoomService {
     /**
      * start channel media relay
      */
-    fun startChannelMediaRelay(token: String, channelName: String, uid: Long): Int
+    fun startChannelMediaRelay(token: String, channelName: String, uid: Long): Boolean
 
     /**
      * stop channel media relay
@@ -112,4 +114,13 @@ interface LiveRoomService {
      */
     fun getVideoOption(): VideoOption
 
+    /**
+     * add delegate for rtc callback
+     */
+    fun addNERTCDelegate(delegate: NERtcCallbackTemp)
+
+    /**
+     *  query chatroom info
+     */
+    fun queryChatRoomInfo(roomId: String,callback: NetRequestCallback<ChatRoomInfo>)
 }

@@ -20,4 +20,6 @@ object CustomAttachmentType {
      * 文本消息
      */
     const val CHAT_ROOM_TEXT = 15
+
+    const val CHAT_ROOM_REWARD = 1001
 }

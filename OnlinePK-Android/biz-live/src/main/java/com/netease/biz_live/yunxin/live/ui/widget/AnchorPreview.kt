@@ -25,8 +25,6 @@ class AnchorPreview : FrameLayout {
     //美颜
     var llyBeauty: LinearLayout? = null
 
-    //设置
-    var llySetting: LinearLayout? = null
 
     //滤镜
     var llyFilter: LinearLayout? = null
@@ -65,7 +63,6 @@ class AnchorPreview : FrameLayout {
         LayoutInflater.from(context).inflate(R.layout.anchor_preview_layout, this)
         ivSwitchCamera = findViewById(R.id.iv_camera_switch)
         llyBeauty = findViewById(R.id.lly_beauty)
-        llySetting = findViewById(R.id.lly_setting)
         llyFilter = findViewById(R.id.lly_filter)
         edtTopic = findViewById(R.id.edt_live_title)
         btnLiveCreate = findViewById(R.id.btn_start_live)

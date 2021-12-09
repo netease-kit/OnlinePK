@@ -14,12 +14,15 @@ import com.netease.nimlib.sdk.msg.attachment.MsgAttachmentParser
  *
  * 直播自定义消息解析
  */
-class LiveAttachParser : MsgAttachmentParser {
+object LiveAttachParser : MsgAttachmentParser {
     override fun parse(json: String): MsgAttachment? {
         var result: MsgAttachment? = null
         when (JsonUtils.getType(json)) {
             CustomAttachmentType.CHAT_ROOM_TEXT -> {
                 result = JsonUtils.toMsgAttachment(json, TextWithRoleAttachment::class.java)
+            }
+            CustomAttachmentType.CHAT_ROOM_REWARD -> {
+                result = JsonUtils.toMsgAttachment(json, RewardMsg::class.java)
             }
             else -> {
             }

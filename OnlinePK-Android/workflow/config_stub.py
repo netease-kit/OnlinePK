@@ -1,9 +1,8 @@
-#  Copyright (c) 2021 NetEase, Inc.  All rights reserved.
-#  Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+#   Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+#   Use of this source code is governed by a MIT license that can be found in the LICENSE file
 
 import re
 import sys
-import os
 
 APP_CONFIG_FILE = sys.argv[1]
 APP_KEY = sys.argv[2]

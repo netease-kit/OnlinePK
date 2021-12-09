@@ -77,7 +77,8 @@ class AnchorSeatLiveActivity : AnchorBaseLiveActivity() {
      * create a live room
      */
     override fun createLiveRoom(
-        videoProfile: Int,
+        width: Int,
+        height: Int,
         frameRate: NERtcEncodeConfig.NERtcVideoFrameRate,
         audioScenario: Int
     ) {
@@ -85,7 +86,7 @@ class AnchorSeatLiveActivity : AnchorBaseLiveActivity() {
             baseViewBinding.previewAnchor.getTopic(),
             baseViewBinding.previewAnchor.getLiveCoverPic(),
             Constants.LiveType.LIVE_TYPE_SEAT,
-            videoProfile, frameRate, audioScenario,
+            width, height, frameRate, audioScenario,
             cameraFacing == Camera.CameraInfo.CAMERA_FACING_FRONT
         )
         roomService.createRoom(createRoomParam, callback = object : NetRequestCallback<LiveInfo> {

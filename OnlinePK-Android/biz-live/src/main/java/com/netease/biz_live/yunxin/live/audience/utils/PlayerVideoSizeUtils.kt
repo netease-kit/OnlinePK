@@ -9,6 +9,7 @@ import android.graphics.Matrix
 import android.graphics.PointF
 import android.view.TextureView
 import com.blankj.utilcode.util.ScreenUtils
+import com.netease.yunxin.kit.alog.ALog
 import com.netease.yunxin.lib_live_room_service.Constants
 
 /**
@@ -18,6 +19,7 @@ import com.netease.yunxin.lib_live_room_service.Constants
  * 当用户观看主播 pk 状态与 单人状态互相切换时需要更改当前视频 view 的尺寸大小适配
  */
 object PlayerVideoSizeUtils {
+    private const val TAG="PlayerVideoSizeUtils"
     /**
      * 调整播放区域以及位置，单人直播下以[LiveStreamParams#SIGNAL_HOST_LIVE_WIDTH][Constants.StreamLayout.SIGNAL_HOST_LIVE_HEIGHT]
      * 比例确定播放区域的大小，放缩到没有黑边；
@@ -40,6 +42,7 @@ object PlayerVideoSizeUtils {
         if (renderView == null) {
             return
         }
+       ALog.d(TAG,"adjustViewSizePosition")
         renderView.post(Runnable {
             val width = renderView.width
             val height = renderView.height
@@ -64,6 +67,7 @@ object PlayerVideoSizeUtils {
         viewHeight: Int,
         pivot: PointF
     ) {
+        ALog.d(TAG,"adjustForPk:viewWidth:$viewWidth,viewHeight:$viewHeight,pivot:$pivot")
         val videoWidth: Float = (Constants.StreamLayout.PK_LIVE_WIDTH * 2).toFloat()
         val videoHeight: Float = Constants.StreamLayout.PK_LIVE_HEIGHT.toFloat()
         val matrix = Matrix()
@@ -85,6 +89,7 @@ object PlayerVideoSizeUtils {
      * 单人直播下页面调整
      */
     private fun adjustForNormal(renderView: TextureView, viewWidth: Float, viewHeight: Float) {
+        ALog.d(TAG,"adjustForNormal:viewWidth:$viewWidth,viewHeight:$viewHeight")
         // 目标视频比例
         val videoWidth: Float = Constants.StreamLayout.SIGNAL_HOST_LIVE_WIDTH.toFloat()
         val videoHeight: Float = Constants.StreamLayout.SIGNAL_HOST_LIVE_HEIGHT.toFloat()
@@ -116,6 +121,7 @@ object PlayerVideoSizeUtils {
         if (renderView == null) {
             return
         }
+        ALog.d(TAG,"adjustForPreparePk:pivot:$pivot")
         renderView.post(Runnable {
             val width = renderView.width
             val height = renderView.height
@@ -129,6 +135,7 @@ object PlayerVideoSizeUtils {
         viewHeight: Int,
         pivot: PointF
     ) {
+        ALog.d(TAG,"adjustForPreparePk:viewWidth:$viewWidth,viewHeight:$viewHeight,pivot:$pivot")
         val tempWidth: Float = Constants.StreamLayout.PK_LIVE_WIDTH.toFloat()
         val tempHeight: Float = Constants.StreamLayout.PK_LIVE_HEIGHT.toFloat()
         val videoWidth: Float = Constants.StreamLayout.SIGNAL_HOST_LIVE_WIDTH.toFloat()

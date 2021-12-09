@@ -23,8 +23,7 @@ import com.netease.biz_live.yunxin.live.audience.adapter.LiveBaseAdapter
 import com.netease.biz_live.yunxin.live.audience.ui.view.DurationStatisticTimer
 import com.netease.biz_live.yunxin.live.audience.utils.LinkedSeatsAudienceActionManager
 import com.netease.yunxin.android.lib.picture.ImageLoader
-import com.netease.yunxin.nertc.demo.user.UserCenterService
-import com.netease.yunxin.nertc.module.base.ModuleServiceMgr
+import com.netease.yunxin.login.sdk.AuthorManager
 import com.netease.yunxin.seatlibrary.CompletionCallback
 import com.netease.yunxin.seatlibrary.seat.constant.SeatAVState
 import java.util.*
@@ -100,8 +99,7 @@ class LinkSeatsStatusDialog(
         durationStatisticTimer?.start()
         ImageLoader.with(context.applicationContext)
             .circleLoad(
-                ModuleServiceMgr.instance
-                    .getService(UserCenterService::class.java).currentUser.avatar, imageView
+                AuthorManager.getUserInfo()!!.avatar, imageView
             )
     }
 

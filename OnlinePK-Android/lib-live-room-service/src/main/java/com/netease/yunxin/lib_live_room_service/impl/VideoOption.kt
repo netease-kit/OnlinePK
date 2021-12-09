@@ -52,4 +52,12 @@ object VideoOption {
     fun stopVideoPreview(): Boolean {
         return engine.stopVideoPreview() == NERtcConstants.ErrorCode.OK
     }
+
+    fun setVoiceBeautifierPreset(beautifierType: Int) {
+        NERtcEx.getInstance().setVoiceBeautifierPreset(beautifierType)
+    }
+
+    fun setAudioEffectPreset(voiceChangerType: Int) {
+        NERtcEx.getInstance().setAudioEffectPreset(voiceChangerType)
+    }
 }

@@ -26,25 +26,25 @@ import com.netease.biz_live.yunxin.live.dialog.AnchorMoreDialog
 import com.netease.biz_live.yunxin.live.dialog.AnchorMoreDialog.MoreItem
 import com.netease.biz_live.yunxin.live.dialog.ChoiceDialog
 import com.netease.biz_live.yunxin.live.dialog.DumpDialog
-import com.netease.biz_live.yunxin.live.dialog.LiveSettingDialog
-import com.netease.biz_live.yunxin.live.dialog.LiveSettingDialog.LiveSettingChangeListener
 import com.netease.biz_live.yunxin.live.gift.GiftCache
 import com.netease.biz_live.yunxin.live.ui.AudioControl
 import com.netease.biz_live.yunxin.live.ui.BeautyControl
 import com.netease.biz_live.yunxin.live.utils.ViewUtils
 import com.netease.lava.nertc.sdk.NERtc
 import com.netease.lava.nertc.sdk.NERtcConstants
+import com.netease.lava.nertc.sdk.audio.NERtcVoiceBeautifierType
+import com.netease.lava.nertc.sdk.audio.NERtcVoiceChangerType
 import com.netease.lava.nertc.sdk.video.NERtcEncodeConfig.NERtcVideoFrameRate
-import com.netease.yunxin.android.lib.network.common.NetworkClient
 import com.netease.yunxin.android.lib.picture.ImageLoader
 import com.netease.yunxin.kit.alog.ALog
 import com.netease.yunxin.lib_live_room_service.LiveRoomService
 import com.netease.yunxin.lib_live_room_service.bean.LiveInfo
-import com.netease.yunxin.lib_live_room_service.bean.reward.RewardInfo
+import com.netease.yunxin.lib_live_room_service.chatroom.RewardMsg
 import com.netease.yunxin.lib_live_room_service.impl.AudioOption
 import com.netease.yunxin.lib_live_room_service.impl.VideoOption
 import com.netease.yunxin.lib_network_kt.NetRequestCallback
 import com.netease.yunxin.lib_network_kt.network.ServiceCreator
+import com.netease.yunxin.login.sdk.AuthorManager
 import com.netease.yunxin.nertc.demo.basic.BaseActivity
 import com.netease.yunxin.nertc.demo.basic.BuildConfig
 import com.netease.yunxin.nertc.demo.basic.StatusBarConfig
@@ -57,9 +57,10 @@ abstract class AnchorBaseLiveActivity : BaseActivity() {
     protected val roomService: LiveRoomService by lazy { LiveRoomService.sharedInstance() }
 
     //*******************直播参数*******************
-    private var videoProfile = NERtcConstants.VideoProfile.HD720P //视频分辨率
+    private var videoWidth = 960 //视频分辨率
+    private var videoHeight = 540
     private var frameRate: NERtcVideoFrameRate =
-        NERtcVideoFrameRate.FRAME_RATE_FPS_30 //码率
+        NERtcVideoFrameRate.FRAME_RATE_FPS_15 //码率
     private var audioScenario = NERtcConstants.AudioScenario.MUSIC //音频标准
 
     val baseViewBinding by lazy {
@@ -84,6 +85,12 @@ abstract class AnchorBaseLiveActivity : BaseActivity() {
     //音频控制
     protected var audioControl: AudioControl? = null
 
+    var isMirror = true
+
+    var voiceBeautifierEnable = false
+
+    var audioEffectEnable = false
+
     /**
      * 直播开始
      */
@@ -103,8 +110,10 @@ abstract class AnchorBaseLiveActivity : BaseActivity() {
      * 结束直播
      */
     private fun stopLiveErrorNetwork() {
-        ToastUtils.showLong(R.string.biz_live_network_is_not_stable_live_is_end)
-        finish()
+        if (isLiveStart) {
+            ToastUtils.showLong(R.string.biz_live_network_is_not_stable_live_is_end)
+            finish()
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -116,8 +125,7 @@ abstract class AnchorBaseLiveActivity : BaseActivity() {
         paddingStatusBarHeight(findViewById(R.id.preview_anchor))
         paddingStatusBarHeight(findViewById(R.id.cly_anchor_info))
         paddingStatusBarHeight(findViewById(R.id.fly_container))
-        //TODO （接入统一登录之后优化）
-        ServiceCreator.setToken(NetworkClient.getInstance().accessToken)
+        ServiceCreator.setToken(AuthorManager.getUserInfo()?.accessToken)
         LiveRoomService.sharedInstance().setupWithOptions(
             this,
             BuildConfig.APP_KEY
@@ -190,12 +198,11 @@ abstract class AnchorBaseLiveActivity : BaseActivity() {
         baseViewBinding.previewAnchor.btnLiveCreate?.setOnClickListener {
             it.isEnabled = false
             createLiveRoom(
-                videoProfile, frameRate, audioScenario,
+                videoWidth, videoHeight, frameRate, audioScenario,
             )
         }
         baseViewBinding.previewAnchor.llyBeauty?.setOnClickListener { showBeautyDialog() }
         baseViewBinding.previewAnchor.llyFilter?.setOnClickListener { showFilterDialog() }
-        baseViewBinding.previewAnchor.llySetting?.setOnClickListener { showSettingDialog() }
         baseViewBinding.previewAnchor.ivClose?.setOnClickListener { onBackPressed() }
         baseViewBinding.previewAnchor.ivSwitchCamera?.setOnClickListener { switchCamera() }
         baseViewBinding.ivMore.setOnClickListener { showLiveMoreDialog() }
@@ -236,6 +243,32 @@ abstract class AnchorBaseLiveActivity : BaseActivity() {
                 ALog.i(LOG_TAG, "network onConnected")
             }
         })
+    }
+
+    private fun setMirror() {
+        isMirror = !isMirror
+        baseViewBinding.videoView.setMirror(isMirror)
+    }
+
+    private fun setVoiceBeautifierPreset() {
+        voiceBeautifierEnable = !voiceBeautifierEnable
+        if (voiceBeautifierEnable) {
+            //此处以VOICE_BEAUTIFIER_MAGNETIC 举例，更多效果请参考https://doc.yunxin.163.com/docs/jcyOTA0ODM/zk0MjA3Mzk?platformId=50002
+            VideoOption.setVoiceBeautifierPreset(NERtcVoiceBeautifierType.VOICE_BEAUTIFIER_NATURE)
+        } else {
+            VideoOption.setVoiceBeautifierPreset(NERtcVoiceBeautifierType.VOICE_BEAUTIFIER_OFF)
+        }
+
+    }
+
+    private fun setAudioEffectPreset() {
+        audioEffectEnable = !audioEffectEnable
+        if (audioEffectEnable) {
+            //VOICE_CHANGER_EFFECT_MANTOLOLI 举例，更多效果请参考https://doc.yunxin.163.com/docs/jcyOTA0ODM/zk0MjA3Mzk?platformId=50002
+            VideoOption.setAudioEffectPreset(NERtcVoiceChangerType.VOICE_CHANGER_EFFECT_MANTOLOLI)
+        } else {
+            VideoOption.setAudioEffectPreset(NERtcVoiceChangerType.AUDIO_EFFECT_OFF)
+        }
     }
 
     protected open fun onNetworkDisconnected() {
@@ -288,7 +321,7 @@ abstract class AnchorBaseLiveActivity : BaseActivity() {
     /**
      * on user reward to anchor
      */
-    open fun onUserReward(reward: RewardInfo) {
+    open fun onUserReward(reward: RewardMsg) {
         if (TextUtils.equals(reward.anchorReward.accountId, liveInfo?.anchor?.accountId)) {
             topViewBinding.tvAnchorCoinCount.text =
                 StringUtils.getCoinCount(reward.anchorReward.rewardTotal)
@@ -335,7 +368,8 @@ abstract class AnchorBaseLiveActivity : BaseActivity() {
      * create a live room
      */
     protected abstract fun createLiveRoom(
-        videoProfile: Int,
+        width: Int,
+        height: Int,
         frameRate: NERtcVideoFrameRate,
         audioScenario: Int
     )
@@ -343,7 +377,8 @@ abstract class AnchorBaseLiveActivity : BaseActivity() {
     /**
      * 停止直播
      */
-    protected fun stopLive() {
+    private fun stopLive() {
+        isLiveStart = false
         roomService.destroyRoom(object : NetRequestCallback<Unit> {
             override fun success(info: Unit?) {
                 finish()
@@ -369,11 +404,11 @@ abstract class AnchorBaseLiveActivity : BaseActivity() {
         topViewBinding.tvAudienceCount.text = StringUtils.getAudienceCount(0)
     }
 
-    fun onAudioEffectFinished(effectId: Int) {
+    private fun onAudioEffectFinished(effectId: Int) {
         audioControl?.onEffectFinish(effectId)
     }
 
-    fun onAudioMixingFinished() {
+    private fun onAudioMixingFinished() {
         audioControl?.onMixingFinished()
     }
 
@@ -388,14 +423,14 @@ abstract class AnchorBaseLiveActivity : BaseActivity() {
     /**
      * 显示混音dailog
      */
-    protected fun showAudioControlDialog() {
+    private fun showAudioControlDialog() {
         audioControl?.showAudioControlDialog()
     }
 
     /**
      * 展示美颜dialog
      */
-    protected fun showBeautyDialog() {
+    private fun showBeautyDialog() {
         beautyControl?.showBeautyDialog()
     }
 
@@ -403,35 +438,18 @@ abstract class AnchorBaseLiveActivity : BaseActivity() {
         beautyControl?.showFilterDialog()
     }
 
-    protected fun showSettingDialog() {
-        val liveSettingDialog = LiveSettingDialog()
-        liveSettingDialog.setLiveSetting(videoProfile, frameRate, audioScenario)
-        liveSettingDialog.setValueChangeListener(object : LiveSettingChangeListener {
-            override fun videoProfileChange(newValue: Int) {
-                videoProfile = newValue
-            }
 
-            override fun frameRateChange(frameRate: NERtcVideoFrameRate) {
-                this@AnchorBaseLiveActivity.frameRate = frameRate
-            }
-
-            override fun audioScenarioChange(audioScenario: Int) {
-                this@AnchorBaseLiveActivity.audioScenario = audioScenario
-            }
-        })
-        liveSettingDialog.show(supportFragmentManager, LiveSettingDialog::class.java.simpleName)
-    }
-
-
-    fun sendTextMsg(msg: String) {
-        roomService.sendTextMessage(msg)
-        baseViewBinding.crvMsgList.appendItem(
-            ChatRoomMsgCreator.createText(
-                true,
-                liveInfo?.anchor?.nickname,
-                msg
+    private fun sendTextMsg(msg: String) {
+        if (!TextUtils.isEmpty(msg.trim())) {
+            roomService.sendTextMessage(msg)
+            baseViewBinding.crvMsgList.appendItem(
+                ChatRoomMsgCreator.createText(
+                    true,
+                    liveInfo?.anchor?.nickname,
+                    msg
+                )
             )
-        )
+        }
     }
 
     protected open fun clearLocalImage() {
@@ -442,7 +460,7 @@ abstract class AnchorBaseLiveActivity : BaseActivity() {
     /**
      * 直播中的更多弹框
      */
-    protected fun showLiveMoreDialog() {
+    private fun showLiveMoreDialog() {
         val anchorMoreDialog = AnchorMoreDialog(this)
         anchorMoreDialog.registerOnItemClickListener(object : AnchorMoreDialog.OnItemClickListener {
             override fun onItemClick(itemView: View?, item: MoreItem?): Boolean {

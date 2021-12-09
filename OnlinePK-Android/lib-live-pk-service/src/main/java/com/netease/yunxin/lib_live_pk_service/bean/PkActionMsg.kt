@@ -5,8 +5,8 @@
 
 package com.netease.yunxin.lib_live_pk_service.bean
 
-import com.netease.yunxin.lib_live_pk_service.Constants.FailedReason
-import com.netease.yunxin.lib_live_pk_service.Constants.PkAction
+import com.netease.yunxin.lib_live_pk_service.PkConstants.FailedReason
+import com.netease.yunxin.lib_live_pk_service.PkConstants.PkAction
 
 data class PkActionMsg(
 
@@ -21,5 +21,7 @@ data class PkActionMsg(
      */
     val failReason: Int,
     val actionAnchor: PkUserInfo,
-    val targetAnchor: PkTargetAnchor
+    val targetAnchor: PkTargetAnchor,
+    val pkId: String,
+    val pkConfig: PkConfig?
 )

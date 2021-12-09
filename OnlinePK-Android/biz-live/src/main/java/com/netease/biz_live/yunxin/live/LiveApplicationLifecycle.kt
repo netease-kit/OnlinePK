@@ -14,10 +14,10 @@ import com.netease.neliveplayer.sdk.model.NESDKConfig
 import com.netease.yunxin.android.lib.network.common.NetworkClient
 import com.netease.yunxin.android.lib.network.common.NetworkConstant
 import com.netease.yunxin.kit.alog.ALog
-import com.netease.yunxin.nertc.demo.user.CommonUserNotify
-import com.netease.yunxin.nertc.demo.user.UserCenterService
+import com.netease.yunxin.login.sdk.AuthorManager
+import com.netease.yunxin.login.sdk.model.LoginCallback
+import com.netease.yunxin.login.sdk.model.UserInfo
 import com.netease.yunxin.nertc.module.base.AbsApplicationLifecycle
-import com.netease.yunxin.nertc.module.base.ModuleServiceMgr
 
 /**
  * Created by luc on 2020/11/12.
@@ -53,33 +53,30 @@ class LiveApplicationLifecycle : AbsApplicationLifecycle(
             NetworkConstant.ERROR_RESPONSE_CODE_TOKEN_FAIL
         ) { errorCode: Int, msg: String?, data: Any? ->
             ToastUtils.showLong(R.string.biz_live_login_expried_tips)
-            val service = ModuleServiceMgr.instance.getService(
-                UserCenterService::class.java
-            )
-            if (service.isLogin) {
-                service.logout(object : CommonUserNotify() {
-                    override fun onUserLogout(success: Boolean, code: Int) {
-                        if (success) {
-                            service.launchLogin(application.applicationContext)
-                        } else {
-                            ALog.e(TAG, "logout fail code is $code")
-                        }
+
+            //todo 启动Activity修改
+            if (AuthorManager.isLogin()) {
+//                AuthorManager.logout(object :LoginCallback<Void>{
+//                    override fun onError(errorCode: Int, errorMsg: String) {
+//                        ALog.e(TAG, "logout error", errorMsg)
+//                    }
+//
+//                    override fun onSuccess(data: Void?) {
+//                        AuthorManager.launchLogin(application.applicationContext)
+//                    }
+//
+//                })
+
+            } else {
+                AuthorManager.autoLogin(object :LoginCallback<UserInfo>{
+                    override fun onError(errorCode: Int, errorMsg: String) {
+//                        AuthorManager.launchLogin(application.applicationContext)
                     }
 
-                    override fun onError(exception: Throwable?) {
-                        super.onError(exception)
-                        ALog.e(TAG, "logout error", exception)
-                    }
-                })
-            } else {
-                service.tryLogin(object : CommonUserNotify() {
-                    override fun onUserLogin(success: Boolean, code: Int) {
+                    override fun onSuccess(data: UserInfo?) {
                         ToastUtils.showLong(R.string.biz_live_please_refresh)
                     }
 
-                    override fun onError(exception: Throwable?) {
-                        service.launchLogin(application.applicationContext)
-                    }
                 })
             }
         }
