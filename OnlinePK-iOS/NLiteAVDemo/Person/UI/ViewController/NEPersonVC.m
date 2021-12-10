@@ -77,7 +77,10 @@
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             if (![NEAccount shared].hasLogin) {
-                [[NENavigator shared] loginWithOptions:nil];
+                //[[NENavigator shared] loginWithOptions:nil];
+                [[AuthorManager shareInstance] startEntranceWithCompletion:^(YXUserInfo * _Nullable userinfo, NSError * _Nullable error) {
+                    [NEAccount imloginWithYXuser:[LoginManager getUserInfo]];
+                }];
             }else {
                 //个人信息
                 NEPersonInfoVC *vc = [[NEPersonInfoVC alloc] init];

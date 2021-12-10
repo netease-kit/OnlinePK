@@ -7,6 +7,7 @@
 // Use of this source code is governed by a MIT license that can be found in the LICENSE file.
 
 #import <Foundation/Foundation.h>
+#import <YXLogin/AuthorManager.h>
 
 // base host
 #define BASE_HOST @""
@@ -83,3 +84,5 @@ void setupLogger(void);
 
 /// 默认PK直播惩罚时长60s(1:00)
 #define kPkLivePunishTotalTime  60
+
+#define LoginManager  [AuthorManager shareInstance]

@@ -102,6 +102,10 @@ typedef void(^NEAccountActionBlock)(NEAccountAction action);
 
 + (void)updateUserInfo:(NEUser *)user;
 
++ (void)imloginWithYXuser:(YXUserInfo *)yxUser;
+
++ (void)syncLoginData:(YXUserInfo *)user;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -266,3 +266,6 @@
 "请输入手机号" = "Please enter your cell phone number";
 "未注册的手机号验证通过后将自动注册" = "Unregistered mobile phone number will be automatically registered after verification";
 "获取验证码" = "Accquire verification code";
+" 说点什么..." = "Say something";
+//统一登录内容
+

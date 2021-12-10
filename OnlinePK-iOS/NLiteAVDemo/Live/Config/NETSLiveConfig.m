@@ -65,8 +65,9 @@
 - (NERtcVideoEncodeConfiguration *)_defaultVideoConfig
 {
     NERtcVideoEncodeConfiguration *config = [[NERtcVideoEncodeConfiguration alloc] init];
-    config.maxProfile = kNERtcVideoProfileHD720P;
-    config.frameRate = kNERtcVideoFrameRateFps30;
+    config.width = 540;
+    config.height = 960;
+    config.frameRate = kNERtcVideoFrameRateFps15;
     return config;
 }
 

@@ -70,6 +70,13 @@
     }
 }
 
+- (void)clearData {
+    _tableView.contentInset = UIEdgeInsetsMake(_tableView.height, 0, 0, 0);
+    [self.messages removeAllObjects];
+    [self.pendingMessages removeAllObjects];
+    [self.tableView reloadData];
+}
+
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {

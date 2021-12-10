@@ -25,6 +25,7 @@
 #import "NEPkRoomApiService.h"
 #import "NECreateRoomResponseModel.h"
 #import "NEPkEnterRoomParams.h"
+#import "NETSInvitingBar.h"
 
 @interface NETSAudienceChatRoomCell ()<NETSPullStreamErrorViewDelegate, NETSAudienceMaskDelegate,NETSMutiConnectViewDelegate>
 
@@ -54,6 +55,8 @@
 @property(nonatomic, strong) NSArray *seatInfoArray;
 
 @property(nonatomic, strong) NEPkRoomApiService *roomApiService;
+//断网标记
+@property(nonatomic, assign) BOOL isBrokenNetwork;
 @end
 
 @implementation NETSAudienceChatRoomCell
@@ -139,6 +142,7 @@
     self.roomStatus = NETSAudienceRoomPullStream;
     [self.liveClosedMask removeFromSuperview];
     self.mask.left = 0;
+    [self.mask clearCurrentLiveRoomData];
 }
 
 - (void)shutdownPlayer {
@@ -152,8 +156,6 @@
 
 - (void)closeConnectMicRoomAction {
     [self.mask removeFromSuperview];
-//    [self.mask setUpBottomBarButtonType:NETSAudienceBottomRequestTypeNormal];
-    
     if (_connectMicView) {
         [self disconnectRoomWithUserId:self.roomModel.anchor.accountId];
         [self userLeaveRtcRoomAction];
@@ -197,6 +199,13 @@
 
 /// 重新连接
 - (void)clickRetryAction {
+    
+    if (self.isBrokenNetwork) {
+        [NETSToast showToast:NSLocalizedString(@"网络异常", nil)];
+        return;
+    }
+
+    [self.mask setUpBottomBarButtonType:NETSAudienceBottomRequestTypeNormal];
     [self.networkFailureView removeFromSuperview];
     self.mask.roomStatus = NETSAudienceRoomPullStream;
     [self _obtainChatroomInfo:self.roomModel isNeedEnterChatRoom:YES];
@@ -213,11 +222,13 @@
             YXAlogInfo(@"断网了");
             [self _showLiveRoomErrorView];
             [self shutdownPlayer];
-            
+            self.isBrokenNetwork = YES;
         }
             break;
 
-        default:
+        default:{
+            self.isBrokenNetwork = NO;
+        }
             break;
     }
 }
@@ -352,6 +363,7 @@
         return;
     }
 
+
     if (isOnWheat) {//上麦
         
         if ([seatInfo.userInfo.accountId isEqualToString:[NEAccount shared].userModel.accountId]) {
@@ -457,6 +469,9 @@
 }
 
 - (void)_showLiveRoomErrorView {
+    
+    [self.mask dismissApplySeatBar];
+
     ntes_main_async_safe(^{
         self.roomStatus = self.mask.roomStatus = NETSAudienceRoomLiveError;
         [self.mask addSubview:self.networkFailureView];
@@ -472,7 +487,6 @@
             @strongify(self);
             self.mask.info = info;
             CGFloat y = 0;
-//            if (info.pkRecord && (info.live.liveStatus == NEPkliveStatusPkLiving || info.live.liveStatus == NEPkliveStatusPunish)) {
             if ((info.live.liveStatus == NEPkliveStatusPkLiving || info.live.liveStatus == NEPkliveStatusPunish)) {
                 CGFloat top = 64 + (kIsFullScreen ? 44 : 20);
                 y = top - (kScreenHeight - (640 / 720.0 * kScreenWidth)) / 2.0;

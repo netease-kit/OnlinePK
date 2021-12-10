@@ -20,7 +20,6 @@
 #import "NETSToast.h"
 #import "NEPkLiveAttachment.h"
 
-
 @interface NEMenuViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property(strong,nonatomic)UITableView *tableView;
 @property(strong,nonatomic)UIImageView *bgImageView;
@@ -118,10 +117,15 @@ static NSString *cellID = @"menuCellID";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (![NEAccount shared].hasLogin) {
-        [[NENavigator shared] loginWithOptions:nil];
+    NSLog(@"[NEAccount shared].hasLogin : %d", [NEAccount shared].hasLogin);
+    if ([NEAccount shared].hasLogin == NO) {
+        [LoginManager startEntranceWithCompletion:^(YXUserInfo * _Nullable userinfo, NSError * _Nullable error) {
+            //[NEAccount imloginWithYXuser:[LoginManager getUserInfo]];
+            [NEAccount syncLoginData:userinfo];
+        }];
         return;
     }
+    
     if ([_datas count] > indexPath.section) {
         NSArray *array = _datas[indexPath.section];
         if ([array count] > indexPath.row) {

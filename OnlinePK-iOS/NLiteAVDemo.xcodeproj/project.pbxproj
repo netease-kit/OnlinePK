@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1CB4421E46857BC7298FF8EC /* Pods_NEPkDemo_NLiteAVDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932CEC9E9F60006D616F81BD /* Pods_NEPkDemo_NLiteAVDemo.framework */; };
 		390350FF2660D1E300B87E6B /* NETSRtcConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 390350FE2660D1E300B87E6B /* NETSRtcConfig.m */; };
 		39179A33262D846C007F74A4 /* NETSMutiConnectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39179A32262D846C007F74A4 /* NETSMutiConnectView.m */; };
 		39179A37262D88AA007F74A4 /* NETSMultiConnectCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 39179A36262D88AA007F74A4 /* NETSMultiConnectCollectionCell.m */; };
@@ -88,8 +89,12 @@
 		395F2CBE26CA0E00006F5638 /* NEVideoOption.m in Sources */ = {isa = PBXBuildFile; fileRef = 395F2CBD26CA0E00006F5638 /* NEVideoOption.m */; };
 		395F2D1526CB98D9006F5638 /* NEPkPassthroughService.m in Sources */ = {isa = PBXBuildFile; fileRef = 395F2D1426CB98D9006F5638 /* NEPkPassthroughService.m */; };
 		395F2D1926CB9D39006F5638 /* NEPkChatroomMsgHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = 395F2D1826CB9D39006F5638 /* NEPkChatroomMsgHandle.m */; };
+		3970041C2747A70C006A1800 /* NEPkConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3970041B2747A70C006A1800 /* NEPkConfigModel.m */; };
+		3970041F2747A814006A1800 /* NEPKInviteConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3970041E2747A814006A1800 /* NEPKInviteConfigModel.m */; };
 		39771BDE26DCB952005B7EE1 /* NESeatInfoFilterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 39771BDD26DCB952005B7EE1 /* NESeatInfoFilterModel.m */; };
 		39796F7E25AD77CD0070301E /* UIViewController+Gesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 39796F7D25AD77CD0070301E /* UIViewController+Gesture.m */; };
+		397F3088274B8FF90033A894 /* NEGCDTimerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 397F3087274B8FF90033A894 /* NEGCDTimerManager.m */; };
+		39862819274F5B95007AF632 /* UIControl+repeatclick.m in Sources */ = {isa = PBXBuildFile; fileRef = 39862818274F5B95007AF632 /* UIControl+repeatclick.m */; };
 		3987C22226D4E7220033C6B7 /* NEPkInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3987C22126D4E7220033C6B7 /* NEPkInfoModel.m */; };
 		3987C25D26D5DCF80033C6B7 /* NEPkRewardParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 3987C25C26D5DCF80033C6B7 /* NEPkRewardParams.m */; };
 		3987C26026D5DE730033C6B7 /* NEPKRewardTopParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 3987C25F26D5DE730033C6B7 /* NEPKRewardTopParams.m */; };
@@ -123,7 +128,6 @@
 		39DE2F5726304A1F00EDC2D5 /* NTESActionSheetPresentationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DE2F5226304A1F00EDC2D5 /* NTESActionSheetPresentationController.m */; };
 		39DE2F5E263120E900EDC2D5 /* NTESCollectStatusCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DE2F5A263120E800EDC2D5 /* NTESCollectStatusCell.m */; };
 		39DE2F5F263120E900EDC2D5 /* NTESCollectStatusItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DE2F5D263120E900EDC2D5 /* NTESCollectStatusItem.m */; };
-		3EE4BE731B2ECB534C2AB261 /* libPods-NEPkDemo-NLiteAVDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D566519CEA16AB0A9405AC3 /* libPods-NEPkDemo-NLiteAVDemo.a */; };
 		865FD37125B80D3200B28A8A /* 1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 865FD36F25B80D3200B28A8A /* 1.mp3 */; };
 		865FD37225B80D3200B28A8A /* 2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 865FD37025B80D3200B28A8A /* 2.mp3 */; };
 		865FD39725B9BCFF00B28A8A /* NETSGiftAnimationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 865FD39625B9BCFF00B28A8A /* NETSGiftAnimationView.m */; };
@@ -268,7 +272,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0D566519CEA16AB0A9405AC3 /* libPods-NEPkDemo-NLiteAVDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NEPkDemo-NLiteAVDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		390350FD2660D1E300B87E6B /* NETSRtcConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NETSRtcConfig.h; sourceTree = "<group>"; };
 		390350FE2660D1E300B87E6B /* NETSRtcConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NETSRtcConfig.m; sourceTree = "<group>"; };
 		39179A31262D846C007F74A4 /* NETSMutiConnectView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NETSMutiConnectView.h; sourceTree = "<group>"; };
@@ -433,11 +436,19 @@
 		395F2D1426CB98D9006F5638 /* NEPkPassthroughService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NEPkPassthroughService.m; sourceTree = "<group>"; };
 		395F2D1726CB9D39006F5638 /* NEPkChatroomMsgHandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NEPkChatroomMsgHandle.h; sourceTree = "<group>"; };
 		395F2D1826CB9D39006F5638 /* NEPkChatroomMsgHandle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NEPkChatroomMsgHandle.m; sourceTree = "<group>"; };
+		3970041A2747A70C006A1800 /* NEPkConfigModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NEPkConfigModel.h; sourceTree = "<group>"; };
+		3970041B2747A70C006A1800 /* NEPkConfigModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NEPkConfigModel.m; sourceTree = "<group>"; };
+		3970041D2747A814006A1800 /* NEPKInviteConfigModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NEPKInviteConfigModel.h; sourceTree = "<group>"; };
+		3970041E2747A814006A1800 /* NEPKInviteConfigModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NEPKInviteConfigModel.m; sourceTree = "<group>"; };
 		39771BDC26DCB952005B7EE1 /* NESeatInfoFilterModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NESeatInfoFilterModel.h; sourceTree = "<group>"; };
 		39771BDD26DCB952005B7EE1 /* NESeatInfoFilterModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NESeatInfoFilterModel.m; sourceTree = "<group>"; };
 		39796F7925AC25E60070301E /* authpack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = authpack.h; sourceTree = "<group>"; };
 		39796F7C25AD77CD0070301E /* UIViewController+Gesture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Gesture.h"; sourceTree = "<group>"; };
 		39796F7D25AD77CD0070301E /* UIViewController+Gesture.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Gesture.m"; sourceTree = "<group>"; };
+		397F3086274B8FF90033A894 /* NEGCDTimerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NEGCDTimerManager.h; sourceTree = "<group>"; };
+		397F3087274B8FF90033A894 /* NEGCDTimerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NEGCDTimerManager.m; sourceTree = "<group>"; };
+		39862817274F5B95007AF632 /* UIControl+repeatclick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIControl+repeatclick.h"; sourceTree = "<group>"; };
+		39862818274F5B95007AF632 /* UIControl+repeatclick.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIControl+repeatclick.m"; sourceTree = "<group>"; };
 		3987C22026D4E7220033C6B7 /* NEPkInfoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NEPkInfoModel.h; sourceTree = "<group>"; };
 		3987C22126D4E7220033C6B7 /* NEPkInfoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NEPkInfoModel.m; sourceTree = "<group>"; };
 		3987C25B26D5DCF80033C6B7 /* NEPkRewardParams.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NEPkRewardParams.h; sourceTree = "<group>"; };
@@ -665,6 +676,7 @@
 		86D73E2725AE9F1400417AF1 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		86D73E2925AE9F1D00417AF1 /* CoreML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreML.framework; path = System/Library/Frameworks/CoreML.framework; sourceTree = SDKROOT; };
 		86D73E2B25AE9F2800417AF1 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		932CEC9E9F60006D616F81BD /* Pods_NEPkDemo_NLiteAVDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NEPkDemo_NLiteAVDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C3E631E57C6DCADE269362E /* Pods-NLiteAVDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NLiteAVDemo.debug.xcconfig"; path = "Target Support Files/Pods-NLiteAVDemo/Pods-NLiteAVDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		C71DDB0E2566449700E28A27 /* NEModifyNicknameTask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NEModifyNicknameTask.h; sourceTree = "<group>"; };
 		C71DDB0F2566449700E28A27 /* NEModifyNicknameTask.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NEModifyNicknameTask.m; sourceTree = "<group>"; };
@@ -783,7 +795,7 @@
 			files = (
 				3958C43226C27A4500A0BCE8 /* NELiveRoom.framework in Frameworks */,
 				86D73E2625AE9F0B00417AF1 /* AVFoundation.framework in Frameworks */,
-				3EE4BE731B2ECB534C2AB261 /* libPods-NEPkDemo-NLiteAVDemo.a in Frameworks */,
+				1CB4421E46857BC7298FF8EC /* Pods_NEPkDemo_NLiteAVDemo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -814,7 +826,7 @@
 				86D73E2725AE9F1400417AF1 /* CoreMedia.framework */,
 				86D73E2525AE9F0B00417AF1 /* AVFoundation.framework */,
 				86D73E2325AE9F0100417AF1 /* Accelerate.framework */,
-				0D566519CEA16AB0A9405AC3 /* libPods-NEPkDemo-NLiteAVDemo.a */,
+				932CEC9E9F60006D616F81BD /* Pods_NEPkDemo_NLiteAVDemo.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1088,6 +1100,15 @@
 				39D76A4F26CE5D58005DECE5 /* NEPkLiveAttachment.m */,
 			);
 			path = PKChatRoomMessageHandle;
+			sourceTree = "<group>";
+		};
+		397F3085274B8FF90033A894 /* NEGCDTimerManager */ = {
+			isa = PBXGroup;
+			children = (
+				397F3086274B8FF90033A894 /* NEGCDTimerManager.h */,
+				397F3087274B8FF90033A894 /* NEGCDTimerManager.m */,
+			);
+			path = NEGCDTimerManager;
 			sourceTree = "<group>";
 		};
 		399440DB26E74C510084BFAF /* anchorMainVc */ = {
@@ -1740,16 +1761,16 @@
 		86D73DC525ABFD0500417AF1 /* NETSRequest */ = {
 			isa = PBXGroup;
 			children = (
-				86D73DC625ABFD0500417AF1 /* NETSApiModelMapping.m */,
-				86D73DC725ABFD0500417AF1 /* NETSApiOptions.h */,
-				86D73DC825ABFD0500417AF1 /* SKVObject.h */,
 				86D73DC925ABFD0500417AF1 /* NETSRequest.h */,
+				86D73DCF25ABFD0500417AF1 /* NETSRequest.m */,
+				86D73DCE25ABFD0500417AF1 /* NETSService.h */,
 				86D73DCA25ABFD0500417AF1 /* NETSService.m */,
 				86D73DCB25ABFD0500417AF1 /* NETSApiModelMapping.h */,
-				86D73DCC25ABFD0500417AF1 /* SKVObject.m */,
+				86D73DC625ABFD0500417AF1 /* NETSApiModelMapping.m */,
+				86D73DC725ABFD0500417AF1 /* NETSApiOptions.h */,
 				86D73DCD25ABFD0500417AF1 /* NETSApiOptions.m */,
-				86D73DCE25ABFD0500417AF1 /* NETSService.h */,
-				86D73DCF25ABFD0500417AF1 /* NETSRequest.m */,
+				86D73DC825ABFD0500417AF1 /* SKVObject.h */,
+				86D73DCC25ABFD0500417AF1 /* SKVObject.m */,
 			);
 			path = NETSRequest;
 			sourceTree = "<group>";
@@ -1817,7 +1838,6 @@
 				C75E3E3D256379C1001A4296 /* Person */,
 				C7664E862511AE1D005E26A2 /* Login */,
 				C7664E9A2511AE1D005E26A2 /* Menu */,
-				C7664EA22511AE1D005E26A2 /* Service */,
 				C7664EA82511AE1D005E26A2 /* Utils */,
 				C7B5068624F6439E00C4D992 /* NLiteAVDemo.entitlements */,
 				C758CCD824EB7F5A003C406A /* AppDelegate.h */,
@@ -1967,6 +1987,7 @@
 		C7664E9A2511AE1D005E26A2 /* Menu */ = {
 			isa = PBXGroup;
 			children = (
+				C7664EA22511AE1D005E26A2 /* Service */,
 				C7664E9B2511AE1D005E26A2 /* View */,
 			);
 			path = Menu;
@@ -2004,6 +2025,7 @@
 		C7664EA82511AE1D005E26A2 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				397F3085274B8FF90033A894 /* NEGCDTimerManager */,
 				39BDF0BC2636996300FFB3ED /* NTESSegmentCtrl */,
 				39DE2F4E26304A1F00EDC2D5 /* NTESActionSheetTransitioning */,
 				393A6F4B25B1478F00C9A0A2 /* Libs */,
@@ -2033,6 +2055,8 @@
 				86D73DBD25ABFCC700417AF1 /* NSString+NTES.m */,
 				86D73DBA25ABFCA300417AF1 /* UIButton+NTES.h */,
 				86D73DBB25ABFCA300417AF1 /* UIButton+NTES.m */,
+				39862817274F5B95007AF632 /* UIControl+repeatclick.h */,
+				39862818274F5B95007AF632 /* UIControl+repeatclick.m */,
 				C7664EAD2511AE1D005E26A2 /* NSDictionary+NTESJson.h */,
 				C7664EB12511AE1D005E26A2 /* NSDictionary+NTESJson.m */,
 				C7664EAA2511AE1D005E26A2 /* UIColor+NTES.h */,
@@ -2109,6 +2133,10 @@
 				3987C26226D5DFC20033C6B7 /* NERewardTopResponseModel.m */,
 				39771BDC26DCB952005B7EE1 /* NESeatInfoFilterModel.h */,
 				39771BDD26DCB952005B7EE1 /* NESeatInfoFilterModel.m */,
+				3970041A2747A70C006A1800 /* NEPkConfigModel.h */,
+				3970041B2747A70C006A1800 /* NEPkConfigModel.m */,
+				3970041D2747A814006A1800 /* NEPKInviteConfigModel.h */,
+				3970041E2747A814006A1800 /* NEPKInviteConfigModel.m */,
 			);
 			path = PKResponseModel;
 			sourceTree = "<group>";
@@ -2230,11 +2258,9 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-NEPkDemo-NLiteAVDemo/Pods-NEPkDemo-NLiteAVDemo-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-NEPkDemo-NLiteAVDemo/Pods-NEPkDemo-NLiteAVDemo-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2287,11 +2313,9 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-NEPkDemo-NLiteAVDemo/Pods-NEPkDemo-NLiteAVDemo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-NEPkDemo-NLiteAVDemo/Pods-NEPkDemo-NLiteAVDemo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2426,8 +2450,10 @@
 				86D73DA425ABFB6000417AF1 /* NETSLiveEndView.m in Sources */,
 				393A6FF925B1479000C9A0A2 /* LOTShapeGradientFill.m in Sources */,
 				86D73DBF25ABFCC700417AF1 /* NSString+NTES.m in Sources */,
+				3970041C2747A70C006A1800 /* NEPkConfigModel.m in Sources */,
 				86D73DA725ABFB6000417AF1 /* NETSAudienceChatRoomCell.m in Sources */,
 				393A6FDE25B1479000C9A0A2 /* LOTSizeInterpolator.m in Sources */,
+				3970041F2747A814006A1800 /* NEPKInviteConfigModel.m in Sources */,
 				393A700125B1479000C9A0A2 /* LOTShapeTransform.m in Sources */,
 				393A700E25B1479000C9A0A2 /* LOTCacheProvider.m in Sources */,
 				39BDF1002636B30F00FFB3ED /* NETSBaseTabViewCell.m in Sources */,
@@ -2446,6 +2472,7 @@
 				393A6FF225B1479000C9A0A2 /* CALayer+Compat.m in Sources */,
 				393A6FEB25B1479000C9A0A2 /* LOTGradientFillRender.m in Sources */,
 				C7664EDA2511AE1E005E26A2 /* UIImage+NTES.m in Sources */,
+				397F3088274B8FF90033A894 /* NEGCDTimerManager.m in Sources */,
 				C7664EDD2511AE1E005E26A2 /* NEBaseViewController.m in Sources */,
 				86D73D9825ABFB6000417AF1 /* NETSCanvasModel.m in Sources */,
 				86D73D7225ABFB6000417AF1 /* NETSLiveListCell.m in Sources */,
@@ -2515,6 +2542,7 @@
 				86D73DD825ABFD0500417AF1 /* NETSApiModelMapping.m in Sources */,
 				39D76A3E26CD31DB005DECE5 /* NEPassthroughPkInviteModel.m in Sources */,
 				393A701225B1479000C9A0A2 /* LOTKeyframe.m in Sources */,
+				39862819274F5B95007AF632 /* UIControl+repeatclick.m in Sources */,
 				86D73DA825ABFB6000417AF1 /* NETSAudienceMask.m in Sources */,
 				393A6FFE25B1479000C9A0A2 /* LOTShapePath.m in Sources */,
 				39BDF0DA26369DF800FFB3ED /* NSObject+additions.m in Sources */,
@@ -2726,7 +2754,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Sources/NELivePlayerFramework.framework",
 				);
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.netease.yunxin.app.pklive;
 				PRODUCT_NAME = "网易云信互动直播";
 				PROVISIONING_PROFILE_SPECIFIER = "Wildcard Dev";
@@ -2745,7 +2773,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = NLiteAVDemo/NLiteAVDemo.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 569GNZ5392;
@@ -2766,10 +2794,10 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Sources/NELivePlayerFramework.framework",
 				);
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.netease.yunxin.app.pklive;
 				PRODUCT_NAME = "网易云信互动直播";
-				PROVISIONING_PROFILE_SPECIFIER = "Wildcard Dev";
+				PROVISIONING_PROFILE_SPECIFIER = enterpriseForWildCard;
 				SWIFT_OBJC_BRIDGING_HEADER = "NLiteAVDemo/Utils/Macro/NLiteAVDemo-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

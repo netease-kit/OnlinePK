@@ -150,6 +150,15 @@ typedef NS_ENUM(NSUInteger,NEPKStatus) {
     NEPKStatusPkPunish      = 6,//惩罚中
 };
 
+//客户端维护的本地PK状态
+typedef NS_ENUM(NSUInteger,NELocalPkState) {
+    NELocalPkStateInitial       = 0,//未开始
+    NELocalPkStateInviting      = 1,//邀请中
+    NELocalPkStateAgree         = 2,//已同意
+    NELocalPkStatePkIng         = 3,//PK中
+    NELocalPkStateEnd           = 4,//PK结束
+};
+
 typedef NS_ENUM(NSUInteger,NESeatFilterType) {
     NESeatFilterTypeApplying    = 1, //观众正在申请
     NESeatFilterTypeNormal      = 2, //普通观众

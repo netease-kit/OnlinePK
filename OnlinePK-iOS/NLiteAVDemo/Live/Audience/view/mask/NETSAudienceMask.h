@@ -65,7 +65,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)closeConnectMicRoom;
 //设置maskview底部连麦状态按钮
 - (void)setUpBottomBarButtonType:(NETSAudienceBottomRequestType)buttonType;
-
+//清空直播间数据
+- (void)clearCurrentLiveRoomData;
+//去除请求上麦的请求视图
+- (void)dismissApplySeatBar;
 @end
 
 NS_ASSUME_NONNULL_END

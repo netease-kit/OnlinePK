@@ -10,6 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class NEPkConfigModel;
 
 @interface NEPkInviteActionAnchorModel : NSObject
 //房间编号
@@ -36,6 +37,8 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 
+
+
 @interface NEPassthroughPkInviteModel : NSObject
 
 @property(nonatomic, strong) NSString *senderAccountId;
@@ -49,7 +52,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong) NEPkInviteActionAnchorModel *actionAnchor;
 //目标主播
 @property(nonatomic, strong) NEPkInviteTargetAnchorModel *targetAnchor;
-
+//pk Id
+@property(nonatomic, strong) NSString *pkId;
+//pk 相关配置
+@property(nonatomic, strong) NEPkConfigModel *pkConfig;
 @end
 
 

@@ -223,6 +223,8 @@
 
 - (NSURLRequest *)_getURLRequest
 {
+    
+
     if (_options.apiMethod == NETSRequestMethodPOST) {
         return [self _postRequest];
     }
@@ -241,6 +243,7 @@
     [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [request setValue:[NEAccount shared].accessToken forHTTPHeaderField:@"accessToken"];
+    [request setTimeoutInterval:60];
 //    YXAlogInfo(@"accessToken:%@", [NEAccount shared].accessToken);
     NSDictionary *paramsDic = [self _paramDict];
     NSError *error;
@@ -271,6 +274,8 @@
     [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [request setValue:[NEAccount shared].accessToken forHTTPHeaderField:@"accessToken"];
+    [request setTimeoutInterval:60];
+
     YXAlogInfo(@"accessToken:%@", [NEAccount shared].accessToken);
     
     return [request copy];

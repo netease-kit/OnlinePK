@@ -10,6 +10,7 @@
 #import "NETSPkEnum.h"
 #import "NEPKRewardTopParams.h"
 #import "NERewardTopResponseModel.h"
+#import "NEPKInviteConfigModel.h"
 
 @implementation NEPkService
 
@@ -69,7 +70,8 @@
         @"targetAccountId"  :  accountId
     };
     options.modelMapping = @[
-        [NETSApiModelMapping mappingWith:@"/" mappingClass:[NSDictionary class]  isArray:NO]
+//        [NETSApiModelMapping mappingWith:@"/" mappingClass:[NSDictionary class]  isArray:NO]
+        [NETSApiModelMapping mappingWith:@"/data" mappingClass:[NEPKInviteConfigModel class] isArray:NO],
     ];
     NETSRequest *resuest = [[NETSRequest alloc] initWithOptions:options];
     resuest.completionBlock = successBlock;

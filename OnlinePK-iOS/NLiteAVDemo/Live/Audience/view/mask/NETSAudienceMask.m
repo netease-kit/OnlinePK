@@ -19,10 +19,11 @@
 #import "NETSAnchorTopInfoView.h"
 #import "TopmostView.h"
 #import "NETSAudienceBottomBar.h"
+#import "NETSPullStreamErrorView.h"
 
 #import "NETSConnectStatusViewController.h"
 #import "NTESActionSheetNavigationController.h"
-
+#import "NETSAudienceCollectionViewVC.h"
 
 #import <NELivePlayerFramework/NELivePlayerNotication.h>
 #import "NETSGCDTimer.h"
@@ -398,7 +399,7 @@
     [coreEngine enableLocalAudio:YES];
     [coreEngine enableLocalVideo:YES];
     
-    int result = [NERtcEngine.sharedEngine joinChannelWithToken:data.avRoomCheckSum channelName:data.avRoomCName myUid:[data.avRoomUid longLongValue] completion:^(NSError * _Nullable error, uint64_t channelId, uint64_t elapesd) {
+    int result = [NERtcEngine.sharedEngine joinChannelWithToken:data.avRoomCheckSum channelName:data.avRoomCName myUid:[data.avRoomUid longLongValue] completion:^(NSError * _Nullable error, uint64_t channelId, uint64_t elapesd,uint64_t uid) {
         if (error) {
             YXAlogError(@"audience joinChannel failed， error = %@",error);
         }else{
@@ -460,8 +461,10 @@
 
     if (self.delegate && [self.delegate respondsToSelector:@selector(didChangeRoomStatus:)]) {
         CGFloat height = [userInfo[NELivePlayerVideoHeightKey] floatValue];
+        CGFloat width = [userInfo[NELivePlayerVideoWidthKey] floatValue];
+
         NETSAudienceStreamStatus status = NETSAudienceStreamDefault;
-        if (height == 640) {
+        if (height == 640 && width == 720) {
             status = NETSAudienceStreamMerge;
         }
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -542,8 +545,7 @@
     // pk状态栏变更
     [self _layoutPkStatusBarWithStatus:_liveStatus];
     // pk开始: 启动倒计时,刷新内容
-    int32_t countdown = kPkLiveTotalTime - (int32_t)((liveStartData.sendTime - liveStartData.pkStartTime) / 1000);
-    [self.pkStatusBar countdownWithSeconds:countdown prefix:@"PK "];
+    [self.pkStatusBar countdownWithSeconds:liveStartData.pkCountDown prefix:@"PK "];
     [self.pkStatusBar refreshWithLeftRewardCoins:0 leftRewardAvatars:@[] rightRewardCoins:0 rightRewardAvatars:@[]];
     
 }
@@ -644,6 +646,13 @@
 #pragma mark - NESeatServiceDelegate
 //主播同意了观众的连麦申请
 - (void)onSeatApplyAccepted:(NESeatApplyAcceptEvent *)event {
+    YXAlogInfo(@"onSeatApplyAccepted success,")
+    for (UIView *maskSubview in self.subviews) {//断网重连 暂停上麦
+        if ([maskSubview isKindOfClass:[NETSPullStreamErrorView class]]) {
+            return;
+        }
+    }
+
     self.bottomBar.buttonType = NETSAudienceBottomRequestTypeAccept;
     //取消观众申请连麦的bar
     [self.requestConnectMicBar dismiss];
@@ -665,6 +674,10 @@
 
 - (void)onSeatPickRequest:(NESeatPickRequestEvent *)event {
     
+    UIViewController *currentCtrl = [NETSUniversalTool getCurrentActivityViewController];
+    if (![currentCtrl isKindOfClass:[NETSAudienceCollectionViewVC class]]) {
+        return;
+    }
     //rtc delegate强引用导致观众控制器无法释放，这里需做去重判断，弹窗避免弹两次
     [NETSAlertPrompt showAlert:UIAlertControllerStyleAlert title:NSLocalizedString(@"邀请上麦", nil) message:NSLocalizedString(@"主播邀请你上麦", nil) actionArr:@[NSLocalizedString(@"拒绝", nil),NSLocalizedString(@"上麦", nil)] actionColors:@[HEXCOLOR(0x666666),HEXCOLOR(0x007AFF)] cancel:nil index:^(NSInteger index) {
         if (index == 1) {
@@ -698,6 +711,7 @@
 
 -(void)onSeatEntered:(NESeatEnterEvent *)event {
 
+    YXAlogInfo(@"onSeatEntered success,accountId = %@",event.seatInfo.userInfo.accountId);
     event.seatInfo.avRoomUid = event.avRoomUser.avRoomUid.longLongValue;
     if (self.delegate && [self.delegate respondsToSelector:@selector(memberSeatStateChanged:seatInfo:)]) {
         [self.delegate memberSeatStateChanged:YES seatInfo:event.seatInfo];
@@ -719,6 +733,7 @@
 
 - (void)onSeatLeft:(NESeatLeaveEvent *)event {
     
+    YXAlogInfo(@"onSeatEntered success,accountId = %@",event.seatInfo.userInfo.accountId);
     if (self.delegate && [self.delegate respondsToSelector:@selector(memberSeatStateChanged:seatInfo:)]) {
         [self.delegate memberSeatStateChanged:NO seatInfo:event.seatInfo];
     }
@@ -938,7 +953,22 @@
     }
 }
 
+- (void)clearCurrentLiveRoomData {
+    [self.chatView clearData];
+    if (_liveStatus == NEPkliveStatusPkLiving) {
+        [self.inviteeInfo removeFromSuperview];
+        [self.pkStatusBar removeFromSuperview];
+    }else if (_liveStatus == NEPkliveStatusPunish) {
+        [self.pkSuccessIco removeFromSuperview];
+        [self.pkFailedIco removeFromSuperview];
+    }
+}
 
+-(void)dismissApplySeatBar {
+    if (_requestConnectMicBar) {
+        [self.requestConnectMicBar dismiss];
+    }
+}
 #pragma mark - NTESAudienceConnectStatusDelegate
  //设置麦克风开关
 - (void)didSetMicOn:(BOOL)micOn {

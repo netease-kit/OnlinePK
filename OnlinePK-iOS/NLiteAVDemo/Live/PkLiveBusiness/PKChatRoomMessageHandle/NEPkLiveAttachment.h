@@ -37,7 +37,7 @@ typedef NS_ENUM(NSUInteger, NELiveAttachmentType) {
 //pk开始时间
 @property(nonatomic, assign) int64_t pkStartTime;
 //pk结束时间
-@property(nonatomic, assign) int64_t pkCountDown;
+@property(nonatomic, assign) int32_t pkCountDown;
 @property(nonatomic, strong) NEPkLiveStartSubModel *inviter;
 @property(nonatomic, strong) NEPkLiveStartSubModel *invitee;
 @end

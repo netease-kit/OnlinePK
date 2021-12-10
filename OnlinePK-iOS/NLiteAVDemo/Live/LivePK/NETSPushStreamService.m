@@ -60,6 +60,55 @@
 }
 
 + (nullable NERtcLiveStreamTaskInfo *)streamTaskWithUrl:(NSString *)url
+                                                uids:(NSArray<NSNumber *> *)uids
+                                           audioPush:(BOOL)audioPush
+                                      otherAnchorUid:(int64_t)otherUid{
+    if ([uids count] > 2 || [uids count] == 0) {
+        ApiLogInfo(@"构建pushStreamTask失败: uid集合元素数量不符合预期");
+        return nil;
+    }
+    
+    BOOL isPking = ([uids count] == 2);
+    
+    NERtcLiveStreamTaskInfo *taskInfo = [[NERtcLiveStreamTaskInfo alloc] init];
+    taskInfo.taskID = [NSString md5ForLower32Bate:url];
+    taskInfo.streamURL = url;
+    taskInfo.lsMode = kNERtcLsModeVideo;
+    
+    CGFloat width = 720;
+    CGFloat height = isPking ? 640 : 1280;
+    
+    //设置整体布局
+    NERtcLiveStreamLayout *streamLayout = [[NERtcLiveStreamLayout alloc] init];
+    streamLayout.width = width;
+    streamLayout.height = height;
+    taskInfo.layout = streamLayout;
+    
+    NSArray *users = nil;
+    if (isPking) {
+        NERtcLiveStreamUserTranscoding *selfTranscoding = [self _streamUserTranscodingWithUid:[uids.firstObject longLongValue]
+                                                                                        point:CGPointMake(0, 0)
+                                                                                         size:CGSizeMake(360, 640)];
+        NERtcLiveStreamUserTranscoding *otherTranscoding = [self _streamUserTranscodingWithUid:[uids.lastObject longLongValue]
+                                                                                         point:CGPointMake(360, 0)
+                                                                                          size:CGSizeMake(360, 640)];
+        
+        
+        UInt64 firstUid = [uids.firstObject longLongValue];
+        if (firstUid == otherUid) {
+            selfTranscoding.audioPush = audioPush;
+        }else{
+            otherTranscoding.audioPush = audioPush;
+        }
+        users = @[selfTranscoding, otherTranscoding];
+    }
+    taskInfo.layout.users = users;
+    return taskInfo;
+}
+
+
+
++ (nullable NERtcLiveStreamTaskInfo *)streamTaskWithUrl:(NSString *)url
                                                    uids:(NSArray<NSNumber *> *)uids
 {
     if ([uids count] > 2 || [uids count] == 0) {
@@ -91,6 +140,7 @@
         NERtcLiveStreamUserTranscoding *otherTranscoding = [self _streamUserTranscodingWithUid:[uids.lastObject longLongValue]
                                                                                          point:CGPointMake(360, 0)
                                                                                           size:CGSizeMake(360, 640)];
+
         users = @[selfTranscoding, otherTranscoding];
     } else {
         NERtcLiveStreamUserTranscoding *selfTranscoding = [self _streamUserTranscodingWithUid:[uids.firstObject longLongValue]
@@ -98,7 +148,6 @@
                                                                                          size:CGSizeMake(width, height)];
         users = @[selfTranscoding];
     }
-    
     taskInfo.layout.users = users;
     
     return taskInfo;
@@ -124,6 +173,7 @@
 + (void)updateLiveStreamTask:(NERtcLiveStreamTaskInfo *)taskInfo
                successBlock:(void(^)(void))successBlock
                 failedBlock:(void(^)(NSError *))failedBlock {
+    
     int ret = [NERtcEngine.sharedEngine updateLiveStreamTask:taskInfo
                                                compeltion:^(NSString * _Nonnull taskId, kNERtcLiveStreamError errorCode) {
     if (errorCode == 0) {
@@ -174,7 +224,7 @@
         return;
     }
     
-    int res = [NERtcEngine.sharedEngine joinChannelWithToken:token channelName:channelName myUid:uid completion:^(NSError * _Nullable error, uint64_t channelId, uint64_t elapesd) {
+    int res = [NERtcEngine.sharedEngine joinChannelWithToken:token channelName:channelName myUid:uid completion:^(NSError * _Nullable error, uint64_t channelId, uint64_t elapesd,uint64_t uid) {
         if (error) {
             if (failedBlock) { failedBlock(error, nil); }
         } else {
@@ -184,6 +234,7 @@
             } failedBlock:failedBlock];
         }
     }];
+    
     if (res != 0) {
         if (failedBlock) {
             if (res == kNERtcErrInvalidState) {//30005是因为还未退出rtc导致的
