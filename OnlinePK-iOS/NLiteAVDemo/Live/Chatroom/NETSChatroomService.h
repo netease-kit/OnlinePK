@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "NETSLiveModel.h"
 #import "NETSGiftModel.h"
-#import "NETSLiveAttachment.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -65,30 +65,6 @@ NS_ASSUME_NONNULL_BEGIN
               successBlock:(void(^)(NSArray<NIMChatroomMember *> * _Nullable))successBlock
                failedBlock:(void(^)(NSError *))failedBlock;
 
-///
-///
-///
-
-/**
-发送pk开始/结束消息
-@param state       - pk状态
-*/
-+ (NIMMessage *)pkMessageWithState:(NETSLivePkState)state
-                  startedTimestamp:(int64_t)startedTimestamp
-                  currentTimestamp:(int64_t)currentTimestamp
-               otherAnchorNickname:(NSString *)otherAnchorNickname
-                 otherAnchorAvatar:(NSString *)otherAnchorAvatar
-                  currentAnchorWin:(int32_t)currentAnchorWin;
-
-/**
- 发送pk惩罚信息
- */
-+ (NIMMessage *)punishMessageWithState:(NETSLivePkState)state
-                      startedTimestamp:(int64_t)startedTimestamp
-                      currentTimestamp:(int64_t)currentTimestamp
-                   otherAnchorNickname:(NSString *)otherAnchorNickname
-                     otherAnchorAvatar:(NSString *)otherAnchorAvatar
-                      currentAnchorWin:(int32_t)currentAnchorWin;
 
 /**
  主播云币变化消息

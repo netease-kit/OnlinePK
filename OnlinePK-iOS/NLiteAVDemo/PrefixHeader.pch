@@ -31,5 +31,5 @@
 #import <NERtcSDK/NERtcSDK.h>
 #import "NETSToast.h"
 #import "NETSRtcConfig.h"
-
+#import <NELiveRoom/NELiveRoom.h>
 #endif /* PrefixHeader_pch */

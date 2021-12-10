@@ -3,14 +3,13 @@
 //  NLiteAVDemo
 //
 //  Created by vvj on 2021/4/26.
-//  Copyright © 2021 Netease. All rights reserved.
-//
+// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
 
 #import "NETSBaseTabViewCell.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
-@class NETSConnectMicMemberModel;
+@class NESeatInfoFilterModel;
 @protocol NETSMicManageViewDelegate <NSObject>
 
 /// 关闭视屏
@@ -22,8 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)didCloseMicrophone:(BOOL)isClose accountId:(NSString *)accountId;
 
 /// 挂断连麦
-/// @param userModel 被操作的用户模型
-- (void)didHangUpConnectAccountId:(NETSConnectMicMemberModel *)userModel;
+/// @param hangUpModel 被操作的用户模型
+- (void)didHangUpConnectAccountId:(NESeatInfoFilterModel *)hangUpModel;
 
 @end
 
@@ -39,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic, strong) NSIndexPath *cellIndexPath;
 
-@property(nonatomic, strong) NETSConnectMicMemberModel *userModel;
+@property(nonatomic, strong) NESeatInfoFilterModel *userModel;
 
 @end
 

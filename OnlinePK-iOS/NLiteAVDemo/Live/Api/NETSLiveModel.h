@@ -169,24 +169,6 @@ typedef NS_ENUM(NSUInteger, NETSRoomLiveStatus) {
 
 @end
 
-/**
- 直播间主播信息模型
- */
-@interface NETSLiveRoomInfoModel : NSObject
-
-@property (nonatomic, copy)     NSString            *avRoomCName;
-@property (nonatomic, copy)     NSString            *avRoomCid;
-@property (nonatomic, copy)     NSString            *liveCid;
-@property (nonatomic, strong)   NSArray<NETSLiveRoomModel *>    *members;
-@property (nonatomic, strong)   NSArray<NETSConnectMicMemberModel *>    *seatList;
-
-@property (nonatomic, strong)   NETSLivePkRecord    *pkRecord;
-@property (nonatomic, copy)     NSString            *pkStartTime;
-@property (nonatomic, assign)   NETSRoomLiveStatus  status;
-@property (nonatomic, assign)   NETSLiveType        type;
-@property (nonatomic, assign)   int32_t             coinTotal;
-
-@end
 
 #pragma mark - PassThought消息体模型
 

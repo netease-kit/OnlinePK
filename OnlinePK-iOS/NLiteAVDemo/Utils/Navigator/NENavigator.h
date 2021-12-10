@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class NETSLiveRoomModel;
+@class NELiveRoomListDetailModel;
 
 @interface NENavigator: NSObject
 
@@ -32,22 +32,24 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)closeLoginWithCompletion:(_Nullable NELoginBlock)completion;
 
+/// 设置根控制器
+- (void)setUpRootWindowCtrl;
 
 /// 展示直播列表页
-/// @param navTitle 导航栏标题
-- (void)showLiveListVCWithTitle:(NSString *)navTitle;
+/// @param roomType 房间类型
+- (void)showLiveListVCWithRoomType:(NERoomType)roomType;
 
-/**
- 进入主播直播间
- */
-- (void)showAnchorVC;
+
+/// 进入主播直播间
+/// @param roomType 房间类型
+- (void)showAnchorVCWithRoomType:(NERoomType)roomType;
 
 /**
  进入直播间
  @param roomData 点击时候的数据源
  @param index 选中的房间
  */
-- (void)showLivingRoom:(NSArray<NETSLiveRoomModel*> *)roomData selectindex:(NSInteger)index;
+- (void)showLivingRoom:(NSArray<NELiveRoomListDetailModel*> *)roomData selectindex:(NSInteger)index;
 
 /**
  回到根tabBar控制器

@@ -9,7 +9,7 @@
 #import "NETSInvitingBar.h"
 #import "TopmostView.h"
 #import "NETSAudienceMask.h"
-#import "NETSAnchorVC.h"
+
 
 @interface NETSInvitingBar ()
 
@@ -77,7 +77,7 @@
     
     UIView *topmostView = [TopmostView viewForApplicationWindow];
     topmostView.userInteractionEnabled = NO;
-    [bar.cancel setTitle:@"点击查看" forState:UIControlStateNormal];
+    [bar.cancel setTitle:NSLocalizedString(@"点击查看", nil) forState:UIControlStateNormal];
     [[UIApplication sharedApplication].keyWindow addSubview:bar];
 
     return bar;
@@ -144,7 +144,7 @@
         _cancel.layer.cornerRadius = 4;
         _cancel.layer.masksToBounds = YES;
         _cancel.titleLabel.font = TextFont_14;
-        [_cancel setTitle:@"取消" forState:UIControlStateNormal];
+        [_cancel setTitle:NSLocalizedString(@"取消", nil) forState:UIControlStateNormal];
         [_cancel setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_cancel addTarget:self action:@selector(cancelAction) forControlEvents:UIControlEventTouchUpInside];
         [_cancel setGradientBackgroundWithColors:@[HEXCOLOR(0xfa555f),HEXCOLOR(0xd846f6)] locations:nil startPoint:CGPointMake(0, 0) endPoint:CGPointMake(1, 0)];
@@ -159,7 +159,7 @@
         _discardButton.layer.masksToBounds = YES;
         _discardButton.layer.borderWidth = 1;
         _discardButton.layer.borderColor = UIColor.whiteColor.CGColor;
-        [_discardButton setTitle:@"忽略" forState:UIControlStateNormal];
+        [_discardButton setTitle:NSLocalizedString(@"忽略", nil) forState:UIControlStateNormal];
         [_discardButton setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
         _discardButton.titleLabel.font = TextFont_14;
         [_discardButton addTarget:self action:@selector(discardAction) forControlEvents:UIControlEventTouchUpInside];

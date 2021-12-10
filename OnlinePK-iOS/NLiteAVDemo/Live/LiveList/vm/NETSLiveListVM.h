@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class NETSLiveRoomModel;
+@class NELiveRoomListDetailModel;
 
 ///
 /// 直播列表页 VM
@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface NETSLiveListVM : NSObject
 
 /// 数据源集合
-@property (nonatomic, strong, readonly) NSArray <NETSLiveRoomModel *> *datas;
+@property (nonatomic, strong, readonly) NSArray <NELiveRoomListDetailModel *> *datas;
 /// 是否结束
 @property (nonatomic, assign, readonly) BOOL    isEnd;
 /// 是否正在加载
@@ -33,6 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// 加载更多
 - (void)loadMore;
 
+//请求列表所需房间类型
+@property(nonatomic, assign) NERoomType roomType;
 @end
 
 NS_ASSUME_NONNULL_END

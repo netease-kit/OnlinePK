@@ -71,7 +71,7 @@
 - (void)setWealth:(int32_t)wealth
 {
     _wealth = wealth;
-    _money.text = [NSString stringWithFormat:@"%@云币", kFormatNum(wealth)];
+    _money.text = [NSString stringWithFormat:NSLocalizedString(@"%@云币", nil), kFormatNum(wealth)];
 }
 - (void)layoutSubviews
 {

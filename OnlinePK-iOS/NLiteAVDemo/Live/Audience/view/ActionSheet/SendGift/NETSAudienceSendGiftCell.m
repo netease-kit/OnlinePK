@@ -63,7 +63,7 @@
     NSDictionary *displayDic = @{NSFontAttributeName: [UIFont systemFontOfSize:13], NSForegroundColorAttributeName: HEXCOLOR(0x222222), NSParagraphStyleAttributeName: style};
     NSDictionary *priceDic = @{NSFontAttributeName: [UIFont systemFontOfSize:12], NSForegroundColorAttributeName: HEXCOLOR(0x666666), NSParagraphStyleAttributeName: style};
     NSMutableAttributedString *res = [[NSMutableAttributedString alloc] initWithString:gift.display attributes:displayDic];
-    NSAttributedString *price = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\n(%d云币)", gift.price]
+    NSAttributedString *price = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"\n(%d云币)", nil), gift.price]
                                                                 attributes:priceDic];
     [res appendAttributedString:price];
     return [res copy];

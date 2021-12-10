@@ -25,7 +25,7 @@
         }];
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         [button setImage:[UIImage imageNamed:@"laugh"] forState:UIControlStateNormal];
-        [button setTitle:@"感谢您的评价～" forState:UIControlStateNormal];
+        [button setTitle:NSLocalizedString(@"感谢您的评价～", nil) forState:UIControlStateNormal];
         [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         button.contentMode = UIViewContentModeCenter;
         [self addSubview:button];

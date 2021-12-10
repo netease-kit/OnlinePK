@@ -25,13 +25,14 @@
     [super viewDidLoad];
     [self setupUI];
     if ([NEAccount shared].hasLogin) {
-        self.dataArray = @[@[@"头像",@"昵称"],@[@"退出登录"]];
-    }else {
-        self.dataArray = @[@[@"头像",@"昵称"]];
+        self.dataArray = @[@[NSLocalizedString(@"头像", nil),NSLocalizedString(@"昵称", nil)],@[NSLocalizedString(@"退出登录", nil)]];
+    } else {
+        self.dataArray = @[@[NSLocalizedString(@"头像", nil),NSLocalizedString(@"昵称", nil)]];
     }
 }
+
 - (void)setupUI {
-    self.title = @"个人信息";
+    self.title = NSLocalizedString(@"个人信息", nil);
     [self.tableView registerClass:[NEPersonTextCell class] forCellReuseIdentifier:@"NEPersonTextCell"];
     [self.tableView registerClass:[NEPersonTableViewCell class] forCellReuseIdentifier:@"NEPersonTableViewCell"];
 }
@@ -62,29 +63,18 @@
             
             NSString *nickname = NEAccount.shared.userModel.nickname.length ? NEAccount.shared.userModel.nickname : @"";
             cell.personView.detailLabel.text = nickname;
-            cell.personView.indicatorImageView.image = [UIImage imageNamed:@"menu_arrow"];
         }
         cell.personView.titleLabel.text = content;
         return cell;
     }else {
         NEPersonTextCell *cell = [tableView dequeueReusableCellWithIdentifier:@"NEPersonTextCell" forIndexPath:indexPath];
-        cell.titleLabel.text = @"退出登录";
+        cell.titleLabel.text = NSLocalizedString(@"退出登录", nil);
         return cell;
     }
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        if (indexPath.row == 1) {
-            //修改昵称
-            NENicknameVC *nickNameVC = [[NENicknameVC alloc] init];
-            WEAK_SELF(weakSelf);
-            nickNameVC.didModifyNickname = ^(NSString * _Nonnull nickName) {
-                STRONG_SELF(strongSelf);
-                strongSelf.nickname = nickName;
-                [strongSelf.tableView reloadData];
-            };
-            [self.navigationController pushViewController:nickNameVC animated:YES];
-        }
+        
     }else {
         if (indexPath.row == 0) {
             //退出登录
@@ -92,11 +82,28 @@
         }
     }
 }
+
 - (void)logout {
-    UIAlertController *alerVC = [UIAlertController alertControllerWithTitle:@"" message:[NSString stringWithFormat:@"确认退出登录%@",[NEAccount shared].userModel.mobile] preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    
+    __weak typeof(self) weakSelf = self;
+    [LoginManager logoutWithConfirm:nil withCompletion:^(YXUserInfo * _Nullable userinfo, NSError * _Nullable error) {
+        if (error == nil) {
+            [NEAccount localLogoutWithCompletion:^(NSDictionary * _Nullable data, NSError * _Nullable error) {
+                if (error) {
+                    [weakSelf.view makeToast:error.description];
+                }else {
+                    [[NENavigator shared] showRootNavWitnIndex:0];
+                }
+            }];
+        }else {
+            [weakSelf.view makeToast:error.description];
+        }
     }];
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    /*
+    UIAlertController *alerVC = [UIAlertController alertControllerWithTitle:@"" message:[NSString stringWithFormat:NSLocalizedString(@"确认退出登录%@", nil),[NEAccount shared].userModel.mobile] preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"取消", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    }];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"确认", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [NEAccount localLogoutWithCompletion:^(NSDictionary * _Nullable data, NSError * _Nullable error) {
             if (error) {
                 [self.view makeToast:error.localizedDescription];
@@ -108,5 +115,6 @@
     [alerVC addAction:cancelAction];
     [alerVC addAction:okAction];
     [self presentViewController:alerVC animated:YES completion:nil];
+     */
 }
 @end

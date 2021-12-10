@@ -7,7 +7,7 @@
 // Use of this source code is governed by a MIT license that can be found in the LICENSE file.
 
 #import "NETSLiveModel.h"
-#import "NETSConnectMicModel.h"
+
 
 @implementation NETSPassThroughHandlePkStartData
 
@@ -65,20 +65,7 @@
 
 @end
 
-///
 
-@implementation NETSLiveRoomInfoModel
-
-+ (NSDictionary *)modelContainerPropertyGenericClass {
-  return @{
-      @"members"  : [NETSLiveRoomModel class],
-      @"seatList" : [NETSConnectMicMemberModel class],
-  };
-}
-
-@end
-
-///
 
 @implementation NETSPassThroughHandleRewardUser
 

@@ -19,8 +19,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"修改昵称";
-    UIBarButtonItem *rightBar = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:UIBarButtonItemStylePlain target:self action:@selector(doneEvent)];
+    self.title = NSLocalizedString(@"修改昵称", nil);
+    UIBarButtonItem *rightBar = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"完成", nil) style:UIBarButtonItemStylePlain target:self action:@selector(doneEvent)];
        self.navigationItem.rightBarButtonItem = rightBar;
     [self.view addSubview:self.nickTextField];
     [self.nickTextField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -36,10 +36,10 @@
 }
 - (void)modifyNickname:(NSString *)nickName {
     if (nickName.length <= 0) {
-        [self.view makeToast:@"昵称不可以为空哦"];
+        [self.view makeToast:NSLocalizedString(@"昵称不可以为空哦", nil)];
         return;
     }else if (nickName.length > 12) {
-        [self.view makeToast:@"仅支持12位及以下文本、字母及数字组合"];
+        [self.view makeToast:NSLocalizedString(@"仅支持12位及以下文本、字母及数字组合", nil)];
         return;
     }
     NEModifyNicknameTask *task = [NEModifyNicknameTask task];
@@ -52,7 +52,7 @@
             NSDictionary *userDic = [data objectForKey:@"data"];
             NEUser *user = [[NEUser alloc] initWithDictionary:userDic];
             [NEAccount updateUserInfo:user];
-            [self.view makeToast:@"修改成功"];
+            [self.view makeToast:NSLocalizedString(@"修改成功", nil)];
             if (self.didModifyNickname) {
                 self.didModifyNickname(user.nickname);
             }
@@ -66,7 +66,7 @@
         _nickTextField.backgroundColor = [UIColor colorWithRed:41/255.0 green:41/255.0 blue:54/255.0 alpha:1/1.0];
         _nickTextField.delegate = self;
         _nickTextField.textColor = [UIColor whiteColor];
-        NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"输入昵称" attributes:@{NSForegroundColorAttributeName:[UIColor grayColor],NSFontAttributeName:_nickTextField.font}];
+        NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"输入昵称", nil) attributes:@{NSForegroundColorAttributeName:[UIColor grayColor],NSFontAttributeName:_nickTextField.font}];
         _nickTextField.attributedPlaceholder = string;
         _nickTextField.layer.cornerRadius = 8;
         

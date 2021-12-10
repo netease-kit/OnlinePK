@@ -31,7 +31,7 @@
 @property (nonatomic, strong)   UIButton    *cancelBtn;
 
 @property (nonatomic, strong)   NELoginOptions  *options;
-
+@property (nonatomic, assign) BOOL isClose;
 @end
 
 @implementation NTELoginVC
@@ -41,6 +41,14 @@
     self = [super init];
     if (self) {
         _options = options;
+        _isClose = NO;
+    }
+    return self;
+}
+
+- (instancetype)initWithOptions:(NELoginOptions * _Nullable)options isShowClose:(BOOL)close {
+    if (self = [self initWithOptions:options]) {
+        _isClose = close;
     }
     return self;
 }
@@ -53,10 +61,8 @@
     [self setupSubviews];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
     [self.navigationController setNavigationBarHidden:YES];
 }
 
@@ -66,6 +72,7 @@
 
 - (void)setupSubviews
 {
+    self.cancelBtn.hidden = self.isClose;
     [self.view addSubview:self.cancelBtn];
     [self.view addSubview:self.titleLab];
     [self.view addSubview:self.areaLab];
@@ -75,7 +82,7 @@
     [self.view addSubview:self.tipLab];
     [self.view addSubview:self.getSmsBtn];
     [self.view addSubview:self.protocolView];
-    self.cancelBtn.frame = CGRectMake(self.view.width - 60, 80, 30, 30);
+    self.cancelBtn.frame = CGRectMake(self.view.width - 60, 80, 20, 20);
     self.titleLab.frame = CGRectMake(30, 130, self.view.width - 60, 40);
     self.areaLab.frame = CGRectMake(self.titleLab.left, self.titleLab.bottom + 30, 40, 44);
     self.verLine.frame = CGRectMake(self.areaLab.right + 4, self.areaLab.top + 11, 1, 22);
@@ -110,7 +117,7 @@
         ntes_main_async_safe(^{
             [NETSToast hideLoading];
             if (error) {
-                NSString *msg = [error localizedDescription] ?: @"请求错误";
+                NSString *msg = [error localizedDescription] ?: NSLocalizedString(@"请求错误", nil);
                 [self.view makeToast:msg];
             } else {
                 NTFInputSmsVC *vc = [[NTFInputSmsVC alloc] initWithMobile:self.phoneNumField.text
@@ -121,6 +128,7 @@
     }];
 }
 
+// TODO 国际化要改掉逻辑
 - (NSAttributedString *)protocolText
 {
     NSDictionary *norAttr = @{NSForegroundColorAttributeName: HEXCOLOR(0x999999)};
@@ -192,7 +200,7 @@
         _titleLab = [[UILabel alloc] init];
         _titleLab.font = [UIFont systemFontOfSize:28];
         _titleLab.textColor = [UIColor colorWithHexString:@"#222222"];
-        _titleLab.text = @"你好, 欢迎登录";
+        _titleLab.text = NSLocalizedString(@"你好, 欢迎登录", nil);
     }
     return _titleLab;
 }
@@ -221,7 +229,7 @@
 {
     if (!_phoneNumField) {
         _phoneNumField = [[UITextField alloc] init];
-        _phoneNumField.placeholder = @"请输入手机号";
+        _phoneNumField.placeholder = NSLocalizedString(@"请输入手机号", nil);
         _phoneNumField.font = [UIFont systemFontOfSize:17];
         _phoneNumField.textColor = [UIColor colorWithHexString:@"#333333"];
         _phoneNumField.delegate = self;
@@ -246,7 +254,7 @@
         _tipLab = [[UILabel alloc] init];
         _tipLab.font = [UIFont systemFontOfSize:12];
         _tipLab.textColor = [UIColor colorWithHexString:@"#B0B6BE"];
-        _tipLab.text = @"未注册的手机号验证通过后将自动注册";
+        _tipLab.text = NSLocalizedString(@"未注册的手机号验证通过后将自动注册", nil);
     }
     return _tipLab;
 }
@@ -256,7 +264,7 @@
     if (!_getSmsBtn) {
         _getSmsBtn = [[UIButton alloc] init];
         _getSmsBtn.enabled = NO;
-        [_getSmsBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
+        [_getSmsBtn setTitle:NSLocalizedString(@"获取验证码", nil) forState:UIControlStateNormal];
         [_getSmsBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         UIColor *activeCol = [UIColor colorWithHexString:@"#337EFF"];
         [_getSmsBtn setBackgroundImage:[UIImage ne_imageWithColor:activeCol] forState:UIControlStateNormal];

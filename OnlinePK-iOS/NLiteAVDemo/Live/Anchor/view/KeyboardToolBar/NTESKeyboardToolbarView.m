@@ -3,8 +3,8 @@
 //  NLiteAVDemo
 //
 //  Created by Think on 2021/1/20.
-//  Copyright © 2021 Netease. All rights reserved.
-//
+// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
 
 #import "NTESKeyboardToolbarView.h"
 
@@ -74,7 +74,7 @@
 - (UIButton *)sendBtn {
     if (!_sendBtn) {
         _sendBtn = [[UIButton alloc] init];
-        [_sendBtn setTitle:@"发送" forState:UIControlStateNormal];
+        [_sendBtn setTitle:NSLocalizedString(@"发送", nil) forState:UIControlStateNormal];
         _sendBtn.titleLabel.font = [UIFont systemFontOfSize:14];
         _sendBtn.layer.cornerRadius = 4;
         _sendBtn.layer.masksToBounds = YES;

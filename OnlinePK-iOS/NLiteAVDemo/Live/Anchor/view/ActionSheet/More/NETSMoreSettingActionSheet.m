@@ -13,6 +13,7 @@
 #import <NERtcSDK/NERtcSDK.h>
 #import "NENavigator.h"
 #import "NETSFilterSettingActionSheet.h"
+#import "NETSLiveConfig.h"
 
 @interface NETSMoreSettingActionSheet () <UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -31,7 +32,7 @@
                  items:(NSArray <NETSMoreSettingModel *> *)items
 {
     CGRect frame = [UIScreen mainScreen].bounds;
-    NETSMoreSettingActionSheet *sheet = [[NETSMoreSettingActionSheet alloc] initWithFrame:frame title:@"更多"];
+    NETSMoreSettingActionSheet *sheet = [[NETSMoreSettingActionSheet alloc] initWithFrame:frame title:NSLocalizedString(@"更多", nil)];
     sheet.delegate = target;
     sheet.items = items;
     sheet.resetBtn.hidden = YES;
@@ -90,7 +91,13 @@
     NETSMoreSettingModel *model = self.items[indexPath.row];
     if ([model isKindOfClass:[NETSMoreSettingStatusModel class]]) {
         NETSMoreSettingStatusModel *newModel = (NETSMoreSettingStatusModel *)model;
-        newModel.disable = !newModel.disable;
+        if ([model.display isEqualToString:@"耳返"]) {
+            if ([NETSLiveConfig shared].outputRoute != kNERtcAudioOutputRoutingLoudspeaker) {
+                newModel.disable = !newModel.disable;
+            }
+        }else {
+            newModel.disable = !newModel.disable;
+        }
         [self.collectionView reloadData];
     }
     
@@ -99,13 +106,13 @@
 
 - (void)_didActionWithModel:(NETSMoreSettingModel *)model
 {
+    
+    [self dismiss];//点击后收起sheet
     NETSMoreSettingStatusModel *statusModel = nil;
     if ([model isKindOfClass:[NETSMoreSettingStatusModel class]]) {
         statusModel = (NETSMoreSettingStatusModel *)model;
-    } else {
-        [self dismiss];
     }
-    
+
     switch (model.type) {
         case NETSMoreSettingCamera: {
             if (!statusModel) { return; }
@@ -124,8 +131,7 @@
             break;
         case NETSMoreSettingEarback: {
             if (!statusModel) { return; }
-            int res = [[NERtcEngine sharedEngine] enableEarback:!statusModel.disable volume:80];
-            YXAlogInfo(@"设置耳返: %d", res);
+            [self setUpEarBack:statusModel.disable];
         }
             break;
         case NETSMoreSettingReverse: {
@@ -140,9 +146,9 @@
         }
             break;
         case NETSMoreSettingEndLive: {
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"结束直播" message:@"是否确认结束直播?" preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-            UIAlertAction *confirm = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"结束直播", nil) message:NSLocalizedString(@"是否确认结束直播?", nil) preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"取消", nil) style:UIAlertActionStyleCancel handler:nil];
+            UIAlertAction *confirm = [UIAlertAction actionWithTitle:NSLocalizedString(@"确定", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 if (self.delegate && [self.delegate respondsToSelector:@selector(didSelectCloseLive)]) {
                     [self.delegate didSelectCloseLive];
                 }
@@ -154,6 +160,23 @@
             break;
             
         default:
+            break;
+    }
+}
+
+- (void)setUpEarBack:(BOOL)disable {
+    
+    NERtcAudioOutputRouting route = [NETSLiveConfig shared].outputRoute;
+    switch (route) {
+        case kNERtcAudioOutputRoutingLoudspeaker:{
+            [NETSToast showToast:NSLocalizedString(@"打开耳返功能前，请先插入耳机!", nil)];
+        }
+            break;
+            
+        default:{
+            int res = [[NERtcEngine sharedEngine] enableEarback:!disable volume:80];
+            YXAlogInfo(@"设置耳返: %d", res);
+        }
             break;
     }
 }

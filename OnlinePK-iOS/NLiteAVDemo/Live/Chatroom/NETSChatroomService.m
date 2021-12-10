@@ -8,14 +8,15 @@
 
 #import "NETSChatroomService.h"
 #import "NEAccount.h"
+#import "NEPkLiveAttachment.h"
 
 @implementation NETSChatroomService
 
 + (void)enterWithRoomId:(NSString *)roomId
                userMode:(NETSUserMode)userMode
                 success:(void(^ _Nullable )(NIMChatroom * _Nullable chatroom, NIMChatroomMember * _Nullable me))success
-                 failed:(void(^ _Nullable )(NSError * _Nullable error))failed
-{
+                 failed:(void(^ _Nullable )(NSError * _Nullable error))failed {
+    
     NIMChatroomEnterRequest *request = [[NIMChatroomEnterRequest alloc] init];
     request.roomId = roomId;
     request.roomNickname = [NEAccount shared].userModel.nickname;
@@ -23,7 +24,7 @@
 
     [[NIMSDK sharedSDK].chatroomManager enterChatroom:request completion:^(NSError * _Nullable error, NIMChatroom * _Nullable chatroom, NIMChatroomMember * _Nullable me) {
         if (error) {
-            YXAlogInfo(@"进入聊天室失败 error: %@", error);
+            YXAlogError(@"enter chatroom failed,error: %@", error);
             if (failed) { failed(error); }
         } else {
             YXAlogInfo(@"进入聊天室成功");
@@ -91,7 +92,7 @@
         return;
     }
     
-    NETSLiveTextAttachment *attachment = [[NETSLiveTextAttachment alloc] init];
+    NELiveTextAttachment *attachment = [[NELiveTextAttachment alloc] init];
     attachment.message = message;
     attachment.isAnchor = (userMode == NETSUserModeAnchor);
     
@@ -132,88 +133,11 @@
     }];
 }
 
-+ (NIMMessage *)pkMessageWithState:(NETSLivePkState)state
-                  startedTimestamp:(int64_t)startedTimestamp
-                  currentTimestamp:(int64_t)currentTimestamp
-               otherAnchorNickname:(NSString *)otherAnchorNickname
-                 otherAnchorAvatar:(NSString *)otherAnchorAvatar
-                  currentAnchorWin:(int32_t)currentAnchorWin
-{
-    NETSLivePKAttachment *attachment = [[NETSLivePKAttachment alloc] init];
-    attachment.type = NETSLiveAttachmentPkType;
-    attachment.state = state;
-    attachment.startedTimestamp = startedTimestamp;
-    attachment.currentTimestamp = currentTimestamp;
-    attachment.otherAnchorNickname = otherAnchorNickname;
-    attachment.otherAnchorAvatar = otherAnchorAvatar;
-    attachment.currentAnchorWin = currentAnchorWin;
 
-    NIMCustomObject *object = [[NIMCustomObject alloc] init];
-    object.attachment = attachment;
-
-    NIMMessage *msg = [[NIMMessage alloc] init];
-    msg.messageObject = object;
-    
-    return msg;
-}
-
-+ (NIMMessage *)punishMessageWithState:(NETSLivePkState)state
-                      startedTimestamp:(int64_t)startedTimestamp
-                      currentTimestamp:(int64_t)currentTimestamp
-                   otherAnchorNickname:(NSString *)otherAnchorNickname
-                     otherAnchorAvatar:(NSString *)otherAnchorAvatar
-                      currentAnchorWin:(int32_t)currentAnchorWin
-{
-    NETSLivePKAttachment *attachment = [[NETSLivePKAttachment alloc] init];
-    attachment.type = NETSLiveAttachmentPunishType;
-    attachment.state = state;
-    attachment.startedTimestamp = startedTimestamp;
-    attachment.currentTimestamp = currentTimestamp;
-    attachment.otherAnchorNickname = otherAnchorNickname;
-    attachment.otherAnchorAvatar = otherAnchorAvatar;
-    attachment.currentAnchorWin = currentAnchorWin;
-
-    NIMCustomObject *object = [[NIMCustomObject alloc] init];
-    object.attachment = attachment;
-
-    NIMMessage *msg = [[NIMMessage alloc] init];
-    msg.messageObject = object;
-    
-    return msg;
-}
-
-+ (NIMMessage *)rewardeMessageWithNickname:(NSString *)nickname
-                                    giftId:(int32_t)giftId
-                         fromUserAvRoomUid:(NSString *)fromUserAvRoomUid
-                            totalCoinCount:(int32_t)totalCoinCount
-                               pkCoinCount:(int32_t)pkCoinCount
-                          otherPKCoinCount:(int32_t)otherPKCoinCount
-                          originRewardList:(NSArray<NETSPassThroughHandleRewardUser *> * _Nullable)originRewardList
-                     originOtherRewardList:(NSArray<NETSPassThroughHandleRewardUser *> * _Nullable)originOtherRewardList
-{
-    NETSLiveWealthChangeAttachment *attachment = [[NETSLiveWealthChangeAttachment alloc] init];
-    attachment.giftId = giftId;
-    attachment.fromUserAvRoomUid = fromUserAvRoomUid;
-    attachment.nickname = nickname;
-    attachment.totalCoinCount = totalCoinCount;
-    attachment.PKCoinCount = pkCoinCount;
-    attachment.otherPKCoinCount = otherPKCoinCount;
-    attachment.originRewardList = originRewardList;
-    attachment.originOtherRewardList = originOtherRewardList;
-
-    NIMCustomObject *object = [[NIMCustomObject alloc] init];
-    object.attachment = attachment;
-
-    NIMMessage *msg = [[NIMMessage alloc] init];
-    msg.messageObject = object;
-    
-    return msg;
-}
 
 + (void)sendMessage:(NIMMessage *)message
              roomId:(NSString *)roomId
-           errorPtr:(NSError * __nullable *)errorPtr
-{
+           errorPtr:(NSError * __nullable *)errorPtr {
     NIMSession *session = [NIMSession session:roomId type:NIMSessionTypeChatroom];
     [[NIMSDK sharedSDK].chatManager sendMessage:message toSession:session error:errorPtr];
 }

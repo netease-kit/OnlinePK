@@ -194,19 +194,22 @@
                 if (self.options.failedBlock) {
                     self.options.failedBlock();
                 }
-                NSString *msg = data[@"msg"] ?: @"请求错误";
+                NSString *msg = data[@"msg"] ?: NSLocalizedString(@"请求错误", nil);
                 [self.view makeToast:msg];
             } else {
                 if (self.options.successBlock) {
                     self.options.successBlock();
                 }
-                [[NENavigator shared] closeLoginWithCompletion:nil];
-                [self.view makeToast:@"登录成功"];
+//                [[NENavigator shared] closeLoginWithCompletion:nil];
+                
+                [self.view makeToast:NSLocalizedString(@"登录成功", nil)];
+                //重新设置根控制器
+                [[NENavigator shared] setUpRootWindowCtrl];
             }
         }];
     } else {
         ntes_main_async_safe(^{
-            [self.view makeToast:@"参数不合法"];
+            [self.view makeToast:NSLocalizedString(@"参数不合法", nil)];
         });
     }
 }
@@ -230,11 +233,11 @@
     [[NEService shared] runTask:task completion:^(NSDictionary * _Nullable data, id  _Nullable task, NSError * _Nullable error) {
         ntes_main_async_safe(^{
             if (error) {
-                NSString *msg = [error localizedDescription] ?: @"请求错误";
+                NSString *msg = [error localizedDescription] ?: NSLocalizedString(@"请求错误", nil);
                 [self.view makeToast:msg];
             } else {
                 [self.countDownBtn startCount];
-                [self.view makeToast:@"验证码已发送,请注意查收"];
+                [self.view makeToast:NSLocalizedString(@"验证码已发送,请注意查收", nil)];
             }
         });
     }];
@@ -248,7 +251,7 @@
 
 - (void)endCountWithButton:(NECountDownButton *)button
 {
-    NSAttributedString *text = [[NSAttributedString alloc] initWithString:@"重新发送" attributes:@{NSForegroundColorAttributeName: HEXCOLOR(0x2953FF)}];
+    NSAttributedString *text = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"重新发送", nil) attributes:@{NSForegroundColorAttributeName: HEXCOLOR(0x2953FF)}];
     button.titleLabel.attributedText = text;
 }
 
@@ -273,7 +276,7 @@
         _titleLab = [[UILabel alloc] init];
         _titleLab.font = [UIFont systemFontOfSize:28];
         _titleLab.textColor = HEXCOLOR(0x222222);
-        _titleLab.text = @"请输入验证码";
+        _titleLab.text = NSLocalizedString(@"请输入验证码", nil);
     }
     return _titleLab;
 }
@@ -304,7 +307,7 @@
 - (NECountDownButton *)countDownBtn
 {
     if (!_countDownBtn) {
-        NSAttributedString *text = [[NSAttributedString alloc] initWithString:@"重新发送" attributes:@{NSForegroundColorAttributeName: HEXCOLOR(0x2953FF)}];;
+        NSAttributedString *text = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"重新发送", nil) attributes:@{NSForegroundColorAttributeName: HEXCOLOR(0x2953FF)}];;
         _countDownBtn = [[NECountDownButton alloc] initWithAttributeTitle:text];
         _countDownBtn.titleLabel.font = [UIFont systemFontOfSize:12];
         _countDownBtn.delegate = self;
@@ -317,7 +320,7 @@
     if (!_nextBtn) {
         _nextBtn = [[UIButton alloc] init];
         _nextBtn.enabled = NO;
-        [_nextBtn setTitle:@"下一步" forState:UIControlStateNormal];
+        [_nextBtn setTitle:NSLocalizedString(@"下一步", nil) forState:UIControlStateNormal];
         [_nextBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         UIColor *activeCol = HEXCOLOR(0x337EFF);
         [_nextBtn setBackgroundImage:[UIImage ne_imageWithColor:activeCol] forState:UIControlStateNormal];

@@ -17,9 +17,10 @@ NS_ASSUME_NONNULL_BEGIN
 @interface NETSLiveListVC : UIViewController
 
 
+
 /// 构造方法
-/// @param navTitle 导航栏标题
-- (instancetype)initWithNavTitle:(NSString *)navTitle;
+/// @param roomType 房间类型
+- (instancetype)initWithNavRoomType:(NERoomType)roomType;
 
 @end
 

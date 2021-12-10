@@ -10,11 +10,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class NETSLiveRoomModel;
+@class NELiveRoomListDetailModel;
 
 @protocol NETSChoosePKCellDelegate <NSObject>
 
-- (void)didClickPKModel:(NETSLiveRoomModel *)model;
+- (void)didClickPKModel:(NELiveRoomListDetailModel *)model;
 
 @end
 
@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NETSChoosePKCell *)cellWithTableView:(UITableView *)tableView
                               indexPath:(NSIndexPath *)indexPath
-                                  datas:(NSArray <NETSLiveRoomModel *> *)datas;
+                                  datas:(NSArray <NELiveRoomListDetailModel *> *)datas;
 
 + (CGFloat)height;
 

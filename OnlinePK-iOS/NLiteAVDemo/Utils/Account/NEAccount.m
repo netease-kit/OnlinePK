@@ -71,6 +71,10 @@
     return instance;
 }
 
+- (BOOL)hasLogin {
+    return [[AuthorManager shareInstance] isLogin];
+}
+
 - (void)_notifyAccountAction:(NEAccountAction)action
 {
     @synchronized (self.actionObservers) {
@@ -155,6 +159,14 @@
     }];
 }
 
+- (void)setHasLogin:(BOOL)hasLogin {
+    _hasLogin = hasLogin;
+}
+
+- (BOOL)hasLogin {
+    return _hasLogin;
+}
+
 + (void)localLogoutWithCompletion:(_Nullable NEAccountComplete)completion
 {
     NEAccountShared.hasLogin = NO;
@@ -188,8 +200,7 @@
     }];
 }
 
-+ (void)_loginHandleWithResponse:(NSDictionary *)response error:(NSError *)error completion:(_Nullable NEAccountComplete)completion
-{
++ (void)_loginHandleWithResponse:(NSDictionary *)response error:(NSError *)error completion:(_Nullable NEAccountComplete)completion {
     NSString *accessToken = nil;
     BOOL loginResult = NO;
     NSDictionary *data = response[@"data"];
@@ -213,4 +224,29 @@
 + (void)updateUserInfo:(NEUser *)user {
     NEAccountShared.userModel = user;
 }
+
++ (void)imloginWithYXuser:(YXUserInfo *)yxUser {
+    YXUserInfo *user = yxUser;
+    [[[NIMSDK sharedSDK] loginManager] login:user.imAccid token:user.imToken completion:^(NSError * _Nullable error) {
+        NSLog(@"login im error : %@", error);
+        if (error) {
+            [[[UIApplication sharedApplication] keyWindow] makeToast:error.description];
+        }else{
+            [NEAccount shared].accessToken = user.accessToken;
+            NEUser *neuser = [NEUser yy_modelWithJSON:user.yy_modelToJSONObject];
+            [NEAccount shared].userModel = neuser;
+            [NEAccount shared].hasLogin = YES;
+            [[[UIApplication sharedApplication] keyWindow] makeToast:@"IM登录成功"];
+            [AuthorManager shareInstance].imLoginSuccess = YES;
+        }
+    }];
+}
+
++ (void)syncLoginData:(YXUserInfo *)user {
+    [NEAccount shared].accessToken = user.accessToken;
+    NEUser *neuser = [NEUser yy_modelWithJSON:user.yy_modelToJSONObject];
+    [NEAccount shared].userModel = neuser;
+    [NEAccount shared].hasLogin = YES;
+}
+
 @end

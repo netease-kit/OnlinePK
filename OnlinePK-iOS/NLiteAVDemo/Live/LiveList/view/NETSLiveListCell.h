@@ -14,14 +14,14 @@ NS_ASSUME_NONNULL_BEGIN
 /// 直播列表页 VM
 ///
 
-@class NETSLiveRoomModel;
+@class NELiveRoomListDetailModel;
 
 @interface NETSLiveListCell : UICollectionViewCell
 
 /// 实例化直播列表页cell
 + (NETSLiveListCell *)cellWithCollectionView:(UICollectionView *)collectionView
                                    indexPath:(NSIndexPath *)indexPath
-                                       datas:(NSArray <NETSLiveRoomModel *> *)datas;
+                                       datas:(NSArray <NELiveRoomListDetailModel *> *)datas;
 
 /// 计算直播列表页cell size
 + (CGSize)size;

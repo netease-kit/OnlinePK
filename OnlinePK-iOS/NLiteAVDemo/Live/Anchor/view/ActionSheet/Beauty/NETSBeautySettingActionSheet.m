@@ -150,7 +150,7 @@
 + (void)showWithMask:(BOOL)mask
 {
     CGRect frame = [UIScreen mainScreen].bounds;
-    NETSBeautySettingActionSheet *sheet = [[NETSBeautySettingActionSheet alloc] initWithFrame:frame title:@"美颜"];
+    NETSBeautySettingActionSheet *sheet = [[NETSBeautySettingActionSheet alloc] initWithFrame:frame title:NSLocalizedString(@"美颜", nil)];
     if (!mask) {
         sheet.backgroundColor = [UIColor clearColor];
     }

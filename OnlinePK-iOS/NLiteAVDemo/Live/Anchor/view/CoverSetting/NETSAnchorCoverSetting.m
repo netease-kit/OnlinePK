@@ -170,7 +170,7 @@
     if (!_tipLab) {
         _tipLab = [[UILabel alloc] init];
         _tipLab.font = [UIFont systemFontOfSize:10];
-        _tipLab.text = @"设置封面";
+        _tipLab.text = NSLocalizedString(@"设置封面", nil);
         _tipLab.textAlignment = NSTextAlignmentCenter;
         _tipLab.textColor = [UIColor whiteColor];
     }

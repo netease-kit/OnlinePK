@@ -37,7 +37,7 @@
     topmostView.userInteractionEnabled = YES;
     
     CGRect frame = [UIScreen mainScreen].bounds;
-    NETSLiveSettingActionSheet *sheet = [[NETSLiveSettingActionSheet alloc] initWithFrame:frame title:@"直播设置"];
+    NETSLiveSettingActionSheet *sheet = [[NETSLiveSettingActionSheet alloc] initWithFrame:frame title:NSLocalizedString(@"直播设置", nil)];
     sheet.backgroundColor = [UIColor clearColor];
     [topmostView addSubview:sheet];
 }
@@ -139,12 +139,14 @@
 - (int)setAudioQuality:(NSInteger)quality
 {
     NSUInteger oldVal = [NETSLiveConfig shared].audioQuality;
+    
     int res = -1;
     if (quality == 0) {//标准
         res = [[NERtcEngine sharedEngine] setAudioProfile:kNERtcAudioProfileHighQuality scenario:kNERtcAudioScenarioChatRoom];
     }else if (quality == 2){//音乐
         res = [[NERtcEngine sharedEngine] setAudioProfile:kNERtcAudioProfileHighQualityStereo scenario:kNERtcAudioScenarioMusic];
     }
+
     if (res == 0) {
         [NETSLiveConfig shared].audioQuality = quality;
     } else {
@@ -180,7 +182,7 @@
             [[NETSLiveSegmentedSettingModel alloc] initWithDisplay:@"720P" value:kNERtcVideoProfileHD720P],
             [[NETSLiveSegmentedSettingModel alloc] initWithDisplay:@"1080P" value:kNERtcVideoProfileHD1080P]
         ];
-        _resoSetting = [[NETSLiveSegmentedSetting alloc] initWithTitle:@"分辨率" items:items];
+        _resoSetting = [[NETSLiveSegmentedSetting alloc] initWithTitle:NSLocalizedString(@"分辨率", nil) items:items];
         _resoSetting.delegate = self;
         _resoSetting.selectedValue = [NETSLiveConfig shared].videoConfig.maxProfile;
     }
@@ -204,7 +206,7 @@
             [[NETSLiveSegmentedSettingModel alloc] initWithDisplay:@"24" value:kNERtcVideoFrameRateFps24],
             [[NETSLiveSegmentedSettingModel alloc] initWithDisplay:@"30" value:kNERtcVideoFrameRateFps30]
         ];
-        _frameSetting = [[NETSLiveSegmentedSetting alloc] initWithTitle:@"帧率" items:items];
+        _frameSetting = [[NETSLiveSegmentedSetting alloc] initWithTitle:NSLocalizedString(@"帧率", nil) items:items];
         _frameSetting.delegate = self;
         _frameSetting.selectedValue = [NETSLiveConfig shared].videoConfig.frameRate;
     }
@@ -224,10 +226,10 @@
 {
     if (!_audioSetting) {
         NSArray *items = @[
-            [[NETSLiveSegmentedSettingModel alloc] initWithDisplay:@"标准" value:kNERtcAudioScenarioDefault],
-            [[NETSLiveSegmentedSettingModel alloc] initWithDisplay:@"音乐" value:kNERtcAudioScenarioMusic]
+            [[NETSLiveSegmentedSettingModel alloc] initWithDisplay:NSLocalizedString(@"标准", nil) value:kNERtcAudioScenarioDefault],
+            [[NETSLiveSegmentedSettingModel alloc] initWithDisplay:NSLocalizedString(@"音乐", nil) value:kNERtcAudioScenarioMusic]
         ];
-        _audioSetting = [[NETSLiveSegmentedSetting alloc] initWithTitle:@"音频质量" items:items];
+        _audioSetting = [[NETSLiveSegmentedSetting alloc] initWithTitle:NSLocalizedString(@"音频质量", nil) items:items];
         _audioSetting.delegate = self;
         _audioSetting.selectedValue = [NETSLiveConfig shared].audioQuality;
     }

@@ -7,8 +7,7 @@
 // Use of this source code is governed by a MIT license that can be found in the LICENSE file.
 
 #import "NETSLiveListCell.h"
-#import "NETSLiveModel.h"
-
+#import "NELiveRoomListModel.h"
 @interface NETSLiveListCell ()
 
 /// 封面
@@ -70,20 +69,20 @@
     }];
 }
 
-- (void)installWithModel:(NETSLiveRoomModel *)model indexPath:(NSIndexPath *)indexPath
+- (void)installWithModel:(NELiveRoomListDetailModel *)model indexPath:(NSIndexPath *)indexPath
 {
-    self.roomName.text = model.roomTopic;
-    self.anchorName.text = model.nickname;
-    NSURL *coveUrl = [NSURL URLWithString:model.liveCoverPic];
+    self.roomName.text = model.live.roomTopic;
+    self.anchorName.text = model.anchor.nickname;
+    NSURL *coveUrl = [NSURL URLWithString:model.live.cover];
     [self.coverView sd_setImageWithURL:coveUrl];
-    int32_t audienceNo = MAX(model.audienceCount, 0);
+    int32_t audienceNo = MAX(model.live.audienceCount, 0);
     self.audienceNum.text = kFormatNum(audienceNo);
     
-    if (model.live == NETSRoomPKing||
-        model.live == NETSRoomPunishment||
-        model.live == NETSRoomConnectMic) {
+    if (model.live.liveStatus == NEPkliveStatusPkLiving||
+        model.live.liveStatus == NEPkliveStatusPunish||
+        model.live.liveStatus == NEPkliveStatusConnectMic) {
         self.pkView.hidden = NO;
-        if (model.live == NETSRoomConnectMic ) {
+        if (model.live.liveStatus == NEPkliveStatusConnectMic ) {
             self.pkView.image = [UIImage imageNamed:@"pklist_connecting_icon"];
         }else {
             self.pkView.image = [UIImage imageNamed:@"pking_ico"];
@@ -95,7 +94,7 @@
 
 + (NETSLiveListCell *)cellWithCollectionView:(UICollectionView *)collectionView
                                    indexPath:(NSIndexPath *)indexPath
-                                       datas:(NSArray <NETSLiveRoomModel *> *)datas
+                                       datas:(NSArray <NELiveRoomListDetailModel *> *)datas
 {
     if ([datas count] <= indexPath.row) {
         return [NETSLiveListCell new];
@@ -103,7 +102,7 @@
     
     NETSLiveListCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[NETSLiveListCell description]
                                                                        forIndexPath:indexPath];
-    NETSLiveRoomModel *model = datas[indexPath.row];
+    NELiveRoomListDetailModel *model = datas[indexPath.row];
     [cell installWithModel:model indexPath:indexPath];
     return cell;
 }
@@ -160,7 +159,7 @@
         _roomName = [[UILabel alloc] init];
         _roomName.font = [UIFont systemFontOfSize:13];
         _roomName.textColor = [UIColor whiteColor];
-        _roomName.text = @"房间名称房间名称";
+        _roomName.text = NSLocalizedString(@"房间名称房间名称", nil);
     }
     return _roomName;
 }
@@ -171,7 +170,7 @@
         _anchorName = [[UILabel alloc] init];
         _anchorName.font = [UIFont systemFontOfSize:12];
         _anchorName.textColor = [UIColor whiteColor];
-        _anchorName.text = @"主播名称";
+        _anchorName.text = NSLocalizedString(@"主播名称", nil);
     }
     return _anchorName;
 }

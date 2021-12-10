@@ -3,8 +3,8 @@
 //  NLiteAVDemo
 //
 //  Created by Think on 2021/1/9.
-//  Copyright © 2021 Netease. All rights reserved.
-//
+// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
 
 ///
 /// pk直播服务 枚举
@@ -58,68 +58,9 @@ typedef NS_ENUM(NSUInteger, NETSPkResult) {
     NETSPkUnknownResult     = -1,   // 未知获胜状态
     NETSPkCurrentAnchorWin  = 0,    // 当前主播获胜
     NETSPkOtherAnchorWin    = 1,    // 另一个主播获胜
-    NETSPkTieResult                 // 平局
+    NETSPkTieResult         = 2      // 平局
 };
 
-//麦位操作的枚举
-typedef NS_ENUM(NSUInteger, NETSSeatsOperation) {
-    //管理员同意上麦
-    NETSSeatsOperationAdminAcceptJoinSeats = 1,
-    //管理员主动邀请上麦
-    NETSSeatsOperationAdminInviteJoinSeats = 2,
-    //管理员踢下麦
-    NETSSeatsOperationAdminKickSeats = 3,
-    //上麦者下麦
-    NETSSeatsOperationWheatherLeaveSeats = 4,
-    //观众申请上麦
-    NETSSeatsOperationAudienceApplyJoinSeats = 5,
-    //观众取消上麦申请
-    NETSSeatsOperationAudienceCancelApplyJoinSeats = 6,
-    //管理员拒绝观众上麦申请
-    NETSSeatsOperationAdminRejectAudienceApply = 7,
-    //观众拒绝同意上麦
-    NETSSeatsOperationAudienceRejectJoinSeats = 8,
-    //观众同意上麦
-    NETSSeatsOperationAudienceAcceptJoinSeats = 9,
-    //管理员取消屏蔽麦位
-    NETSSeatsOperationAdminReopenSeats = 10,
-    //管理员屏蔽麦位
-    NETSSeatsOperationAdminCloseSeats = 11,
-    //麦位音视频变化
-    NETSSeatsOperationAVChange = 12,
-    //观众上麦成功
-    NETSSeatsOperationAudienceJoinSeatsSuccess = 13
-};
-
-//麦位通知协议type
-typedef NS_ENUM(NSUInteger, NETSSeatsNotification) {
-    //管理员同意上麦
-    NETSSeatsNotificationAdminAcceptJoinSeats = 3001,
-    //管理员主动邀请上麦
-    NETSSeatsNotificationAdminInviteJoinSeats = 3002,
-    //管理员踢下麦
-    NETSSeatsNotificationAdminKickSeats = 3003,
-    //上麦者下麦
-    NETSSeatsNotificationWheatherLeaveSeats = 3004,
-    //观众申请上麦
-    NETSSeatsNotificationAudienceApplyJoinSeats = 3005,
-    //观众取消上麦申请
-    NETSSeatsNotificationAudienceCancelApplyJoinSeats = 3006,
-    //管理员拒绝观众上麦申请
-    NETSSeatsNotificationAdminRejectAudienceApply = 3007,
-    //观众拒绝同意上麦
-    NETSSeatsNotificationAudienceRejectJoinSeats = 3008,
-    //观众同意上麦
-    NETSSeatsNotificationAudienceAcceptJoinSeats = 3009,
-    //管理员取消屏蔽麦位
-    NETSSeatsNotificationAdminReopenSeats = 3010,
-    //管理员屏蔽麦位
-    NETSSeatsNotificationAdminCloseSeats = 3011,
-    //麦位音视频变化
-    NETSSeatsNotificationAVChange = 3012,
-    //观众上麦成功
-    NETSSeatsNotificationAudienceJoinSeatsSuccess = 3013
-};
 
 //麦位状态枚举
 typedef NS_ENUM(NSUInteger, NETSSeatsStatus) {
@@ -148,4 +89,81 @@ typedef NS_ENUM(NSUInteger, NETSAudienceBottomRequestType) {
     NETSAudienceBottomRequestTypeApplying = 2,//申请中
     NETSAudienceBottomRequestTypeAccept = 3,//已同意上麦
 };
+
+//房间类型
+typedef NS_ENUM(NSUInteger,NERoomType) {
+    NERoomTypePkLive = 2,//pk直播
+    NERoomTypeConnectMicLive = 3,//pk连麦
+};
+
+
+//pk邀请动作(和透传消息体code通用)
+typedef NS_ENUM(NSUInteger,NEPkOperation) {
+    NEPkOperationInvite = 1,//邀请
+    NEPkOperationAgree = 2,//同意
+    NEPkOperationRefuse = 3,//拒绝
+    NEPkOperationCancel = 4,//取消
+    NEPkOperationTimeout = 5,//超时
+};
+
+//pk聊天室消息
+typedef NS_ENUM(NSUInteger,NEPKChatRoomMessageBody) {
+    NEPKChatRoomMessageBodyPkInvite = 2000,//PK 邀请信息（透传）
+    NEPKChatRoomMessageBodyPkStart  = 2001,//PK 开始信息
+    NEPKChatRoomMessageBodyPkPunish = 2002,//PK 惩罚开始消息
+    NEPKChatRoomMessageBodyPkEnd    = 2003,//PK结束消息
+    NEPKChatRoomMessageBodyPkReward = 1001,//观众打赏消息
+};
+
+
+/// 新直播状态枚举
+typedef NS_ENUM(NSUInteger, NEPkliveStatus) {
+    NEPkliveStatusNone               = 0,    // 未开始
+    NEPkliveStatusLiving             = 1,    // 直播中
+    NEPkliveStatusPkLiving           = 2,    // PK 直播中
+    NEPkliveStatusPkEnd              = 3,    // PK 结束
+    NEPkliveStatusLiveEnd            = 4,    // 直播结束
+    NEPkliveStatusPunish             = 5,    //惩罚阶段
+    NEPkliveStatusConnectMic         = 6,    //连麦中
+    NEPkliveStatusInvitePking        = 7,    //邀请 PK 中
+    NEPkliveStatusBeInvitedPking     = 8,    //被邀请 PK 中
+};
+
+/// 房间状态状态枚举
+typedef NS_ENUM(NSUInteger, NEPkRoomStatus) {
+    NEPkRoomStatusError               = 0,    // 无效
+    NEPkRoomStatusNotStart            = 1,    // 未开始
+    NEPkRoomStatusOngoing             = 2,    // 进行中
+    NEPkRoomStatusShutDown            = 3,    // 已终止
+    NEPkRoomStatusCancel              = 4,    // 已取消
+    NEPkRoomStatusRecycled            = 5,    // 已回收
+};
+
+//pk状态
+typedef NS_ENUM(NSUInteger,NEPKStatus) {
+    NEPKStatusInit          = 0,//未开始
+    NEPKStatusPking         = 1,//PK 中
+    NEPKStatusPkEnd         = 2,//PK 结束
+    NEPKStatusPkCancel      = 3,//已取消
+    NEPKStatusPkRefuse      = 4,//已拒绝
+    NEPKStatusPkInviting    = 5,//邀请中
+    NEPKStatusPkPunish      = 6,//惩罚中
+};
+
+//客户端维护的本地PK状态
+typedef NS_ENUM(NSUInteger,NELocalPkState) {
+    NELocalPkStateInitial       = 0,//未开始
+    NELocalPkStateInviting      = 1,//邀请中
+    NELocalPkStateAgree         = 2,//已同意
+    NELocalPkStatePkIng         = 3,//PK中
+    NELocalPkStateEnd           = 4,//PK结束
+};
+
+typedef NS_ENUM(NSUInteger,NESeatFilterType) {
+    NESeatFilterTypeApplying    = 1, //观众正在申请
+    NESeatFilterTypeNormal      = 2, //普通观众
+    NESeatFilterTypeOnSeat      = 3  //在麦上
+
+};
+
 #endif /* NETSPkEnum_h */

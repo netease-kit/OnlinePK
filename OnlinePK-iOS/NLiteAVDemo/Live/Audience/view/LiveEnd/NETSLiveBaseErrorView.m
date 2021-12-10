@@ -154,7 +154,7 @@
         _statusLab.font = [UIFont systemFontOfSize:24];
         _statusLab.textColor = [UIColor whiteColor];
         _statusLab.textAlignment =NSTextAlignmentCenter;
-        _statusLab.text = @"直播已结束";
+        _statusLab.text = NSLocalizedString(@"直播已结束", nil);
     }
     return _statusLab;
 }

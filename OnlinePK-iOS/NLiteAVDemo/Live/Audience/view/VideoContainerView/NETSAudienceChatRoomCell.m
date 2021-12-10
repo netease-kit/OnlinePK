@@ -3,8 +3,8 @@
 //  NLiteAVDemo
 //
 //  Created by 徐善栋 on 2021/1/7.
-//  Copyright © 2021 Netease. All rights reserved.
-//
+// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
 
 #import "NETSAudienceChatRoomCell.h"
 #import <NELivePlayerFramework/NELivePlayerFramework.h>
@@ -18,18 +18,21 @@
 #import "Reachability.h"
 #import "NETSLiveEndView.h"
 #import "NETSMutiConnectView.h"
-#import <NERtcSDK/NERtcSDK.h>
-#import "NETSLiveAttachment.h"
-#import "NETSConnectMicModel.h"
+
 #import "TopmostView.h"
 #import "NETSAudienceBottomBar.h"
+#import "NELiveRoomListModel.h"
+#import "NEPkRoomApiService.h"
+#import "NECreateRoomResponseModel.h"
+#import "NEPkEnterRoomParams.h"
+#import "NETSInvitingBar.h"
 
 @interface NETSAudienceChatRoomCell ()<NETSPullStreamErrorViewDelegate, NETSAudienceMaskDelegate,NETSMutiConnectViewDelegate>
 
 /// 蒙层
 @property (nonatomic, strong) NETSAudienceMask          *mask;
 /// 直播间状态
-@property (nonatomic, strong) NETSLiveRoomInfoModel     *roomInfo;
+@property (nonatomic, strong) NECreateRoomResponseModel     *roomInfo;
 /// 断网视图
 @property(nonatomic, strong) NETSPullStreamErrorView    *networkFailureView;
 /// 直播结束蒙层
@@ -43,12 +46,17 @@
 //观众端连麦视图
 @property(nonatomic, strong) NETSMutiConnectView *connectMicView;
 //连麦者数组
-@property(nonatomic, strong) NSMutableArray *connectMicArray;
+@property(nonatomic, strong) NSMutableArray <NESeatInfo *>*connectMicArray;
 //连麦者uid数组
 @property(nonatomic, strong) NSArray *connectMicUidArray;
 
 @property(nonatomic, strong) UIView *connecterBgView;
+//麦位信息
+@property(nonatomic, strong) NSArray *seatInfoArray;
 
+@property(nonatomic, strong) NEPkRoomApiService *roomApiService;
+//断网标记
+@property(nonatomic, assign) BOOL isBrokenNetwork;
 @end
 
 @implementation NETSAudienceChatRoomCell
@@ -60,8 +68,7 @@
 
         self.clipsToBounds = YES;
         self.backgroundColor = [UIColor blackColor];
-        [self.contentView addSubview:self.mask];
-        
+//        [self.contentView addSubview:self.mask];
         self.reachability = [Reachability reachabilityWithHostName:@"www.baidu.com"];
         [self.reachability startNotifier];
         self.mask.chatRoomAvailable = [self.reachability isReachable];
@@ -84,68 +91,15 @@
         
         // 监测网络
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(audienceModeChange:) name:NotificationName_Audience_AcceptConnectMic object:nil];
     }
     return self;
 }
 
-- (void)audienceModeChange:(NSNotification *)notification{
-    
-    if ([NSObject isNullOrNilWithObject:self.roomModel]) {
-        return;
-    }
-    
-    NSDictionary *userInfo = (NSDictionary *)[notification object];
-    BOOL isLeave = [userInfo[@"isLeave"] boolValue];
-    NSDictionary *memberDict = userInfo[@"memberInfo"];
-    NETSConnectMicMemberModel *changeMemberModel = [NETSConnectMicMemberModel yy_modelWithDictionary:memberDict];
-    
-    if (isLeave) {//下麦操作
-        if ([changeMemberModel.accountId isEqualToString:[NEAccount shared].userModel.accountId]) {
-            [self changeToAudience];//切为观众视图
-        }
-        [self.connectMicArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            NETSConnectMicMemberModel *memberModel = obj;
-            if ([memberModel.accountId isEqualToString:changeMemberModel.accountId]) {
-                [self.connectMicArray removeObject:obj];
-                *stop = NO;
-            }
-        }];
 
-    }else {//上麦操作
-
-        if ([changeMemberModel.accountId isEqualToString:[NEAccount shared].userModel.accountId]) {
-            [self _obtainChatroomInfo:_roomModel isNeedEnterChatRoom:NO];//上麦拉取远端麦位人数
-            [self changeToConnecterView];
-            [self.mask addSubview:self.connectMicView];
-            [self.mask addSubview:self.connecterBgView];
-            [self.mask sendSubviewToBack:self.connecterBgView];
-            NERtcVideoCanvas *canvas = [[NERtcVideoCanvas alloc] init];
-            canvas.container = self.connecterBgView;
-            int result = [[NERtcEngine sharedEngine] setupRemoteVideoCanvas:canvas forUserID:self.roomModel.avRoomUid.longLongValue];
-            if (result != 0) {
-                YXAlogError(@"设置远端用户视图失败");
-            }
-            if (![self.connectMicUidArray containsObject:changeMemberModel.accountId]) {//去重过滤
-                [self.connectMicArray insertObject:changeMemberModel atIndex:0];
-            }
-
-        }else {
-            [self didChangeRoomStatus:NETSAudienceConnectStart];
-            if (![self.connectMicUidArray containsObject:changeMemberModel.accountId]) {//去重过滤
-                [self.connectMicArray addObject:changeMemberModel];
-            }
-        }
-    }
-    [self.connectMicView reloadDataSource:self.connectMicArray];
-
-}
-
-- (void)updateLocalConnecterArray:(NSArray *)serverArray {
+- (void)updateLocalConnecterArray:(NSArray <NESeatInfo *>*)serverArray {
     NSMutableArray *tempArray = [NSMutableArray array];
-    for (NETSConnectMicMemberModel *member in serverArray) {
-        [tempArray addObject:member.accountId];
+    for (NESeatInfo *member in serverArray) {
+        [tempArray addObject:member.userInfo.accountId];
     }
     self.connectMicUidArray = tempArray;
 }
@@ -161,21 +115,21 @@
     [self userLeaveRtcRoomAction];
     //重新添加播放器视图
     [self _layoutPlayerWithY:0];
-    [self _playWithUrl:self.roomModel.liveConfig.rtmpPullUrl];
+    [self _playWithUrl:self.roomModel.live.liveConfig.rtmpPullUrl];
     [self.connectMicArray removeAllObjects];
 }
 
 //自己下麦操作
 - (void)userLeaveRtcRoomAction {
     [NERtcEngine.sharedEngine leaveChannel];//观众离开rtc房间
+    YXAlogInfo(@"121223");
     [self.connecterBgView removeFromSuperview];
     [self.connectMicView removeFromSuperview];
     self.connectMicView = nil;
     self.connecterBgView = nil;
 }
 
-- (void)prepareForReuse
-{
+- (void)prepareForReuse {
     [super prepareForReuse];
     [self shutdownPlayer];
 }
@@ -188,10 +142,10 @@
     self.roomStatus = NETSAudienceRoomPullStream;
     [self.liveClosedMask removeFromSuperview];
     self.mask.left = 0;
+    [self.mask clearCurrentLiveRoomData];
 }
 
-- (void)shutdownPlayer;
-{
+- (void)shutdownPlayer {
     YXAlogInfo(@"观众端 关闭播放器");
     if (!_player) { return; }
     [self.player pause];
@@ -201,34 +155,57 @@
 }
 
 - (void)closeConnectMicRoomAction {
-    
-    [self.mask setUpBottomBarButtonType:NETSAudienceBottomRequestTypeNormal];
+    [self.mask removeFromSuperview];
     if (_connectMicView) {
-        [self disconnectRoomWithUserId:self.roomModel.accountId];
+        [self disconnectRoomWithUserId:self.roomModel.anchor.accountId];
         [self userLeaveRtcRoomAction];
     }
 }
 
 #pragma mark - get/set
 
-- (void)setRoomModel:(NETSLiveRoomModel *)roomModel
-{
+- (void)setRoomModel:(NELiveRoomListDetailModel *)roomModel {
     _roomModel = roomModel;
+    [self.contentView addSubview:self.mask];
     self.mask.room = roomModel;
     [self _obtainChatroomInfo:roomModel isNeedEnterChatRoom:YES];
+    if (roomModel.live.type == NERoomTypePkLive) {//获取pk信息
+        //预留操作
+        
+    }else if (roomModel.live.type == NERoomTypeConnectMicLive){//获取连麦信息
+        
+        [self.mask setUpBottomBarButtonType:NETSAudienceBottomRequestTypeNormal];
+        if (_connectMicView) {
+            [_connecterBgView removeFromSuperview];
+            [_connectMicView removeFromSuperview];
+        }
+        //设置麦位组件参数，适配麦位组件
+        [NELiveRoom sharedInstance].options.accessToken = [NEAccount shared].accessToken;
+        NERoomDetail *roomdetail = [[NERoomDetail alloc]init];
+        roomdetail.roomId = roomModel.live.roomId;
+        [NELiveRoom sharedInstance].roomService.currentRoom = roomdetail;
+        [NELiveRoom sharedInstance].rtcOption = false;
+        
+        [self connectMicEnterRoom];//连麦调用enterroom接口
+    }
 }
 
 #pragma mark - NETSPullStreamErrorViewDelegate
 
 /// 点击返回
-- (void)clickBackAction
-{
+- (void)clickBackAction {
     [[NENavigator shared].navigationController popViewControllerAnimated:YES];
 }
 
 /// 重新连接
-- (void)clickRetryAction
-{
+- (void)clickRetryAction {
+    
+    if (self.isBrokenNetwork) {
+        [NETSToast showToast:NSLocalizedString(@"网络异常", nil)];
+        return;
+    }
+
+    [self.mask setUpBottomBarButtonType:NETSAudienceBottomRequestTypeNormal];
     [self.networkFailureView removeFromSuperview];
     self.mask.roomStatus = NETSAudienceRoomPullStream;
     [self _obtainChatroomInfo:self.roomModel isNeedEnterChatRoom:YES];
@@ -236,8 +213,7 @@
 
 #pragma mark - Notification Method
 
-- (void)reachabilityChanged:(NSNotification *)note
-{
+- (void)reachabilityChanged:(NSNotification *)note {
     Reachability *currentReach = [note object];
     NSCParameterAssert([currentReach isKindOfClass:[Reachability class]]);
     NetworkStatus netStatus = [currentReach currentReachabilityStatus];
@@ -246,11 +222,13 @@
             YXAlogInfo(@"断网了");
             [self _showLiveRoomErrorView];
             [self shutdownPlayer];
-            
+            self.isBrokenNetwork = YES;
         }
             break;
 
-        default:
+        default:{
+            self.isBrokenNetwork = NO;
+        }
             break;
     }
 }
@@ -357,24 +335,112 @@
     [self _showLiveRoomClosedView];
 }
 
-- (void)didAudioAndVideoChanged:(NETSConnectMicAttachment *)msgAttachment {
-    //主播收到音视频变化的信息
-    for (NETSConnectMicMemberModel *memberModel in self.connectMicArray) {
-        if ([msgAttachment.member.accountId isEqualToString:memberModel.accountId]) {
-            memberModel.audio = msgAttachment.member.audio;
-            memberModel.video = msgAttachment.member.video;
+-(void)didAudioChanged:(NESeatInfo *)seatInfo {
+    //收到音频变化的信息
+    for (NESeatInfo *memberModel in self.connectMicArray) {
+        if ([seatInfo.userInfo.accountId isEqualToString:memberModel.userInfo.accountId]) {
+            memberModel.audioState = seatInfo.audioState;
             break;
         }
     }
     [self.connectMicView reloadDataSource:self.connectMicArray];
 }
 
+- (void)didVideoChanged:(NESeatInfo *)seatInfo {
+    //收到视频变化的信息
+    for (NESeatInfo *memberModel in self.connectMicArray) {
+        if ([seatInfo.userInfo.accountId isEqualToString:memberModel.userInfo.accountId]) {
+            memberModel.videoState = seatInfo.videoState;
+            break;
+        }
+    }
+    [self.connectMicView reloadDataSource:self.connectMicArray];
+}
+
+-(void)memberSeatStateChanged:(BOOL)isOnWheat seatInfo:(NESeatInfo *)seatInfo {
+    
+    if ([NSObject isNullOrNilWithObject:self.roomModel]) {
+        return;
+    }
+
+
+    if (isOnWheat) {//上麦
+        
+        if ([seatInfo.userInfo.accountId isEqualToString:[NEAccount shared].userModel.accountId]) {
+//            [self _obtainChatroomInfo:_roomModel isNeedEnterChatRoom:NO];//上麦拉取远端麦位人数
+            [self changeToConnecterView];
+            [self.mask addSubview:self.connectMicView];
+            [self.mask addSubview:self.connecterBgView];
+            [self.mask sendSubviewToBack:self.connecterBgView];
+            NERtcVideoCanvas *canvas = [[NERtcVideoCanvas alloc] init];
+            canvas.container = self.connecterBgView;
+            int result = [[NERtcEngine sharedEngine] setupRemoteVideoCanvas:canvas forUserID:self.roomModel.anchor.roomUid];
+
+            if (result != 0) {
+                YXAlogError(@"设置远端用户视图失败");
+            }
+/*
+ //获取最新的麦位信息
+ [[NELiveRoom sharedInstance].seatService fetchSeatInfosWithCompletion:^(NSArray<NESeatInfo *> * _Nullable seatInfoArray, NSError * _Nullable error) {
+     if (error) {
+         YXAlogError(@"fetchSeatInfos failed,error = %@",error);
+     }else {
+
+         if (self.connectMicArray.count >0) {
+             self.connectMicArray = [[NSMutableArray alloc]initWithArray:seatInfoArray];
+             [self updateLocalConnecterArray:seatInfoArray];//更新本地uid数组
+         }
+         //自己上麦
+         if (![self.connectMicUidArray containsObject:seatInfo.userInfo.accountId]) {//去重过滤
+             [self.connectMicArray insertObject:seatInfo atIndex:0];
+         }
+     }
+ }];
+ */
+            [self updateLocalConnecterArray:self.connectMicArray];//更新本地uid数组
+            //自己上麦
+            if (![self.connectMicUidArray containsObject:seatInfo.userInfo.accountId]) {//去重过滤
+                [self.connectMicArray insertObject:seatInfo atIndex:0];
+            }
+        }else {
+            [self didChangeRoomStatus:NETSAudienceConnectStart];
+            if (![self.connectMicUidArray containsObject:seatInfo.userInfo.accountId]) {//去重过滤
+                [self.connectMicArray addObject:seatInfo];
+            }
+        }
+    }else {//下麦
+        if ([seatInfo.userInfo.accountId isEqualToString:[NEAccount shared].userModel.accountId]) {
+            [self changeToAudience];//切为观众视图
+        }
+        [self.connectMicArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            NESeatInfo *memberModel = obj;
+            if ([memberModel.userInfo.accountId isEqualToString:seatInfo.userInfo.accountId]) {
+                [self.connectMicArray removeObject:obj];
+                *stop = NO;
+            }
+        }];
+    }
+    [self.connectMicView reloadDataSource:self.connectMicArray];
+}
+
+-(void)joinchannelFailed:(NSInteger)errorCode {
+    [self.mask setUpBottomBarButtonType:NETSAudienceBottomRequestTypeApplying];
+    [self shutdownPlayer];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self changeToAudience];
+    });
+}
+
 #pragma mark - NETSMutiConnectViewDelegate
 -(void)disconnectRoomWithUserId:(NSString *)userId {
-    [NETSLiveApi requestSeatManagerWithRoomId:self.roomModel.liveCid userId:userId index:1 action:NETSSeatsOperationWheatherLeaveSeats successBlock:^(NSDictionary * _Nonnull response) {
-        YXAlogDebug(@"上麦者下麦成功,response = %@",response);
-    } failedBlock:^(NSError * _Nonnull error, NSDictionary * _Nullable response) {
-        YXAlogError(@"上麦者下麦失败，error = %@",error.description);
+
+    NELeaveSeatParams *params = [[NELeaveSeatParams alloc]init];
+    [[NELiveRoom sharedInstance].seatService leaveSeat:params completion:^(NSError * _Nullable error) {
+        if (error) {
+            YXAlogError(@"connector leave seat failed,error = %@",error);
+        }else {
+            YXAlogInfo(@"connector leave seat success");
+        }
     }];
 }
 
@@ -384,7 +450,7 @@
 {
     ntes_main_async_safe(^{
         self.roomStatus = self.mask.roomStatus = NETSAudienceRoomLiveClosed;
-        [self.liveClosedMask installWithAvatar:self.roomModel.avatar nickname:self.roomModel.nickname];
+        [self.liveClosedMask installWithAvatar:self.roomModel.anchor.avatar nickname:self.roomModel.anchor.nickname];
         [self.mask addSubview:self.liveClosedMask];
     });
     [self.mask closeConnectMicRoom];
@@ -402,8 +468,10 @@
 
 }
 
-- (void)_showLiveRoomErrorView
-{
+- (void)_showLiveRoomErrorView {
+    
+    [self.mask dismissApplySeatBar];
+
     ntes_main_async_safe(^{
         self.roomStatus = self.mask.roomStatus = NETSAudienceRoomLiveError;
         [self.mask addSubview:self.networkFailureView];
@@ -411,21 +479,21 @@
 }
 
 /// 获取直播间详情
-- (void)_obtainChatroomInfo:(NETSLiveRoomModel *)roomModel isNeedEnterChatRoom:(BOOL)isNeed
+- (void)_obtainChatroomInfo:(NELiveRoomListDetailModel *)roomModel isNeedEnterChatRoom:(BOOL)isNeed
 {
     @weakify(self);
-    void(^joinRoomSuccess)(NETSLiveRoomModel *, NETSLiveRoomInfoModel *) = ^(NETSLiveRoomModel *room, NETSLiveRoomInfoModel *info){
+    void(^joinRoomSuccess)(NELiveRoomListDetailModel *, NECreateRoomResponseModel *) = ^(NELiveRoomListDetailModel *room, NECreateRoomResponseModel *info){
         ntes_main_async_safe(^{
             @strongify(self);
             self.mask.info = info;
             CGFloat y = 0;
-            if (info.pkRecord && (info.status == NETSRoomPKing || info.status == NETSRoomPunishment)) {
+            if ((info.live.liveStatus == NEPkliveStatusPkLiving || info.live.liveStatus == NEPkliveStatusPunish)) {
                 CGFloat top = 64 + (kIsFullScreen ? 44 : 20);
                 y = top - (kScreenHeight - (640 / 720.0 * kScreenWidth)) / 2.0;
             }
             [self _layoutPlayerWithY:y];
-            NSString *urlStr = room.liveConfig.rtmpPullUrl;
-            YXAlogInfo(@"观众端 设置播放地址: %@", room.liveConfig.rtmpPullUrl);
+            NSString *urlStr = room.live.liveConfig.rtmpPullUrl;
+            YXAlogInfo(@"观众端 设置播放地址: %@", room.live.liveConfig.rtmpPullUrl);
             [self _playWithUrl:urlStr];
         });
         
@@ -437,22 +505,19 @@
         [self _alertToExitRoomWithError:error];
         YXAlogInfo(@"观众端 加入直播间失败, error: %@", error);
     };
-    
-    [NETSLiveApi roomInfoWithCid:roomModel.liveCid completionHandle:^(NSDictionary * _Nonnull response) {
+
+    [self.roomApiService roomInfoWithRoomId:roomModel.live.roomId completionHandle:^(NSDictionary * _Nonnull response) {
+        YXAlogInfo(@"Get room info success");
         @strongify(self);
-        NETSLiveRoomInfoModel *info = response[@"/data"];
+        NECreateRoomResponseModel *info = response[@"/data"];
         if (!info) {
             YXAlogInfo(@"获取直播间详情失败, 房间信息为空");
             return;
         }
         self.roomInfo = info;
-        self.connectMicArray = [[NSMutableArray alloc]initWithArray:info.seatList];
-        [self updateLocalConnecterArray:info.seatList];//更新本地uid数组
-        if (info.type == NETSLiveTypeConnectMic && self.connectMicArray.count >0) {
-            [self.connectMicView reloadDataSource:self.connectMicArray];
-        }
+
         if (isNeed) {//pk多人连麦不需要重新加入
-            [self _joinChatRoom:roomModel.chatRoomId successBlock:^{
+            [self _joinChatRoom:roomModel.live.chatRoomId successBlock:^{
                 joinRoomSuccess(roomModel, info);
             } failedBlock:joinRoomFailed];
         }
@@ -464,6 +529,8 @@
         }
         YXAlogInfo(@"获取直播间详情失败, error: %@", error);
     }];
+    
+
 }
 
 /// 布局播放器
@@ -545,8 +612,8 @@
         accountErr = YES;
     }
     NSString *title = accountErr ? @"您的账号已登出" : @"直播间已关闭";
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:@"点击确定关闭该直播间" preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *confirm = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:NSLocalizedString(@"点击确定关闭该直播间", nil) preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *confirm = [UIAlertAction actionWithTitle:NSLocalizedString(@"确定", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         if (accountErr) {
             [[NENavigator shared].navigationController popToRootViewControllerAnimated:YES];
         } else {
@@ -581,8 +648,27 @@
     }
 }
 
+//pk连麦进入直播间
+- (void)connectMicEnterRoom {
+    if ([NSObject isNullOrNilWithObject:self.roomModel]) {
+        return;
+    }
+    
+    NEPkEnterRoomParams *params = [[NEPkEnterRoomParams alloc]init];
+    params.roomId = self.roomModel.live.roomId;
+    [self.roomApiService enterRoomWithParams:params successBlock:^(NSDictionary * _Nonnull response) {
+        YXAlogInfo(@"enterRoom success");
+    } failedBlock:^(NSError * _Nonnull error, NSDictionary * _Nullable response) {
+        YXAlogError(@"connectMicEnterRoom failed,error = %@",error);
+    }];
+}
 
 
+- (void)dealloc {
+    YXAlogInfo(@"dealloc NETSAudienceChatRoomCell: %p", self);
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self shutdownPlayer];
+}
 #pragma mark - lazy load
 
 - (NETSAudienceMask *)mask
@@ -598,7 +684,7 @@
 {
     if (!_networkFailureView) {
         _networkFailureView = [[NETSPullStreamErrorView alloc]init];
-        [_networkFailureView installWithAvatar:self.roomModel.avatar nickname:self.roomModel.nickname];
+        [_networkFailureView installWithAvatar:self.roomModel.anchor.avatar nickname:self.roomModel.anchor.nickname];
         _networkFailureView.delegate = self;
         _networkFailureView.userInteractionEnabled = YES;
     }
@@ -647,15 +733,18 @@
     return _connecterBgView;
 }
 
-- (NSMutableArray *)connectMicArray {
+- (NSMutableArray<NESeatInfo *> *)connectMicArray {
     if (!_connectMicArray) {
         _connectMicArray = [NSMutableArray array];
     }
     return _connectMicArray;
 }
-- (void)dealloc {
-    YXAlogInfo(@"dealloc NETSAudienceChatRoomCell: %p", self);
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [self shutdownPlayer];
+
+-(NEPkRoomApiService *)roomApiService {
+    if (!_roomApiService) {
+        _roomApiService = [[NEPkRoomApiService alloc]init];
+    }
+    return _roomApiService;
 }
+
 @end

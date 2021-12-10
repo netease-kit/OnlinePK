@@ -150,7 +150,7 @@
         _label = [[UILabel alloc] init];
         _label.font = [UIFont systemFontOfSize:14];
         _label.textColor = HEXCOLOR(0x222222);
-        _label.text = @"背景音乐";
+        _label.text = NSLocalizedString(@"背景音乐", nil);
     }
     return _label;
 }
@@ -159,7 +159,7 @@
 {
     if (!_btn1) {
         _btn1 = [[NETSAudioMixingSelectedBtn alloc] init];
-        [_btn1 setTitle:@"音乐1" forState:UIControlStateNormal];
+        [_btn1 setTitle:NSLocalizedString(@"音乐1", nil) forState:UIControlStateNormal];
         [_btn1 addTarget:self action:@selector(clickAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _btn1;
@@ -169,7 +169,7 @@
 {
     if (!_btn2) {
         _btn2 = [[NETSAudioMixingSelectedBtn alloc] init];
-        [_btn2 setTitle:@"音乐2" forState:UIControlStateNormal];
+        [_btn2 setTitle:NSLocalizedString(@"音乐2", nil) forState:UIControlStateNormal];
         [_btn2 addTarget:self action:@selector(clickAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _btn2;

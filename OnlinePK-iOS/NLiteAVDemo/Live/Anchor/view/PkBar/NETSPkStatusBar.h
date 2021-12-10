@@ -11,8 +11,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class NETSPassThroughHandleRewardData;
-
 ///
 /// PK状态条(固定高度58, 左侧为pk邀请者, 右侧为pk被邀请者)
 ///
@@ -26,9 +24,9 @@ NS_ASSUME_NONNULL_BEGIN
  @param rightRewardCoins    - 右总打赏数量
  @param rightRewardAvatars  - 右打赏用户头像集合
  */
-- (void)refreshWithLeftRewardCoins:(int32_t)leftRewardCoins
+- (void)refreshWithLeftRewardCoins:(int64_t)leftRewardCoins
                  leftRewardAvatars:(nullable NSArray<NSString *> *)leftRewardAvatars
-                  rightRewardCoins:(int32_t)rightRewardCoins
+                  rightRewardCoins:(int64_t)rightRewardCoins
                 rightRewardAvatars:(nullable NSArray<NSString *> *)rightRewardAvatars;
 
 /**

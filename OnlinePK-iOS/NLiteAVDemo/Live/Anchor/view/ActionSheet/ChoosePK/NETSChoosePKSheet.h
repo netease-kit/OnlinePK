@@ -10,8 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class NETSLiveRoomModel;
-@class NETSChoosePKSheet;
+@class NELiveRoomListDetailModel,NETSChoosePKSheet;
 
 @protocol NETSChoosePKSheetDelegate <NSObject>
 
@@ -20,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param sheet    - 选择PK视图
 /// @param room     - 主播房间
 ///
-- (void)choosePkOnSheet:(NETSChoosePKSheet *)sheet withRoom:(NETSLiveRoomModel *)room;
+- (void)choosePkOnSheet:(NETSChoosePKSheet *)sheet withRoom:(NELiveRoomListDetailModel *)room;
 
 @end
 

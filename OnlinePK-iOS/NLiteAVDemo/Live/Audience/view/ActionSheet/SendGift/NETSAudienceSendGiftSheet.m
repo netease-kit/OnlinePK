@@ -31,7 +31,7 @@
 + (void)showWithTarget:(id<NETSAudienceSendGiftSheetDelegate>)target gifts:(NSArray<NETSGiftModel *> *)gifts
 {
     CGRect frame = [UIScreen mainScreen].bounds;
-    NETSAudienceSendGiftSheet *sheet = [[NETSAudienceSendGiftSheet alloc] initWithFrame:frame title:@"送礼物"];
+    NETSAudienceSendGiftSheet *sheet = [[NETSAudienceSendGiftSheet alloc] initWithFrame:frame title:NSLocalizedString(@"送礼物", nil)];
     sheet.delegate = target;
     sheet.gifts = gifts;
     sheet.resetBtn.hidden = YES;
@@ -108,7 +108,7 @@
 {
     if (!_sendBtn) {
         _sendBtn = [[UIButton alloc] init];
-        [_sendBtn setTitle:@"发送" forState:UIControlStateNormal];
+        [_sendBtn setTitle:NSLocalizedString(@"发送", nil) forState:UIControlStateNormal];
         _sendBtn.layer.cornerRadius = 22;
         _sendBtn.layer.masksToBounds = YES;
         _sendBtn.backgroundColor = HEXCOLOR(0x2883fc);

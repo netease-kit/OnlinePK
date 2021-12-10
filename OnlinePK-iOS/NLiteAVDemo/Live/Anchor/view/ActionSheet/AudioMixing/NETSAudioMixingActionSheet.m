@@ -36,7 +36,7 @@ NSString * const kNetsRtcEffectStopNoti = @"kNetsRtcEffectStopNoti";
 + (void)show
 {
     CGRect frame = [UIScreen mainScreen].bounds;
-    NETSAudioMixingActionSheet *sheet = [[NETSAudioMixingActionSheet alloc] initWithFrame:frame title:@"伴音"];
+    NETSAudioMixingActionSheet *sheet = [[NETSAudioMixingActionSheet alloc] initWithFrame:frame title:NSLocalizedString(@"伴音", nil)];
     sheet.resetBtn.hidden = YES;
     [[NSNotificationCenter defaultCenter] addObserver:sheet selector:@selector(_effectStopNotiCallback:) name:kNetsRtcEffectStopNoti object:nil];
     
@@ -184,7 +184,7 @@ NSString * const kNetsRtcEffectStopNoti = @"kNetsRtcEffectStopNoti";
 - (NETSAudioMixingItem *)mixingItem
 {
     if (!_mixingItem) {
-        _mixingItem = [[NETSAudioMixingItem alloc] initWithTitle:@"背景音乐" btn1Tit:@"音乐1" btn2Tit:@"音乐2" sliderMinVal:0 sliderMaxVal:100 delegate:self];
+        _mixingItem = [[NETSAudioMixingItem alloc] initWithTitle:NSLocalizedString(@"背景音乐", nil) btn1Tit:NSLocalizedString(@"音乐1", nil) btn2Tit:NSLocalizedString(@"音乐2", nil) sliderMinVal:0 sliderMaxVal:100 delegate:self];
         _mixingItem.sliderValue = [NETSLiveConfig shared].mixVolume;
         [_mixingItem setSelectedIndex:[NETSLiveConfig shared].mixingIdx];
     }
@@ -194,7 +194,7 @@ NSString * const kNetsRtcEffectStopNoti = @"kNetsRtcEffectStopNoti";
 - (NETSAudioMixingItem *)effectItem
 {
     if (!_effectItem) {
-        _effectItem = [[NETSAudioMixingItem alloc] initWithTitle:@"音效" btn1Tit:@"音效1" btn2Tit:@"音效2" sliderMinVal:0 sliderMaxVal:100 delegate:self];
+        _effectItem = [[NETSAudioMixingItem alloc] initWithTitle:NSLocalizedString(@"音效", nil) btn1Tit:NSLocalizedString(@"音效1", nil) btn2Tit:NSLocalizedString(@"音效2", nil) sliderMinVal:0 sliderMaxVal:100 delegate:self];
         _effectItem.sliderValue = [NETSLiveConfig shared].effectVolume;
         [_effectItem setSelectedIndex:[NETSLiveConfig shared].effectIdx];
     }

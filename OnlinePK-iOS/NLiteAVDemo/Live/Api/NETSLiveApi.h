@@ -87,13 +87,6 @@ NS_ASSUME_NONNULL_BEGIN
                  errorHandle:(nullable NETSRequestError)errorHandle;
 
 /**
- 获取直播间详情
- */
-+ (void)roomInfoWithCid:(NSString *)cid
-       completionHandle:(nullable NETSRequestCompletion)completionHandle
-            errorHandle:(nullable NETSRequestError)errorHandle;
-
-/**
  直播间打赏
  */
 + (void)rewardLiveCid:(NSString *)liveCid
@@ -116,33 +109,6 @@ NS_ASSUME_NONNULL_BEGIN
                        anchorAccountId:(NSString *)anchorAccountId
                           successBlock:(nullable NETSRequestCompletion)successBlock
                            failedBlock:(nullable NETSRequestError)failedBlock;
-
-/// 麦位操作
-/// @param roomId 房间id
-/// @param userId 用户id
-/// @param seatIndex 麦位序号
-/// @param action 麦位操作action
-/// @param successBlock 成功闭包
-/// @param failedBlock 失败闭包
-+ (void)requestSeatManagerWithRoomId:(NSString *)roomId
-                            userId:(NSString *)userId
-                             index:(int32_t)seatIndex
-                            action:(NETSSeatsOperation)action
-                       successBlock:(nullable NETSRequestCompletion)successBlock
-                        failedBlock:(nullable NETSRequestError)failedBlock;
-
-
-/// 连麦观众列表查询
-/// @param roomId 房间id
-/// @param type 状态类型 
-/// @param successBlock 成功闭包
-/// @param failedBlock 失败闭包
-+ (void)requestMicSeatsResultListWithRoomId:(NSString *)roomId
-                                    type:(NETSUserStatus)type
-                             successBlock:(nullable NETSRequestCompletion)successBlock
-                                failedBlock:(nullable NETSRequestError)failedBlock;
-
-
 
 
 /// 麦位音视频操作

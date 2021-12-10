@@ -45,6 +45,11 @@ typedef enum : NSUInteger {
 
 //pk直播和非pk直播按钮icon的切换
 - (void)scenarioChanged:(NSString *)changeIconName;
+
+/// 初始化方法
+/// @param roomType 房间类型
+- (instancetype)initWithRoomType:(NERoomType)roomType;
+
 @end
 
 NS_ASSUME_NONNULL_END

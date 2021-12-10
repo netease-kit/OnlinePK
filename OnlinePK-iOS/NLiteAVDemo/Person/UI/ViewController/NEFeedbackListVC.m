@@ -22,34 +22,34 @@
     [self setupTableview];
 }
 - (void)setupTableview {
-    self.title = @"意见反馈";
+    self.title = NSLocalizedString(@"意见反馈", nil);
     [self.tableView registerClass:[NEFeedbackListCell class] forCellReuseIdentifier:@"NEFeedbackListCell"];
     [self.tableView registerClass:[NEFeedbackListSectionView class] forHeaderFooterViewReuseIdentifier:@"NEFeedbackListSectionView"];
      self.dataArray = [NSMutableArray array];
     NSInteger code = 99;
-    for (NSString *title in @[@"音频问题",@"视频问题",@"交互体验",@"其他问题"]) {
+    for (NSString *title in @[NSLocalizedString(@"音频问题", nil), NSLocalizedString(@"视频问题", nil), NSLocalizedString(@"交互体验", nil), NSLocalizedString(@"其他问题", nil)]) {
         NEFeedbackInfo *info = [[NEFeedbackInfo alloc] init];
         info.title = title;
         NSMutableArray *items = [NSMutableArray array];
-        if ([title isEqualToString:@"音频问题"]) {
+        if ([title isEqualToString:NSLocalizedString(@"音频问题", nil)]) {
             code = 100;
-            for (NSString *itemTitle in @[@"听不到声音",@"杂音、机械音",@"声音卡顿"]) {
+            for (NSString *itemTitle in @[NSLocalizedString(@"听不到声音", nil), NSLocalizedString(@"杂音、机械音", nil), NSLocalizedString(@"声音卡顿", nil)]) {
                 code = code + 1;
                 NEFeedbackInfo *item = [[NEFeedbackInfo alloc] init];
                 item.title = itemTitle;
                 item.code = code;
                 [items addObject:item];
             }
-        }else if ([title isEqualToString:@"视频问题"]){
-            for (NSString *itemTitle in @[@"看不到画面",@"画面卡顿",@"画面模糊",@"声音画面不同步"]) {
+        } else if ([title isEqualToString:NSLocalizedString(@"视频问题", nil)]){
+            for (NSString *itemTitle in @[NSLocalizedString(@"看不到画面", nil),NSLocalizedString(@"画面卡顿", nil), NSLocalizedString(@"画面模糊", nil), NSLocalizedString(@"声音画面不同步", nil)]) {
                 code = code + 1;
                 NEFeedbackInfo *item = [[NEFeedbackInfo alloc] init];
                 item.title = itemTitle;
                 item.code = code;
                 [items addObject:item];
             }
-        }else if ([title isEqualToString:@"交互体验"]){
-            for (NSString *itemTitle in @[@"意外退出"]) {
+        } else if ([title isEqualToString:NSLocalizedString(@"交互体验", nil)]){
+            for (NSString *itemTitle in @[NSLocalizedString(@"意外退出", nil)]) {
                 code = code + 1;
                 NEFeedbackInfo *item = [[NEFeedbackInfo alloc] init];
                 item.title = itemTitle;
@@ -109,14 +109,5 @@
     NEFeedbackListCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     cell.arrowButton.selected = item.isSelected;
 }
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

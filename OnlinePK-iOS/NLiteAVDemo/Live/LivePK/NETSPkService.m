@@ -17,6 +17,7 @@
 #import "NETSPkService+Invitee.h"
 #import "NETSPkService+im.h"
 #import "NETSConnectMicModel.h"
+#import "NETSLiveConfig.h"
 
 #define kPkServiceTimerQueue            "com.netease.pk.service.timer.queue"
 #define NETSPkServiceErrorParamDomain   @"NETSPkServiceErrorParamDomain"
@@ -589,7 +590,30 @@
                                 successBlock:(void(^)(int64_t, uint64_t, uint64_t))successBlock
                                  failedBlock:(void(^)(NSError *))failedBlock
 {
-    int res = [[NERtcEngine sharedEngine] joinChannelWithToken:result.avRoomCheckSum
+    
+    NERtcEngine *coreEngine = NERtcEngine.sharedEngine;
+    // 设置直播模式
+    [coreEngine setChannelProfile:kNERtcChannelProfileLiveBroadcasting];
+    
+    // 打开推流,回调摄像头采集数据
+    NSDictionary *params = @{
+        kNERtcKeyPublishSelfStreamEnabled: @YES,    // 打开推流
+        kNERtcKeyVideoCaptureObserverEnabled: @YES  // 将摄像头采集的数据回调给用户
+    };
+    [coreEngine setParameters:params];
+    [coreEngine setClientRole:kNERtcClientRoleBroadcaster];
+    
+    // 设置视频发送配置(帧率/分辨率)
+    NERtcVideoEncodeConfiguration *config = [NETSLiveConfig shared].videoConfig;
+    [coreEngine setLocalVideoConfig:config];
+    
+    // 设置音频质量
+    NSUInteger quality = [NETSLiveConfig shared].audioQuality;
+    [coreEngine setAudioProfile:kNERtcAudioProfileDefault scenario:quality];
+    // 启用本地音/视频
+    [coreEngine enableLocalAudio:YES];
+    [coreEngine enableLocalVideo:YES];
+    int res = [coreEngine joinChannelWithToken:result.avRoomCheckSum
                                                    channelName:result.avRoomCName
                                                          myUid:[result.avRoomUid longLongValue]
                                                     completion:^(NSError * _Nullable error, uint64_t channelId, uint64_t elapesd) {

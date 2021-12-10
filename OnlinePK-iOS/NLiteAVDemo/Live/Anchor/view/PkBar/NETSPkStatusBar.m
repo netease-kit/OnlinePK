@@ -200,9 +200,9 @@
 
 - (void)_refreshLeftRewardCoins:(int64_t)inviterRewardCoins rightRewardCoins:(int64_t)inviteeRewardCoins
 {
-    self.leftValLab.text = [NSString stringWithFormat:@"我方 %lld", inviterRewardCoins];
-    self.rightValLab.text = [NSString stringWithFormat:@"%lld 对方", inviteeRewardCoins];
-    
+
+    self.leftValLab.text = [NSString stringWithFormat:NSLocalizedString(@"我方 %lld", nil), inviterRewardCoins];
+    self.rightValLab.text = [NSString stringWithFormat:NSLocalizedString(@"%lld 对方", nil), inviteeRewardCoins];
     // 修改渐变色渲染
     CGFloat scale = 0.5;
     if (inviterRewardCoins + inviteeRewardCoins > 0) {
@@ -227,9 +227,9 @@
     }
 }
 
-- (void)refreshWithLeftRewardCoins:(int32_t)leftRewardCoins
+- (void)refreshWithLeftRewardCoins:(int64_t)leftRewardCoins
                  leftRewardAvatars:(nullable NSArray<NSString *> *)leftRewardAvatars
-                  rightRewardCoins:(int32_t)rightRewardCoins
+                  rightRewardCoins:(int64_t)rightRewardCoins
                 rightRewardAvatars:(nullable NSArray<NSString *> *)rightRewardAvatars
 {
     [self _refreshLeftRewardCoins:leftRewardCoins rightRewardCoins:rightRewardCoins];

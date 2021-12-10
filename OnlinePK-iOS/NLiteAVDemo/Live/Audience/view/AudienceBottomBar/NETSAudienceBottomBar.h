@@ -13,9 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// 客户端底部工具条
 ///
-
-
-
 @protocol NETSAudienceBottomBarDelegate <NSObject>
 
 - (void)clickTextLabel:(UILabel *)label;
@@ -29,6 +26,9 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface NETSAudienceBottomBar : UIView
+
+
+@property(nonatomic, assign) NERoomType roomType;
 
 @property (nonatomic, strong, readonly) UITextField *textField;
 @property (nonatomic, weak) id<NETSAudienceBottomBarDelegate> delegate;

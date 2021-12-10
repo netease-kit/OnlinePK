@@ -59,7 +59,7 @@
         _tipLabel.font = [UIFont systemFontOfSize:14];
         _tipLabel.textColor = HEXCOLOR(0x2b2c39);
         _tipLabel.textAlignment = NSTextAlignmentCenter;
-        _tipLabel.text = @"暂无直播哦";
+        _tipLabel.text = NSLocalizedString(@"暂无直播哦", nil);
     }
     return _tipLabel;
 }

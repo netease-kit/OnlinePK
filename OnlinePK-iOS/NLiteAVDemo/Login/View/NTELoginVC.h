@@ -24,6 +24,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithOptions:(NELoginOptions * _Nullable)options;
 
+
+/// appdelegate 设置根控制器
+/// @param options 登录配置项
+/// @param close 是否展示关闭按钮
+- (instancetype)initWithOptions:(NELoginOptions * _Nullable)options isShowClose:(BOOL)close;
+
 @end
 
 NS_ASSUME_NONNULL_END

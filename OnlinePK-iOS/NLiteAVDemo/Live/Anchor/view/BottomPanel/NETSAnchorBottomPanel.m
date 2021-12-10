@@ -7,6 +7,7 @@
 // Use of this source code is governed by a MIT license that can be found in the LICENSE file.
 
 #import "NETSAnchorBottomPanel.h"
+#import "UIControl+repeatclick.h"
 
 @interface NETSCircleBtn ()
 
@@ -78,8 +79,7 @@
 @property (nonatomic, strong)   NETSCircleBtn    *beautyBtn;
 /// 滤镜按钮
 @property (nonatomic, strong)   NETSCircleBtn    *filterBtn;
-/// 设置按钮
-@property (nonatomic, strong)   NETSCircleBtn    *settingBtn;
+
 
 @end
 
@@ -98,10 +98,9 @@
 {
     [self addSubview:self.beautyBtn];
     [self addSubview:self.filterBtn];
-    [self addSubview:self.settingBtn];
     [self addSubview:self.liveBtn];
     
-    NSArray *views = @[self.beautyBtn, self.filterBtn, self.settingBtn];
+    NSArray *views = @[self.beautyBtn, self.filterBtn];
     [views mas_distributeViewsAlongAxis:MASAxisTypeHorizontal withFixedItemLength:64 leadSpacing:52 tailSpacing:52];
     for (UIView *view in views) {
         [view mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -128,9 +127,6 @@
     else if ([sender isEqual:self.filterBtn] && [self.delegate respondsToSelector:@selector(clickFilterBtn)]) {
         [self.delegate clickFilterBtn];
     }
-    else if ([sender isEqual:self.settingBtn] && [self.delegate respondsToSelector:@selector(clickSettingBtn)]) {
-        [self.delegate clickSettingBtn];
-    }
     else if ([sender isEqual:self.liveBtn] && [self.delegate respondsToSelector:@selector(clickStartLiveBtn)]) {
         [self.delegate clickStartLiveBtn];
     }
@@ -141,7 +137,7 @@
 - (NETSCircleBtn *)beautyBtn
 {
     if (!_beautyBtn) {
-        _beautyBtn = [[NETSCircleBtn alloc] initWithTitle:@"美颜" icon:@"beauty_ico"];
+        _beautyBtn = [[NETSCircleBtn alloc] initWithTitle:NSLocalizedString(@"美颜", nil) icon:@"beauty_ico"];
         _beautyBtn.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6];
         [_beautyBtn addTarget:self action:@selector(clickAction:) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -151,33 +147,26 @@
 - (NETSCircleBtn *)filterBtn
 {
     if (!_filterBtn) {
-        _filterBtn = [[NETSCircleBtn alloc] initWithTitle:@"滤镜" icon:@"filter_ico"];
+        _filterBtn = [[NETSCircleBtn alloc] initWithTitle:NSLocalizedString(@"滤镜", nil) icon:@"filter_ico"];
         _filterBtn.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6];
         [_filterBtn addTarget:self action:@selector(clickAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _filterBtn;
 }
 
-- (NETSCircleBtn *)settingBtn
-{
-    if (!_settingBtn) {
-        _settingBtn = [[NETSCircleBtn alloc] initWithTitle:@"设置" icon:@"setting_ico"];
-        _settingBtn.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6];
-        [_settingBtn addTarget:self action:@selector(clickAction:) forControlEvents:UIControlEventTouchUpInside];
-    }
-    return _settingBtn;
-}
 
 - (UIButton *)liveBtn
 {
     if (!_liveBtn) {
         _liveBtn = [[UIButton alloc] init];
-        [_liveBtn setTitle:@"开启直播间" forState:UIControlStateNormal];
+        [_liveBtn setTitle:NSLocalizedString(@"开启直播间", nil) forState:UIControlStateNormal];
         [_liveBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_liveBtn addTarget:self action:@selector(clickAction:) forControlEvents:UIControlEventTouchUpInside];
         _liveBtn.titleLabel.font = [UIFont systemFontOfSize:16];
         _liveBtn.layer.cornerRadius = 22;
         _liveBtn.layer.masksToBounds = YES;
+        _liveBtn.ne_ignoreEvent = NO;
+        _liveBtn.ne_acceptEventInterval = 3.0;//防重点击
     }
     return _liveBtn;
 }

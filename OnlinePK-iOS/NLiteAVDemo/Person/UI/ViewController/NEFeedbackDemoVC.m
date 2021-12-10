@@ -22,10 +22,10 @@
     [self setupTableview];
 }
 - (void)setupTableview {
-    self.title = @"Demo类型";
+    self.title = NSLocalizedString(@"Demo类型", nil);
     [self.tableView registerClass:[NEFeedbackListCell class] forCellReuseIdentifier:@"NEFeedbackListCell"];
     //一对一视频通话Demo“ ”多人视频通话Demo“ ”主播PK Demo“
-    self.dataArray = @[@"一对一视频通话Demo",@"多人视频通话Demo"];
+    self.dataArray = @[NSLocalizedString(@"一对一视频通话Demo", nil), NSLocalizedString(@"多人视频通话Demo", nil)];
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;

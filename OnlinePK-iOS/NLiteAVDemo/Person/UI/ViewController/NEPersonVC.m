@@ -25,7 +25,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"个人中心";
+    self.title = NSLocalizedString(@"个人中心", nil);
     [self.tableView registerClass:[NEPersonTableViewCell class] forCellReuseIdentifier:@"personCellID"];
 }
 
@@ -36,7 +36,8 @@
 
 - (void)initData {
     NSString *name = NEAccount.shared.userModel.nickname?:@"";
-    self.dataArray = @[@[name],@[@"免费申请试用",@"问题反馈",@"关于"]];
+    self.dataArray = @[@[name],@[NSLocalizedString(@"免费申请试用", nil),NSLocalizedString(@"关于", nil)]];
+    
 }
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -76,7 +77,10 @@
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             if (![NEAccount shared].hasLogin) {
-                [[NENavigator shared] loginWithOptions:nil];
+                //[[NENavigator shared] loginWithOptions:nil];
+                [[AuthorManager shareInstance] startEntranceWithCompletion:^(YXUserInfo * _Nullable userinfo, NSError * _Nullable error) {
+                    [NEAccount imloginWithYXuser:[LoginManager getUserInfo]];
+                }];
             }else {
                 //个人信息
                 NEPersonInfoVC *vc = [[NEPersonInfoVC alloc] init];
@@ -91,16 +95,9 @@
                 [self gotoTry];
                 break;
             case 1:
-                // 问题反馈
-                [self gotoEvaluate];
-                break;
-            case 2:
                 //关于
-            {
                 [self gotoAboutMe];
-            }
                 break;
-                
             default:
                 break;
         }
@@ -109,13 +106,13 @@
 }
 - (void)gotoEvaluate {
     NEFeedbackVC *evaluateVC = [[NEFeedbackVC alloc] init];
-    evaluateVC.title = @"意见反馈";
+    evaluateVC.title = NSLocalizedString(@"意见反馈", nil);
     evaluateVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:evaluateVC animated:YES];
 }
 - (void)gotoTry {
     NEBaseWebViewController *web = [[NEBaseWebViewController alloc] initWithUrlString:@"https://id.163yun.com/register"];
-    web.title = @"网易云信注册";
+    web.title = NSLocalizedString(@"网易云信注册", nil);
     web.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:web animated:YES];
 }

@@ -36,6 +36,14 @@ NS_ASSUME_NONNULL_BEGIN
             successBlock:(void(^)(void))successBlock
              failedBlock:(void(^)(NSError *))failedBlock;
 
+
+/*
+
+ */
++ (void)updateLiveStreamTask:(NERtcLiveStreamTaskInfo *)taskInfo
+               successBlock:(void(^)(void))successBlock
+                failedBlock:(void(^)(NSError *))failedBlock;
+
 /**
  构造推流任务
  @param url     - 推流地址
@@ -44,6 +52,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (nullable NERtcLiveStreamTaskInfo *)streamTaskWithUrl:(NSString *)url
                                                    uids:(NSArray<NSNumber *> *)uids;
+
+/// 构造推流任务
+/// @param url 推流地址
+/// @param uids 用户ID
+/// @param audioPush 是否在直播中混流该用户的对应音频流
++ (nullable NERtcLiveStreamTaskInfo *)streamTaskWithUrl:(NSString *)url
+                                                uids:(NSArray<NSNumber *> *)uids
+                                           audioPush:(BOOL)audioPush
+                                    otherAnchorUid:(int64_t)otherUid;
 
 /**
  解析信令返回自定义字段
