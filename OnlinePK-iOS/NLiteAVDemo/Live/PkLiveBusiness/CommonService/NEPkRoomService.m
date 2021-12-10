@@ -16,7 +16,7 @@
 #import "NEPkCreateRoomParams.h"
 #import "NETSChatroomService.h"
 #import "NEPkDestroyRoomParams.h"
-
+#import "NETSLiveConfig.h"
 
 @interface NEPkRoomService ()
 @property(nonatomic, strong) NEAudioOption *audioOption;
@@ -43,6 +43,8 @@
                     successBlock:(NECreateRoomSuccess)successBlock
                     failedBlock:(void(^)(NSError *))failedBlock {
     
+    __weak typeof(self) weakSelf = self;
+
     // 加入直播间并推流闭包
     void (^joinChannelAndPushStreamBlock)(NECreateRoomResponseModel *_Nonnull) = ^(NECreateRoomResponseModel *responseModel) {
         [NETSPushStreamService joinChannelWithToken:responseModel.anchor.roomCheckSum channelName:responseModel.live.roomCname uid:responseModel.anchor.roomUid streamUrl:responseModel.live.liveConfig.pushUrl successBlcok:^(NERtcLiveStreamTaskInfo * _Nonnull task) {
@@ -68,6 +70,8 @@
     [self.roomApiService createRoomWithParams:params successBlock:^(NSDictionary * _Nonnull response) {
         NECreateRoomResponseModel *result = response[@"/data"];
         [NETSChatroomService enterWithRoomId:result.live.chatRoomId userMode:NETSUserModeAnchor success:^(NIMChatroom * _Nullable chatroom, NIMChatroomMember * _Nullable me) {
+            
+            [weakSelf setUpEngineParams];
             joinChannelAndPushStreamBlock(result);
         } failed:^(NSError * _Nullable error) {
             if (failedBlock) { failedBlock(error); }
@@ -135,6 +139,31 @@
     if (error) {
         YXAlogInfo(@"anchor send text failed, error: %@", error);
     }
+}
+
+- (void)setUpEngineParams {
+    
+    NERtcEngine *coreEngine = [NERtcEngine sharedEngine];
+    // 打开推流,回调摄像头采集数据
+    NSDictionary *params = @{
+        kNERtcKeyPublishSelfStreamEnabled: @YES,    // 打开推流
+        kNERtcKeyVideoCaptureObserverEnabled: @YES  // 将摄像头采集的数据回调给用户
+    };
+    [coreEngine setParameters:params];
+    [coreEngine setClientRole:kNERtcClientRoleBroadcaster];
+    
+    // 设置视频发送配置(帧率/分辨率)
+    NERtcVideoEncodeConfiguration *config = [NETSLiveConfig shared].videoConfig;
+    [coreEngine setLocalVideoConfig:config];
+    
+    // 设置音频质量
+    NSUInteger quality = [NETSLiveConfig shared].audioQuality;
+    [coreEngine setAudioProfile:kNERtcAudioProfileHighQuality scenario:quality];
+    [coreEngine setChannelProfile:kNERtcChannelProfileLiveBroadcasting];
+    
+    // 启用本地音/视频
+    [coreEngine enableLocalAudio:YES];
+    [coreEngine enableLocalVideo:YES];
 }
 
 - (NEAudioOption *)getAudioOption {

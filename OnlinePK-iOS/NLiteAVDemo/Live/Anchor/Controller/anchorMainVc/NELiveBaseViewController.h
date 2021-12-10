@@ -43,11 +43,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 连麦管理按钮点击事件
 - (void)connectMicManagerClick;
-
 /// 建立本地canvas模型
 - (NERtcVideoCanvas *)setupLocalCanvas;
 /// 建立单人直播canvas模型
 - (NERtcVideoCanvas *)setupSingleCanvas;
+
+//远端用户加入音视频房间回调
+- (void)onUserJoinWithUid:(int64_t)userId;
+
 //主播关闭房间
 - (void)closeLiveRoom;
 @end

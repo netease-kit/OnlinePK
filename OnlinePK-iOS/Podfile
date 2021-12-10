@@ -1,16 +1,18 @@
 # Uncomment the next line to define a global platform for your project
 
 platform :ios, '10.0'
+install! 'cocoapods', :disable_input_output_paths => true
 workspace 'NLiteAVDemo'
 source 'https://github.com/CocoaPods/Specs.git'
 
 # There are no targets called "Shows" in any Xcode projects
 abstract_target 'NEPkDemo' do
-  
-  pod 'NERtcSDK', '4.2.102'
-  pod 'NIMSDK_LITE', '8.3.1'
+
+  pod 'NERtcSDK', '4.2.115'
+  pod 'NIMSDK_LITE', '8.6.2'
   
   target 'NLiteAVDemo' do
+    use_frameworks!
     pod 'Nama-lite', '7.3.2'
     pod 'Masonry'
     pod 'SDWebImage', '5.11.1'
@@ -24,10 +26,14 @@ abstract_target 'NEPkDemo' do
     pod 'Reachability'
     pod 'YXAlog_iOS', '~> 0.1.0'
     pod 'BlocksKit'
+    pod 'YXLogin', '0.2.0'
+
   end
 
   target 'NELiveRoom' do
     project './NELiveRoom/NELiveRoom.xcodeproj'
     end
-  
+
+
+
 end

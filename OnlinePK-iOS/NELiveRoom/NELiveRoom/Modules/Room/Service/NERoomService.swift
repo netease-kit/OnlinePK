@@ -163,10 +163,11 @@ class NERoomService: NERoomAPIService,NERoomServiceProtocol,NIMChatManagerDelega
                 completion?(nil, nil, NSError(domain: NELiveRoomErrorDomain, code: NELiveRoomErrorInvalidParams, userInfo: [NSLocalizedDescriptionKey: "uid不合法！！"]))
                 return
             }
-            let ret = NERtcEngine.shared().joinChannel(withToken: self.currentUser?.checksum ?? "", channelName: cname, myUid: myUid) { (error, cid, elapesd) in
+            let ret = NERtcEngine.shared().joinChannel(withToken: self.currentUser?.checksum ?? "", channelName: cname, myUid: myUid) { (error, cid, elapesd,uid) in
                 dispatchGroup.leave()
                 rtcError = error as NSError?
             }
+            
             if ret == 0 {
                 dispatchGroup.enter()
             } else {

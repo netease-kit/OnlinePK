@@ -140,31 +140,16 @@
 - (void)setupRTCEngine {
     NSAssert(![kAppKey isEqualToString:@"AppKey"], @"请设置AppKey");
     NERtcEngine *coreEngine = [NERtcEngine sharedEngine];
-    
-    // 设置直播模式
-    [coreEngine setChannelProfile:kNERtcChannelProfileLiveBroadcasting];
-    
+    NERtcEngineContext *context = [[NERtcEngineContext alloc] init];
+    context.engineDelegate = self;
+    context.appKey = kNertcAppkey;
     // 打开推流,回调摄像头采集数据
     NSDictionary *params = @{
         kNERtcKeyPublishSelfStreamEnabled: @YES,    // 打开推流
         kNERtcKeyVideoCaptureObserverEnabled: @YES  // 将摄像头采集的数据回调给用户
     };
     [coreEngine setParameters:params];
-    [coreEngine setClientRole:kNERtcClientRoleBroadcaster];
     
-    // 设置视频发送配置(帧率/分辨率)
-    NERtcVideoEncodeConfiguration *config = [NETSLiveConfig shared].videoConfig;
-    [coreEngine setLocalVideoConfig:config];
-    
-    // 设置音频质量
-    NSUInteger quality = [NETSLiveConfig shared].audioQuality;
-    [coreEngine setAudioProfile:kNERtcAudioProfileHighQuality scenario:quality];
-    [coreEngine setChannelProfile:kNERtcChannelProfileLiveBroadcasting];
-
-    
-    NERtcEngineContext *context = [[NERtcEngineContext alloc] init];
-    context.engineDelegate = self;
-    context.appKey = kNertcAppkey;
     NERtcLogSetting *setting = [[NERtcLogSetting alloc] init];
      #if DEBUG
           setting.logLevel = kNERtcLogLevelInfo;
@@ -175,11 +160,8 @@
 
     int res = [coreEngine setupEngineWithContext:context];
     YXAlogInfo(@"初始化设置 NERtcEngine, res: %d", res);
-    
-    // 启用本地音/视频
-    [coreEngine enableLocalAudio:YES];
-    [coreEngine enableLocalVideo:YES];
 }
+
 /// 预览布局
 - (void)layoutPreview {
     [self.anchorInfo removeFromSuperview];
@@ -290,11 +272,6 @@
             YXAlogError(@"close liveRoom failed,error = %@",error);
             [NETSToast showToast:NSLocalizedString(@"关闭房间失败", nil)];
         }
-        //销毁rtc资源
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            int res = [NERtcEngine destroyEngine];
-            YXAlogInfo(@"destroyEngine, res: %d", res);
-        });
         if ([self.presentedViewController isKindOfClass:[UIAlertController class]]) {//防止在销毁房间的时候有其他主播邀请pk
             [self.navigationController dismissViewControllerAnimated:YES completion:^{
                 [self.navigationController popViewControllerAnimated:YES];
@@ -342,30 +319,21 @@
     [self.switchCameraBtn removeFromSuperview];
     [self.settingPanel removeFromSuperview];
     [self.bottomPanel removeFromSuperview];
-//    [self.pkSuccessIco removeFromSuperview];
-//    [self.pkFailedIco removeFromSuperview];
-    
-//    [self.view addSubview:self.pkStatusBar];
+
     [self.view addSubview:self.anchorInfo];
     [self.view addSubview:self.audienceInfo];
     [self.view addSubview:self.chatView];
-//    [self.view addSubview:self.pkBtn];
     [self.view addSubview:self.livingInputTool];
-//    [self.view addSubview:self.inviteeInfo];
     [self.view addSubview:self.toolBar];
     
     self.singleRender.hidden = YES;
     
-//    self.pkStatusBar.frame = CGRectMake(0, self.localRender.bottom, kScreenWidth, 58);
     self.anchorInfo.frame = CGRectMake(8, (kIsFullScreen ? 44 : 20) + 4, 124, 36);
     self.audienceInfo.frame = CGRectMake(kScreenWidth - 8 - 195, self.anchorInfo.top + (36 - 28) / 2.0, 195, 28);
     CGFloat chatViewHeight = [self chatViewHeight];
     self.chatView.frame = CGRectMake(8, kScreenHeight - (kIsFullScreen ? 34 : 0) - 64 - chatViewHeight, kScreenWidth - 16 - 60 - 20, chatViewHeight);
-//    self.pkBtn.frame = CGRectMake(kScreenWidth - 60 - 8, kScreenHeight - (kIsFullScreen ? 34 : 0) - 64 - 60, 60, 60);
     self.livingInputTool.frame = CGRectMake(0, kScreenHeight - (kIsFullScreen ? 34 : 0) - 14 - 36, kScreenWidth, 36);
-//    self.inviteeInfo.frame = CGRectMake(self.remoteRender.right - 8 - 82, self.remoteRender.top + 8, 82, 24);
-//
-//    [self.pkStatusBar refreshWithLeftRewardCoins:0 leftRewardAvatars:@[] rightRewardCoins:0 rightRewardAvatars:@[]];
+
 }
 
 
@@ -408,20 +376,24 @@
     [NETSToast showLoading];
    
     [[NEPkRoomService sharedRoomService] createLiveRoomWithTopic:topic coverUrl:cover roomType:self.roomType successBlock:^(NECreateRoomResponseModel * _Nonnull roomModel, NERtcLiveStreamTaskInfo * _Nonnull taskInfo) {
-        YXAlogInfo(@"create room success,roomId = %@",roomModel.live.roomId);
+        YXAlogInfo(@"create room success,roomId = %@,roomCid = %@",roomModel.live.roomId,roomModel.live.roomCid);
         [NETSToast hideLoading];
         self.warnToast.hidden = YES;
         self.createRoomModel = roomModel;
         [self createRoomRefreshUI];
         } failedBlock:^(NSError * _Nonnull error) {
             [NETSToast hideLoading];
-            [NERtcEngine destroyEngine];
             NSString *msg = error.userInfo[NSLocalizedDescriptionKey] ?: NSLocalizedString(@"开启直播间失败", nil);
             [NETSToast showToast:msg];
             [[NENavigator shared].navigationController popViewControllerAnimated:YES];
             YXAlogError(@"create room failed, error: %@", error);
         }];
 }
+
+-(void)onUserJoinWithUid:(int64_t)userId {
+    
+}
+
 #pragma mark - 当键盘事件
 
 - (void)keyboardWillShow:(NSNotification *)aNotification {
@@ -480,10 +452,9 @@
         }
             break;
         case NETSInputToolBarMore: {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                NSArray *items = [NETSLiveConfig shared].moreSettings;
-                [NETSMoreSettingActionSheet showWithTarget:self items:items];
-            });
+
+            NSArray *items = [NETSLiveConfig shared].moreSettings;
+            [NETSMoreSettingActionSheet showWithTarget:self items:items];
           
         }
             break;
@@ -520,9 +491,6 @@
     [NETSFilterSettingActionSheet showWithMask:NO];
 }
 
-- (void)clickSettingBtn {
-    [NETSLiveSettingActionSheet show];
-}
 
 #pragma mark - NERtcEngineDelegateEx G2音视频
 
@@ -534,6 +502,7 @@
 {
     NERtcVideoCanvas *canvas = [self setupRemoteCanvas];
     [NERtcEngine.sharedEngine setupRemoteVideoCanvas:canvas forUserID:userID];
+    [self onUserJoinWithUid:userID];
 }
 
 - (void)onNERtcEngineUserVideoDidStartWithUserID:(uint64_t)userID videoProfile:(NERtcVideoProfileType)profile
@@ -560,11 +529,21 @@
     }
     // 离开channel,重置混音索引
     [NETSLiveConfig shared].mixingIdx = -1;
+    
+    //销毁rtc资源
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        int res = [NERtcEngine destroyEngine];
+        YXAlogInfo(@"destroyEngine, res: %d", res);
+    });
 }
 
 - (void)onNERtcEngineDidDisconnectWithReason:(NERtcError)reason {
     [NETSToast showToast:@"网络断开"];
-    [NERtcEngine destroyEngine];
+    //销毁rtc资源
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        int res = [NERtcEngine destroyEngine];
+        YXAlogInfo(@"destroyEngine, res: %d", res);
+    });
     [[NENavigator shared].navigationController popViewControllerAnimated:YES];
 }
 

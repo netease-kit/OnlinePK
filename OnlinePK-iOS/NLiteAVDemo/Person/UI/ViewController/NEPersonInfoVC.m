@@ -63,7 +63,6 @@
             
             NSString *nickname = NEAccount.shared.userModel.nickname.length ? NEAccount.shared.userModel.nickname : @"";
             cell.personView.detailLabel.text = nickname;
-            cell.personView.indicatorImageView.image = [UIImage imageNamed:@"menu_arrow"];
         }
         cell.personView.titleLabel.text = content;
         return cell;
@@ -75,17 +74,7 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        if (indexPath.row == 1) {
-            //修改昵称
-            NENicknameVC *nickNameVC = [[NENicknameVC alloc] init];
-            WEAK_SELF(weakSelf);
-            nickNameVC.didModifyNickname = ^(NSString * _Nonnull nickName) {
-                STRONG_SELF(strongSelf);
-                strongSelf.nickname = nickName;
-                [strongSelf.tableView reloadData];
-            };
-            [self.navigationController pushViewController:nickNameVC animated:YES];
-        }
+        
     }else {
         if (indexPath.row == 0) {
             //退出登录
@@ -95,6 +84,22 @@
 }
 
 - (void)logout {
+    
+    __weak typeof(self) weakSelf = self;
+    [LoginManager logoutWithConfirm:nil withCompletion:^(YXUserInfo * _Nullable userinfo, NSError * _Nullable error) {
+        if (error == nil) {
+            [NEAccount localLogoutWithCompletion:^(NSDictionary * _Nullable data, NSError * _Nullable error) {
+                if (error) {
+                    [weakSelf.view makeToast:error.description];
+                }else {
+                    [[NENavigator shared] showRootNavWitnIndex:0];
+                }
+            }];
+        }else {
+            [weakSelf.view makeToast:error.description];
+        }
+    }];
+    /*
     UIAlertController *alerVC = [UIAlertController alertControllerWithTitle:@"" message:[NSString stringWithFormat:NSLocalizedString(@"确认退出登录%@", nil),[NEAccount shared].userModel.mobile] preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"取消", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
     }];
@@ -110,5 +115,6 @@
     [alerVC addAction:cancelAction];
     [alerVC addAction:okAction];
     [self presentViewController:alerVC animated:YES completion:nil];
+     */
 }
 @end

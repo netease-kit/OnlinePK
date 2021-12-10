@@ -71,7 +71,7 @@ class NESeatService: NESeatAPIService,NESeatServiceProtocol,NIMPassThroughManage
                 completion?(NSError(domain: NELiveRoomErrorDomain, code: NELiveRoomErrorInvalidResponse, userInfo: [NSLocalizedDescriptionKey: "uid不能为空!"]))
                 return
             }
-            NERtcEngine.shared().joinChannel(withToken: NELiveRoom.shared.roomService.currentUser?.checksum ?? "", channelName: cname, myUid: uid ) { (error, cid, elapsed) in
+            NERtcEngine.shared().joinChannel(withToken: NELiveRoom.shared.roomService.currentUser?.checksum ?? "", channelName: cname, myUid: uid ) { (error, cid, elapsed,uid) in
                 completion?(error)
             }
         }
@@ -282,7 +282,7 @@ class NESeatService: NESeatAPIService,NESeatServiceProtocol,NIMPassThroughManage
             let cname = NELiveRoom.shared.roomService.currentRoom?.cname ?? ""
             let myUid = NELiveRoom.shared.roomService.currentUser?.uid ?? 0
             let checksum = NELiveRoom.shared.roomService.currentUser?.checksum ?? ""
-            NERtcEngine.shared().joinChannel(withToken: checksum, channelName: cname, myUid: myUid) { (error, cid, elapsed) in
+            NERtcEngine.shared().joinChannel(withToken: checksum, channelName: cname, myUid: myUid) { (error, cid, elapsed,uid) in
                 completion?(error)
             }
         } else {

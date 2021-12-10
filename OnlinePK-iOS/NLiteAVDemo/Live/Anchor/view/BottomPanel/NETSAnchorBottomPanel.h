@@ -41,9 +41,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// 触发 滤镜 按钮 代理方法
 - (void)clickFilterBtn;
 
-/// 触发 设置 按钮 代理方法
-- (void)clickSettingBtn;
-
 /// 触发 开启直播间 按钮 代理方法
 - (void)clickStartLiveBtn;
 

@@ -30,10 +30,22 @@
 #import "NEPkLiveAttachment.h"
 #import "NETSChatroomService.h"
 #import "Reachability.h"
+#import "NEPKInviteConfigModel.h"
+#import "NEPkConfigModel.h"
+#import "NEGCDTimerManager.h"
+#import "NEPkRoomApiService.h"
+#import "NEPkInfoModel.h"
+
+//邀请倒计时 timeName
+static NSString *const InviteTimeName = @"NEInviteimeName";
+//开始跨频道转发倒计时
+static NSString *const StartRelayTimeName = @"NEStartRelayTimeName";
 
 @interface NEPkLiveViewController ()<NETSChoosePKSheetDelegate,NEPkPassthroughServiceDelegate,NEPkChatroomMsgHandleDelegate,NETSInvitingBarDelegate>
 ///// pk直播服务类
 //@property (nonatomic, strong)   NETSPkService    *pkService;
+//断网检测
+@property(nonatomic, assign) BOOL isBrokenNetwork;
 /// pk邀请状态条
 @property (nonatomic, strong)   NETSInvitingBar  *pkInvitingBar;
 /// pk状态条
@@ -62,6 +74,8 @@
 @property(nonatomic, strong) NEPkChatroomMsgHandle *pkChatRoomMsgHandle;
 //pk状态
 @property(nonatomic, assign) NEPKStatus pkState;
+//本地pk状态
+@property(nonatomic, assign) NELocalPkState localPkState;
 
 @property(nonatomic, assign) NETSPkServiceRole pkRole;
 //对方主播昵称
@@ -70,6 +84,15 @@
 @property(nonatomic, strong) Reachability *reachability;
 //记录被邀请者的id
 @property(nonatomic, strong) NSString *inviteeAccountId;
+//pk 静音按钮
+@property(nonatomic, strong) UIButton *muteAudioBtn;
+//对方的音视频uid
+@property(nonatomic, assign) uint64_t userId;
+//pk时 主播的uid集合
+@property(nonatomic, strong) NSArray *anchorUidsArray;
+
+@property(nonatomic, strong) NEPkRoomApiService *roomApiService;
+
 @end
 
 @implementation NEPkLiveViewController
@@ -81,7 +104,13 @@
 }
 
 - (void)initConfig {
+    
     self.pkState = NEPKStatusInit;
+    self.localPkState = NELocalPkStateInitial;
+    // 监测网络
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+    self.reachability = [Reachability reachabilityWithHostName:@"www.baidu.com"];
+    [self.reachability startNotifier];
     [[NIMSDK sharedSDK].passThroughManager addDelegate:self.pkPassthroughService];
     [[NIMSDK sharedSDK].chatManager addDelegate:self.pkChatRoomMsgHandle];
     [[NIMSDK sharedSDK].chatroomManager addDelegate:self.pkChatRoomMsgHandle];
@@ -96,9 +125,10 @@
     [self.pkFailedIco removeFromSuperview];
     
     [self.view addSubview:self.pkStatusBar];
+    [self.view addSubview:self.muteAudioBtn];
     [self.view addSubview:self.inviteeInfo];
     
-    
+    self.muteAudioBtn.frame = CGRectMake(kScreenWidth - 35, self.localRender.bottom -35, 25, 25);
     self.pkStatusBar.frame = CGRectMake(0, self.localRender.bottom, kScreenWidth, 58);
     self.inviteeInfo.frame = CGRectMake(self.remoteRender.right - 8 - 82, self.remoteRender.top + 8, 82, 24);
     [self.pkStatusBar refreshWithLeftRewardCoins:0 leftRewardAvatars:@[] rightRewardCoins:0 rightRewardAvatars:@[]];
@@ -107,11 +137,15 @@
 
 - (void)layoutSingleLive {
     [super layoutSingleLive];
+    self.pkState = NEPKStatusInit;
+    self.localPkState = NELocalPkStateInitial;
+    NERtcVideoCanvas *canvas = [self setupSingleCanvas];
+    [NERtcEngine.sharedEngine setupLocalVideoCanvas:canvas];
     [self.pkStatusBar removeFromSuperview];
     [self.pkSuccessIco removeFromSuperview];
     [self.pkFailedIco removeFromSuperview];
     [self.inviteeInfo removeFromSuperview];
-    
+    [self.muteAudioBtn removeFromSuperview];
 }
 #pragma mark - privateMethod
 - (void)bindAction {
@@ -130,9 +164,8 @@
         if (!room) { return; }
         self.pkChatRoomMsgHandle.chatroomId = room.live.chatRoomId;
     }];
+    
 }
-
-
 
 -(void)createRoomRefreshUI {
     [super createRoomRefreshUI];
@@ -211,7 +244,6 @@
     } failedBlock:^(NSError * _Nonnull error, NSDictionary * _Nullable response) {
       YXAlogError(@"closePkLive failed,error:%@",error);
     }];
-    
 }
 
 //开始跨频道转发
@@ -228,10 +260,13 @@
     //开始转发
     int ret = [[NERtcEngine sharedEngine] startChannelMediaRelay:config];
     if(ret == 0) {
-        YXAlogError(@"startRtcChannelRelay success");
+        YXAlogInfo(@"startRtcChannelRelay success");
     }else {
         //失败处理
         YXAlogError(@"startRtcChannelRelay failed,error = %d",ret);
+        if (ret == kNERtcErrChannelMediaRelayInvalidState) {
+            [[NERtcEngine sharedEngine] updateChannelMediaRelay:config];
+        }
     }
 }
 
@@ -241,7 +276,21 @@
 - (void)_updateLiveStreamTask:(NSArray *)uids {
     
     NERtcLiveStreamTaskInfo* taskInfo = [NETSPushStreamService streamTaskWithUrl:self.createRoomModel.live.liveConfig.pushUrl uids:uids];
+    __weak __typeof(self)weakSelf = self;
+    [NETSPushStreamService updateLiveStreamTask:taskInfo successBlock:^{
+        YXAlogInfo(@"updateLiveStreamTask success");
+    } failedBlock:^(NSError * _Nonnull error) {
+        YXAlogError(@"updateLiveStream failed,error = %@",error);
+        if (error) {//updateLiveStream failed,call end pk
+            [self _manualEndPk];
+        }
+    }];
     
+}
+//根据外部参数设置推流任务
+- (void)_updateLiveStreamTask:(NSArray *)uids audioPush:(BOOL)audioPush otherAnchorUid:(int64_t)otherAnchorUid{
+    
+    NERtcLiveStreamTaskInfo* taskInfo = [NETSPushStreamService streamTaskWithUrl:self.createRoomModel.live.liveConfig.pushUrl uids:uids audioPush:audioPush otherAnchorUid:otherAnchorUid];
     [NETSPushStreamService updateLiveStreamTask:taskInfo successBlock:^{
         YXAlogInfo(@"updateLiveStreamTask success");
     } failedBlock:^(NSError * _Nonnull error) {
@@ -249,12 +298,128 @@
     }];
 }
 
+- (void)muteAudioBtnClick:(UIButton *)sender {
+    sender.selected = !sender.selected;
+    if (sender.selected) {
+        [[NERtcEngine sharedEngine] adjustUserPlaybackSignalVolume:0 forUserID:self.userId];
+        [self _updateLiveStreamTask:self.anchorUidsArray audioPush:NO otherAnchorUid:self.userId];
+    }else {
+        [[NERtcEngine sharedEngine] adjustUserPlaybackSignalVolume:100 forUserID:self.userId];
+        [self _updateLiveStreamTask:self.anchorUidsArray audioPush:YES otherAnchorUid:self.userId];
+    }
+}
 
--(void)dealloc {
-    [[NIMSDK sharedSDK].passThroughManager removeDelegate:self.pkPassthroughService];
-    [[NIMSDK sharedSDK].chatManager removeDelegate:self.pkChatRoomMsgHandle];
-    [[NIMSDK sharedSDK].chatroomManager removeDelegate:self.pkChatRoomMsgHandle];
-    [[NIMSDK sharedSDK].systemNotificationManager removeDelegate:self.pkChatRoomMsgHandle];
+- (void)startPkInviteCountdown:(int64_t)time {
+    __block int64_t timeout = time; //倒计时时间
+        [[NEGCDTimerManager sharedInstance] scheduledDispatchTimerWithName:InviteTimeName timeInterval:1.0 queue:nil repeats:YES actionOption:AbandonPreviousAction action:^{
+            timeout--;
+            if (timeout <= 0) {
+                [[NEGCDTimerManager sharedInstance]cancelTimerWithName:InviteTimeName];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                //防止本地定时器和服务端定时器重复处理。
+                    if (self.localPkState != NELocalPkStateInitial) {
+                        [self handleTimeOut];
+                    }
+                });
+            }
+        }];
+}
+
+- (void)startMediaRealyCountdown:(int64_t)time {
+    __block int64_t timeout = time; //倒计时时间
+        [[NEGCDTimerManager sharedInstance] scheduledDispatchTimerWithName:StartRelayTimeName timeInterval:1.0 queue:nil repeats:YES actionOption:AbandonPreviousAction action:^{
+            timeout--;
+            if (timeout <= 0) {
+                [[NEGCDTimerManager sharedInstance]cancelTimerWithName:StartRelayTimeName];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                   //UI 更新操作
+                    [[NERtcEngine sharedEngine] stopChannelMediaRelay];
+                    //防止本地定时器和服务端定时器重复处理。
+                    if (self.localPkState != NELocalPkStateInitial) {
+                        [self handleTimeOut];
+                    }
+                });
+            }
+        }];
+}
+
+//超时操作
+- (void)handleTimeOut {
+
+    self.pkState = NEPKStatusInit;
+    self.localPkState = NELocalPkStateInitial;
+    [NETSToast showToast:NSLocalizedString(@"PK连接超时，已自动取消", nil)];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [NETSToast hideLoading];//延时执行
+    });
+    [[NERtcEngine sharedEngine] stopChannelMediaRelay];
+    if (self.pkAlert) {
+        [self.pkAlert dismissViewControllerAnimated:YES completion:nil];
+    }
+    if ([self.pkInvitingBar superview]) {
+        [self.pkInvitingBar dismiss];
+    }
+}
+
+- (void)reachabilityChanged:(NSNotification *)note {
+    
+    Reachability *currentReach = [note object];
+    NSCParameterAssert([currentReach isKindOfClass:[Reachability class]]);
+    NetworkStatus netStatus = [currentReach currentReachabilityStatus];
+    if (netStatus == NotReachable) {//断网
+        YXAlogInfo(@"主播检测到断网");
+        self.isBrokenNetwork = YES;
+    }else {//有网络
+        [self handleBrokenNetwork];
+    }
+}
+
+- (void)handleBrokenNetwork {
+    
+    __weak __typeof(self)weakSelf = self;
+    if (self.isBrokenNetwork) {
+        //获取pk状态
+        if ( self.pkState == NEPKStatusPking || self.pkState == NEPKStatusPkPunish) {
+                [self.roomApiService requestPkInfoWithRoomId:self.createRoomModel.live.roomId completionHandle:^(NSDictionary * _Nonnull response) {
+                    NEPkInfoModel *pkInfoModel = response[@"/data"];
+                    if (pkInfoModel.status == NEPKStatusPking) {
+                        
+                    }else if (pkInfoModel.status == NEPKStatusPkPunish){
+                        
+                    }
+                } errorHandle:^(NSError * _Nonnull error, NSDictionary * _Nullable response) {
+                    YXAlogError(@"requestPkInfo failed,error = %@",error);
+                    [weakSelf handlePkEnd];
+                }];
+            }
+    }
+        
+        self.isBrokenNetwork = NO;
+}
+
+//处理pk结束操作
+- (void)handlePkEnd {
+    self.pkState = NEPKStatusPkEnd;
+    self.localPkState = NELocalPkStateEnd;
+    // 停止pk计时
+    [self.pkStatusBar stopCountdown];
+    
+    //停止跨频道转发
+    [[NERtcEngine sharedEngine] stopChannelMediaRelay];
+    
+    // 布局单人直播
+    ntes_main_async_safe(^{
+        [NETSToast hideLoading];
+        [self layoutSingleLive];
+    });
+    
+    if (self.pkAlert) {
+        [self.pkAlert dismissViewControllerAnimated:YES completion:nil];
+    }
+    
+    //更新推流任务
+    NSArray *uids = @[@(self.createRoomModel.anchor.roomUid)];
+    [self _updateLiveStreamTask:uids];
 }
 
 #pragma mark - NETSChoosePKSheetDelegate 选择主播PK代理
@@ -278,10 +443,17 @@
     UIAlertAction *cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"取消", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         YXAlogInfo(@"邀请者取消pk邀请...");
     }];
+    __weak __typeof(self)weakSelf = self;
     UIAlertAction *confirm = [UIAlertAction actionWithTitle:NSLocalizedString(@"确定", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        @strongify(self);
+       
         [NETSToast showLoading];
+        
     [[NEPkService sharedPkService] requestPkWithOperation:NEPkOperationInvite targetAccountId:room.anchor.accountId successBlock:^(NSDictionary * _Nonnull response) {
+        NEPKInviteConfigModel *info = response[@"/data"];
+        if (info.pkConfig.inviteTaskTime > 0) {
+            weakSelf.localPkState = NELocalPkStateInviting;
+            [weakSelf startPkInviteCountdown:info.pkConfig.inviteTaskTime];
+        }
         successBlock(room.anchor.nickname);
     } failedBlock:^(NSError * _Nonnull error, NSDictionary * _Nullable response) {
         if (error) {
@@ -315,7 +487,8 @@
 - (void)receivePassThrourhPKInviteData:(NEPassthroughPkInviteModel *)data {
     
     YXAlogInfo(@"receive pKInvite passThrourhMessage  success!");
-    
+    self.localPkState = NELocalPkStateInviting;
+
     if (self.presentedViewController && [self.presentedViewController isKindOfClass:[NTESActionSheetNavigationController class]]) {
         [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     }
@@ -331,13 +504,17 @@
             }
         }];
     }];
-    
+    __weak __typeof(self)weakSelf = self;
     UIAlertAction *confirm = [UIAlertAction actionWithTitle:NSLocalizedString(@"接受", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
         [[NEPkService sharedPkService] acceptPkWithOperation:NEPkOperationAgree targetAccountId:data.senderAccountId successBlock:^(NSDictionary * _Nonnull response) {
             YXAlogInfo(@"acceptPk success");
             [NETSToast showLoading];
-            [self startRtcChannelRelayWithChannelName:data.actionAnchor.channelName token:data.targetAnchor.checkSum rooomUid:data.targetAnchor.roomUid.longLongValue];
+            if (data.pkConfig.agreeTaskTime > 0) {
+                weakSelf.localPkState = NELocalPkStateAgree;
+                [weakSelf startMediaRealyCountdown:data.pkConfig.agreeTaskTime];
+            }
+            [weakSelf startRtcChannelRelayWithChannelName:data.actionAnchor.channelName token:data.targetAnchor.checkSum rooomUid:data.targetAnchor.roomUid.longLongValue];
         } failedBlock:^(NSError * _Nonnull error, NSDictionary * _Nullable response) {
             if (error) {
                 YXAlogError(@"acceptPk failed,error:%@",error);
@@ -352,13 +529,25 @@
 
 - (void)receivePassThrourhAgreePkData:(NEPassthroughPkInviteModel *)data {
     YXAlogInfo(@"receive agreePk passThrourhMessage  success!");
-
+    self.localPkState = NELocalPkStateAgree;
+    //停止前一个倒计时 开启下一个倒计时
+    if ([[NEGCDTimerManager sharedInstance] existTimer:InviteTimeName]) {
+        [[NEGCDTimerManager sharedInstance]cancelTimerWithName:InviteTimeName];
+    };
+    
+    if (data.pkConfig.agreeTaskTime > 0) {
+        [self startMediaRealyCountdown:data.pkConfig.agreeTaskTime];
+    }
     [self startRtcChannelRelayWithChannelName:data.actionAnchor.channelName token:data.targetAnchor.checkSum rooomUid:data.targetAnchor.roomUid.longLongValue];;
 }
 
 - (void)receivePassThrourhRefusePKInviteData:(NEPassthroughPkInviteModel *)data {
     YXAlogInfo(@"refuse pk invite");
     self.pkState = NEPKStatusInit;
+    self.localPkState = NELocalPkStateInitial;
+    if ([[NEGCDTimerManager sharedInstance] existTimer:InviteTimeName]) {
+        [[NEGCDTimerManager sharedInstance]cancelTimerWithName:InviteTimeName];
+    };
     [NETSToast hideLoading];
     if ([self.pkInvitingBar superview]) {
         [self.pkInvitingBar dismiss];
@@ -376,24 +565,10 @@
     }
 }
 
-
 - (void)receivePassThrourhTimeOutData:(NEPassthroughPkInviteModel *)data {
     YXAlogInfo(@"receive timeOut passThrourhMessage  success!");
-    self.pkState = NEPKStatusInit;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [NETSToast hideLoading];//延时执行
-    });
-    
-    [NETSToast showToast:NSLocalizedString(@"PK连接超时，已自动取消", nil)];
-
-    if (self.pkAlert) {
-        [self.pkAlert dismissViewControllerAnimated:YES completion:nil];
-    }
-    if ([self.pkInvitingBar superview]) {
-        [self.pkInvitingBar dismiss];
-    }
+    [self handleTimeOut];
 }
-
 
 #pragma mark - NEPkChatroomMsgHandleDelegate
 - (void)receivePkStartAttachment:(NEPkLiveStartAttachment *)liveStartData {
@@ -402,6 +577,11 @@
     NERtcVideoCanvas *canvas = [self setupLocalCanvas];
     [NERtcEngine.sharedEngine setupLocalVideoCanvas:canvas];
     self.pkState = NEPKStatusPking;
+    self.localPkState =  NELocalPkStatePkIng;
+    
+    if ([[NEGCDTimerManager sharedInstance] existTimer:StartRelayTimeName]) {
+        [[NEGCDTimerManager sharedInstance]cancelTimerWithName:StartRelayTimeName];
+    };
     
     // pk布局
     ntes_main_async_safe(^{
@@ -412,21 +592,26 @@
     });
     
     // 开始pk倒计时
-    int32_t start = kPkLiveTotalTime - (int32_t)((liveStartData.sendTime - liveStartData.pkStartTime) / 1000);
-    [self.pkStatusBar countdownWithSeconds:start prefix:@"PK "];
+    [self.pkStatusBar countdownWithSeconds:liveStartData.pkCountDown prefix:@"PK "];
     [self.pkStatusBar refreshWithLeftRewardCoins:0 leftRewardAvatars:@[] rightRewardCoins:0 rightRewardAvatars:@[]];
     
     
     if ([liveStartData.inviter.accountId isEqualToString:[NEAccount shared].userModel.accountId]) {//邀请者是自己
         self.pkRole = NETSPkServiceInviter;
-        [self.inviteeInfo reloadAvatar:liveStartData.inviter.avatar nickname:liveStartData.inviter.nickname];
+        self.userId = liveStartData.invitee.roomUid;
+        [self.inviteeInfo reloadAvatar:liveStartData.invitee.avatar nickname:liveStartData.invitee.nickname];
     }else {
         self.pkRole = NETSPkServiceInvitee;
-        [self.inviteeInfo reloadAvatar:liveStartData.invitee.avatar nickname:liveStartData.invitee.nickname];
+        self.userId = liveStartData.inviter.roomUid;
+        [self.inviteeInfo reloadAvatar:liveStartData.inviter.avatar nickname:liveStartData.inviter.nickname];
+
     }
+    //pk开始后恢复对方主播声音
+    [[NERtcEngine sharedEngine] adjustUserPlaybackSignalVolume:100 forUserID:self.userId];
 
     //更新推流任务
     NSArray *uids = @[@(liveStartData.inviter.roomUid),@(liveStartData.invitee.roomUid)];
+    self.anchorUidsArray = uids;
     [self _updateLiveStreamTask:uids];
 }
 
@@ -496,32 +681,12 @@
 
 
 -(void)receivePkEndAttachment:(NEPkEndAttachment *)pkEndData {
-    
     YXAlogInfo(@"receive pkEnd imMessage  success!");
-
-    NERtcVideoCanvas *canvas = [self setupSingleCanvas];
-    [NERtcEngine.sharedEngine setupLocalVideoCanvas:canvas];
-    self.pkState = NEPKStatusPkEnd;
-    // 停止pk计时
-    [self.pkStatusBar stopCountdown];
+    [self handlePkEnd];
     
-    //停止跨频道转发
-    [[NERtcEngine sharedEngine] stopChannelMediaRelay];
-    
-    // 布局单人直播
-    ntes_main_async_safe(^{
-        [NETSToast hideLoading];
-        [self layoutSingleLive];
-    });
-    
-  
-    if (self.pkAlert) {
-        [self.pkAlert dismissViewControllerAnimated:YES completion:nil];
+    if (pkEndData.countDownEnd) {//自然倒计时结束 不弹toast提示
+        return;
     }
-    
-    //更新推流任务
-    NSArray *uids = @[@(self.createRoomModel.anchor.roomUid)];
-    [self _updateLiveStreamTask:uids];
     
     // 若是当前用户取消,不提示
     NSString *nickname = [NEAccount shared].userModel.nickname;
@@ -529,6 +694,7 @@
         NSString *msg = [NSString stringWithFormat:NSLocalizedString(@"%@结束PK", nil), pkEndData.nickname];
         [NETSToast showToast:msg];
     }
+
 }
 
 
@@ -595,6 +761,29 @@
     
 }
 
+#pragma mark - NERtcDelegate
+
+-(void)onUserJoinWithUid:(int64_t)userId {
+    if (self.pkState != NEPKStatusPking) {
+        [[NERtcEngine sharedEngine] adjustUserPlaybackSignalVolume:0 forUserID:userId];
+    }
+}
+
+-(void)dealloc {
+    
+    if ([[NEGCDTimerManager sharedInstance] existTimer:InviteTimeName]) {
+        [[NEGCDTimerManager sharedInstance]cancelTimerWithName:InviteTimeName];
+    };
+    
+    if ([[NEGCDTimerManager sharedInstance] existTimer:StartRelayTimeName]) {
+        [[NEGCDTimerManager sharedInstance]cancelTimerWithName:StartRelayTimeName];
+    };
+    [[NIMSDK sharedSDK].passThroughManager removeDelegate:self.pkPassthroughService];
+    [[NIMSDK sharedSDK].chatManager removeDelegate:self.pkChatRoomMsgHandle];
+    [[NIMSDK sharedSDK].chatroomManager removeDelegate:self.pkChatRoomMsgHandle];
+    [[NIMSDK sharedSDK].systemNotificationManager removeDelegate:self.pkChatRoomMsgHandle];
+}
+
 #pragma mark - lazyMethod
 - (UIButton *)pkBtn {
     if (!_pkBtn) {
@@ -624,6 +813,17 @@
         _pkStatusBar = [[NETSPkStatusBar alloc] init];
     }
     return _pkStatusBar;
+}
+
+-(UIButton *)muteAudioBtn {
+    if (!_muteAudioBtn) {
+        _muteAudioBtn = [[UIButton alloc]init];
+        [_muteAudioBtn addTarget:self action:@selector(muteAudioBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        [_muteAudioBtn setImage:[UIImage imageNamed:@"blockAnchorVoice_normal"] forState:UIControlStateNormal];
+        [_muteAudioBtn setImage:[UIImage imageNamed:@"blockAnchorVoice_normal"] forState:UIControlStateHighlighted];
+        [_muteAudioBtn setImage:[UIImage imageNamed:@"blockAnchorVoice_blocked"] forState:UIControlStateSelected];
+    }
+    return _muteAudioBtn;
 }
 
 - (UIImageView *)pkSuccessIco {
@@ -663,4 +863,10 @@
     return _pkChatRoomMsgHandle;
 }
 
+-(NEPkRoomApiService *)roomApiService {
+    if (!_roomApiService) {
+        _roomApiService = [[NEPkRoomApiService alloc]init];
+    }
+    return _roomApiService;
+}
 @end

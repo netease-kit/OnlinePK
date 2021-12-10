@@ -7,6 +7,7 @@
 // Use of this source code is governed by a MIT license that can be found in the LICENSE file.
 
 #import "NEPassthroughPkInviteModel.h"
+#import "NEPkConfigModel.h"
 
 @implementation NEPassthroughPkInviteModel
 
@@ -14,6 +15,7 @@
   return @{
       @"actionAnchor"  : [NEPkInviteActionAnchorModel class],
       @"targetAnchor" : [NEPkInviteTargetAnchorModel class],
+      @"pkConfig":[NEPkConfigModel class]
   };
 }
 @end

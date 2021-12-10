@@ -36,6 +36,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param messages - 新增的消息数组
 ///
 - (void)addMessages:(NSArray<NIMMessage *> *)messages;
+//清空数据
+- (void)clearData;
 
 @end
 

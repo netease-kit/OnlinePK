@@ -106,13 +106,13 @@
 
 - (void)_didActionWithModel:(NETSMoreSettingModel *)model
 {
+    
+    [self dismiss];//点击后收起sheet
     NETSMoreSettingStatusModel *statusModel = nil;
     if ([model isKindOfClass:[NETSMoreSettingStatusModel class]]) {
         statusModel = (NETSMoreSettingStatusModel *)model;
-    } else {
-        [self dismiss];
     }
-    
+
     switch (model.type) {
         case NETSMoreSettingCamera: {
             if (!statusModel) { return; }

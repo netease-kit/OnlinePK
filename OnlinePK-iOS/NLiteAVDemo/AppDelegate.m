@@ -16,6 +16,8 @@
 #import "NETabbarController.h"
 #import "NTELoginVC.h"
 #import "AppKey.h"
+#import "NEPkLiveAttachment.h"
+
 
 @interface AppDelegate ()<UNUserNotificationCenterDelegate,NERtcEngineDelegate>
 @end
@@ -23,9 +25,10 @@
 @implementation AppDelegate
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self initWindow];
+    [self setupLoginSDK];
     [self setIQKeyboard];
     setupLogger();
-    [self autoLogin];
+    
     return YES;
 }
 
@@ -34,16 +37,9 @@
     
      self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
      self.window.backgroundColor = UIColor.whiteColor;
-     if (![NSObject isNullOrNilWithObject:[NEAccount shared].accessToken]) {
-         NETabbarController *tabbarCtrl = [[NETabbarController alloc]init];
-         self.window.rootViewController = tabbarCtrl;
-         [NENavigator shared].navigationController = tabbarCtrl.menuNavController;
-     }else {
-         UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:[[NTELoginVC alloc] initWithOptions:nil isShowClose:YES]];
-         self.window.rootViewController = nav;
-         [NENavigator shared].loginNavigationController  = nav;
-     }
-     
+     NETabbarController *tabbarCtrl = [[NETabbarController alloc]init];
+     self.window.rootViewController = tabbarCtrl;
+     [NENavigator shared].navigationController = tabbarCtrl.menuNavController;
      [self.window makeKeyAndVisible];
     
     //设置麦位组件
@@ -53,6 +49,7 @@
 }
 
 - (void)autoLogin {
+    
     if ([[NEAccount shared].accessToken length] > 0) {
         [NEAccount loginByTokenWithCompletion:^(NSDictionary * _Nullable data, NSError * _Nullable error) {
             if (error) {
@@ -65,6 +62,66 @@
 - (void)setIQKeyboard {
     [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = YES;
     [IQKeyboardManager sharedManager].enableAutoToolbar = NO;
+}
+
+- (void)setupSDK {
+    NIMSDKOption *option = [NIMSDKOption optionWithAppKey:kAppKey];
+    [[NIMSDK sharedSDK] registerWithOption:option];
+    [NIMCustomObject registerCustomDecoder:[[NEPKLiveAttachmentDecoder alloc] init]];
+}
+
+- (void)setupLoginSDK {
+    YXConfig *config = [[YXConfig alloc] init];
+    config.appKey = kAppKey;
+    config.parentScope = [NSNumber numberWithInt:1];
+    config.scope = [NSNumber numberWithInt:3];
+    #ifdef DEBUG
+        config.isOnline = NO;
+    #else
+        config.isOnline = YES;
+    #endif
+    config.type = YXLoginEmail;
+
+    [[AuthorManager shareInstance] initAuthorWithConfig:config];
+//    __weak typeof(self) weakSelf = self;
+    if ([LoginManager canAutologin] == YES) {
+        [LoginManager autoLoginWithCompletion:^(YXUserInfo * _Nullable userinfo, NSError * _Nullable error) {
+            if (error == nil) {
+                
+                NSLog(@"统一登录sdk登录成功");
+                [NEAccount syncLoginData:userinfo];
+                //[weakSelf imLogin];
+            }else {
+                [UIApplication.sharedApplication.keyWindow makeToast:error.localizedDescription];
+            }
+        }];
+    }else {
+        NSLog(@"LoginManager startEntrance");
+        /*
+        [LoginManager startLoginWithCompletion:^(YXUserInfo * _Nullable userinfo, NSError * _Nullable error) {
+            if (error == nil) {
+                NSLog(@"统一登录sdk登录成功");
+                [NEAccount syncLoginData:userinfo];
+                //[weakSelf imLogin];
+            }else {
+                [UIApplication.sharedApplication.keyWindow makeToast:error.localizedDescription];
+            }
+        }]; */
+        
+        [LoginManager startEntranceWithCompletion:^(YXUserInfo * _Nullable userinfo, NSError * _Nullable error) {
+            if (error == nil) {
+                NSLog(@"统一登录sdk登录成功");
+                [NEAccount syncLoginData:userinfo];
+                //[weakSelf imLogin];
+            }else {
+                [UIApplication.sharedApplication.keyWindow makeToast:error.localizedDescription];
+            }
+        }];
+    }
+}
+
+- (void)imLogin{
+    [NEAccount imloginWithYXuser:[LoginManager getUserInfo]];
 }
 
 @end
