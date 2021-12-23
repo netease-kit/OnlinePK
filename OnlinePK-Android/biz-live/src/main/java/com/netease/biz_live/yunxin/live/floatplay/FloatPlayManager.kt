@@ -1,6 +1,7 @@
 package com.netease.biz_live.yunxin.live.floatplay
 
 import android.content.Context
+import android.graphics.SurfaceTexture
 import android.widget.FrameLayout
 import com.blankj.utilcode.util.Utils
 import com.netease.biz_live.yunxin.live.audience.ui.LiveAudienceActivity
@@ -142,6 +143,13 @@ object FloatPlayManager {
                     }
                     floatView?.update(flotWindowWidth, flotWindowHeight)
                 }
+            }
+
+            override fun onSurfaceTextureAvailable(
+                surface: SurfaceTexture,
+                width: Int,
+                height: Int
+            ) {
             }
         }
 

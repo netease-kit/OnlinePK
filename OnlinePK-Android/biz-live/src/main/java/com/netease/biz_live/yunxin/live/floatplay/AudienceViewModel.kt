@@ -1,6 +1,7 @@
 package com.netease.biz_live.yunxin.live.floatplay
 
 import android.app.Application
+import android.graphics.SurfaceTexture
 import android.text.TextUtils
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
@@ -187,6 +188,13 @@ class AudienceViewModel(application: Application) : AndroidViewModel(application
                 saveCache()
             }
 
+            override fun onSurfaceTextureAvailable(
+                surface: SurfaceTexture,
+                width: Int,
+                height: Int
+            ) {
+            }
+
         }
 
     fun select(liveInfo: LiveInfo) {
@@ -239,8 +247,8 @@ class AudienceViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun queryRoomDetailInfo(liveInfo: LiveInfo){
-       queryLiveRoomInfo(liveInfo)
-       queryChatRoomInfo(liveInfo)
+        queryLiveRoomInfo(liveInfo)
+        queryChatRoomInfo(liveInfo)
     }
 
     private fun queryLiveRoomInfo(liveInfo: LiveInfo) {

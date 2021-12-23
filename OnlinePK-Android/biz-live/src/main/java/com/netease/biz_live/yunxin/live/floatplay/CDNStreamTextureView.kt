@@ -8,6 +8,7 @@ package com.netease.biz_live.yunxin.live.floatplay
 import android.content.Context
 import android.graphics.Matrix
 import android.graphics.PointF
+import android.graphics.SurfaceTexture
 import android.util.AttributeSet
 import android.view.TextureView
 import com.blankj.utilcode.util.ActivityUtils
@@ -32,6 +33,8 @@ class CDNStreamTextureView @JvmOverloads constructor(
      */
     private var isLinkingSeats = false
 
+    private var isPK = false;
+
     private val playerNotify=object :
         LiveVideoPlayerManager.PlayerNotify {
         override fun onPreparing() {
@@ -48,13 +51,13 @@ class CDNStreamTextureView @JvmOverloads constructor(
 
         override fun onVideoSizeChanged(width: Int, height: Int) {
             FloatPlayLogUtil.log(TAG , "onVideoSizeChanged(),width:$width,height:$height")
-            if (isPkSize(width,height)) {
-                adjustVideoSizeForPk(false)
-            } else if (isLinkingSeats) {
-                adjustVideoSizeForLinkSeats()
-            } else {
-                adjustVideoSizeForNormal()
-            }
+            isPK = isPkSize(width,height)
+            refreshTextureView()
+        }
+
+        override fun onSurfaceTextureAvailable(surface: SurfaceTexture, width: Int, height: Int) {
+            FloatPlayLogUtil.log(TAG ,"onSurfaceTextureAvailable()")
+            refreshTextureView()
         }
 
     }
@@ -150,5 +153,14 @@ class CDNStreamTextureView @JvmOverloads constructor(
         }
     }
 
+    fun refreshTextureView(){
+        if (isPK) {
+            adjustVideoSizeForPk(false)
+        } else if (isLinkingSeats) {
+            adjustVideoSizeForLinkSeats()
+        } else {
+            adjustVideoSizeForNormal()
+        }
+    }
 
 }
