@@ -74,6 +74,11 @@ class LiveVideoPlayerManager {
                 ) {
                     if (currentVideoPath == hashMap[textureView]) {
                         player?.setSurface(Surface(surface))
+
+                        for (playerNotify in notifyArrayList) {
+                            playerNotify.onSurfaceTextureAvailable(surface, width, height)
+                        }
+
                         log(TAG, "valid surface")
                     } else {
                         log(TAG, "invalid surface")
@@ -169,6 +174,15 @@ class LiveVideoPlayerManager {
          * @param height 当前视频流高度
          */
         fun onVideoSizeChanged(width: Int, height: Int)
+
+        /**
+         * surfaceTure重建
+         *
+         * @param surface  surfaceView
+         * @param width  当前视频流宽度
+         * @param height 当前视频流高度
+         */
+        fun onSurfaceTextureAvailable(surface: SurfaceTexture, width: Int, height: Int)
     }
 
     companion object {
