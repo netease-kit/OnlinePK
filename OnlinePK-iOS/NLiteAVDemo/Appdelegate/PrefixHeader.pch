@@ -1,0 +1,36 @@
+//
+//  PrefixHeader.pch
+//  NLiteAVDemo
+//
+//  Created by I am Groot on 2020/8/20.
+// Copyright (c) 2021 NetEase, Inc.  All rights reserved.
+// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+#import <Masonry/Masonry.h>
+#import <SDWebImage/SDWebImage.h>
+#import <Toast/Toast.h>
+#import "NSMacro.h"
+#import <YYModel/YYModel.h>
+#import <ReactiveObjC/ReactiveObjC.h>
+#import "NEAccount.h"
+#import "NETSFontAndColor.h"//字号字体颜色
+#import "NETSViewFactory.h"//快捷创建view的工厂方法
+#import <YXAlog_iOS/YXAlog.h>
+#import "UIView+NTES.h"
+#import "NTESConstantKey.h"
+#import "UIView+Gradient.h"//渐变色
+#import <BlocksKit/BlocksKit.h>
+#import "NETSAlertPrompt.h"//系统弹窗
+#import "NETSUniversalTool.h"
+#import "NSObject+additions.h"
+#import "NETSPkEnum.h"
+#import <NIMSDK/NIMSDK.h>
+#import <NERtcSDK/NERtcSDK.h>
+#import "NETSToast.h"
+#import "NETSRtcConfig.h"
+#import <NELiveRoom/NELiveRoom.h>
+#import "UIButton+Layout.h"
+#endif /* PrefixHeader_pch */

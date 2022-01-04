@@ -174,10 +174,15 @@
 {
     if (!_startPkBtn) {
         CGFloat topOffset = self.view.height - 100 - (kIsFullScreen ? 34 : 0);
-        _startPkBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.width - 100, topOffset, 100, 100)];
-        UIImage *img = [UIImage imageNamed:@"start_pk_ico"];
-        [_startPkBtn setImage:img forState:UIControlStateNormal];
+        _startPkBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.width - 100, topOffset, 70, 70)];
+        [_startPkBtn setTitle:NSLocalizedString(@"开始直播", nil) forState:UIControlStateNormal];
+        _startPkBtn.titleLabel.font = Font_Default(10);
+        [_startPkBtn setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
+        _startPkBtn.layer.cornerRadius = 35;
+        [_startPkBtn setGradientBackgroundWithColors:@[HEXCOLOR(0x3D8DFF),HEXCOLOR(0x204CFF)] locations:nil startPoint:CGPointMake(0, 0) endPoint:CGPointMake(0, 1)];
+        [_startPkBtn setImage:[UIImage imageNamed:@"start_pk_ico"] forState:UIControlStateNormal];
         [_startPkBtn addTarget:self action:@selector(startLive) forControlEvents:UIControlEventTouchUpInside];
+        [_startPkBtn layoutButtonWithEdgeInsetsStyle:QSButtonEdgeInsetsStyleTop imageTitleSpace:10];
     }
     return _startPkBtn;
 }

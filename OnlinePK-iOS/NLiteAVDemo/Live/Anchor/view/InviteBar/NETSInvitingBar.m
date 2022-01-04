@@ -45,12 +45,13 @@
 
 - (void)layoutSubviews {
     self.bgView.frame = CGRectMake(8, kIsFullScreen ? 118 : 94, self.width - 16, 44);
-    self.tip.frame = CGRectMake(12, 11, self.bgView.width - 36 - 52, 22);
     if (self.barType == NETSInviteBarTypeConnectMic) {
         self.cancel.frame = CGRectMake(self.bgView.width - 12 - 78, 8, 78, 28);
         self.discardButton.frame = CGRectMake(self.cancel.left-10-52, 8, 52, 28);
+        self.tip.frame = CGRectMake(12, 11, self.bgView.width - 52 -78 -30, 22);
 
     }else {
+        self.tip.frame = CGRectMake(12, 11, self.bgView.width - 36 - 52, 22);
         self.cancel.frame = CGRectMake(self.bgView.width - 12 - 52, 8, 52, 28);
     }
 }

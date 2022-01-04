@@ -93,6 +93,8 @@
 		3970041F2747A814006A1800 /* NEPKInviteConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3970041E2747A814006A1800 /* NEPKInviteConfigModel.m */; };
 		39771BDE26DCB952005B7EE1 /* NESeatInfoFilterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 39771BDD26DCB952005B7EE1 /* NESeatInfoFilterModel.m */; };
 		39796F7E25AD77CD0070301E /* UIViewController+Gesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 39796F7D25AD77CD0070301E /* UIViewController+Gesture.m */; };
+		397A6C16277D536200F536EB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 397A6C18277D536200F536EB /* InfoPlist.strings */; };
+		397A6C1D277D91DE00F536EB /* UIButton+Layout.m in Sources */ = {isa = PBXBuildFile; fileRef = 397A6C1B277D91DD00F536EB /* UIButton+Layout.m */; };
 		397F3088274B8FF90033A894 /* NEGCDTimerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 397F3087274B8FF90033A894 /* NEGCDTimerManager.m */; };
 		39862819274F5B95007AF632 /* UIControl+repeatclick.m in Sources */ = {isa = PBXBuildFile; fileRef = 39862818274F5B95007AF632 /* UIControl+repeatclick.m */; };
 		3987C22226D4E7220033C6B7 /* NEPkInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3987C22126D4E7220033C6B7 /* NEPkInfoModel.m */; };
@@ -445,6 +447,9 @@
 		39796F7925AC25E60070301E /* authpack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = authpack.h; sourceTree = "<group>"; };
 		39796F7C25AD77CD0070301E /* UIViewController+Gesture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Gesture.h"; sourceTree = "<group>"; };
 		39796F7D25AD77CD0070301E /* UIViewController+Gesture.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Gesture.m"; sourceTree = "<group>"; };
+		397A6C17277D536200F536EB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		397A6C1B277D91DD00F536EB /* UIButton+Layout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Layout.m"; sourceTree = "<group>"; };
+		397A6C1C277D91DD00F536EB /* UIButton+Layout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Layout.h"; sourceTree = "<group>"; };
 		397F3086274B8FF90033A894 /* NEGCDTimerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NEGCDTimerManager.h; sourceTree = "<group>"; };
 		397F3087274B8FF90033A894 /* NEGCDTimerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NEGCDTimerManager.m; sourceTree = "<group>"; };
 		39862817274F5B95007AF632 /* UIControl+repeatclick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIControl+repeatclick.h"; sourceTree = "<group>"; };
@@ -1100,6 +1105,31 @@
 				39D76A4F26CE5D58005DECE5 /* NEPkLiveAttachment.m */,
 			);
 			path = PKChatRoomMessageHandle;
+			sourceTree = "<group>";
+		};
+		397A6C12277D50DB00F536EB /* Appdelegate */ = {
+			isa = PBXGroup;
+			children = (
+				C758CCD824EB7F5A003C406A /* AppDelegate.h */,
+				C758CCD924EB7F5A003C406A /* AppDelegate.m */,
+				C728EEE32500D77D00D27176 /* AppKey.h */,
+				C7D05B1E24EE2E3E00079BF5 /* PrefixHeader.pch */,
+			);
+			path = Appdelegate;
+			sourceTree = "<group>";
+		};
+		397A6C13277D50F100F536EB /* systemFile */ = {
+			isa = PBXGroup;
+			children = (
+				C758CCEA24EB7F5F003C406A /* main.m */,
+				C758CCE124EB7F5A003C406A /* Main.storyboard */,
+				C758CCE424EB7F5F003C406A /* Assets.xcassets */,
+				C758CCE624EB7F5F003C406A /* LaunchScreen.storyboard */,
+				C758CCE924EB7F5F003C406A /* Info.plist */,
+				397A6C18277D536200F536EB /* InfoPlist.strings */,
+				3994410026E78B0F0084BFAF /* Localizable.strings */,
+			);
+			path = systemFile;
 			sourceTree = "<group>";
 		};
 		397F3085274B8FF90033A894 /* NEGCDTimerManager */ = {
@@ -1831,6 +1861,8 @@
 		C758CCD724EB7F5A003C406A /* NLiteAVDemo */ = {
 			isa = PBXGroup;
 			children = (
+				397A6C13277D50F100F536EB /* systemFile */,
+				397A6C12277D50DB00F536EB /* Appdelegate */,
 				FD67243025F766D50077EB9B /* Evaluate */,
 				86D73DEA25AC518D00417AF1 /* Sources */,
 				86D73CC425ABFB5F00417AF1 /* Live */,
@@ -1840,16 +1872,6 @@
 				C7664E9A2511AE1D005E26A2 /* Menu */,
 				C7664EA82511AE1D005E26A2 /* Utils */,
 				C7B5068624F6439E00C4D992 /* NLiteAVDemo.entitlements */,
-				C758CCD824EB7F5A003C406A /* AppDelegate.h */,
-				C758CCD924EB7F5A003C406A /* AppDelegate.m */,
-				C728EEE32500D77D00D27176 /* AppKey.h */,
-				C758CCE124EB7F5A003C406A /* Main.storyboard */,
-				C758CCE424EB7F5F003C406A /* Assets.xcassets */,
-				C758CCE624EB7F5F003C406A /* LaunchScreen.storyboard */,
-				C758CCE924EB7F5F003C406A /* Info.plist */,
-				3994410026E78B0F0084BFAF /* Localizable.strings */,
-				C758CCEA24EB7F5F003C406A /* main.m */,
-				C7D05B1E24EE2E3E00079BF5 /* PrefixHeader.pch */,
 			);
 			path = NLiteAVDemo;
 			sourceTree = "<group>";
@@ -2055,6 +2077,8 @@
 				86D73DBD25ABFCC700417AF1 /* NSString+NTES.m */,
 				86D73DBA25ABFCA300417AF1 /* UIButton+NTES.h */,
 				86D73DBB25ABFCA300417AF1 /* UIButton+NTES.m */,
+				397A6C1C277D91DD00F536EB /* UIButton+Layout.h */,
+				397A6C1B277D91DD00F536EB /* UIButton+Layout.m */,
 				39862817274F5B95007AF632 /* UIControl+repeatclick.h */,
 				39862818274F5B95007AF632 /* UIControl+repeatclick.m */,
 				C7664EAD2511AE1D005E26A2 /* NSDictionary+NTESJson.h */,
@@ -2236,6 +2260,7 @@
 				86D73DF225AC518D00417AF1 /* audio_effect_0.wav in Resources */,
 				865FD37125B80D3200B28A8A /* 1.mp3 in Resources */,
 				399440FE26E78B0F0084BFAF /* Localizable.strings in Resources */,
+				397A6C16277D536200F536EB /* InfoPlist.strings in Resources */,
 				393A702725B149BF00C9A0A2 /* anim_gift_03.json in Resources */,
 				C7C099C7256A60B700086B1F /* NEFeedbackInputCell.xib in Resources */,
 				86D73DF025AC518D00417AF1 /* audio_effect_1.wav in Resources */,
@@ -2420,6 +2445,7 @@
 				393A6FE925B1479000C9A0A2 /* LOTRoundedRectAnimator.m in Sources */,
 				393A701425B1479000C9A0A2 /* LOTLayerContainer.m in Sources */,
 				393A6FE325B1479000C9A0A2 /* LOTNumberInterpolator.m in Sources */,
+				397A6C1D277D91DE00F536EB /* UIButton+Layout.m in Sources */,
 				393A6FDF25B1479000C9A0A2 /* LOTPointInterpolator.m in Sources */,
 				3987C22226D4E7220033C6B7 /* NEPkInfoModel.m in Sources */,
 				C7664ED22511AE1E005E26A2 /* NECountDownButton.m in Sources */,
@@ -2583,6 +2609,14 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		397A6C18277D536200F536EB /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				397A6C17277D536200F536EB /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		3994410026E78B0F0084BFAF /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -2733,8 +2767,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = NLiteAVDemo/NLiteAVDemo.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 569GNZ5392;
 				ENABLE_BITCODE = NO;
@@ -2743,8 +2777,8 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Sources",
 				);
-				GCC_PREFIX_HEADER = "$(SRCROOT)/NLiteAVDemo/PrefixHeader.pch";
-				INFOPLIST_FILE = NLiteAVDemo/Info.plist;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/NLiteAVDemo/Appdelegate/PrefixHeader.pch";
+				INFOPLIST_FILE = NLiteAVDemo/systemFile/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2757,7 +2791,7 @@
 				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.netease.yunxin.app.pklive;
 				PRODUCT_NAME = "网易云信互动直播";
-				PROVISIONING_PROFILE_SPECIFIER = "Wildcard Dev";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "NLiteAVDemo/Utils/Macro/NLiteAVDemo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -2783,8 +2817,8 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Sources",
 				);
-				GCC_PREFIX_HEADER = "$(SRCROOT)/NLiteAVDemo/PrefixHeader.pch";
-				INFOPLIST_FILE = NLiteAVDemo/Info.plist;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/NLiteAVDemo/Appdelegate/PrefixHeader.pch";
+				INFOPLIST_FILE = NLiteAVDemo/systemFile/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

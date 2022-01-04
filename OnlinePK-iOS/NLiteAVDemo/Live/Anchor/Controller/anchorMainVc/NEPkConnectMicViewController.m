@@ -301,7 +301,7 @@
     }
     
     NIMMessage *message = [[NIMMessage alloc] init];
-    message.text = [NSString stringWithFormat:@"\"%@\" 成功下麦",event.seatInfo.userInfo.userName];
+    message.text = [NSString stringWithFormat:NSLocalizedString(@"\"%@\" 成功下麦", nil),event.seatInfo.userInfo.userName];
     message.remoteExt = @{@"type":@(1)};
     [self.chatView addMessages:@[message]];
 }

@@ -26,7 +26,9 @@ abstract_target 'NEPkDemo' do
     pod 'Reachability'
     pod 'YXAlog_iOS', '~> 0.1.0'
     pod 'BlocksKit'
-    pod 'YXLogin', '0.2.0'
+    pod 'YXLogin', '1.0.0'
+#    pod 'YXLogin', :path => '../YXLogin/'
+#    pod 'YXLogin', :git => 'ssh://git@g.hz.netease.com:22222/yunxin-app/yunxin-login-ios.git', :branch => 'login/1.0.0'
 
   end
 

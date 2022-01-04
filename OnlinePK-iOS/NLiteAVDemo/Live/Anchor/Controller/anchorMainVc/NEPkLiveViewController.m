@@ -153,7 +153,7 @@ static NSString *const StartRelayTimeName = @"NEStartRelayTimeName";
     [RACObserve(self, pkState) subscribeNext:^(id  _Nullable x) {
         ntes_main_async_safe(^{
             @strongify(self);
-            NSString *pkBtnIco = (self.pkState == NEPKStatusPking || self.pkState == NEPKStatusPkPunish) ? @"end_pk_ico" : @"pk_ico";
+            NSString *pkBtnIco = (self.pkState == NEPKStatusPking || self.pkState == NEPKStatusPkPunish) ? NSLocalizedString(@"end_pk_ico", nil) : @"pk_ico";
             [self.pkBtn setImage:[UIImage imageNamed:pkBtnIco] forState:UIControlStateNormal];
         });
     }];
@@ -636,16 +636,15 @@ static NSString *const StartRelayTimeName = @"NEStartRelayTimeName";
     if (res == NETSPkTieResult) {
         [self.pkStatusBar stopCountdown];
     } else {
-//        int32_t seconds = kPkLivePunishTotalTime - (int32_t)((data.currentTime - data.pkPulishmentTime) / 1000);
-        [self.pkStatusBar countdownWithSeconds:punishData.pkPenaltyCountDown prefix:@"惩罚 "];
+        [self.pkStatusBar countdownWithSeconds:punishData.pkPenaltyCountDown prefix:NSLocalizedString(@"惩罚 ", nil)];
     }
     
     //刷新惩罚UI
     CGRect leftIcoFrame = CGRectMake((self.localRender.width - 100) * 0.5, self.localRender.bottom - 100, 100, 100);
     CGRect rightIcoFrame = CGRectMake(self.remoteRender.left + (self.remoteRender.width - 100) * 0.5, self.remoteRender.bottom - 100, 100, 100);
     
-    self.pkSuccessIco.image = [UIImage imageNamed:@"pk_succeed_ico"];
-    self.pkFailedIco.image = [UIImage imageNamed:@"pk_failed_ico"];
+    self.pkSuccessIco.image = [UIImage imageNamed:NSLocalizedString(@"pk_succeed_ico", nil)];
+    self.pkFailedIco.image = [UIImage imageNamed:NSLocalizedString(@"pk_failed_ico" , nil)];
     
     switch (res) {
         case NETSPkCurrentAnchorWin:
@@ -662,8 +661,8 @@ static NSString *const StartRelayTimeName = @"NEStartRelayTimeName";
             break;
         case NETSPkTieResult:
         {
-            self.pkSuccessIco.image = [UIImage imageNamed:@"pk_tie_ico"];
-            self.pkFailedIco.image = [UIImage imageNamed:@"pk_tie_ico"];
+            self.pkSuccessIco.image = [UIImage imageNamed:NSLocalizedString(@"pk_tie_ico", nil)];
+            self.pkFailedIco.image = [UIImage imageNamed:NSLocalizedString(@"pk_tie_ico", nil)];
             
             self.pkSuccessIco.frame = leftIcoFrame;
             self.pkFailedIco.frame = rightIcoFrame;

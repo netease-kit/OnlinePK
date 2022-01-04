@@ -91,8 +91,8 @@
     NETSMoreSettingModel *model = self.items[indexPath.row];
     if ([model isKindOfClass:[NETSMoreSettingStatusModel class]]) {
         NETSMoreSettingStatusModel *newModel = (NETSMoreSettingStatusModel *)model;
-        if ([model.display isEqualToString:@"耳返"]) {
-            if ([NETSLiveConfig shared].outputRoute != kNERtcAudioOutputRoutingLoudspeaker) {
+        if ([model.display isEqualToString:NSLocalizedString(@"耳返", nil)]) {
+            if ([NETSLiveConfig shared].outputRoute == kNERtcAudioOutputRoutingHeadset) {
                 newModel.disable = !newModel.disable;
             }
         }else {
@@ -168,14 +168,14 @@
     
     NERtcAudioOutputRouting route = [NETSLiveConfig shared].outputRoute;
     switch (route) {
-        case kNERtcAudioOutputRoutingLoudspeaker:{
-            [NETSToast showToast:NSLocalizedString(@"打开耳返功能前，请先插入耳机!", nil)];
+        case kNERtcAudioOutputRoutingHeadset:{
+            int res = [[NERtcEngine sharedEngine] enableEarback:!disable volume:80];
+            YXAlogInfo(@"设置耳返: %d", res);
         }
             break;
             
         default:{
-            int res = [[NERtcEngine sharedEngine] enableEarback:!disable volume:80];
-            YXAlogInfo(@"设置耳返: %d", res);
+            [NETSToast showToast:NSLocalizedString(@"打开耳返功能前，请先插入耳机!", nil)];
         }
             break;
     }
