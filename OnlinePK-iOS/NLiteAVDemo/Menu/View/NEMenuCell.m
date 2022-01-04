@@ -88,6 +88,7 @@
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(12);
         make.left.mas_equalTo(self.iconView.mas_right).offset(14);
+        make.right.mas_equalTo(bgView).offset(-10);
     }];
 
     [self.subTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -137,7 +138,7 @@
         _titleLabel = [[UILabel alloc] init];
         _titleLabel.font = [UIFont boldSystemFontOfSize:18];
         _titleLabel.textColor = [UIColor whiteColor];
-        _titleLabel.textAlignment = NSTextAlignmentCenter;
+        _titleLabel.textAlignment = NSTextAlignmentLeft;
     }
     return _titleLabel;
 }
@@ -148,7 +149,7 @@
         _subTitleLabel.font = [UIFont boldSystemFontOfSize:14];
         _subTitleLabel.textColor = [UIColor whiteColor];
         _subTitleLabel.textAlignment = NSTextAlignmentLeft;
-        _subTitleLabel.numberOfLines = 0;
+        _subTitleLabel.numberOfLines = 2;
     }
     return _subTitleLabel;
 }

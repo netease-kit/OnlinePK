@@ -611,7 +611,7 @@
     if ([error.domain isEqualToString:@"NIMLocalErrorDomain"] && error.code == 13) {
         accountErr = YES;
     }
-    NSString *title = accountErr ? @"您的账号已登出" : @"直播间已关闭";
+    NSString *title = accountErr ? NSLocalizedString(@"您的账号已登出", nil) : NSLocalizedString(@"直播间已关闭", nil);
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:NSLocalizedString(@"点击确定关闭该直播间", nil) preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *confirm = [UIAlertAction actionWithTitle:NSLocalizedString(@"确定", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         if (accountErr) {

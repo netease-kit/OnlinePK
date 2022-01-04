@@ -42,6 +42,7 @@
     [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [request setValue:[NEAccount shared].accessToken forHTTPHeaderField:@"accessToken"];
+
     NSLog(@"accessToken:%@",[NEAccount shared].accessToken);
     NSDictionary *parameterDic = [self getProperties];
     NSError *error;
@@ -87,5 +88,6 @@
     }
     return dic.copy;
 }
+
 
 @end

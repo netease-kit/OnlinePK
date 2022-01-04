@@ -83,9 +83,9 @@
         model.live.liveStatus == NEPkliveStatusConnectMic) {
         self.pkView.hidden = NO;
         if (model.live.liveStatus == NEPkliveStatusConnectMic ) {
-            self.pkView.image = [UIImage imageNamed:@"pklist_connecting_icon"];
+            self.pkView.image = [UIImage imageNamed:NSLocalizedString(@"pklist_connecting_icon", nil)];
         }else {
-            self.pkView.image = [UIImage imageNamed:@"pking_ico"];
+            self.pkView.image = [UIImage imageNamed:NSLocalizedString(@"pking_ico", nil)];
         }
     }else {
         self.pkView.hidden = YES;

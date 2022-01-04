@@ -35,23 +35,19 @@
     self = [super init];
     if (self) {
         [self setupViews];
-//        [self bindAction];
-        
-        [NETSLiveApi randomCoverWithCompletionHandle:^(NSDictionary * _Nonnull response) {
-            NSString *cover = response[@"/data"];
-            self.coverUrl = cover;
-        } errorHandle:nil];
+        [self requestPreviewData];
     }
     return self;
 }
 
-//- (void)choseImage:(UITapGestureRecognizer *)gesture
-//{
-//    [NETSLiveApi randomCoverWithCompletionHandle:^(NSDictionary * _Nonnull response) {
-//        NSString *cover = response[@"/data"];
-//        self.coverUrl = cover;
-//    } errorHandle:nil];
-//}
+- (void)requestPreviewData {
+    
+    [NETSLiveApi randomCoverWithCompletionHandle:^(NSDictionary * _Nonnull response) {
+        NSString *cover = response[@"/data"];
+        self.coverUrl = cover;
+    } errorHandle:nil];
+}
+
 
 - (void)setCoverUrl:(NSString *)coverUrl
 {
@@ -88,14 +84,6 @@
         make.top.equalTo(self).offset(-5);
     }];
 }
-
-/// 绑定事件
-//- (void)bindAction
-//{
-//    self.userInteractionEnabled = YES;
-//    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(choseImage:)];
-//    [self addGestureRecognizer:tap];
-//}
 
 - (void)setChosenImg:(UIImage *)chosenImg
 {
@@ -205,8 +193,18 @@
         [self setupViews];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textViewDidChangeText:) name:UITextViewTextDidChangeNotification object:self.textView];
+        [self requestTopic];
     }
     return self;
+}
+
+- (void)requestTopic {
+    [NETSLiveApi randowToipcWithCompletionHandle:^(NSDictionary * _Nonnull response) {
+        NSString *topic = response[@"/data"];
+        if (topic && [topic isKindOfClass:[NSString class]]) {
+            self.textView.text = topic;
+        }
+    } errorHandle:nil];
 }
 
 - (void)dealloc
@@ -238,8 +236,7 @@
 }
 
 /// 随机签名按钮点击事件
-- (void)randomSignClick:(UIButton *)sender
-{
+- (void)randomSignClick:(UIButton *)sender {
     [NETSLiveApi randowToipcWithCompletionHandle:^(NSDictionary * _Nonnull response) {
         NSString *topic = response[@"/data"];
         if (topic && [topic isKindOfClass:[NSString class]]) {
@@ -302,7 +299,6 @@
         _textView = [[UITextView alloc] init];
         _textView.font = [UIFont systemFontOfSize:14];
         _textView.textColor = [UIColor whiteColor];
-        _textView.text = @"曲中传情，唱给你听";
         _textView.backgroundColor = [UIColor clearColor];
     }
     return _textView;

@@ -1,0 +1,10 @@
+/* 
+  InfoPlist.strings
+  NLiteAVDemo
+
+  Created by vvj on 2021/12/30.
+  Copyright © 2021 Netease. All rights reserved.
+*/
+CFBundleDisplayName = "CommsEase Interactive Live Streaming";
+NSCameraUsageDescription = "need to use camera";
+NSMicrophoneUsageDescription = "need to use microphone";

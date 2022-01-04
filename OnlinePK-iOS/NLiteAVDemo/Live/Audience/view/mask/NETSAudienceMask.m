@@ -311,8 +311,8 @@
     CGRect leftIcoFrame = CGRectMake((kScreenWidth * 0.5 - 100) * 0.5, top, 100, 100);
     CGRect rightIcoFrame = CGRectMake(kScreenWidth * 0.5 + (kScreenWidth * 0.5 - 100) * 0.5, top, 100, 100);
     
-    self.pkSuccessIco.image = [UIImage imageNamed:@"pk_succeed_ico"];
-    self.pkFailedIco.image = [UIImage imageNamed:@"pk_failed_ico"];
+    self.pkSuccessIco.image = [UIImage imageNamed:NSLocalizedString(@"pk_succeed_ico", nil)];
+    self.pkFailedIco.image = [UIImage imageNamed:NSLocalizedString(@"pk_failed_ico", nil)];
     
     switch (pkResult) {
         case NETSPkCurrentAnchorWin:
@@ -329,8 +329,8 @@
             break;
         case NETSPkTieResult:
         {
-            self.pkSuccessIco.image = [UIImage imageNamed:@"pk_tie_ico"];
-            self.pkFailedIco.image = [UIImage imageNamed:@"pk_tie_ico"];
+            self.pkSuccessIco.image = [UIImage imageNamed:NSLocalizedString(@"pk_tie_ico", nil)];
+            self.pkFailedIco.image = [UIImage imageNamed:NSLocalizedString(@"pk_tie_ico", nil)];
             
             self.pkSuccessIco.frame = leftIcoFrame;
             self.pkFailedIco.frame = rightIcoFrame;
@@ -494,7 +494,11 @@
     }
 
     NIMMessage *message = [[NIMMessage alloc] init];
-    message.text = [NSString stringWithFormat:@"\"%@\" %@房间", member.nick, (enter ? @"加入":@"离开")];
+    if (enter) {
+        message.text = [NSString stringWithFormat:NSLocalizedString(@"\"%@\" 加入房间", nil),member.nick];
+    }else {
+        message.text = [NSString stringWithFormat:NSLocalizedString(@"\"%@\" 离开房间", nil),member.nick];
+    }
     message.remoteExt = @{@"type":@(1)};
     [_chatView addMessages:@[message]];
     [self _refreshAudienceInfoWitHRoomId:self.room.live.chatRoomId];
@@ -569,7 +573,7 @@
     if (res == NETSPkTieResult) {
         [self.pkStatusBar stopCountdown];
     } else {
-        [self.pkStatusBar countdownWithSeconds:punishData.pkPenaltyCountDown prefix:@"惩罚 "];
+        [self.pkStatusBar countdownWithSeconds:punishData.pkPenaltyCountDown prefix:NSLocalizedString(@"惩罚 ", nil)];
     }
     //显示pk结果
     [self _layoutPkResultWhenGetCurrentAnchorWin:res];
@@ -726,7 +730,7 @@
         }
     }
     NIMMessage *message = [[NIMMessage alloc] init];
-    message.text = [NSString stringWithFormat:@"\"%@\" 成功上麦", event.seatInfo.userInfo.userName];
+    message.text = [NSString stringWithFormat:NSLocalizedString(@"\"%@\" 成功上麦", nil), event.seatInfo.userInfo.userName];
     message.remoteExt = @{@"type":@(1)};
     [_chatView addMessages:@[message]];
 }
@@ -738,7 +742,7 @@
         [self.delegate memberSeatStateChanged:NO seatInfo:event.seatInfo];
     }
     NIMMessage *message = [[NIMMessage alloc] init];
-    message.text = [NSString stringWithFormat:@"\"%@\" 成功下麦", event.seatInfo.userInfo.userName];
+    message.text = [NSString stringWithFormat:NSLocalizedString(@"\"%@\" 成功下麦", nil), event.seatInfo.userInfo.userName];
     message.remoteExt = @{@"type":@(1)};
     [_chatView addMessages:@[message]];
     if ([event.seatInfo.userInfo.accountId isEqualToString:[NEAccount shared].userModel.accountId]) {//如果操作是自己重置麦克风和摄像头状态

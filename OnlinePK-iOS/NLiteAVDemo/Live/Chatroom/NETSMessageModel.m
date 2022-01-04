@@ -49,7 +49,7 @@
     }
     
     if (self.isAnchor) {
-        UIImage *authorIco = [UIImage imageNamed:@"anthor_ico"];
+        UIImage *authorIco = [UIImage imageNamed:NSLocalizedString(@"anthor_ico", nil)];
         [label appendImage:authorIco maxSize:CGSizeMake(32, 16) margin:UIEdgeInsetsZero alignment:M80ImageAlignmentCenter];
         NSAttributedString *space = [[NSAttributedString alloc] initWithString:@" "];
         [label appendAttributedText:space];
@@ -119,7 +119,7 @@
                 
                 NSString *nickname = attach.rewarderNickname;
                 NSString *msg = NSLocalizedString(@"赠送礼物x1 ", nil);
-                showMessage = [NSString stringWithFormat:@"%@: %@", nickname, msg];
+                showMessage = [NSString stringWithFormat:@"%@: %@", nickname, NSLocalizedString(@"赠送礼物x1 ", nil)];
 
                 _textRange = NSMakeRange(showMessage.length - msg.length, msg.length);
                 _nickRange = NSMakeRange(0, showMessage.length - msg.length);

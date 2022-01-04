@@ -31,7 +31,47 @@ PODS:
   - SPPageMenu (3.5.0)
   - Toast (4.0.0)
   - YXAlog_iOS (0.1.2)
-  - YXLogin (0.2.0):
+  - YXLogin (0.1.0):
+    - LGAlertViewCY
+    - Masonry
+    - ReactiveObjC
+    - SPPageMenu
+    - Toast
+    - YXLogin/core (= 0.1.0)
+    - YXLogin/model (= 0.1.0)
+    - YXLogin/protocol (= 0.1.0)
+    - YXLogin/service (= 0.1.0)
+    - YXLogin/ui (= 0.1.0)
+    - YYModel
+  - YXLogin/core (0.1.0):
+    - LGAlertViewCY
+    - Masonry
+    - ReactiveObjC
+    - SPPageMenu
+    - Toast
+    - YYModel
+  - YXLogin/model (0.1.0):
+    - LGAlertViewCY
+    - Masonry
+    - ReactiveObjC
+    - SPPageMenu
+    - Toast
+    - YYModel
+  - YXLogin/protocol (0.1.0):
+    - LGAlertViewCY
+    - Masonry
+    - ReactiveObjC
+    - SPPageMenu
+    - Toast
+    - YYModel
+  - YXLogin/service (0.1.0):
+    - LGAlertViewCY
+    - Masonry
+    - ReactiveObjC
+    - SPPageMenu
+    - Toast
+    - YYModel
+  - YXLogin/ui (0.1.0):
     - LGAlertViewCY
     - Masonry
     - ReactiveObjC
@@ -55,11 +95,11 @@ DEPENDENCIES:
   - SDWebImage (= 5.11.1)
   - Toast
   - YXAlog_iOS (~> 0.1.0)
-  - YXLogin (= 0.2.0)
+  - "YXLogin (from `ssh://git@g.hz.netease.com:22222/yunxin-app/yunxin-login-ios.git`, branch `login/1.0.0`)"
   - YYModel
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - BlocksKit
     - IQKeyboardManager
     - LGAlertViewCY
@@ -76,8 +116,17 @@ SPEC REPOS:
     - SPPageMenu
     - Toast
     - YXAlog_iOS
-    - YXLogin
     - YYModel
+
+EXTERNAL SOURCES:
+  YXLogin:
+    :branch: login/1.0.0
+    :git: "ssh://git@g.hz.netease.com:22222/yunxin-app/yunxin-login-ios.git"
+
+CHECKOUT OPTIONS:
+  YXLogin:
+    :commit: 66896a8b33361eaf07e668b25f9d665e4200964d
+    :git: "ssh://git@g.hz.netease.com:22222/yunxin-app/yunxin-login-ios.git"
 
 SPEC CHECKSUMS:
   BlocksKit: 7f422b971407001178d181a43b99014ea2591fe6
@@ -96,9 +145,9 @@ SPEC CHECKSUMS:
   SPPageMenu: da182aafcec55719d5c326103cc7716c1e48f311
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   YXAlog_iOS: ecbc7f6e1bd2ffac7e5f908b33623ddea2af51be
-  YXLogin: be6fbfe96149be01bdf0494d23f4f7ab84de2d0a
+  YXLogin: 263d3ba66cceaa1e80c2668bd7f3f076efd72309
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 
-PODFILE CHECKSUM: 1b9bf44eb6479254851ce0c079e199c6bf1113d2
+PODFILE CHECKSUM: cd044c8153fa4bf83779c93dbfcd3871038e7eb3
 
-COCOAPODS: 1.7.1
+COCOAPODS: 1.11.2

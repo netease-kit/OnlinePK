@@ -243,6 +243,8 @@
     [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [request setValue:[NEAccount shared].accessToken forHTTPHeaderField:@"accessToken"];
+    [request setValue:[self currentLanguages] forHTTPHeaderField:@"lang"];
+
     [request setTimeoutInterval:60];
 //    YXAlogInfo(@"accessToken:%@", [NEAccount shared].accessToken);
     NSDictionary *paramsDic = [self _paramDict];
@@ -274,6 +276,7 @@
     [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [request setValue:[NEAccount shared].accessToken forHTTPHeaderField:@"accessToken"];
+    [request setValue:[self currentLanguages] forHTTPHeaderField:@"lang"];
     [request setTimeoutInterval:60];
 
     YXAlogInfo(@"accessToken:%@", [NEAccount shared].accessToken);
@@ -304,6 +307,24 @@
     return res;
 }
 
+- (NSString *)currentLanguages {
+    
+    NSString * currentLocaleLanguageCode = @"";
+    NSArray *languages = [NSLocale preferredLanguages];
+       if (languages.count>0) {
+           currentLocaleLanguageCode = languages.firstObject;
+           if ([currentLocaleLanguageCode hasPrefix:@"en"]) {
+               currentLocaleLanguageCode = @"en";
+           }else if ([currentLocaleLanguageCode hasPrefix:@"zh"]) {
+               currentLocaleLanguageCode = @"zh";
+           }else {
+               currentLocaleLanguageCode = @"zh";
+           }
+       }else {
+           currentLocaleLanguageCode = @"zh";
+       }
+    return currentLocaleLanguageCode;
+}
 + (NSDictionary <NSString *, NSString *> *)commonParams
 {
     return @{};
