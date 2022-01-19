@@ -80,7 +80,7 @@ ext {
 }
 
 def loadLocalConfig() {
-    String env = System.getProperty("env", "test")
+    String env = System.getProperty("env", "online")
     if (env != "test") env = "online"
     println "env=$env"
     def propertiesFile = file("config/${env}.properties")
