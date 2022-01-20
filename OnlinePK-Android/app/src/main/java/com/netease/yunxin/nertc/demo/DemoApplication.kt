@@ -66,10 +66,8 @@ class DemoApplication : Application() {
             .notifyOnCreate(this)
 
         //初始化登录模块
-        val debug =
-            TextUtils.equals(com.netease.yunxin.nertc.demo.basic.BuildConfig.BUILD_ENV, "test")
         val authorConfig =
-            AuthorConfig(com.netease.yunxin.nertc.demo.basic.BuildConfig.APP_KEY, 1, 3, debug)
+            AuthorConfig(com.netease.yunxin.nertc.demo.basic.BuildConfig.APP_KEY, 1, 3, false)
         authorConfig.loginType = LoginType.LANGUAGE_SWITCH
         AuthorManager.initAuthor(applicationContext, authorConfig)
 
