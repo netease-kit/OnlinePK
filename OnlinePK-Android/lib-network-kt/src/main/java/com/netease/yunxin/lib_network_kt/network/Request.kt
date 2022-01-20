@@ -32,10 +32,10 @@ object Request {
         } catch (e: Throwable) {
             // 这里处理网络错误
             if (e is HttpException) {
-                error(e.code(), "network error!")
+                error(e.code(), "network exception e = ${e.message()}")
             } else {
                 // 各种其他网络错误...
-                error(ErrorCode.DEFAULT, "network error!")
+                error(ErrorCode.DEFAULT, "other exception e = ${e.message}")
             }
 
         }
