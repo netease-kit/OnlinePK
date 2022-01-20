@@ -5,8 +5,8 @@
 在开始运行示例项目之前，请确保您已完成以下操作：  
 联系云信商务获取开通以下权限，并联系技术支持配置产品服务和功能
 ### 为此应用开通以下相关服务与抄送：
-* [应用创建和服务开通](../应用创建和服务开通.md)
-* 云信控制台配置参考[服务配置](../服务配置.md)
+* [应用创建和服务开通](https://github.com/netease-kit/documents/blob/main/%E5%9C%BA%E6%99%AF%E6%96%B9%E6%A1%88/%E4%BA%92%E5%8A%A8%E7%9B%B4%E6%92%AD/%E5%BA%94%E7%94%A8%E5%88%9B%E5%BB%BA%E5%92%8C%E6%9C%8D%E5%8A%A1%E5%BC%80%E9%80%9A.md)
+* 云信控制台配置参考[服务配置](https://github.com/netease-kit/documents/blob/main/%E5%9C%BA%E6%99%AF%E6%96%B9%E6%A1%88/%E4%BA%92%E5%8A%A8%E7%9B%B4%E6%92%AD/%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE.md)
 * 如需使用美颜功能请联系相芯获取美颜证书 [相芯](https://www.faceunity.com/)
 
 ## 开发环境
