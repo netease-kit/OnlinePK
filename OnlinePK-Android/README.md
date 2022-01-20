@@ -1,70 +1,61 @@
-## 互动直播
+# 跑通互动直播
+互动直播示例代码提供普通的单主播直播已经PK直播和连麦直播
 
-### 前提条件
+## 前提条件
+在开始运行示例项目之前，请确保您已完成以下操作：  
+联系云信商务获取开通以下权限，并联系技术支持配置产品服务和功能
+### 为此应用开通以下相关服务与抄送：
+* [应用创建和服务开通](https://github.com/netease-kit/documents/blob/main/%E5%9C%BA%E6%99%AF%E6%96%B9%E6%A1%88/%E4%BA%92%E5%8A%A8%E7%9B%B4%E6%92%AD/%E5%BA%94%E7%94%A8%E5%88%9B%E5%BB%BA%E5%92%8C%E6%9C%8D%E5%8A%A1%E5%BC%80%E9%80%9A.md)
+* 云信控制台配置参考[服务配置](https://github.com/netease-kit/documents/blob/main/%E5%9C%BA%E6%99%AF%E6%96%B9%E6%A1%88/%E4%BA%92%E5%8A%A8%E7%9B%B4%E6%92%AD/%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE.md)
+* 如需使用美颜功能请联系相芯获取美颜证书 [相芯](https://www.faceunity.com/)
 
-- 已在控制台创建应用，并获取了应用对应的 App Key。
-- 已成功开通 IM 即时通讯产品的聊天室功能、音视频通话 2.0 产品。<br>
-  聊天室功能需单独开通，若有需要，请联系您的对应销售或技术支持人员。
+## 开发环境
+在开始运行示例项目之前，请确保开发环境满足以下要求：
 
-### 接入说明：
-- 使用已经申请的appkey替换到config目录下的配置文件
-  - 测试配置文件：test.properties 线上配置文件：online.properties
-- 如果需要使用美颜相关功能，请申请相芯证书并替换authpack.java文件，此文件为相芯证书文件。并确认FURenderer.java文件中fixme部分。
+| 环境要求         | 说明                                                         |
+| ---------------- | ------------------------------------------------------------ |
+| JDK 版本         | 1.8.0 及以上版本                                             |
+| Android API 版本 | API 23、Android 6.0 及以上版本                               |
+| CPU架构          | ARM64、ARMV7                                                 |
+| IDE              | Android Studio4.0及以上                                               |
+| 其他             | 依赖 Androidx，不支持 support 库。Android 系统 4.3 或以上版本的移动设备。 |
 
-### 代码结构说明
-参考setting文件
- ```gradle
-  include ':app'
-/**
- * 用户相关实现
- */
-include ':biz-user'
+## 示例项目结构
+|  目录   | 说明  |
+|  ----  | ----  |
+| app  | 应用主入口包含外部页面框架。 |
+| biz-user | 用户相关实现 |
+| lib-user  | 用户lib |
+| lib-modularity  | app模块化 |
+| lib-basic  | 基础lib |
+| lib-beauty-faceunity  | 美颜lib，基于相芯 |
+| lib-network-kt | kotlin 使用的网络库 |
+| biz-live | 直播业务实现，主要是UI方面 |
+| lib-live-room-service | 直播房间服务 |
+| lib-live-pk-service | Pk相关功能服务 |
 
-/**
- * 用户lib
- */
-include ':lib-user'
+## 运行示例源码
+1. GitHub下载源代码 [源码](https://github.com/netease-kit/OnlinePK/tree/master/OnlinePK-Android)
 
-/**
- * app模块化
- */
-include ':lib-modularity'
-/**
- * 基础lib
- */
-include ':lib-basic'
+2. 导入Android Studio
 
-/**
- * 美颜lib，基于相芯
- */
-include ':lib-beauty-faceunity'
+3. 找到工程目录下的config.properties文件，里面替换成自己的APP_KEY，请[联系云信商务经理](https://yunxin.163.com/bizQQWPA.html)开通音视频功能
 
-/**
- * kotlin 使用的网络库
- */
-include ':lib-network-kt'
+    ```
+    APP_KEY="请输入你的app key"
+    BASE_URL=https://yiyong.netease.im/
+   
+    ```
 
-/**
- * 直播模块lib
- */
-include ':lib-live'
+4. 如果需要使用美颜功能请使用自己的相芯证书替换lib-beauty-faceunity/src/main/java/com/beautyFaceunity/authpack.java 证书文件
+    ```
+    package com.faceunity;
+    
+    import java.security.MessageDigest;
+    
+    public class authpack {
+    
+    }
+    ```
 
-/**
- * 直播业务实现，主要是UI方面
- */
-include ':biz-live'
-
-/**
- * 直播房间服务
- */
-include ':lib-live-room-service'
-/**
- * Pk 相关功能
- */
-include ':lib-live-pk-service'
-```
-
-- 互动直播相关功能重点关注后三个model
-- lib-beauty-faceunity 为相芯美颜相关的功能实现代码，如果确认接入，接入过程中美颜问题可直接咨询相芯相关技术支持
-
-
+5. 运行在自己的Android设备上
