@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.android:signflinger:7.1.2">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android/signflinger/7.1.2/a05078872e7f98dcf233befb16f86f5c75d17f86/signflinger-7.1.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android/signflinger/7.1.2/621208737f7d6e0d82a5c348655258b6768aef63/signflinger-7.1.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.android.tools.utp:android-device-provider-gradle-proto:30.1.2">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.utp/android-device-provider-gradle-proto/30.1.2/bf8a24d0db4814d8c22068cf38238dd516325a42/android-device-provider-gradle-proto-30.1.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.utp/android-device-provider-gradle-proto/30.1.2/39e846b1e5bffbf6d90673b8e603348be16c8209/android-device-provider-gradle-proto-30.1.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

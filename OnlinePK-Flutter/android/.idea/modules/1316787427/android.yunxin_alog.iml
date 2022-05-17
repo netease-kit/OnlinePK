@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.linked.project.id=":yunxin_alog" external.linked.project.path="$USER_HOME$/Env/flutter/.pub-cache/hosted/pub.dartlang.org/yunxin_alog-1.0.7-rc.1/android" external.root.project.path="$MODULE_DIR$/../../.." external.system.id="GRADLE" external.system.module.group="com.netease.yunxin.alog.yunxin_alog" external.system.module.version="1.0-SNAPSHOT" type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="android-gradle" name="Android-Gradle">
+      <configuration>
+        <option name="GRADLE_PROJECT_PATH" value=":yunxin_alog" />
+        <option name="LAST_SUCCESSFUL_SYNC_AGP_VERSION" />
+        <option name="LAST_KNOWN_AGP_VERSION" value="4.1.0" />
+      </configuration>
+    </facet>
+    <facet type="kotlin-language" name="Kotlin">
+      <configuration version="4" platform="JVM 1.8" allPlatforms="JVM [1.8]" useProjectSettings="false">
+        <compilerSettings>
+          <option name="additionalArguments" value="-Xallow-no-source-files" />
+        </compilerSettings>
+        <compilerArguments>
+          <option name="destination" value="$MODULE_DIR$/../../../../build/yunxin_alog/tmp/kotlin-classes/debug" />
+          <option name="classpath" value="$MODULE_DIR$/../../../../build/yunxin_alog/intermediates/compile_r_class_jar/debug/R.jar:/Users/sunkeding/.gradle/caches/transforms-3/1a16acba8d73e40c1afdc5835a06850e/transformed/jetified-flutter_embedding_debug-1.0.0-57d3bac3dd5cb5b0e464ab70e7bc8a0d8cf083ab.jar:/Users/sunkeding/.gradle/caches/modules-2/files-2.1/androidx.lifecycle/lifecycle-common-java8/2.2.0/cd3478503da69b1a7e0319bd2d1389943db9b364/lifecycle-common-java8-2.2.0.jar:/Users/sunkeding/.gradle/caches/transforms-3/2d0fdb58f6df2165584742fa5970119f/transformed/fragment-1.1.0-api.jar:/Users/sunkeding/.gradle/caches/transforms-3/30659c1e9204aa89f4b05514cfaaa734/transformed/viewpager-1.0.0-api.jar:/Users/sunkeding/.gradle/caches/transforms-3/106aac2330d30f995e5b52ff266953fd/transformed/loader-1.0.0-api.jar:/Users/sunkeding/.gradle/caches/transforms-3/f3b48c2434d2618d9383d2f5020f581e/transformed/jetified-activity-1.0.0-api.jar:/Users/sunkeding/.gradle/caches/transforms-3/12fdef2f11f8b6d4cc33da6f923a6361/transformed/customview-1.0.0-api.jar:/Users/sunkeding/.gradle/caches/transforms-3/fc8f08ba1c173d1a63e391c8605b29ac/transformed/core-1.6.0-api.jar:/Users/sunkeding/.gradle/caches/transforms-3/10741b669e09ec866e1ae83cec1267cd/transformed/lifecycle-runtime-2.2.0-api.jar:/Users/sunkeding/.gradle/caches/transforms-3/56dd8be92f6c64dbcf68f86bb62123ab/transformed/jetified-savedstate-1.0.0-api.jar:/Users/sunkeding/.gradle/caches/transforms-3/e26162575d549f425df908eb5ccf58fb/transformed/lifecycle-livedata-2.0.0-api.jar:/Users/sunkeding/.gradle/caches/transforms-3/89c661918a2e739b6ae9a310b43637aa/transformed/lifecycle-livedata-core-2.0.0-api.jar:/Users/sunkeding/.gradle/caches/modules-2/files-2.1/androidx.lifecycle/lifecycle-common/2.2.0/4ef09a745007778eef83b92f8f23987a8ea59496/lifecycle-common-2.2.0.jar:/Users/sunkeding/.gradle/caches/transforms-3/c3ee2b2f10b801f1e81b80771fa099a8/transformed/core-runtime-2.0.0-api.jar:/Users/sunkeding/.gradle/caches/modules-2/files-2.1/androidx.arch.core/core-common/2.1.0/b3152fc64428c9354344bd89848ecddc09b6f07e/core-common-2.1.0.jar:/Users/sunkeding/.gradle/caches/transforms-3/07a196349ebe2f09610632eda4869930/transformed/versionedparcelable-1.1.1-api.jar:/Users/sunkeding/.gradle/caches/modules-2/files-2.1/androidx.collection/collection/1.1.0/1f27220b47669781457de0d600849a5de0e89909/collection-1.1.0.jar:/Users/sunkeding/.gradle/caches/transforms-3/a9d6d541cc511859bdbd2e4b25235229/transformed/lifecycle-viewmodel-2.1.0-api.jar:/Users/sunkeding/.gradle/caches/modules-2/files-2.1/androidx.annotation/annotation/1.2.0/57136ff68ee784c6e19db34ed4a175338fadfde1/annotation-1.2.0.jar:/Users/sunkeding/.gradle/caches/transforms-3/8e01e86b424c9f607d52c28ee76e853f/transformed/jetified-annotation-experimental-1.1.0-api.jar:/Users/sunkeding/.gradle/caches/transforms-3/973a88f3cea067d64482fc8fe44244a9/transformed/jetified-tracing-1.0.0-api.jar:/Users/sunkeding/.gradle/caches/transforms-3/b09395445b1b7056c2e8c52c773c2d3e/transformed/jetified-window-java-1.0.0-beta04-api.jar:/Users/sunkeding/.gradle/caches/transforms-3/b98da673655ab079d0e54637daa98c05/transformed/jetified-window-1.0.0-beta04-api.jar:/Users/sunkeding/.gradle/caches/transforms-3/cb6cda2c63bcc61a84f9657b896b5730/transformed/jetified-kotlinx-coroutines-android-1.5.2.jar:/Users/sunkeding/.gradle/caches/transforms-3/fe03e9e8f7ed0e38ddca863fb4d92318/transformed/jetified-kotlinx-coroutines-core-jvm-1.5.2.jar:/Users/sunkeding/.gradle/caches/transforms-3/c993bcae3417df5b06cd18f96d1925b3/transformed/jetified-kotlin-stdlib-jdk8-1.5.30.jar:/Users/sunkeding/.gradle/caches/transforms-3/b1c3c59f7278fdc20e1566b987e7390d/transformed/jetified-kotlin-stdlib-jdk7-1.5.30.jar:/Users/sunkeding/.gradle/caches/transforms-3/3b5e74d427b00bb4131fd84e63bef9c6/transformed/jetified-kotlin-stdlib-1.5.31.jar:/Users/sunkeding/.gradle/caches/transforms-3/0b0e8a2ee052653316a0b389318dddea/transformed/jetified-annotations-13.0.jar:/Users/sunkeding/.gradle/caches/transforms-3/7511876de9148a620a36a528ccc1dec7/transformed/jetified-kotlin-stdlib-common-1.5.31.jar:/Users/sunkeding/.gradle/caches/transforms-3/371c57063b042ddee3f58ad453c13401/transformed/jetified-alog-1.0.0-api.jar:/Users/sunkeding/Library/Android/sdk/platforms/android-31/android.jar" />
+          <option name="noStdlib" value="true" />
+          <option name="moduleName" value="yunxin_alog_debug" />
+          <option name="languageVersion" value="1.3" />
+          <option name="apiVersion" value="1.3" />
+          <option name="pluginOptions">
+            <array />
+          </option>
+          <option name="pluginClasspaths">
+            <array />
+          </option>
+          <option name="errors">
+            <ArgumentParseErrors />
+          </option>
+        </compilerArguments>
+      </configuration>
+    </facet>
+    <facet type="android" name="Android">
+      <configuration>
+        <option name="SELECTED_BUILD_VARIANT" value="debug" />
+        <option name="ASSEMBLE_TASK_NAME" value="assembleDebug" />
+        <option name="COMPILE_JAVA_TASK_NAME" value="compileDebugSources" />
+        <afterSyncTasks>
+          <task>generateDebugSources</task>
+        </afterSyncTasks>
+        <option name="ALLOW_USER_CONFIGURATION" value="false" />
+        <option name="MANIFEST_FILE_RELATIVE_PATH" value="/src/main/AndroidManifest.xml" />
+        <option name="RES_FOLDER_RELATIVE_PATH" value="/src/main/res" />
+        <option name="RES_FOLDERS_RELATIVE_PATH" value="file://$USER_HOME$/Env/flutter/.pub-cache/hosted/pub.dartlang.org/yunxin_alog-1.0.7-rc.1/android/src/main/res;file://$USER_HOME$/Env/flutter/.pub-cache/hosted/pub.dartlang.org/yunxin_alog-1.0.7-rc.1/android/src/debug/res;file://$MODULE_DIR$/../../../../build/yunxin_alog/generated/res/rs/debug;file://$MODULE_DIR$/../../../../build/yunxin_alog/generated/res/resValues/debug" />
+        <option name="TEST_RES_FOLDERS_RELATIVE_PATH" value="file://$USER_HOME$/Env/flutter/.pub-cache/hosted/pub.dartlang.org/yunxin_alog-1.0.7-rc.1/android/src/androidTest/res;file://$USER_HOME$/Env/flutter/.pub-cache/hosted/pub.dartlang.org/yunxin_alog-1.0.7-rc.1/android/src/androidTestDebug/res;file://$MODULE_DIR$/../../../../build/yunxin_alog/generated/res/rs/androidTest/debug;file://$MODULE_DIR$/../../../../build/yunxin_alog/generated/res/resValues/androidTest/debug" />
+        <option name="ASSETS_FOLDER_RELATIVE_PATH" value="/src/main/assets" />
+        <option name="PROJECT_TYPE" value="1" />
+      </configuration>
+    </facet>
+  </component>
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_7">
+    <output url="file://$MODULE_DIR$/../../../../build/yunxin_alog/intermediates/javac/debug/classes" />
+    <output-test url="file://$MODULE_DIR$/../../../../build/yunxin_alog/intermediates/javac/debugUnitTest/classes" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../../../build/yunxin_alog/generated/aidl_source_output_dir/debug/out" />
+    <content url="file://$MODULE_DIR$/../../../../build/yunxin_alog/generated/aidl_source_output_dir/debugAndroidTest/out" />
+    <content url="file://$MODULE_DIR$/../../../../build/yunxin_alog/generated/ap_generated_sources/debug/out">
+      <sourceFolder url="file://$MODULE_DIR$/../../../../build/yunxin_alog/generated/ap_generated_sources/debug/out" isTestSource="false" generated="true" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../../../build/yunxin_alog/generated/ap_generated_sources/debugAndroidTest/out" />
+    <content url="file://$MODULE_DIR$/../../../../build/yunxin_alog/generated/ap_generated_sources/debugUnitTest/out" />
+    <content url="file://$MODULE_DIR$/../../../../build/yunxin_alog/generated/renderscript_source_output_dir/debug/out" />
+    <content url="file://$MODULE_DIR$/../../../../build/yunxin_alog/generated/renderscript_source_output_dir/debugAndroidTest/out" />
+    <content url="file://$MODULE_DIR$/../../../../build/yunxin_alog/generated/res/resValues/androidTest/debug" />
+    <content url="file://$MODULE_DIR$/../../../../build/yunxin_alog/generated/res/resValues/debug">
+      <sourceFolder url="file://$MODULE_DIR$/../../../../build/yunxin_alog/generated/res/resValues/debug" type="java-resource" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../../../build/yunxin_alog/generated/res/rs/androidTest/debug" />
+    <content url="file://$MODULE_DIR$/../../../../build/yunxin_alog/generated/res/rs/debug" />
+    <content url="file://$MODULE_DIR$/../../../../build/yunxin_alog/generated/source/buildConfig/androidTest/debug" />
+    <content url="file://$MODULE_DIR$/../../../../build/yunxin_alog/generated/source/buildConfig/debug">
+      <sourceFolder url="file://$MODULE_DIR$/../../../../build/yunxin_alog/generated/source/buildConfig/debug" isTestSource="false" generated="true" />
+    </content>
+    <content url="file://$USER_HOME$/Env/flutter/.pub-cache/hosted/pub.dartlang.org/yunxin_alog-1.0.7-rc.1/android">
+      <sourceFolder url="file://$USER_HOME$/Env/flutter/.pub-cache/hosted/pub.dartlang.org/yunxin_alog-1.0.7-rc.1/android/src/main/kotlin" isTestSource="false" />
+      <excludeFolder url="file://$USER_HOME$/Env/flutter/.pub-cache/hosted/pub.dartlang.org/yunxin_alog-1.0.7-rc.1/android/.gradle" />
+    </content>
+    <orderEntry type="jdk" jdkName="Android API 29 Platform" jdkType="Android SDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Gradle: io.flutter:flutter_embedding_debug:1.0.0-57d3bac3dd5cb5b0e464ab70e7bc8a0d8cf083ab" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-common-java8:2.2.0" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-common:2.2.0" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.arch.core:core-common:2.1.0" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.collection:collection:1.1.0" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.annotation:annotation:1.2.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.5.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.30" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.30" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.5.31" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains:annotations:13.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-common:1.5.31" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.fragment:fragment:1.1.0@aar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.viewpager:viewpager:1.0.0@aar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.loader:loader:1.0.0@aar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.activity:activity:1.0.0@aar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.customview:customview:1.0.0@aar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.core:core:1.6.0@aar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-runtime:2.2.0@aar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.savedstate:savedstate:1.0.0@aar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-livedata:2.0.0@aar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-livedata-core:2.0.0@aar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.arch.core:core-runtime:2.0.0@aar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.versionedparcelable:versionedparcelable:1.1.1@aar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-viewmodel:2.1.0@aar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.annotation:annotation-experimental:1.1.0@aar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.tracing:tracing:1.0.0@aar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.window:window-java:1.0.0-beta04@aar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.window:window:1.0.0-beta04@aar" level="project" />
+    <orderEntry type="library" name="Gradle: com.netease.yunxin.kit:alog:1.0.0@aar" level="project" />
+  </component>
+</module>

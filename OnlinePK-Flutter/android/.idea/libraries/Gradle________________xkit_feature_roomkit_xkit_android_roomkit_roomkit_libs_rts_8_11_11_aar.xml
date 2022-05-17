@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: ./../../../../xkit/feature-roomkit/xkit-android/roomkit/roomkit/libs/rts-8.11.11.aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/f389a34021208437cdf9dc362fd3400e/transformed/jetified-rts-8.11.11/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/f389a34021208437cdf9dc362fd3400e/transformed/jetified-rts-8.11.11/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/f389a34021208437cdf9dc362fd3400e/transformed/jetified-rts-8.11.11/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

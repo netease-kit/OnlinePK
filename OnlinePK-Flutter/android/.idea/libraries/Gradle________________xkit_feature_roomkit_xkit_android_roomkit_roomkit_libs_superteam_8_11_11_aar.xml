@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: ./../../../../xkit/feature-roomkit/xkit-android/roomkit/roomkit/libs/superteam-8.11.11.aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/e6e79ba17566f50e19c7c6c61e73762e/transformed/jetified-superteam-8.11.11/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/e6e79ba17566f50e19c7c6c61e73762e/transformed/jetified-superteam-8.11.11/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/e6e79ba17566f50e19c7c6c61e73762e/transformed/jetified-superteam-8.11.11/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
