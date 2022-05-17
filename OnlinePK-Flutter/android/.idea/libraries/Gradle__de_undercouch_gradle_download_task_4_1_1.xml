@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: de.undercouch:gradle-download-task:4.1.1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/de.undercouch/gradle-download-task/4.1.1/7a57e30e285bd972cd73e91c0ad16155e29b18ee/gradle-download-task-4.1.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/de.undercouch/gradle-download-task/4.1.1/24fd2264b0c7402b1c5e4bd3d9c2704a8cc8c758/gradle-download-task-4.1.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

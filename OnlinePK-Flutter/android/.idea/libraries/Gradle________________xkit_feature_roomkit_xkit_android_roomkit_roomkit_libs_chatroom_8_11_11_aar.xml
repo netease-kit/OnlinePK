@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: ./../../../../xkit/feature-roomkit/xkit-android/roomkit/roomkit/libs/chatroom-8.11.11.aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/92310fec3ae6587460cf7e2d5a933d59/transformed/jetified-chatroom-8.11.11/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/92310fec3ae6587460cf7e2d5a933d59/transformed/jetified-chatroom-8.11.11/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/92310fec3ae6587460cf7e2d5a933d59/transformed/jetified-chatroom-8.11.11/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

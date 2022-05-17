@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="Gradle: com.netease.nimlib:basesdk:9.0.0@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/365fa4e368a65120c8881e6284b97ca5/transformed/jetified-basesdk-9.0.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/365fa4e368a65120c8881e6284b97ca5/transformed/jetified-basesdk-9.0.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/365fa4e368a65120c8881e6284b97ca5/transformed/jetified-basesdk-9.0.0/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.netease.nimlib/basesdk/9.0.0/308129c7311f6c8512a6964107b35e2b4b295a18/basesdk-9.0.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.netease.nimlib/basesdk/9.0.0/7388f66505e7ef9a9beec5a33149918b7af651c4/basesdk-9.0.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Gradle: ./../../../../xkit/feature-roomkit/xkit-android/roomkit/roomkit/libs/ysfkit-8.11.11.aar">
+    <ANNOTATIONS>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/408446be7ecc58344d6fd031de8012ec/transformed/jetified-ysfkit-8.11.11/annotations.zip!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/408446be7ecc58344d6fd031de8012ec/transformed/jetified-ysfkit-8.11.11/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/408446be7ecc58344d6fd031de8012ec/transformed/jetified-ysfkit-8.11.11/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/408446be7ecc58344d6fd031de8012ec/transformed/jetified-ysfkit-8.11.11/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

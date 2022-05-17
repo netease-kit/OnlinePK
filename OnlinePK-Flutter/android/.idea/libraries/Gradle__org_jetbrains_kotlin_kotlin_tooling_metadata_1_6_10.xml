@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.jetbrains.kotlin:kotlin-tooling-metadata:1.6.10">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-tooling-metadata/1.6.10/fd32d4d30d1a7ccdc9c44f4a463d7c97ef71e3f0/kotlin-tooling-metadata-1.6.10.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-tooling-metadata/1.6.10/504add41f79c32c9d559860400b4dcc0edaffd5c/kotlin-tooling-metadata-1.6.10-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
