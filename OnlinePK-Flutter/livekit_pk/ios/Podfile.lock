@@ -1,0 +1,100 @@
+PODS:
+  - device_info (0.0.1):
+    - Flutter
+  - Flutter (1.0.0)
+  - NEDyldYuv (0.0.1)
+  - NERoomKit (1.0.0):
+    - NERtcSDK (= 4.2.124)
+    - NEScreenShareHost (= 0.1.0)
+    - NIMSDK_LITE (~> 8.11.0)
+    - YXAlog_iOS
+  - NERtcSDK (4.2.124)
+  - NEScreenShareHost (0.1.0)
+  - NIMSDK_LITE (8.11.0)
+  - package_info (0.0.1):
+    - Flutter
+  - path_provider_ios (0.0.1):
+    - Flutter
+  - permission_handler_apple (9.0.4):
+    - Flutter
+  - shared_preferences_ios (0.0.1):
+    - Flutter
+  - url_launcher_ios (0.0.1):
+    - Flutter
+  - video_player_avfoundation (0.0.1):
+    - Flutter
+  - yunxin_alog (0.0.1):
+    - Flutter
+    - YXAlog_iOS (~> 1.0.6)
+  - yunxin_roomkit (0.0.1):
+    - Flutter
+    - NEDyldYuv
+    - NERoomKit
+  - YXAlog_iOS (1.0.6)
+
+DEPENDENCIES:
+  - device_info (from `.symlinks/plugins/device_info/ios`)
+  - Flutter (from `Flutter`)
+  - NERoomKit (from `../../../../xkit-ios/roomkit/NERoomKit/NERoomKit.podspec`)
+  - package_info (from `.symlinks/plugins/package_info/ios`)
+  - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
+  - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
+  - shared_preferences_ios (from `.symlinks/plugins/shared_preferences_ios/ios`)
+  - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
+  - video_player_avfoundation (from `.symlinks/plugins/video_player_avfoundation/ios`)
+  - yunxin_alog (from `.symlinks/plugins/yunxin_alog/ios`)
+  - yunxin_roomkit (from `.symlinks/plugins/yunxin_roomkit/ios`)
+
+SPEC REPOS:
+  trunk:
+    - NEDyldYuv
+    - NERtcSDK
+    - NEScreenShareHost
+    - NIMSDK_LITE
+    - YXAlog_iOS
+
+EXTERNAL SOURCES:
+  device_info:
+    :path: ".symlinks/plugins/device_info/ios"
+  Flutter:
+    :path: Flutter
+  NERoomKit:
+    :path: "../../../../xkit-ios/roomkit/NERoomKit/NERoomKit.podspec"
+  package_info:
+    :path: ".symlinks/plugins/package_info/ios"
+  path_provider_ios:
+    :path: ".symlinks/plugins/path_provider_ios/ios"
+  permission_handler_apple:
+    :path: ".symlinks/plugins/permission_handler_apple/ios"
+  shared_preferences_ios:
+    :path: ".symlinks/plugins/shared_preferences_ios/ios"
+  url_launcher_ios:
+    :path: ".symlinks/plugins/url_launcher_ios/ios"
+  video_player_avfoundation:
+    :path: ".symlinks/plugins/video_player_avfoundation/ios"
+  yunxin_alog:
+    :path: ".symlinks/plugins/yunxin_alog/ios"
+  yunxin_roomkit:
+    :path: ".symlinks/plugins/yunxin_roomkit/ios"
+
+SPEC CHECKSUMS:
+  device_info: d7d233b645a32c40dfdc212de5cf646ca482f175
+  Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
+  NEDyldYuv: 6b47adff16186768bf2f8b165697fdee8e94d7ac
+  NERoomKit: 1d581bcad5179856fd382189401097f555937183
+  NERtcSDK: 2a23a688b1dd03d39251c3a0850084e5a348cc77
+  NEScreenShareHost: be9b9fe5d0d264111e0e44956ad7c90b451951c0
+  NIMSDK_LITE: d5dfb21377341d683c86665ba835464ce9cf1b25
+  package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
+  path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
+  permission_handler_apple: 44366e37eaf29454a1e7b1b7d736c2cceaeb17ce
+  shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
+  url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
+  video_player_avfoundation: e489aac24ef5cf7af82702979ed16f2a5ef84cff
+  yunxin_alog: e38f012d85ce7a476e5ddc02e79792e7723a09bc
+  yunxin_roomkit: 764ff495f63e344d536bc6b1d8f0d8199f8e9442
+  YXAlog_iOS: 3948d6f7c0173c9dc0117a9445fc9411f97b314e
+
+PODFILE CHECKSUM: c5b2384d41fcad1df3dd4fd407cf7d536e00f793
+
+COCOAPODS: 1.10.1
