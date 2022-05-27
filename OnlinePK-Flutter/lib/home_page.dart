@@ -33,11 +33,9 @@ class _HomePageRouteState extends LifecycleBaseState<HomePageRoute> {
   @override
   void initState() {
     super.initState();
-    _callback = NELiveCallback(
-      loginKickOut: (){
-        NavUtils.pushNamedAndRemoveUntil(context, RouterName.login);
-      }
-    );
+    _callback = NELiveCallback(loginKickOut: () {
+      NavUtils.pushNamedAndRemoveUntil(context, RouterName.login);
+    });
     NELiveKit.instance.addEventCallback(_callback);
     for (var i = 0; i < 1; i++) {
       _list.add(i);
@@ -71,22 +69,30 @@ class _HomePageRouteState extends LifecycleBaseState<HomePageRoute> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     buildTabItem(
-                        0, _currentIndex == 0, AssetName.iconHomeBottomMainSelect, AssetName.iconHomeBottomMain),
+                        0,
+                        _currentIndex == 0,
+                        AssetName.iconHomeBottomMainSelect,
+                        AssetName.iconHomeBottomMain),
                     buildTabItem(
-                        1, _currentIndex == 1, AssetName.iconHomeBottomMineSelect, AssetName.iconHomeBottomMine),
+                        1,
+                        _currentIndex == 1,
+                        AssetName.iconHomeBottomMineSelect,
+                        AssetName.iconHomeBottomMine),
                   ],
                 ),
               ],
             )));
   }
 
-  Widget buildTabItem(int index, bool select, String selectAsset, String normalAsset) {
+  Widget buildTabItem(
+      int index, bool select, String selectAsset, String normalAsset) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
         _onTap(index);
       },
-      child: Image.asset(select ? selectAsset : normalAsset, width: 130, height: 32),
+      child: Image.asset(select ? selectAsset : normalAsset,
+          width: 130, height: 32),
     );
   }
 
@@ -111,7 +117,10 @@ class _HomePageRouteState extends LifecycleBaseState<HomePageRoute> {
               fit: BoxFit.fill,
             ),
           ),
-          Container(margin: const EdgeInsets.only(left: 20, right: 20), color: AppColors.white_10_ffffff, height: 1),
+          Container(
+              margin: const EdgeInsets.only(left: 20, right: 20),
+              color: AppColors.white_10_ffffff,
+              height: 1),
           Container(
             padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
             height: 300,
@@ -186,7 +195,9 @@ class _HomePageRouteState extends LifecycleBaseState<HomePageRoute> {
                   Strings.homeListViewDetailText1,
                   style: TextStyle(color: AppColors.white, fontSize: 18),
                 ),
-                Container(height: 8,),
+                Container(
+                  height: 8,
+                ),
                 const Text(
                   Strings.homeListViewDetailText2,
                   maxLines: 2,
@@ -238,7 +249,11 @@ class _HomePageRouteState extends LifecycleBaseState<HomePageRoute> {
             //     image: AssetImage(assetStr, package: Packages.uiKit),
             //     width: Dimen.homeIconSize,
             //     height: Dimen.homeIconSize),
-            Text(text, style: const TextStyle(color: AppColors.black_222222, fontSize: 14, fontWeight: FontWeight.w400))
+            Text(text,
+                style: const TextStyle(
+                    color: AppColors.black_222222,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400))
           ],
         ),
       ),
@@ -248,10 +263,12 @@ class _HomePageRouteState extends LifecycleBaseState<HomePageRoute> {
   Widget buildSettingPage() {
     /// name
     var personalName = AuthManager().nickName;
+
     ///iconImage
     var personalIconUrl = AuthManager().avatar;
 
-    return LayoutBuilder(builder: (BuildContext context, BoxConstraints viewportConstraints) {
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints viewportConstraints) {
       return SingleChildScrollView(
           child: ConstrainedBox(
         constraints: BoxConstraints(
@@ -270,12 +287,21 @@ class _HomePageRouteState extends LifecycleBaseState<HomePageRoute> {
                 alignment: Alignment.center,
                 child: buildTitle(Strings.settingTitle),
               ),
-              Container(margin: const EdgeInsets.only(left: 20, right: 20), color: AppColors.white_10_ffffff, height: 1),
+              Container(
+                  margin: const EdgeInsets.only(left: 20, right: 20),
+                  color: AppColors.white_10_ffffff,
+                  height: 1),
               buildSettingItemPadding(),
               buildPersonMessageItem(personalIconUrl, personalName),
               buildSettingItemPadding(),
-              buildSettingItem(Strings.freeForTest, () => {_launchInWebViewOrVC('https://id.commsease.com/register?h=media&t=media&from=commsease%7Chttps%3A%2F%2Fcommsease.com%2Fen&clueFrom=overseas&locale=en_US&i18nEnable=true&referrer=https%3A%2F%2Fconsole.commsease.com')}),
-              buildSettingItem(Strings.about, () => {NavUtils.pushNamed(context, RouterName.aboutView)},
+              buildSettingItem(
+                  Strings.freeForTest,
+                  () => {
+                        _launchInWebViewOrVC(
+                            'https://id.commsease.com/register?h=media&t=media&from=commsease%7Chttps%3A%2F%2Fcommsease.com%2Fen&clueFrom=overseas&locale=en_US&i18nEnable=true&referrer=https%3A%2F%2Fconsole.commsease.com')
+                      }),
+              buildSettingItem(Strings.about,
+                  () => {NavUtils.pushNamed(context, RouterName.aboutView)},
                   needBottomLine: false),
             ],
           ),
@@ -301,7 +327,10 @@ class _HomePageRouteState extends LifecycleBaseState<HomePageRoute> {
       alignment: Alignment.center,
       child: Text(
         title,
-        style: TextStyle(color: AppColors.white, fontSize: TextSize.titleSize, fontWeight: FontWeight.w500),
+        style: TextStyle(
+            color: AppColors.white,
+            fontSize: TextSize.titleSize,
+            fontWeight: FontWeight.w500),
       ),
     );
   }
@@ -328,7 +357,9 @@ class _HomePageRouteState extends LifecycleBaseState<HomePageRoute> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(24),
               ),
-              child:iconUrl != null ? Image.network(iconUrl ):Image.asset(AssetName.iconAvatar),
+              child: iconUrl != null
+                  ? Image.network(iconUrl)
+                  : Image.asset(AssetName.iconAvatar),
             ),
 
             Container(
@@ -337,7 +368,7 @@ class _HomePageRouteState extends LifecycleBaseState<HomePageRoute> {
 
             Text(
               name ?? 'name',
-              style: const TextStyle(color: AppColors.white,fontSize: 20),
+              style: const TextStyle(color: AppColors.white, fontSize: 20),
             ),
 
             Expanded(
@@ -353,7 +384,8 @@ class _HomePageRouteState extends LifecycleBaseState<HomePageRoute> {
     );
   }
 
-  Widget buildSettingItem(String title, VoidCallback voidCallback, {bool needBottomLine = true}) {
+  Widget buildSettingItem(String title, VoidCallback voidCallback,
+      {bool needBottomLine = true}) {
     return GestureDetector(
       child: Container(
           height: Dimen.primaryItemHeight,
@@ -365,7 +397,9 @@ class _HomePageRouteState extends LifecycleBaseState<HomePageRoute> {
                 child: Container(
                   child: Row(
                     children: <Widget>[
-                      Text(title, style: const TextStyle(fontSize: 16, color: AppColors.white)),
+                      Text(title,
+                          style: const TextStyle(
+                              fontSize: 16, color: AppColors.white)),
                       const Spacer(),
                       Expanded(
                         flex: 1,
@@ -377,7 +411,8 @@ class _HomePageRouteState extends LifecycleBaseState<HomePageRoute> {
                       ),
                     ],
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: Dimen.globalPadding),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: Dimen.globalPadding),
                 ),
               ),
               (needBottomLine
@@ -394,7 +429,8 @@ class _HomePageRouteState extends LifecycleBaseState<HomePageRoute> {
     );
   }
 
-  Widget buildPersonItem(String title, VoidCallback voidCallback, {String titleTip = '', String arrowTip = ''}) {
+  Widget buildPersonItem(String title, VoidCallback voidCallback,
+      {String titleTip = '', String arrowTip = ''}) {
     return GestureDetector(
       child: Container(
         height: Dimen.primaryItemHeight,
@@ -402,21 +438,27 @@ class _HomePageRouteState extends LifecycleBaseState<HomePageRoute> {
         padding: EdgeInsets.symmetric(horizontal: Dimen.globalPadding),
         child: Row(
           children: <Widget>[
-            Text(title, style: const TextStyle(fontSize: 16, color: AppColors.black_222222)),
+            Text(title,
+                style: const TextStyle(
+                    fontSize: 16, color: AppColors.black_222222)),
             titleTip == ''
                 ? Container()
                 : Container(
                     margin: const EdgeInsets.only(left: 6),
-                    padding: const EdgeInsets.only(left: 8, top: 3, right: 8, bottom: 3),
+                    padding: const EdgeInsets.only(
+                        left: 8, top: 3, right: 8, bottom: 3),
                     color: AppColors.color_1a337eff,
-                    child: Text(titleTip, style: const TextStyle(fontSize: 12, color: AppColors.color_337eff)),
+                    child: Text(titleTip,
+                        style: const TextStyle(
+                            fontSize: 12, color: AppColors.color_337eff)),
                   ),
             const Spacer(),
             arrowTip == ''
                 ? Container()
                 : Text(
                     arrowTip,
-                    style: const TextStyle(fontSize: 14, color: AppColors.color_999999),
+                    style: const TextStyle(
+                        fontSize: 14, color: AppColors.color_999999),
                   ),
             Container(
               width: 20,
@@ -456,6 +498,9 @@ class _HomePageRouteState extends LifecycleBaseState<HomePageRoute> {
   }
 
   Widget itemLine() {
-    return Container(margin: const EdgeInsets.only(left: 0, right: 0), color: AppColors.white_50_ffffff, height: 1);
+    return Container(
+        margin: const EdgeInsets.only(left: 0, right: 0),
+        color: AppColors.white_50_ffffff,
+        height: 1);
   }
 }

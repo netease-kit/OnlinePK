@@ -1,6 +1,7 @@
 // Copyright (c) 2022 NetEase, Inc.  All rights reserved.
 // Use of this source code is governed by a MIT license that can be found in the LICENSE file.
 
+import 'dart:io';
 import 'dart:math';
 
 import 'package:fijkplayer/fijkplayer.dart';
@@ -9,13 +10,11 @@ import 'package:netease_livekit/netease_livekit.dart';
 import 'package:livekit_pk/audience/audience_log.dart';
 import 'package:yunxin_alog/yunxin_alog.dart';
 
-
 GlobalKey<_LiveStreamPlayWidgetState> liveStreamPlayWidgetKey = GlobalKey();
 
 enum PKState { pk, single, pkPrepare }
 
 class LiveStreamPlayWidget extends StatefulWidget {
-
   VideoPKStateController pkStateController;
   NELiveDetail liveDetail;
   VoidCallback? playNormal;
@@ -60,42 +59,50 @@ class _LiveStreamPlayWidgetState extends State<LiveStreamPlayWidget> {
 
   void reconnect() {
     reset();
-    player.setDataSource(widget.liveDetail.live!.liveInfo!.rtmpPullUrl!, autoPlay: true);
+    player.setDataSource(widget.liveDetail.live!.liveInfo!.rtmpPullUrl!,
+        autoPlay: true);
   }
-
 
   @override
   void initState() {
-    player.setDataSource(widget.liveDetail.live!.liveInfo!.rtmpPullUrl!, autoPlay: true);
+    if (Platform.isIOS) {
+      player.setOption(FijkOption.playerCategory, "videotoolbox", 0);
+    }
+    player.setDataSource(widget.liveDetail.live!.liveInfo!.rtmpPullUrl!,
+        autoPlay: true);
     super.initState();
     widget.pkStateController.switchPK = switchPK;
     widget.pkStateController.switchPkEnd = switchPkEnd;
-    _callback = NELiveCallback(
-        pkStart: (int pkStartTime, int pkCountDown, NELivePKAnchor self,
-            NELivePKAnchor peer) {
-          _pkState = PKState.pkPrepare;
-          refreshUI();
-        }
-    );
+    _callback = NELiveCallback(pkStart: (int pkStartTime, int pkCountDown,
+        NELivePKAnchor self, NELivePKAnchor peer) {
+      _pkState = PKState.pkPrepare;
+      refreshUI();
+    });
     NELiveKit.instance.addEventCallback(_callback);
     player.addListener(() {
       Alog.d(tag: _tag, content: 'listener $videoWidth $videoHeight');
-      AudienceLog.log("player.state:${player.state}");
-        if(player.state==FijkState.error){
-            if(mounted){
-              setState(() {
-                  widget.playError?.call();
-              });
-            }
-        }else{
-          widget.playNormal?.call();
+      AudienceLog.log(_tag + "player.state:${player.state}");
+      if (player.state == FijkState.error) {
+        if (mounted) {
+          setState(() {
+            widget.playError?.call();
+          });
         }
+      } else {
+        widget.playNormal?.call();
+      }
       changeVideoState();
     });
   }
 
   void changeVideoState() {
     Size? size = player.value.size;
+    if (size == null) {
+      AudienceLog.log(_tag + "changeVideoState,size == null");
+    } else {
+      AudienceLog.log(
+          _tag + "changeVideoState,width:${size.width},height:${size.height}");
+    }
     bool sizeChanged = false;
     if (size != null && videoWidth != size.width) {
       videoWidth = size.width;
@@ -105,6 +112,7 @@ class _LiveStreamPlayWidgetState extends State<LiveStreamPlayWidget> {
       videoHeight = size.height;
       sizeChanged = true;
     }
+    AudienceLog.log(_tag + "changeVideoState,sizeChanged:$sizeChanged");
     if (sizeChanged) {
       onVideoSizeChanged(videoWidth, videoHeight);
     }
@@ -115,6 +123,7 @@ class _LiveStreamPlayWidgetState extends State<LiveStreamPlayWidget> {
     _isPK = true;
     onVideoSizeChanged(videoWidth, videoHeight);
   }
+
   void switchPkEnd() {
     Alog.d(tag: _tag, content: 'switchPkEnd');
     _isPK = false;
@@ -149,15 +158,15 @@ class _LiveStreamPlayWidgetState extends State<LiveStreamPlayWidget> {
   }
 
   void refreshUI() {
-    if(mounted) {
+    if (mounted) {
       setState(() {});
     }
   }
 
   Widget getPlayerView() {
-    if(player.value.prepared) {
+    if (player.value.prepared) {
       final Size? size = player.value.size;
-      if(size == null) {
+      if (size == null) {
         AudienceLog.log("getPlayerView size == null");
         return Container();
       }
@@ -167,7 +176,7 @@ class _LiveStreamPlayWidgetState extends State<LiveStreamPlayWidget> {
       var videoWidth = size.width;
       var videoHeight = size.height;
       double scale = 1;
-      switch(_pkState) {
+      switch (_pkState) {
         case PKState.single:
           viewWidth = MediaQuery.of(context).size.width;
           viewHeight = MediaQuery.of(context).size.height;
@@ -189,28 +198,22 @@ class _LiveStreamPlayWidgetState extends State<LiveStreamPlayWidget> {
           break;
       }
       double _height = 64 + MediaQuery.of(context).padding.top;
-      return
-        Container(
-          padding: EdgeInsets.only(top: _pkState == PKState.single ? 0 :_height),
-          color: Colors.black,
-          child: ClipRect(
-              child: OverflowBox(
-                  maxWidth: double.infinity,
-                  maxHeight: double.infinity,
-                  alignment: Alignment.topLeft,
-                  child: FittedBox(
-                      fit: BoxFit.cover,
-                      alignment: Alignment.topLeft,
-                      child: SizedBox(
-                          width: videoWidth * scale,
-                          height: videoHeight * scale,
-                          child: FijkView(player:player)
-                      )
-                  )
-              )
-          ),
-        );
-
+      return Container(
+        padding: EdgeInsets.only(top: _pkState == PKState.single ? 0 : _height),
+        color: Colors.black,
+        child: ClipRect(
+            child: OverflowBox(
+                maxWidth: double.infinity,
+                maxHeight: double.infinity,
+                alignment: Alignment.topLeft,
+                child: FittedBox(
+                    fit: BoxFit.cover,
+                    alignment: Alignment.topLeft,
+                    child: SizedBox(
+                        width: videoWidth * scale,
+                        height: videoHeight * scale,
+                        child: FijkView(player: player))))),
+      );
     } else {
       AudienceLog.log("getPlayerView empty");
       return Container(
@@ -251,4 +254,3 @@ class VideoPKStateController {
     switchPkEnd = null;
   }
 }
-

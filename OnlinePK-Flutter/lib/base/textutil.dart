@@ -5,13 +5,13 @@ import 'dart:convert';
 
 import 'dart:math';
 
-class TextUtil{
+class TextUtil {
   static bool isEmpty(String? text) {
     return text == null || text.isEmpty;
   }
 
   static bool equals(String text1, String text2) {
-    if(isEmpty(text1) || isEmpty(text2)){
+    if (isEmpty(text1) || isEmpty(text2)) {
       return false;
     }
     return Comparable.compare(text1, text2) == 0;
@@ -66,9 +66,9 @@ class TextUtil{
     return sb.toString();
   }
 
-  static String replaceAllBlank(String text){
+  static String replaceAllBlank(String text) {
     if (isEmpty(text)) return '';
-    return text.replaceAll(RegExp(r"\s+\b|\b\s"),"");
+    return text.replaceAll(RegExp(r"\s+\b|\b\s"), "");
   }
 
   static String applyMask(String value, String mask) {
@@ -128,13 +128,13 @@ class TextUtil{
     };
   }
 
-  static String encodeBase64(String data){
+  static String encodeBase64(String data) {
     var content = utf8.encode(data);
     var digest = base64Encode(content);
     return digest;
   }
 
-  static String decodeBase64(String data){
+  static String decodeBase64(String data) {
     return utf8.decode(base64Decode(data));
   }
 }

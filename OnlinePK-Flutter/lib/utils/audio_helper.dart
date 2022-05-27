@@ -6,8 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:livekit_pk/values/asset_name.dart';
 import 'package:path_provider/path_provider.dart';
 
-class AudioHelper{
-
+class AudioHelper {
   AudioHelper._internal();
 
   static final AudioHelper _singleton = AudioHelper._internal();
@@ -19,17 +18,17 @@ class AudioHelper{
   late String effectPath1;
   late String effectPath2;
 
-  void init() async{
+  void init() async {
     copyFile(AssetName.music1, 'music1').then((value) => musicPath1 = value);
     copyFile(AssetName.music2, 'music2').then((value) => musicPath2 = value);
     copyFile(AssetName.effect1, 'effect1').then((value) => effectPath1 = value);
     copyFile(AssetName.effect2, 'effect2').then((value) => effectPath2 = value);
   }
 
-  Future<String> copyFile(String assetName, String filename) async{
+  Future<String> copyFile(String assetName, String filename) async {
     var bytes = await rootBundle.load(assetName);
     String dir = (await getApplicationDocumentsDirectory()).path;
-    writeToFile(bytes,'$dir/$filename');
+    writeToFile(bytes, '$dir/$filename');
     return '$dir/$filename';
   }
 

@@ -1,11 +1,11 @@
 // Copyright (c) 2022 NetEase, Inc.  All rights reserved.
 // Use of this source code is governed by a MIT license that can be found in the LICENSE file.
 
-class StartLiveArguments{
+class StartLiveArguments {
   StartLiveResult result;
   StartLiveArguments(this.result);
 }
 
-enum StartLiveResult{
+enum StartLiveResult {
   noPermission,
 }

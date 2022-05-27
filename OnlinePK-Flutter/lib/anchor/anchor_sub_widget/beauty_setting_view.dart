@@ -28,8 +28,8 @@ class _BeautySettingState extends State<BeautySettingView> {
   Widget build(BuildContext context) {
     return Container(
       height: 286,
-      decoration:
-      BoxDecoration(color: Colors.white,
+      decoration: BoxDecoration(
+          color: Colors.white,
           borderRadius: BorderRadius.only(topLeft: _radius, topRight: _radius)),
       child: buildContentView(),
     );
@@ -41,7 +41,8 @@ class _BeautySettingState extends State<BeautySettingView> {
       decoration: ShapeDecoration(
           shape: RoundedRectangleBorder(
               side: const BorderSide(color: AppColors.global_bg),
-              borderRadius: BorderRadius.only(topLeft: _radius, topRight: _radius))),
+              borderRadius:
+                  BorderRadius.only(topLeft: _radius, topRight: _radius))),
       child: Stack(
         children: <Widget>[
           const Align(
@@ -58,7 +59,8 @@ class _BeautySettingState extends State<BeautySettingView> {
           Align(
             alignment: Alignment.centerRight,
             child: RawMaterialButton(
-              constraints: const BoxConstraints(minWidth: 40.0, minHeight: 48.0),
+              constraints:
+                  const BoxConstraints(minWidth: 40.0, minHeight: 48.0),
               child: const Image(
                 image: AssetImage(AssetName.liveReset),
                 width: 20,
@@ -133,7 +135,9 @@ class _BeautySettingState extends State<BeautySettingView> {
       // crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
         title(),
-        Container(height: 8,),
+        Container(
+          height: 8,
+        ),
         Material(
           color: Colors.white,
           child: buildBeautySettingWidget(),

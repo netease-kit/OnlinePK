@@ -9,12 +9,12 @@ import '../values/colors.dart';
 import '../values/strings.dart';
 
 class DialogUtils {
-  static Future showCommonDialog(
-      BuildContext context, String title, String content, VoidCallback cancelCallback, VoidCallback acceptCallback,
+  static Future showCommonDialog(BuildContext context, String title,
+      String content, VoidCallback cancelCallback, VoidCallback acceptCallback,
       {String cancelText = Strings.cancel,
-        String acceptText = Strings.sure,
-        bool canBack = true,
-        bool isContentCenter = true}) {
+      String acceptText = Strings.sure,
+      bool canBack = true,
+      bool isContentCenter = true}) {
     return showDialog(
         context: context,
         useRootNavigator: false,
@@ -22,11 +22,13 @@ class DialogUtils {
           return WillPopScope(
             child: CupertinoAlertDialog(
               title: TextUtils.isEmpty(title) ? null : Text(title),
-              content: Text(content, textAlign: isContentCenter ? TextAlign.center : TextAlign.left),
+              content: Text(content,
+                  textAlign:
+                      isContentCenter ? TextAlign.center : TextAlign.left),
               actions: <Widget>[
                 CupertinoDialogAction(
                   child: Text(cancelText),
-                  onPressed: (){
+                  onPressed: () {
                     Navigator.of(context).pop(); // close dialog
                     cancelCallback();
                   },
@@ -49,9 +51,11 @@ class DialogUtils {
         });
   }
 
-  static Future showOneButtonCommonDialog(BuildContext context, String title, String content, VoidCallback callback,
-      {String acceptText = Strings.iKnow, bool canBack = true, bool isContentCenter = true}) {
-
+  static Future showOneButtonCommonDialog(
+      BuildContext context, String title, String content, VoidCallback callback,
+      {String acceptText = Strings.iKnow,
+      bool canBack = true,
+      bool isContentCenter = true}) {
     return showDialog(
         context: context,
         useRootNavigator: false,
@@ -59,7 +63,9 @@ class DialogUtils {
           return WillPopScope(
             child: CupertinoAlertDialog(
               title: TextUtils.isEmpty(title) ? null : Text(title),
-              content: Text(content, textAlign: isContentCenter ? TextAlign.center : TextAlign.left),
+              content: Text(content,
+                  textAlign:
+                      isContentCenter ? TextAlign.center : TextAlign.left),
               actions: <Widget>[
                 CupertinoDialogAction(
                   child: Text(acceptText),
@@ -77,40 +83,51 @@ class DialogUtils {
         });
   }
 
-  static void showInvitePKDialog(BuildContext context, String userName, VoidCallback cancelCallback, VoidCallback acceptCallback,) {
-    DialogUtils.showCommonDialog(
-        context, Strings.invitePK, '${Strings.confirmInvitePKPre}$userName${Strings.confirmInvitePKTail}', () {
+  static void showInvitePKDialog(
+    BuildContext context,
+    String userName,
+    VoidCallback cancelCallback,
+    VoidCallback acceptCallback,
+  ) {
+    DialogUtils.showCommonDialog(context, Strings.invitePK,
+        '${Strings.confirmInvitePKPre}$userName${Strings.confirmInvitePKTail}',
+        () {
       cancelCallback();
     }, () {
       acceptCallback();
-    },
-        canBack: true,
-        isContentCenter: true);
+    }, canBack: true, isContentCenter: true);
   }
 
-  static void showEndLiveDialog(BuildContext context, String userName, VoidCallback cancelCallback, VoidCallback acceptCallback,) {
-    DialogUtils.showCommonDialog(
-        context, Strings.endLive, Strings.sureEndLive, () {
+  static void showEndLiveDialog(
+    BuildContext context,
+    String userName,
+    VoidCallback cancelCallback,
+    VoidCallback acceptCallback,
+  ) {
+    DialogUtils.showCommonDialog(context, Strings.endLive, Strings.sureEndLive,
+        () {
       cancelCallback();
     }, () {
       acceptCallback();
-    },
-        canBack: true,
-        isContentCenter: true);
+    }, canBack: true, isContentCenter: true);
   }
 
-  static void showEndPKDialog(BuildContext context, String userName, VoidCallback cancelCallback, VoidCallback acceptCallback,) {
+  static void showEndPKDialog(
+    BuildContext context,
+    String userName,
+    VoidCallback cancelCallback,
+    VoidCallback acceptCallback,
+  ) {
     DialogUtils.showCommonDialog(
         context, Strings.endPK, Strings.stopPkDialogContent, () {
       cancelCallback();
     }, () {
       acceptCallback();
-    },
-        canBack: true,
-        isContentCenter: true);
+    }, canBack: true, isContentCenter: true);
   }
 
-  static Future<T?> showChildNavigatorDialog<T extends Object>(BuildContext context, Widget widgetPage){
+  static Future<T?> showChildNavigatorDialog<T extends Object>(
+      BuildContext context, Widget widgetPage) {
     return showCupertinoDialog(
         context: context,
         useRootNavigator: false,
@@ -119,7 +136,8 @@ class DialogUtils {
         });
   }
 
-  static Future<T?> showChildNavigatorPopup<T extends Object>(BuildContext context, Widget widgetPage){
+  static Future<T?> showChildNavigatorPopup<T extends Object>(
+      BuildContext context, Widget widgetPage) {
     return showCupertinoModalPopup(
         context: context,
         useRootNavigator: false,
@@ -130,7 +148,9 @@ class DialogUtils {
 
   static commonShowCupertinoDialog(BuildContext context, String title,
       String content, VoidCallback cancelCallback, VoidCallback acceptCallback,
-      {String sure = Strings.sure, String cancel = Strings.cancel , bool visi = true}) {
+      {String sure = Strings.sure,
+      String cancel = Strings.cancel,
+      bool visi = true}) {
     showCupertinoDialog(
         context: context,
         builder: (BuildContext context) {
@@ -162,7 +182,7 @@ class DialogUtils {
 
   static commonShowOneChooseCupertinoDialog(BuildContext context, String title,
       String content, VoidCallback acceptCallback,
-      {String sure = Strings.sure , bool visi = true}) {
+      {String sure = Strings.sure, bool visi = true}) {
     showCupertinoDialog(
         context: context,
         builder: (BuildContext context) {

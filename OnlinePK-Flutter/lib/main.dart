@@ -6,6 +6,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:livekit_pk/base/net_util.dart';
 import 'package:netease_livekit/netease_livekit.dart';
 import 'package:livekit_pk/anchor/beauty_cache.dart';
 import 'package:livekit_pk/consts.dart';
@@ -32,8 +33,11 @@ void main() {
       AppConfig().init().then((value) {
         // _initializeFlutterFire();
         var extras = <String, String>{};
-        extras["serverUrl"] = AppConfig().getLiveKitUrl;
-        NELiveKit.instance.initialize(NELiveKitOptions(appKey: AppConfig().getAppKey, extras: extras)).then((value) {
+        extras["serverUrl"] = AppConfig().liveKitUrl;
+        NELiveKit.instance
+            .initialize(
+                NELiveKitOptions(appKey: AppConfig().appKey, extras: extras))
+            .then((value) {
           LiveLog.d(moduleName, "NELiveKit initialize success");
           AuthManager().init().then((e) {
             runApp(NELiveApp());
@@ -47,6 +51,7 @@ void main() {
             }
           });
         });
+        NetUtil().addListener();
       });
     });
   }, (Object error, StackTrace stack) {
@@ -56,6 +61,7 @@ void main() {
     // FirebaseCrashlytics.instance.recordError(error, stack);
   });
 }
+
 RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 
 class NELiveApp extends StatelessWidget {
@@ -72,11 +78,12 @@ class NELiveApp extends StatelessWidget {
         color: Colors.black,
         theme: ThemeData(
             brightness: Brightness.light,
-            appBarTheme: const AppBarTheme(systemOverlayStyle: SystemUiOverlayStyle.light)),
+            appBarTheme: const AppBarTheme(
+                systemOverlayStyle: SystemUiOverlayStyle.light)),
         themeMode: ThemeMode.light,
         // navigatorKey: NavUtils.navigatorKey,
         home: const WelcomePage(),
-        navigatorObservers: [BotToastNavigatorObserver(),routeObserver],
+        navigatorObservers: [BotToastNavigatorObserver(), routeObserver],
         // routes: RoutesRegister.routes,
         onGenerateRoute: (settings) {
           WidgetBuilder builder =
@@ -91,7 +98,7 @@ class NELiveApp extends StatelessWidget {
           GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: const [
-          Locale('en', 'US'), // 美国英语
+          Locale('en', 'US'),
           Locale('zh', 'CN'),
         ]);
   }
@@ -130,6 +137,4 @@ class _WelcomePageState extends BaseState<WelcomePage> {
       }
     });
   }
-
-
 }

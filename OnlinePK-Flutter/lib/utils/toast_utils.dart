@@ -6,27 +6,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 class ToastUtils {
-  static var style =
-  const TextStyle(color: Colors.white, fontSize: 14.0, decoration: TextDecoration.none, fontWeight: FontWeight.w400);
+  static var style = const TextStyle(
+      color: Colors.white,
+      fontSize: 14.0,
+      decoration: TextDecoration.none,
+      fontWeight: FontWeight.w400);
 
   static var decoration = const ShapeDecoration(
       color: Color(0xBF1E1E1E),
       shape: RoundedRectangleBorder(
-        /**side: BorderSide(color: Color(0xBF1E1E1E)),*/ borderRadius: BorderRadius.all(Radius.circular(4))));
+          /**side: BorderSide(color: Color(0xBF1E1E1E)),*/ borderRadius:
+              BorderRadius.all(Radius.circular(4))));
 
-  static var edgeInsets = const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0);
+  static var edgeInsets =
+      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0);
 
   static final _requests = ListQueue<_ToastRequest>();
   static bool _scheduled = false;
 
-  static void showToast(BuildContext context, String? text,
-      {
-        Duration duration = const Duration(seconds: 2),
-        bool dissmissOthers = false,
-        bool atFrontOfQueue = false,
-        Key? key,
-      }
-      ) {
+  static void showToast(
+    BuildContext context,
+    String? text, {
+    Duration duration = const Duration(seconds: 2),
+    bool dissmissOthers = false,
+    bool atFrontOfQueue = false,
+    Key? key,
+  }) {
     if (text == null) return;
 
     if (dissmissOthers) {
@@ -60,7 +65,8 @@ class ToastUtils {
     _showToast(key, context, text, duration);
   }
 
-  static void _showToast(Key? key, BuildContext context, String text, Duration duration) async {
+  static void _showToast(
+      Key? key, BuildContext context, String text, Duration duration) async {
     final overlayState = Overlay.of(context);
     if (overlayState != null && overlayState.mounted) {
       final entry = OverlayEntry(
@@ -88,7 +94,6 @@ class ToastUtils {
 }
 
 class _ToastRequest {
-
   Key? key;
 
   BuildContext context;
@@ -98,5 +103,4 @@ class _ToastRequest {
   final Duration duration;
 
   _ToastRequest(this.key, this.context, this.text, this.duration);
-
 }

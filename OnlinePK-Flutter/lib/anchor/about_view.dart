@@ -39,6 +39,7 @@ class _AboutViewRouteRouteState extends State<AboutViewRoute> {
     _initPackageInfo();
     _initSDKVersionInfo();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,30 +74,36 @@ class _AboutViewRouteRouteState extends State<AboutViewRoute> {
                 alignment: Alignment.center,
                 child: buildTitle(Strings.about),
               ),
-             itemLine(),
+              itemLine(),
               Container(
                 height: 218,
-                child: Image.asset(AssetName.iconAboutLogo),),
-              buildSystemSettingItem('App version',_packageInfo.version),
-              buildSystemSettingItem('IM version',_nesdkVersions?.imVersion ?? 'unKnowVersion'),
-              buildSystemSettingItem('Audio & Video SDK version',_nesdkVersions?.rtcVersion ?? "unKnowVersion"),
+                child: Image.asset(AssetName.iconAboutLogo),
+              ),
+              buildSystemSettingItem('App version', _packageInfo.version),
+              buildSystemSettingItem(
+                  'IM version', _nesdkVersions?.imVersion ?? 'unKnowVersion'),
+              buildSystemSettingItem('Audio & Video SDK version',
+                  _nesdkVersions?.rtcVersion ?? "unKnowVersion"),
               buildSettingItemPadding(),
               buildSettingItem(
                   Strings.privacyPolicy,
-                      () => {
-                    _launchInWebViewOrVC('https://www.commsease.com/en/clauses?serviceType=3')
-                  }),
+                  () => {
+                        _launchInWebViewOrVC(
+                            'https://www.commsease.com/en/clauses?serviceType=3')
+                      }),
               buildSettingItem(
                   Strings.termsOfService,
                   () => {
-                        _launchInWebViewOrVC('https://www.commsease.com/en/clauses?serviceType=0')
+                        _launchInWebViewOrVC(
+                            'https://www.commsease.com/en/clauses?serviceType=0')
                       }),
               buildSettingItem(
                   Strings.disclaimer,
-                  () =>
-                      {_launchInWebViewOrVC('https://id.commsease.com/register?h=media&t=media&from=commsease%7Chttps%3A%2F%2Fcommsease.com%2Fen&clueFrom=overseas&locale=en_US&i18nEnable=true&referrer=https%3A%2F%2Fconsole.commsease.com')},
+                  () => {
+                        _launchInWebViewOrVC(
+                            'https://id.commsease.com/register?h=media&t=media&from=commsease%7Chttps%3A%2F%2Fcommsease.com%2Fen&clueFrom=overseas&locale=en_US&i18nEnable=true&referrer=https%3A%2F%2Fconsole.commsease.com')
+                      },
                   needBottomLine: false),
-
             ],
           ),
         ),
@@ -120,14 +127,15 @@ class _AboutViewRouteRouteState extends State<AboutViewRoute> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         GestureDetector(
-          onTap: (){
+          onTap: () {
             NavUtils.pop(context);
           },
           child: Container(
-          child: Image.asset(AssetName.iconBack),
-          width: 24,
-          margin: const EdgeInsets.only(left: 20),
-        ),),
+            child: Image.asset(AssetName.iconBack),
+            width: 24,
+            margin: const EdgeInsets.only(left: 20),
+          ),
+        ),
         Container(
           height: Dimen.titleHeight,
           alignment: Alignment.center,
@@ -162,7 +170,6 @@ class _AboutViewRouteRouteState extends State<AboutViewRoute> {
                           style: const TextStyle(
                               fontSize: 16, color: AppColors.white)),
                       const Spacer(),
-
                       Expanded(
                         flex: 1,
                         child: Container(
@@ -175,7 +182,7 @@ class _AboutViewRouteRouteState extends State<AboutViewRoute> {
                     ],
                   ),
                   padding:
-                  EdgeInsets.symmetric(horizontal: Dimen.globalPadding),
+                      EdgeInsets.symmetric(horizontal: Dimen.globalPadding),
                 ),
               ),
             ],
@@ -242,14 +249,14 @@ class _AboutViewRouteRouteState extends State<AboutViewRoute> {
         height: 1);
   }
 
-  Future<void> _initPackageInfo() async{
+  Future<void> _initPackageInfo() async {
     PackageInfo info = await PackageInfo.fromPlatform();
     setState(() {
       _packageInfo = info;
     });
   }
 
-  Future<void> _initSDKVersionInfo() async{
+  Future<void> _initSDKVersionInfo() async {
     NESDKVersions nesdkVersions = await NERoomKit.instance.sdkVersions;
     setState(() {
       _nesdkVersions = nesdkVersions;

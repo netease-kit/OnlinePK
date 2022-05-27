@@ -4,7 +4,7 @@
 import 'package:netease_livekit/netease_livekit.dart';
 
 typedef LoadDataCallback = void Function(
-    List<NELiveDetail> liveInfoList, bool isRefresh);
+    List<NELiveDetail> liveInfoList, bool isRefresh, int value);
 
 mixin LiveListDataMixin {
   List<NELiveDetail> liveList = [];
@@ -37,8 +37,10 @@ mixin LiveListDataMixin {
           haveMore = liveList!.hasNextPage;
         }
         if (liveList?.list != null) {
-          callback(liveList!.list!, isRefresh);
+          callback(liveList!.list!, isRefresh, 0);
         }
+      } else {
+        callback([], isRefresh, value.code);
       }
     });
   }

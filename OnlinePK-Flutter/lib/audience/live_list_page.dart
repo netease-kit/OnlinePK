@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:livekit_pk/service/client/http_code.dart';
 import 'package:netease_livekit/netease_livekit.dart';
 import 'package:livekit_pk/anchor/start_live_arguments.dart';
 import 'package:livekit_pk/audience/option/live_options.dart';
@@ -26,15 +27,23 @@ class LiveListPage extends StatefulWidget {
   }
 }
 
-class _LiveListPageState extends State<LiveListPage> with RouteAware, LiveListDataMixin {
-
+class _LiveListPageState extends State<LiveListPage>
+    with RouteAware, LiveListDataMixin {
   late EasyRefreshController _controller;
 
-  void _loadDataCallback(List<NELiveDetail> liveInfoList, bool isRefresh) {
-    if(mounted) {
+  void _loadDataCallback(
+      List<NELiveDetail> liveInfoList, bool isRefresh, int valueCode) {
+    if (mounted) {
       setState(() {
+        if (isRefresh) {
+          _controller.finishLoad(success: true, noMore: false);
+        }
         setDataList(liveInfoList, isRefresh);
       });
+      if (valueCode == HttpCode.netWorkError) {
+        ToastUtils.showToast(
+            context, 'The Internet connection appears to be offline.');
+      }
     }
   }
 
@@ -70,30 +79,31 @@ class _LiveListPageState extends State<LiveListPage> with RouteAware, LiveListDa
         backgroundColor: Colors.transparent,
         body: Stack(alignment: Alignment.bottomRight, children: [
           EasyRefresh(
-              controller: _controller,
-              header: LiveListHeader(),
-              footer: LiveListFooter(),
-              child: GridView.count(
-                //Horizontal spacing between child widgets
-                crossAxisSpacing: 8.0,
-                //Vertical spacing between child widgets
-                mainAxisSpacing: 8.0,
-                padding: const EdgeInsets.all(8.0),
-                crossAxisCount: LiveConfig.defaultGridSide,
-                childAspectRatio: 1.0,
-                children: getWidgetList(),
-              ),
-              onRefresh: () async{
-                nextPageNum = 1;
-                getLiveLists(true, _loadDataCallback);
-              },
-              onLoad: () async {
-                if(haveMore) {
-                  getLiveLists(false, _loadDataCallback);
-                } else {
-                  _controller.finishLoad(success: true, noMore: true);
-                }
-              },
+            controller: _controller,
+            header: LiveListHeader(),
+            footer: LiveListFooter(),
+            taskIndependence: true,
+            child: GridView.count(
+              //Horizontal spacing between child widgets
+              crossAxisSpacing: 8.0,
+              //Vertical spacing between child widgets
+              mainAxisSpacing: 8.0,
+              padding: const EdgeInsets.all(8.0),
+              crossAxisCount: LiveConfig.defaultGridSide,
+              childAspectRatio: 1.0,
+              children: getWidgetList(),
+            ),
+            onRefresh: () async {
+              nextPageNum = 1;
+              getLiveLists(true, _loadDataCallback);
+            },
+            onLoad: () async {
+              if (haveMore) {
+                getLiveLists(false, _loadDataCallback);
+              } else {
+                _controller.finishLoad(success: true, noMore: true);
+              }
+            },
             emptyWidget: liveList.length == 0
                 ? SizedBox(
                     height: double.infinity,
@@ -108,7 +118,8 @@ class _LiveListPageState extends State<LiveListPage> with RouteAware, LiveListDa
                         SizedBox(
                           width: 100.0,
                           height: 100.0,
-                          child: Image.asset('assets/images/3.0x/icon_empty.png'),
+                          child:
+                              Image.asset('assets/images/3.0x/icon_empty.png'),
                         ),
                         const Text(
                           Strings.emptyLive,
@@ -126,45 +137,48 @@ class _LiveListPageState extends State<LiveListPage> with RouteAware, LiveListDa
           ),
           GestureDetector(
             child: Container(
-                margin: const EdgeInsets.only(right: 5, bottom: 20),
-                width: 120,
-                height: 120,
-                child: Stack(
-                    alignment: Alignment.topCenter,
-                    children: [
-                      Image.asset(
-                        'assets/images/3.0x/icon_live_start.png',
-                        width: 120,
-                        height: 120,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.only(top: 25),
-                            child: Image.asset(
-                              AssetName.iconLive,
-                              width: 30,
-                              height: 30,
-                            ),
-                          ),
-                          Container(
-                              margin: const EdgeInsets.only(top: 10),
-                              child: const Text(
-                                Strings.startLive,
-                                style:TextStyle(color: Colors.white, fontSize: 13),
-                              )),
-                        ],
-                      )
-                    ],
+              margin: const EdgeInsets.only(right: 5, bottom: 20),
+              width: 120,
+              height: 120,
+              child: Stack(
+                alignment: Alignment.topCenter,
+                children: [
+                  Image.asset(
+                    'assets/images/3.0x/icon_live_start.png',
+                    width: 120,
+                    height: 120,
                   ),
-                ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(top: 25),
+                        child: Image.asset(
+                          AssetName.iconLive,
+                          width: 30,
+                          height: 30,
+                        ),
+                      ),
+                      Container(
+                          margin: const EdgeInsets.only(top: 10),
+                          child: const Text(
+                            Strings.startLive,
+                            style: TextStyle(color: Colors.white, fontSize: 13),
+                          )),
+                    ],
+                  )
+                ],
+              ),
+            ),
             onTap: () {
-              NavUtils.pushNamed(context, RouterName.startLivePage).then((value) {
-                if(value is StartLiveArguments && value.result == StartLiveResult.noPermission){
-                  ToastUtils.showToast(context, Strings.biz_live_authorization_failed);
+              NavUtils.pushNamed(context, RouterName.startLivePage)
+                  .then((value) {
+                if (value is StartLiveArguments &&
+                    value.result == StartLiveResult.noPermission) {
+                  ToastUtils.showToast(
+                      context, Strings.biz_live_authorization_failed);
                 }
                 loadData();
               });
@@ -183,8 +197,7 @@ class _LiveListPageState extends State<LiveListPage> with RouteAware, LiveListDa
 
   /// RouteAware
   @override
-  void didPush() {
-  }
+  void didPush() {}
 
   @override
   void didPopNext() {
@@ -208,9 +221,8 @@ class _LiveListPageState extends State<LiveListPage> with RouteAware, LiveListDa
     return GestureDetector(
       onTap: () {
         NavUtils.pushNamed(context, RouterName.liveAudiencePage,
-            arguments: {'item': item, 'liveList': liveList}).then((value) => {
-          loadData()
-        });
+                arguments: {'item': item, 'liveList': liveList})
+            .then((value) => {loadData()});
       },
       child: Stack(
         alignment: Alignment.topLeft,
@@ -255,14 +267,14 @@ class _LiveListPageState extends State<LiveListPage> with RouteAware, LiveListDa
                   alignment: Alignment.bottomLeft,
                   margin: const EdgeInsets.only(left: 0, bottom: 4),
                   child: Text(
-                    item.live?.liveTopic == null ? "": item.live!.liveTopic!,
+                    item.live?.liveTopic == null ? "" : item.live!.liveTopic!,
                     style: const TextStyle(color: Colors.white, fontSize: 13),
                   ),
                 ),
                 Container(
                   alignment: Alignment.bottomLeft,
                   child: Text(
-                    item.anchor?.userName == null ? "": item.anchor!.userName!,
+                    item.anchor?.userName == null ? "" : item.anchor!.userName!,
                     style: const TextStyle(color: Colors.white, fontSize: 12),
                   ),
                 ),
@@ -273,7 +285,7 @@ class _LiveListPageState extends State<LiveListPage> with RouteAware, LiveListDa
             alignment: Alignment.bottomRight,
             margin: const EdgeInsets.only(right: 8, bottom: 4),
             child: Text(
-              item.live == null ? "0": item.live!.audienceCount.toString(),
+              item.live == null ? "0" : item.live!.audienceCount.toString(),
               style: const TextStyle(color: Colors.white, fontSize: 12),
             ),
           )

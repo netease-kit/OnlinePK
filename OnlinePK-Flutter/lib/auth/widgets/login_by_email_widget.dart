@@ -30,7 +30,6 @@ class LoginByEmailWidget extends StatefulWidget {
 }
 
 class LoginByEmailState extends LifecycleBaseState {
-
   static const _tag = 'LoginByEmailState';
 
   final String mail;
@@ -92,14 +91,14 @@ class LoginByEmailState extends LifecycleBaseState {
 
   Widget buildIcon() {
     return Container(
-      // margin: const EdgeInsets.only(top: 24),
-      // height: 56,
-      // child: Image.asset(
-      //   AssetName.iconMail,
-      //   package: Packages.uiKit,
-      //   fit: BoxFit.none,
-      // ),
-    );
+        // margin: const EdgeInsets.only(top: 24),
+        // height: 56,
+        // child: Image.asset(
+        //   AssetName.iconMail,
+        //   package: Packages.uiKit,
+        //   fit: BoxFit.none,
+        // ),
+        );
   }
 
   Widget buildInputEmail() {
@@ -107,7 +106,10 @@ class LoginByEmailState extends LifecycleBaseState {
       data: ThemeData(hintColor: AppColors.greyDCDFE5),
       child: TextField(
         autofocus: true,
-        style: const TextStyle(color: AppColors.blue_337eff, fontSize: 17, decoration: TextDecoration.none),
+        style: const TextStyle(
+            color: AppColors.blue_337eff,
+            fontSize: 17,
+            decoration: TextDecoration.none),
         keyboardType: TextInputType.text,
         cursorColor: AppColors.blue_337eff,
         controller: _emailController,
@@ -124,9 +126,12 @@ class LoginByEmailState extends LifecycleBaseState {
           contentPadding: EdgeInsets.only(top: 11, bottom: 11),
           hintText: Strings.inputEmailHint,
           hintStyle: TextStyle(fontSize: 17, color: AppColors.greyB0B6BE),
-          focusedBorder: UnderlineInputBorder(borderSide: Borders.textFieldBorder),
-          focusedErrorBorder: UnderlineInputBorder(borderSide: Borders.textFieldBorder),
-          errorBorder: UnderlineInputBorder(borderSide: Borders.textFieldBorder),
+          focusedBorder:
+              UnderlineInputBorder(borderSide: Borders.textFieldBorder),
+          focusedErrorBorder:
+              UnderlineInputBorder(borderSide: Borders.textFieldBorder),
+          errorBorder:
+              UnderlineInputBorder(borderSide: Borders.textFieldBorder),
         ),
       ),
     );
@@ -137,7 +142,10 @@ class LoginByEmailState extends LifecycleBaseState {
       data: ThemeData(hintColor: AppColors.greyDCDFE5),
       child: TextField(
         autofocus: false,
-        style: const TextStyle(color: AppColors.blue_337eff, fontSize: 17, decoration: TextDecoration.none),
+        style: const TextStyle(
+            color: AppColors.blue_337eff,
+            fontSize: 17,
+            decoration: TextDecoration.none),
         keyboardType: TextInputType.text,
         cursorColor: AppColors.blue_337eff,
         controller: _pwdController,
@@ -153,9 +161,12 @@ class LoginByEmailState extends LifecycleBaseState {
           contentPadding: EdgeInsets.only(top: 11, bottom: 11),
           hintText: Strings.inputEmailPwdHint,
           hintStyle: TextStyle(fontSize: 17, color: AppColors.greyB0B6BE),
-          focusedBorder: UnderlineInputBorder(borderSide: Borders.textFieldBorder),
-          focusedErrorBorder: UnderlineInputBorder(borderSide: Borders.textFieldBorder),
-          errorBorder: UnderlineInputBorder(borderSide: Borders.textFieldBorder),
+          focusedBorder:
+              UnderlineInputBorder(borderSide: Borders.textFieldBorder),
+          focusedErrorBorder:
+              UnderlineInputBorder(borderSide: Borders.textFieldBorder),
+          errorBorder:
+              UnderlineInputBorder(borderSide: Borders.textFieldBorder),
         ),
         obscureText: !_pwdShow,
       ),
@@ -167,7 +178,10 @@ class LoginByEmailState extends LifecycleBaseState {
       data: ThemeData(hintColor: AppColors.greyDCDFE5),
       child: TextField(
         autofocus: false,
-        style: const TextStyle(color: AppColors.blue_337eff, fontSize: 17, decoration: TextDecoration.none),
+        style: const TextStyle(
+            color: AppColors.blue_337eff,
+            fontSize: 17,
+            decoration: TextDecoration.none),
         keyboardType: TextInputType.text,
         cursorColor: AppColors.blue_337eff,
         controller: _emailCodeController,
@@ -178,9 +192,12 @@ class LoginByEmailState extends LifecycleBaseState {
           contentPadding: EdgeInsets.only(top: 11, bottom: 11),
           hintText: Strings.inputEmailCodeHint,
           hintStyle: TextStyle(fontSize: 17, color: AppColors.greyB0B6BE),
-          focusedBorder: UnderlineInputBorder(borderSide: Borders.textFieldBorder),
-          focusedErrorBorder: UnderlineInputBorder(borderSide: Borders.textFieldBorder),
-          errorBorder: UnderlineInputBorder(borderSide: Borders.textFieldBorder),
+          focusedBorder:
+              UnderlineInputBorder(borderSide: Borders.textFieldBorder),
+          focusedErrorBorder:
+              UnderlineInputBorder(borderSide: Borders.textFieldBorder),
+          errorBorder:
+              UnderlineInputBorder(borderSide: Borders.textFieldBorder),
         ),
       ),
     );
@@ -197,12 +214,15 @@ class LoginByEmailState extends LifecycleBaseState {
               }
               return AppColors.blue_337eff;
             }),
-            padding: MaterialStateProperty.all(const EdgeInsets.symmetric(vertical: 13)),
+            padding: MaterialStateProperty.all(
+                const EdgeInsets.symmetric(vertical: 13)),
             shape: MaterialStateProperty.all(RoundedRectangleBorder(
                 side: BorderSide(
-                    color:  _pwdOk && _emailOk ? AppColors.blue_337eff : AppColors.blue_50_337eff, width: 0),
+                    color: _pwdOk && _emailOk
+                        ? AppColors.blue_337eff
+                        : AppColors.blue_50_337eff,
+                    width: 0),
                 borderRadius: const BorderRadius.all(Radius.circular(25))))),
-
         onPressed: _pwdOk && _emailOk ? loginServer : null,
         child: const Text(
           Strings.login,
@@ -213,52 +233,57 @@ class LoginByEmailState extends LifecycleBaseState {
     );
   }
 
-  void loginServer(){
+  void loginServer() {
     String email = _emailController.text.toString();
     String password = _pwdController.text.toString();
     String emailCode = _emailCodeController.text.toString();
-    if(TextUtil.isEmpty(emailCode)){
+    if (TextUtil.isEmpty(emailCode)) {
       loginByEmail(email, password).then((result) {
         LiveLog.d(_tag, 'loginByEmail result = ${result.data}');
-        if(result.code == 0){
+        if (result.code == 0) {
           ToastUtils.showToast(context, "login success");
           NavUtils.popAndPushNamed(context, RouterName.homePage);
-        }else if(result.code == 100002){
-          ToastUtils.showToast(context, result.msg);
+        } else if (result.code == HttpCode.userNotRegister) {
+          ToastUtils.showToast(context,
+              'user not register already， please check code in your email');
+          AppService().sendLoginEmailCode(email);
+        } else {
+          ToastUtils.showToast(context, result.msg ?? 'net work error');
         }
       });
-    }else{
+    } else {
       registerByEmail(email, password, emailCode);
     }
-
   }
 
-  Future<Result<LoginInfo>> registerByEmail(String email, String password, String emailCode) {
-    return AppService().registerByEmail(email, password, password, emailCode)
+  Future<Result<LoginInfo>> registerByEmail(
+      String email, String password, String emailCode) {
+    return AppService()
+        .registerByEmail(email, password, password, emailCode)
         .then((result) async {
       if (result.code == HttpCode.success) {
         _emailCodeController.text = "";
-        ToastUtils.showToast(context, 'register success please try login again');
+        ToastUtils.showToast(
+            context, 'register success please try login again');
       }
       return result;
     });
   }
 
   Future<Result<LoginInfo>> loginByEmail(String email, String password) {
-    return AppService().loginByEmail(email, password)
-        .then((result) async {
+    return AppService().loginByEmail(email, password).then((result) async {
       if (result.code == HttpCode.success) {
-        var liveKitLoginResult = await AuthManager().loginLiveKitWithToken(result.data as LoginInfo);
-        return result.copy(code: liveKitLoginResult.code, msg: liveKitLoginResult.msg);
-      } else if(result.code == HttpCode.userNotRegister){
-        ToastUtils.showToast(context, 'user not register already， please check code in your email');
-        AppService().sendLoginEmailCode(email);
-      }else if (result.code == HttpCode.verifyError ||
+        var liveKitLoginResult =
+            await AuthManager().loginLiveKitWithToken(result.data as LoginInfo);
+        return result.copy(
+            code: liveKitLoginResult.code, msg: liveKitLoginResult.msg);
+      } else if (result.code == HttpCode.verifyError ||
           result.code == HttpCode.tokenError ||
           result.code == HttpCode.passwordError ||
           result.code == HttpCode.accountNotExist ||
           result.code == HttpCode.loginPasswordError) {
         AuthState().updateState(state: AuthState.init);
+
         /// reset
         AuthManager().logout();
       }

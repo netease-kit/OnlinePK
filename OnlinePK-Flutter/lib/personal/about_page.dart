@@ -14,7 +14,6 @@ class AboutPageRoute extends StatefulWidget {
 }
 
 class _AboutPageRouteState extends LifecycleBaseState<AboutPageRoute> {
-
   @override
   void initState() {
     super.initState();
@@ -22,7 +21,6 @@ class _AboutPageRouteState extends LifecycleBaseState<AboutPageRoute> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-    );
+    return Container();
   }
 }

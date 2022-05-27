@@ -9,7 +9,8 @@ import 'package:flutter/material.dart';
 import 'base_state.dart';
 import 'state_lifecycle.dart';
 
-abstract class LifecycleBaseState<T extends StatefulWidget> extends BaseState<T> {
+abstract class LifecycleBaseState<T extends StatefulWidget>
+    extends BaseState<T> {
   StateLifecycleExecutor? _executor;
 
   @override
@@ -43,8 +44,19 @@ abstract class LifecycleBaseState<T extends StatefulWidget> extends BaseState<T>
   }
 
   void delayTask(void callback(),
-      {int days = 0, int hours = 0, int minutes = 0, int seconds = 0, int milliseconds = 0, int microseconds = 0}) {
-    Timer(Duration(days: days, hours: hours, minutes: minutes, milliseconds: milliseconds, microseconds: microseconds),
+      {int days = 0,
+      int hours = 0,
+      int minutes = 0,
+      int seconds = 0,
+      int milliseconds = 0,
+      int microseconds = 0}) {
+    Timer(
+        Duration(
+            days: days,
+            hours: hours,
+            minutes: minutes,
+            milliseconds: milliseconds,
+            microseconds: microseconds),
         callback);
   }
 }

@@ -15,7 +15,10 @@ class AnchorInfoWidget extends StatefulWidget {
   final String? anchorIcon;
 
   const AnchorInfoWidget(
-      {Key? key, required this.anchorName, this.anchorIcon, required this.iconNumListener})
+      {Key? key,
+      required this.anchorName,
+      this.anchorIcon,
+      required this.iconNumListener})
       : super(key: key);
 
   @override
@@ -75,7 +78,9 @@ class _AnchorInfoWidgetState extends LifecycleBaseState<AnchorInfoWidget> {
             ),
             ClipOval(
               child: Image.network(
-                TextUtils.isNotEmpty(widget.anchorIcon) ? widget.anchorIcon! : AudienceConstant.tmpAvatar,
+                TextUtils.isNotEmpty(widget.anchorIcon)
+                    ? widget.anchorIcon!
+                    : AudienceConstant.tmpAvatar,
                 width: 36,
                 height: 36,
               ),

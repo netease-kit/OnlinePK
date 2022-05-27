@@ -113,11 +113,15 @@ class _HomePageRouteState extends LifecycleBaseState<HomePageRoute> {
           Container(
             height: 80,
             alignment: Alignment.center,
-            child: const Image(image: AssetImage(AssetName.iconHomePageLogo),fit: BoxFit.contain,),
+            child: const Image(
+              image: AssetImage(AssetName.iconHomePageLogo),
+              fit: BoxFit.contain,
+            ),
           ),
           Container(
-            margin: const EdgeInsets.only(left: 20,right: 20),
-              color: AppColors.white_10_ffffff, height: 1),
+              margin: const EdgeInsets.only(left: 20, right: 20),
+              color: AppColors.white_10_ffffff,
+              height: 1),
           Container(
             padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
             height: 300,
@@ -134,19 +138,19 @@ class _HomePageRouteState extends LifecycleBaseState<HomePageRoute> {
   Widget buildListView() {
     return Scrollbar(
       child: RefreshIndicator(
-      child: ListView.builder(
-        // scrollDirection: Axis.horizontal,//设置为水平布局
-        itemBuilder: (BuildContext context, int index) {
-          if (index == 0) {
-            return buildListViewItem(index);
-          } else {
-            return const Icon(Icons.add);
-          }
-        },
-        itemCount: _list.length,
-      ),
-      onRefresh: _onRefresh //下拉刷新执行此方法
-      ),
+          child: ListView.builder(
+            // scrollDirection: Axis.horizontal,//设置为水平布局
+            itemBuilder: (BuildContext context, int index) {
+              if (index == 0) {
+                return buildListViewItem(index);
+              } else {
+                return const Icon(Icons.add);
+              }
+            },
+            itemCount: _list.length,
+          ),
+          onRefresh: _onRefresh //下拉刷新执行此方法
+          ),
     );
   }
 

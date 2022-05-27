@@ -14,18 +14,19 @@ class SliderWidget extends StatefulWidget {
   final String? path;
 
   SliderWidget(
-      {Key? key, this.title,
+      {Key? key,
+      this.title,
       required this.onChange,
       required this.level,
       this.isShowClose,
-      this.path}) : super(key: key);
+      this.path})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _SliderDemo();
 }
 
 class _SliderDemo extends State<SliderWidget> {
-
   bool isOpenBeauty = false;
 
   Widget _buildTitle() {
@@ -80,8 +81,7 @@ class _SliderDemo extends State<SliderWidget> {
                 valueIndicatorColor: Colors.red,
                 valueIndicatorShape: const PaddleSliderValueIndicatorShape(),
                 valueIndicatorTextStyle: const TextStyle(color: Colors.black),
-                trackHeight: 4
-                ),
+                trackHeight: 4),
             child: Slider(
               // key: MeetingCoreValueKey.beautyLevelSlider,
               value: widget.level.toDouble(),

@@ -48,15 +48,16 @@ class _StartLivePageRouteState extends LifecycleBaseState<StartLivePageRoute> {
     bool isAllGranted = true;
     _requestPermissions().then((value) {
       value.forEach((key, value) {
-        if(value.isDenied || value.isPermanentlyDenied){
+        if (value.isDenied || value.isPermanentlyDenied) {
           Alog.e(tag: _tag, content: '${key.toString()} is denied');
           isAllGranted = false;
         }
       });
-      if(isAllGranted){
+      if (isAllGranted) {
         _startPreview();
-      }else {
-        NavUtils.pop(context, arguments: StartLiveArguments(StartLiveResult.noPermission));
+      } else {
+        NavUtils.pop(context,
+            arguments: StartLiveArguments(StartLiveResult.noPermission));
       }
     });
   }
@@ -83,7 +84,9 @@ class _StartLivePageRouteState extends LifecycleBaseState<StartLivePageRoute> {
       initVideoView().then((value2) {
         _previewRoomContext = value.data;
         _previewRoomContext?.previewController.startBeauty().then((value) {
-          _previewRoomContext?.previewController.enableBeauty(true).then((value) {
+          _previewRoomContext?.previewController
+              .enableBeauty(true)
+              .then((value) {
             BeautyCache().resetBeauty();
             BeautyCache().resetFilter();
             _previewRoomContext?.previewController.startPreview();
@@ -108,7 +111,12 @@ class _StartLivePageRouteState extends LifecycleBaseState<StartLivePageRoute> {
           child: Stack(
             alignment: AlignmentDirectional.topCenter,
             children: [
-              renderer == null ? Container() : NERtcVideoView(renderer!, fitType: NERtcVideoViewFitType.cover,),
+              renderer == null
+                  ? Container()
+                  : NERtcVideoView(
+                      renderer!,
+                      fitType: NERtcVideoViewFitType.cover,
+                    ),
               Positioned(
                 left: 10,
                 right: 10,
@@ -128,15 +136,15 @@ class _StartLivePageRouteState extends LifecycleBaseState<StartLivePageRoute> {
               Positioned(
                   height: 24,
                   width: 24,
-                  top: 10 +MediaQuery.of(context).padding.top ,
+                  top: 10 + MediaQuery.of(context).padding.top,
                   right: 20,
                   child: GestureDetector(
-                    onTap: (){
-                      _previewRoomContext?.previewController.switchCamera().then((value) => _isBackCamera = !_isBackCamera);
+                    onTap: () {
+                      _previewRoomContext?.previewController
+                          .switchCamera()
+                          .then((value) => _isBackCamera = !_isBackCamera);
                     },
-                    child: Image.asset(AssetName.iconCameraSwitch)
-
-                    ,
+                    child: Image.asset(AssetName.iconCameraSwitch),
                   )),
             ],
           ),
@@ -173,20 +181,24 @@ class _StartLivePageRouteState extends LifecycleBaseState<StartLivePageRoute> {
   void _startLive() async {
     LoadingUtil.showLoading();
     if (TextUtils.isNotEmpty(_topic) && TextUtils.isNotEmpty(_cover)) {
-      _previewRoomContext?.previewController.stopPreview();
       NELiveKit.instance.stopLive();
-      NELiveKit.instance.startLive(_topic!, NELiveRoomType.pkLiveEx, _cover!).then((value) {
+      NELiveKit.instance
+          .startLive(_topic!, NELiveRoomType.pkLiveEx, _cover!)
+          .then((value) {
         LoadingUtil.cancelLoading();
         if (value.isSuccess()) {
+          _previewRoomContext?.previewController.stopPreview();
           _isNotStartLiveYet = false;
-          NavUtils.popAndPushNamed(context, RouterName.anchorLivePageRoute,arguments:{'detail':value.data!, 'camera':_isBackCamera});
+          NavUtils.popAndPushNamed(context, RouterName.anchorLivePageRoute,
+              arguments: {'detail': value.data!, 'camera': _isBackCamera});
         } else {
           // start live failed
-          _previewRoomContext?.previewController.startPreview();
+          LoadingUtil.cancelLoading();
           ToastUtils.showToast(context, 'start live failed, ${value.msg}');
         }
       });
     } else {
+      LoadingUtil.cancelLoading();
       ToastUtils.showToast(context, 'topic and cover should not be empty');
     }
   }
@@ -197,7 +209,7 @@ class _StartLivePageRouteState extends LifecycleBaseState<StartLivePageRoute> {
     if (_isBackCamera) {
       NELiveKit.instance.mediaController.switchCamera().then((value) {
         renderer?.dispose();
-        if(_isNotStartLiveYet){
+        if (_isNotStartLiveYet) {
           _previewRoomContext?.previewController.stopPreview();
         }
       });
@@ -228,7 +240,10 @@ class _StartLivePageRouteState extends LifecycleBaseState<StartLivePageRoute> {
         alignment: Alignment.center,
         child: const Text(
           Strings.startLive,
-          style: TextStyle(color: AppColors.white, fontSize: 16, decoration: TextDecoration.none),
+          style: TextStyle(
+              color: AppColors.white,
+              fontSize: 16,
+              decoration: TextDecoration.none),
         ),
       ),
     );
@@ -236,28 +251,31 @@ class _StartLivePageRouteState extends LifecycleBaseState<StartLivePageRoute> {
 
   buildLiveTip() {
     return Container(
-      padding: const EdgeInsets.only(left: 20, right: 20, top: 8, bottom: 8),
-      decoration: const BoxDecoration(
-        color: Color.fromRGBO(0, 0, 0, 0.5),
-        borderRadius: BorderRadius.all(Radius.circular(4.0)),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            margin: const EdgeInsets.only(top: 5),
-            child: const Image(image: AssetImage(AssetName.liveTip), height: 16, width: 16,),
-          ),
-          const Expanded(
-            child: Text(Strings.startLiveTip,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16.0,
-                )),
-          )
-        ],
-      )
-    );
+        padding: const EdgeInsets.only(left: 20, right: 20, top: 8, bottom: 8),
+        decoration: const BoxDecoration(
+          color: Color.fromRGBO(0, 0, 0, 0.5),
+          borderRadius: BorderRadius.all(Radius.circular(4.0)),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              margin: const EdgeInsets.only(top: 5),
+              child: const Image(
+                image: AssetImage(AssetName.liveTip),
+                height: 16,
+                width: 16,
+              ),
+            ),
+            const Expanded(
+              child: Text(Strings.startLiveTip,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.0,
+                  )),
+            )
+          ],
+        ));
   }
 
   buildToolButtons() {
@@ -272,7 +290,6 @@ class _StartLivePageRouteState extends LifecycleBaseState<StartLivePageRoute> {
           child: LiveCircleButton(AssetName.liveFilter, Strings.filterSetting),
           onTap: () => onOpenFilter(),
         )
-
       ],
     );
   }

@@ -36,7 +36,7 @@ target 'Runner' do
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 
 #  pod 'NERoomKit', :path => '../../../../xkit-ios/roomkit/NERoomKit/NERoomKit.podspec'
-#  pod 'NERoomKit-SNAPSHOT', :path => '../../../../xkit-ios/roomkit/NERoomKit/NERoomKit-SNAPSHOT.podspec'
+  # pod 'NERoomKit-SNAPSHOT', :path => '../../../../xkit-ios/roomkit/NERoomKit/NERoomKit-SNAPSHOT.podspec'
 end
 
 post_install do |installer|

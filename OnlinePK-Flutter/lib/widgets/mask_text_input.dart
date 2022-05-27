@@ -5,7 +5,9 @@ import 'package:flutter/widgets.dart';
 import 'package:livekit_pk/base/textutil.dart';
 
 class MaskedTextController extends TextEditingController {
-  MaskedTextController({String? text, required this.mask, Map<String, RegExp>? translator}) : super(text: text) {
+  MaskedTextController(
+      {String? text, required this.mask, Map<String, RegExp>? translator})
+      : super(text: text) {
     this.translator = translator ?? MaskedTextController.getDefaultTranslator();
 
     this.addListener(() {
@@ -31,9 +33,13 @@ class MaskedTextController extends TextEditingController {
   set text(String newText) {
     if (!TextUtil.isEmpty(newText) && super.text != newText) {
       //super.text = newText;
-      int pos = this.selection.baseOffset >= super.text.length ? newText.length : this.selection.baseOffset;
-      value =
-          value.copyWith(text: newText, selection: TextSelection.collapsed(offset: pos), composing: TextRange.empty);
+      int pos = this.selection.baseOffset >= super.text.length
+          ? newText.length
+          : this.selection.baseOffset;
+      value = value.copyWith(
+          text: newText,
+          selection: TextSelection.collapsed(offset: pos),
+          composing: TextRange.empty);
       //this.moveCursorToEnd();
     }
   }

@@ -4,7 +4,8 @@
 import 'package:flutter/material.dart';
 
 class RoundSliderTrackShape extends SliderTrackShape {
-  const RoundSliderTrackShape({this.disabledThumbGapWidth = 2.0, this.radius = 0});
+  const RoundSliderTrackShape(
+      {this.disabledThumbGapWidth = 2.0, this.radius = 0});
 
   final double disabledThumbGapWidth;
   final double radius;
@@ -17,7 +18,9 @@ class RoundSliderTrackShape extends SliderTrackShape {
     bool? isEnabled,
     bool? isDiscrete,
   }) {
-    final overlayWidth = sliderTheme.overlayShape!.getPreferredSize(isEnabled ?? false, isDiscrete ?? false).width;
+    final overlayWidth = sliderTheme.overlayShape!
+        .getPreferredSize(isEnabled ?? false, isDiscrete ?? false)
+        .width;
     final trackHeight = sliderTheme.trackHeight ?? 0.0;
     assert(overlayWidth >= 0);
     assert(trackHeight >= 0.0);
@@ -47,12 +50,16 @@ class RoundSliderTrackShape extends SliderTrackShape {
       return;
     }
 
-    final activeTrackColorTween =
-        ColorTween(begin: sliderTheme.disabledActiveTrackColor, end: sliderTheme.activeTrackColor);
-    final inactiveTrackColorTween =
-        ColorTween(begin: sliderTheme.disabledInactiveTrackColor, end: sliderTheme.inactiveTrackColor);
-    final activePaint = Paint()..color = activeTrackColorTween.evaluate(enableAnimation) as Color;
-    final inactivePaint = Paint()..color = inactiveTrackColorTween.evaluate(enableAnimation) as Color;
+    final activeTrackColorTween = ColorTween(
+        begin: sliderTheme.disabledActiveTrackColor,
+        end: sliderTheme.activeTrackColor);
+    final inactiveTrackColorTween = ColorTween(
+        begin: sliderTheme.disabledInactiveTrackColor,
+        end: sliderTheme.inactiveTrackColor);
+    final activePaint = Paint()
+      ..color = activeTrackColorTween.evaluate(enableAnimation) as Color;
+    final inactivePaint = Paint()
+      ..color = inactiveTrackColorTween.evaluate(enableAnimation) as Color;
     Paint leftTrackPaint;
     Paint rightTrackPaint;
     switch (textDirection) {
@@ -68,7 +75,10 @@ class RoundSliderTrackShape extends SliderTrackShape {
 
     var horizontalAdjustment = 0.0;
     if (!(isEnabled ?? false)) {
-      final disabledThumbRadius = sliderTheme.thumbShape!.getPreferredSize(false, isDiscrete ?? false).width / 2.0;
+      final disabledThumbRadius = sliderTheme.thumbShape!
+              .getPreferredSize(false, isDiscrete ?? false)
+              .width /
+          2.0;
       final gap = disabledThumbGapWidth * (1.0 - enableAnimation.value);
       horizontalAdjustment = disabledThumbRadius + gap;
     }
@@ -82,11 +92,19 @@ class RoundSliderTrackShape extends SliderTrackShape {
     );
 
     //进度条两头圆角
-    final leftTrackSegment = RRect.fromLTRBR(trackRect.left, trackRect.top, thumbCenter.dx - horizontalAdjustment,
-        trackRect.bottom, Radius.circular(radius));
+    final leftTrackSegment = RRect.fromLTRBR(
+        trackRect.left,
+        trackRect.top,
+        thumbCenter.dx - horizontalAdjustment,
+        trackRect.bottom,
+        Radius.circular(radius));
     context.canvas.drawRRect(leftTrackSegment, leftTrackPaint);
-    final rightTrackSegment = RRect.fromLTRBR(thumbCenter.dx + horizontalAdjustment, trackRect.top, trackRect.right,
-        trackRect.bottom, Radius.circular(radius));
+    final rightTrackSegment = RRect.fromLTRBR(
+        thumbCenter.dx + horizontalAdjustment,
+        trackRect.top,
+        trackRect.right,
+        trackRect.bottom,
+        Radius.circular(radius));
     context.canvas.drawRRect(rightTrackSegment, rightTrackPaint);
   }
 }

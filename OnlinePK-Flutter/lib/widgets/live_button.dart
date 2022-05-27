@@ -17,7 +17,8 @@ class LiveCircleButton extends StatelessWidget {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: const Color.fromRGBO(0, 0, 0, 0.6),
-        border: Border.all(color: const Color.fromRGBO(0, 0, 0, 0.6), width: 0.5),
+        border:
+            Border.all(color: const Color.fromRGBO(0, 0, 0, 0.6), width: 0.5),
         shape: BoxShape.circle,
       ),
       child: SizedBox(

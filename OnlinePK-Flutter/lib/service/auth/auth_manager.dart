@@ -37,7 +37,8 @@ class AuthManager {
       _loginInfo = cachedLoginInfo;
 
       bool isLogged = await NELiveKit.instance.isLoggedIn;
-      AuthState().updateState(state: isLogged? AuthState.authed : AuthState.init);
+      AuthState()
+          .updateState(state: isLogged ? AuthState.authed : AuthState.init);
     } catch (e) {
       LiveLog.d(
           _tag,
@@ -59,15 +60,18 @@ class AuthManager {
   bool? get autoRegistered => _autoRegistered;
 
   Future<bool> autoLogin() async {
-
-    if(_loginInfo == null || TextUtils.isEmpty(_loginInfo?.accountId)){
+    if (_loginInfo == null || TextUtils.isEmpty(_loginInfo?.accountId)) {
       return Future.value(false);
     }
 
-    if(isLogined()){
-      Alog.i(tag: _tag, content: 'autoLogin but isLogined, nelive need refresh account and token');
-      if(_loginInfo != null) {
-        NELiveKit.instance.login(_loginInfo!.accountId, _loginInfo!.accountToken);
+    if (isLogined()) {
+      Alog.i(
+          tag: _tag,
+          content:
+              'autoLogin but isLogined, nelive need refresh account and token');
+      if (_loginInfo != null) {
+        NELiveKit.instance
+            .login(_loginInfo!.accountId, _loginInfo!.accountToken);
       }
       return Future.value(true);
     }
@@ -80,8 +84,10 @@ class AuthManager {
   Future<Result<void>> loginLiveKitWithToken(LoginInfo loginInfo) async {
     var completer = Completer<Result<void>>();
     NELiveKit.instance.nickname = loginInfo.nickname;
-    NELiveKit.instance.login(loginInfo.accountId, loginInfo.accountToken).then((value) {
-      if(value.code == 0){
+    NELiveKit.instance
+        .login(loginInfo.accountId, loginInfo.accountToken)
+        .then((value) {
+      if (value.code == 0) {
         AuthState().updateState(state: AuthState.authed);
         _syncAuthInfo(loginInfo);
       }
@@ -112,7 +118,7 @@ class AuthManager {
     AuthState().updateState(state: AuthState.tokenIllegal, errorTip: errorTip);
   }
 
-  bool isLogined(){
+  bool isLogined() {
     return AuthState().state == AuthState.authed;
   }
 }

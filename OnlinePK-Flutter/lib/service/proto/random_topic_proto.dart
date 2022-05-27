@@ -6,12 +6,11 @@ import 'package:livekit_pk/service/config/app_config.dart';
 import 'package:livekit_pk/service/proto/app_http_proto.dart';
 
 class RandomTopicProto extends AppHttpProto<String> {
-
   RandomTopicProto();
 
   @override
   String path() {
-    return '${AppConfig().getLiveBaseUrl}/v1/room/getRandomRoomTopic';
+    return '${AppConfig().liveBaseUrl}/v1/room/getRandomRoomTopic';
   }
 
   @override
@@ -26,7 +25,7 @@ class RandomTopicProto extends AppHttpProto<String> {
 
   @override
   Map? data() {
-    return {'accountId':NELiveKit.instance.userUuid ?? ''};
+    return {'accountId': NELiveKit.instance.userUuid ?? ''};
   }
 
   @override
