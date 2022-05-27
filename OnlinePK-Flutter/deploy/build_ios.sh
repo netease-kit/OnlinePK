@@ -35,14 +35,6 @@ flutter build ios
 
 cd $project_path/ios
 
-# 企业包和appstore使用不同的应用图标
-if [[ ${export_method} == "enterprise" ]]; then
-    cp -R ${project_path}/deploy/iosenterpriseicons/* ${project_path}/ios/Runner/Assets.xcassets/AppIcon.appiconset
-elif [[ ${export_method} == "app-store" ]]; then
-    cp -R ${project_path}/deploy/iosappstoreicons/* ${project_path}/ios/Runner/Assets.xcassets/AppIcon.appiconset
-fi
-
-
 #指定项目地址
 workspace_path="${project_path}/ios/Runner.xcodeproj"
 #指定输出路径
@@ -54,8 +46,8 @@ output_path_app="${archive_root_path}/ios/${archive_director_name}"
 output_path_symbol="${project_path}/outputs/symbol/ios"
 
 #指定输出归档文件地址
-archive_path="$output_path_symbol/meeting_mobile_${export_method}_${now}.xcarchive"
-archive_zip_path="$output_path_app/meeting_mobile_${export_method}_${now}.xcarchive.zip"
+archive_path="$output_path_symbol/flutter_pklive_${export_method}_${now}.xcarchive"
+archive_zip_path="$output_path_app/flutter_pklive_${export_method}_${now}.xcarchive.zip"
 #指定输出ipa名称
 ipa_name="${archive_name}.ipa"
 ipa_path="${output_path_app}/${ipa_name}"

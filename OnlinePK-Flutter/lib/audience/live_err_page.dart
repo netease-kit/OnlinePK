@@ -163,8 +163,7 @@ class _AudienceLiveErrorPageState extends State<AudienceLiveErrorPage> {
         Container(
           width: 163,
           margin: const EdgeInsets.only(left: 4.5),
-          child: buildMaterialButton(
-              widget.reconnectingAction, 'Reconnecting'),
+          child: buildMaterialButton(widget.reconnectingAction, 'Reconnecting'),
         ),
       ],
     );

@@ -4,7 +4,6 @@
 import 'package:livekit_pk/service/response/result.dart';
 
 abstract class BaseProto<T> {
-
   String path();
 
   Map? data();
@@ -17,7 +16,7 @@ abstract class BaseProto<T> {
 
   Future<Result<T>> execute();
 
-  bool checkLoginState(){
+  bool checkLoginState() {
     return true;
   }
 }

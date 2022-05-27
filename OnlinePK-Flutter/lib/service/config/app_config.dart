@@ -25,13 +25,13 @@ class AppConfig {
 
   late int onlineScope = 3;
 
-  late int testScope = 8;
+  late int testScope = 3;
 
   late int sgScope = 3;
 
   late int onlineParentScope = 5;
 
-  late int testParentScope = 3;
+  late int testParentScope = 5;
 
   late int sgParentScope = 5;
 
@@ -44,29 +44,31 @@ class AppConfig {
 
   static var _debugMode = false;
 
-  String get getAppKey {
-    return appKey;
-  }
 
-  String get getLoginBaseUrl {
+  String get loginBaseUrl {
     return 'https://yiyong-user-center-qa.netease.im';
   }
 
-  String get getLiveBaseUrl {
+  String get liveBaseUrl {
     return 'http://yiyong-ne-live-qa.netease.im';
   }
 
-  String get getLiveKitUrl {
+  String get liveKitUrl {
     return 'https://roomkit-sg.netease.im';
   }
 
-
-  int get getScope {
+  int get scope {
     return sgScope;
   }
 
-  int get getParentScope {
+  int get parentScope {
     return sgParentScope;
+  }
+
+
+
+  String get language {
+    return 'en';
   }
 
   bool get isPublicFlavor {
@@ -124,6 +126,7 @@ class AppConfig {
       'androidId': build.androidId
     };
   }
+
   static Map<String, dynamic> readIosDeviceInfo(IosDeviceInfo data) {
     return <String, dynamic>{
       'name': data.name,

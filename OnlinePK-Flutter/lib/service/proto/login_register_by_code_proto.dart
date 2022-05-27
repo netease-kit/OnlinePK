@@ -14,7 +14,7 @@ class LoginRegisterByCodeProto extends AppHttpProto<LoginInfo> {
 
   @override
   String path() {
-    return '${AppConfig().getLoginBaseUrl}/userCenter/v1/auth/loginRegisterByCode';
+    return '${AppConfig().loginBaseUrl}/userCenter/v1/auth/loginRegisterByCode';
   }
 
   @override

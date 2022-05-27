@@ -1,7 +1,6 @@
 // Copyright (c) 2022 NetEase, Inc.  All rights reserved.
 // Use of this source code is governed by a MIT license that can be found in the LICENSE file.
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:netease_livekit/netease_livekit.dart';
@@ -10,8 +9,10 @@ import 'package:livekit_pk/values/colors.dart';
 import 'package:livekit_pk/values/strings.dart';
 import 'package:livekit_pk/widgets/live_list.dart';
 
+import '../../audience/live_footer.dart';
 import '../../audience/live_header.dart';
-import '../../utils/dialog_utils.dart';
+import '../../service/client/http_code.dart';
+import '../../utils/toast_utils.dart';
 
 class LivePkMemberInvitingView extends StatefulWidget {
   final clickPkCallback;
@@ -25,14 +26,23 @@ class LivePkMemberInvitingView extends StatefulWidget {
   }
 }
 
-class _LivePkMemberInvitingView extends State<LivePkMemberInvitingView> with LiveListDataMixin {
+class _LivePkMemberInvitingView extends State<LivePkMemberInvitingView>
+    with LiveListDataMixin {
   var pageNum = 0;
   late EasyRefreshController _controller;
 
-  void _loadDataCallback(List<NELiveDetail> liveInfoList, bool isRefresh) {
+  void _loadDataCallback(
+      List<NELiveDetail> liveInfoList, bool isRefresh, int valueCode) {
     setState(() {
+      if (isRefresh) {
+        _controller.finishLoad(success: true, noMore: false);
+      }
       setDataList(liveInfoList, isRefresh);
     });
+    if (valueCode == HttpCode.netWorkError) {
+      ToastUtils.showToast(
+          context, 'The Internet connection appears to be offline.');
+    }
   }
 
   @override
@@ -72,8 +82,9 @@ class _LivePkMemberInvitingView extends State<LivePkMemberInvitingView> with Liv
             flex: 1,
             child: EasyRefresh(
               controller: _controller,
-              header: LiveListHeader(),
-              footer: ClassicalFooter(),
+              header: LiveListHeader(isLight: false),
+              footer: LiveListFooter(isLight: false),
+              taskIndependence: true,
               child: ListView.builder(
                   itemCount: liveList.length,
                   itemBuilder: (BuildContext context, int index) {
@@ -85,7 +96,7 @@ class _LivePkMemberInvitingView extends State<LivePkMemberInvitingView> with Liv
               },
               onLoad: () async {
                 if (haveMore) {
-                  getLiveLists(true, _loadDataCallback);
+                  getLiveLists(false, _loadDataCallback);
                 } else {
                   _controller.finishLoad(success: true, noMore: true);
                 }
@@ -132,11 +143,11 @@ class _LivePkMemberInvitingView extends State<LivePkMemberInvitingView> with Liv
 
   Widget getItemContainer(NELiveDetail item) {
     String name = (item.anchor?.userName ?? item.live!.userUuid).toString();
-    if (name.length <= 0){
+    if (name.length <= 0) {
       name = "";
-    }else{
-      if(name.length > 20){
-        name=name.substring(0,19);
+    } else {
+      if (name.length > 20) {
+        name = name.substring(0, 19);
       }
     }
 
@@ -158,7 +169,10 @@ class _LivePkMemberInvitingView extends State<LivePkMemberInvitingView> with Liv
                 ),
                 // child: Image.network(list[index].imageUrl),
                 //TODO delete next Line
-                child: (item.anchor?.icon != null && (item.anchor!.icon!.length > 0)) ? Image.network(item.anchor!.icon!): Image.asset(AssetName.iconAvatar),
+                child: (item.anchor?.icon != null &&
+                        (item.anchor!.icon!.length > 0))
+                    ? Image.network(item.anchor!.icon!)
+                    : Image.asset(AssetName.iconAvatar),
               ),
               const SizedBox(
                 width: 12,
@@ -175,7 +189,8 @@ class _LivePkMemberInvitingView extends State<LivePkMemberInvitingView> with Liv
                       ),
                       Text(
                         name,
-                        style: const TextStyle(fontSize: 14,color: AppColors.black),
+                        style: const TextStyle(
+                            fontSize: 14, color: AppColors.black),
                       ),
                       Text(
                         Strings.invitingMemberAudienceCount +

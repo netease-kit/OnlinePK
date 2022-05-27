@@ -5,7 +5,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:livekit_pk/values/asset_name.dart';
 import 'package:livekit_pk/values/colors.dart';
 
@@ -36,31 +35,37 @@ class LiveListHeader extends Header {
 
   final Color textColor;
 
+  final Color darkTextColor;
+
   /// Text color for more information
   final Color infoColor;
 
-  LiveListHeader({
-    double extent = 60.0,
-    double triggerDistance = 70.0,
-    bool float = false,
-    Duration? completeDuration = const Duration(seconds: 1),
-    bool enableInfiniteRefresh = false,
-    bool enableHapticFeedback = true,
-    bool overScroll = true,
-    this.key,
-    this.alignment,
-    this.refreshText,
-    this.refreshReadyText,
-    this.refreshingText,
-    this.refreshedText,
-    this.refreshFailedText,
-    this.noMoreText,
-    this.showInfo: true,
-    this.infoText,
-    this.bgColor = Colors.transparent,
-    this.textColor = AppColors.white_50_ffffff,
-    this.infoColor = Colors.teal,
-  }) : super(
+  final bool isLight;
+
+  LiveListHeader(
+      {double extent = 60.0,
+      double triggerDistance = 70.0,
+      bool float = false,
+      Duration? completeDuration = const Duration(seconds: 1),
+      bool enableInfiniteRefresh = false,
+      bool enableHapticFeedback = true,
+      bool overScroll = true,
+      this.key,
+      this.alignment,
+      this.refreshText,
+      this.refreshReadyText,
+      this.refreshingText,
+      this.refreshedText,
+      this.refreshFailedText,
+      this.noMoreText,
+      this.showInfo = true,
+      this.infoText,
+      this.bgColor = Colors.transparent,
+      this.textColor = AppColors.white_50_ffffff,
+      this.darkTextColor = AppColors.black_50_000000,
+      this.infoColor = Colors.teal,
+      this.isLight = true})
+      : super(
           extent: extent,
           triggerDistance: triggerDistance,
           float: float,
@@ -191,8 +196,8 @@ class ClassicalHeaderWidgetState extends State<ClassicalHeaderWidget>
   set refreshFinish(bool finish) {
     if (_refreshFinish != finish) {
       if (finish && widget.float) {
-        Future.delayed(widget.completeDuration! - const Duration(milliseconds: 400),
-            () {
+        Future.delayed(
+            widget.completeDuration! - const Duration(milliseconds: 400), () {
           if (mounted) {
             _floatBackController.forward();
           }
@@ -296,15 +301,14 @@ class ClassicalHeaderWidgetState extends State<ClassicalHeaderWidget>
     // Restore the animation
     _restoreController = AnimationController(
         duration: const Duration(milliseconds: 200), vsync: this);
-    _restoreAnimation =
-        Tween(begin: 1.0, end: 0.5).animate(_restoreController)
-          ..addListener(() {
-            setState(() {
-              if (_restoreAnimation.status != AnimationStatus.dismissed) {
-                _iconRotationValue = _restoreAnimation.value;
-              }
-            });
-          });
+    _restoreAnimation = Tween(begin: 1.0, end: 0.5).animate(_restoreController)
+      ..addListener(() {
+        setState(() {
+          if (_restoreAnimation.status != AnimationStatus.dismissed) {
+            _iconRotationValue = _restoreAnimation.value;
+          }
+        });
+      });
     _restoreAnimation.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         _restoreController.reset();
@@ -313,16 +317,15 @@ class ClassicalHeaderWidgetState extends State<ClassicalHeaderWidget>
     // Float collapse animation
     _floatBackController = AnimationController(
         duration: const Duration(milliseconds: 300), vsync: this);
-    _floatBackAnimation =
-        Tween(begin: widget.refreshIndicatorExtent, end: 0.0)
-            .animate(_floatBackController)
-          ..addListener(() {
-            setState(() {
-              if (_floatBackAnimation.status != AnimationStatus.dismissed) {
-                _floatBackDistance = _floatBackAnimation.value;
-              }
-            });
-          });
+    _floatBackAnimation = Tween(begin: widget.refreshIndicatorExtent, end: 0.0)
+        .animate(_floatBackController)
+      ..addListener(() {
+        setState(() {
+          if (_floatBackAnimation.status != AnimationStatus.dismissed) {
+            _floatBackDistance = _floatBackAnimation.value;
+          }
+        });
+      });
     _floatBackAnimation.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         _floatBackController.reset();
@@ -454,7 +457,9 @@ class ClassicalHeaderWidgetState extends State<ClassicalHeaderWidget>
                     _showText,
                     style: TextStyle(
                       fontSize: 13.0,
-                      color: widget.classicalHeader.textColor,
+                      color: widget.classicalHeader.isLight
+                          ? widget.classicalHeader.textColor
+                          : widget.classicalHeader.darkTextColor,
                     ),
                   ),
                 ],

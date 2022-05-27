@@ -3,8 +3,8 @@
 
 import 'package:yunxin_alog/yunxin_alog.dart';
 
-class AudienceLog{
-  static void log(String msg){
-      Alog.d(tag: "[AudienceLog]:", content: msg);
+class AudienceLog {
+  static void log(String msg) {
+    Alog.d(tag: "[AudienceLog]:", content: msg);
   }
 }

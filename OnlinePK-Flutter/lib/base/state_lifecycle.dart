@@ -32,7 +32,7 @@ class StateLifecycleExecutor {
 
     UniqueKey key = UniqueKey();
     CancelableOperation<T> operation =
-    CancelableOperation.fromFuture(future, onCancel: () {
+        CancelableOperation.fromFuture(future, onCancel: () {
       if (_enable) {
         _futures.remove(key);
       }

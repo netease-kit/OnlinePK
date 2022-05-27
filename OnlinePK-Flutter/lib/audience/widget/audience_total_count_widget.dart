@@ -8,7 +8,8 @@ import '../../values/colors.dart';
 
 class AudienceTotalCount extends StatefulWidget {
   final int memberNum;
-  const AudienceTotalCount({Key? key, required this.memberNum}) : super(key: key);
+  const AudienceTotalCount({Key? key, required this.memberNum})
+      : super(key: key);
 
   @override
   State<AudienceTotalCount> createState() {

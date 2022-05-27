@@ -14,11 +14,12 @@ class RegisterByEmailProto extends AppHttpProto<LoginInfo> {
 
   final String emailCode;
 
-  RegisterByEmailProto(this.email, this.password, this.checkPassword, this.emailCode);
+  RegisterByEmailProto(
+      this.email, this.password, this.checkPassword, this.emailCode);
 
   @override
   String path() {
-    return '${AppConfig().getLoginBaseUrl}/userCenter/v1/auth/email/register';
+    return '${AppConfig().loginBaseUrl}/userCenter/v1/auth/email/register';
   }
 
   @override
@@ -28,7 +29,12 @@ class RegisterByEmailProto extends AppHttpProto<LoginInfo> {
 
   @override
   Map data() {
-    return {'email': email, 'password': password, 'checkPassword': checkPassword, 'emailCode': emailCode};
+    return {
+      'email': email,
+      'password': password,
+      'checkPassword': checkPassword,
+      'emailCode': emailCode
+    };
   }
 
   @override

@@ -34,8 +34,10 @@ class AppService extends BaseService {
     return execute(LoginByEmailProto(email, password));
   }
 
-  Future<Result<LoginInfo>> registerByEmail(String email, String password, String checkPassword, String emailCode) {
-    return execute(RegisterByEmailProto(email, password, checkPassword, emailCode));
+  Future<Result<LoginInfo>> registerByEmail(
+      String email, String password, String checkPassword, String emailCode) {
+    return execute(
+        RegisterByEmailProto(email, password, checkPassword, emailCode));
   }
 
   Future<Result<LoginInfo>> sendLoginEmailCode(String email) {
@@ -56,4 +58,3 @@ class AppService extends BaseService {
     return execute(RandomCoverProto());
   }
 }
-

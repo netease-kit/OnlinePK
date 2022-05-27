@@ -4,7 +4,7 @@
 import 'package:livekit_pk/service/auth/login_info.dart';
 import 'package:livekit_pk/service/proto/app_http_proto.dart';
 
-enum LoginType {token, verify}
+enum LoginType { token, verify }
 
 class LoginProto extends AppHttpProto<LoginInfo> {
   final LoginType loginType;
@@ -40,39 +40,34 @@ class LoginProto extends AppHttpProto<LoginInfo> {
 }
 
 class TokenLoginProto extends LoginProto {
-
   /// accountId
   final String accountId;
 
   final String accountToken;
 
-  TokenLoginProto(this.accountId, this.accountToken) : super(loginType: LoginType.token);
+  TokenLoginProto(this.accountId, this.accountToken)
+      : super(loginType: LoginType.token);
 
   @override
   Map data() => {
-    ...super.data(),
-    'accountId': accountId,
-    'accountToken': accountToken,
-  };
-
+        ...super.data(),
+        'accountId': accountId,
+        'accountToken': accountToken,
+      };
 }
 
 class VerifyCodeLoginProto extends LoginProto {
-
   /// accountId
   final String mobile;
 
   final String verifyCode;
 
-  VerifyCodeLoginProto(this.mobile, this.verifyCode) : super(loginType: LoginType.verify);
+  VerifyCodeLoginProto(this.mobile, this.verifyCode)
+      : super(loginType: LoginType.verify);
 
   @override
   Map data() => {
-    'mobile': mobile,
-    'verifyCode': verifyCode,
-  };
-
+        'mobile': mobile,
+        'verifyCode': verifyCode,
+      };
 }
-
-
-

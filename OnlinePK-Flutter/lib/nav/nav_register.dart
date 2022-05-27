@@ -23,7 +23,9 @@ class RoutesRegister {
           arguments: settings.arguments as Map<String, dynamic>),
       RouterName.liveListPage: (context) => const LiveListPage(),
       RouterName.startLivePage: (context) => const StartLivePageRoute(),
-      RouterName.anchorLivePageRoute: (context) => AnchorLivePageRoute(arguments: (settings.arguments as Map)['detail'] as NELiveDetail, isBackCamera: (settings.arguments as Map)['camera'] as bool),
+      RouterName.anchorLivePageRoute: (context) => AnchorLivePageRoute(
+          arguments: (settings.arguments as Map)['detail'] as NELiveDetail,
+          isBackCamera: (settings.arguments as Map)['camera'] as bool),
       RouterName.aboutView: (context) => AboutViewRoute(),
       RouterName.aboutLogoutView: (context) => const AboutLogoutViewRoute(),
     };

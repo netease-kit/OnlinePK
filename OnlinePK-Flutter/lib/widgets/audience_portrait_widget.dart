@@ -9,7 +9,8 @@ import 'package:livekit_pk/values/asset_name.dart';
 class AudiencePortraitWidget extends StatefulWidget {
   final List<String> avatarList;
 
-  const AudiencePortraitWidget({Key? key, required this.avatarList}) : super(key: key);
+  const AudiencePortraitWidget({Key? key, required this.avatarList})
+      : super(key: key);
 
   @override
   State<AudiencePortraitWidget> createState() {
@@ -17,7 +18,8 @@ class AudiencePortraitWidget extends StatefulWidget {
   }
 }
 
-class _AudiencePortraitWidgetState extends LifecycleBaseState<AudiencePortraitWidget> {
+class _AudiencePortraitWidgetState
+    extends LifecycleBaseState<AudiencePortraitWidget> {
   @override
   void initState() {
     super.initState();

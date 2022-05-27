@@ -8,18 +8,17 @@ import 'package:livekit_pk/utils/dialog_utils.dart';
 import 'package:livekit_pk/values/asset_name.dart';
 import 'package:livekit_pk/values/strings.dart';
 
-class LivePkStartPkButtonView extends StatefulWidget{
+class LivePkStartPkButtonView extends StatefulWidget {
   final callback;
 
   const LivePkStartPkButtonView({Key? key, this.callback}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
-    return _LivePkStartPkButtonView ();
+    return _LivePkStartPkButtonView();
   }
-
 }
 
-class _LivePkStartPkButtonView extends  State<LivePkStartPkButtonView>{
+class _LivePkStartPkButtonView extends State<LivePkStartPkButtonView> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -29,30 +28,33 @@ class _LivePkStartPkButtonView extends  State<LivePkStartPkButtonView>{
   Widget buildLivePkButtonView() {
     return GestureDetector(
       child: Container(
-        child: OutlinedButton(onPressed: () {
-          widget.callback();
-        },
-          child: Image(image: AssetImage(AssetName.iconLiveStartPk),),
+        child: OutlinedButton(
+          onPressed: () {
+            widget.callback();
+          },
+          child: Image(
+            image: AssetImage(AssetName.iconLiveStartPk),
+          ),
           style: OutlinedButton.styleFrom(
             shape: StadiumBorder(),
             // side: BorderSide(width: 1, color: AppColors.white_50_ffffff),
-            padding:EdgeInsets.all(0),
-          ),),
+            padding: EdgeInsets.all(0),
+          ),
+        ),
       ),
       onTap: () {
-        DialogUtils.showInvitePKDialog(context, "12345", (){}, (){});
+        DialogUtils.showInvitePKDialog(context, "12345", () {}, () {});
       },
     );
   }
 
   void showInvitePKDialog(String userName) {
-    DialogUtils.showCommonDialog(
-        context, Strings.invitePK, '${Strings.confirmInvitePKPre}$userName${Strings.confirmInvitePKTail}', () {
+    DialogUtils.showCommonDialog(context, Strings.invitePK,
+        '${Strings.confirmInvitePKPre}$userName${Strings.confirmInvitePKTail}',
+        () {
       NavUtils.closeCurrentState('cancel');
     }, () {
       NavUtils.closeCurrentState('ok');
-    },
-        canBack: true,
-        isContentCenter: true);
+    }, canBack: true, isContentCenter: true);
   }
 }

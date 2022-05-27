@@ -12,7 +12,8 @@ class BottomTooView extends StatefulWidget {
   final tapCallBack;
   final void Function(String message) onSend;
 
-  const BottomTooView({Key? key, this.tapCallBack, required this.onSend}) : super(key: key);
+  const BottomTooView({Key? key, this.tapCallBack, required this.onSend})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -77,8 +78,10 @@ class _BottomTooView extends State<BottomTooView> {
                 },
               ),
             ],
-          ),)
-      ],);
+          ),
+        )
+      ],
+    );
   }
 
   Widget buildInputView() {

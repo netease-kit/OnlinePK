@@ -43,7 +43,7 @@ class GlobalPreferences extends Preferences {
     return getSp(keyAnonyNick);
   }
 
-  Future<void> setAnonyNick(String anonyNick) async{
+  Future<void> setAnonyNick(String anonyNick) async {
     setSp(keyAnonyNick, anonyNick);
   }
 
@@ -51,7 +51,7 @@ class GlobalPreferences extends Preferences {
     return getBoolSp(keyAnonyCameraOpen);
   }
 
-  Future<void> setAnonyCameraOpen(bool open) async{
+  Future<void> setAnonyCameraOpen(bool open) async {
     setBoolSp(keyAnonyCameraOpen, open);
   }
 
@@ -59,7 +59,7 @@ class GlobalPreferences extends Preferences {
     return getBoolSp(keyAnonyMicrophoneOpen);
   }
 
-  Future<void> setAnonyMicrophoneOpen(bool open) async{
+  Future<void> setAnonyMicrophoneOpen(bool open) async {
     setBoolSp(keyAnonyMicrophoneOpen, open);
   }
 
@@ -67,7 +67,7 @@ class GlobalPreferences extends Preferences {
     return getBoolSp(keyMeetingDebug);
   }
 
-  Future<void> setMeetingDebug(bool meetingDebug) async{
+  Future<void> setMeetingDebug(bool meetingDebug) async {
     setBoolSp(keyMeetingDebug, meetingDebug);
   }
 
@@ -83,10 +83,9 @@ class GlobalPreferences extends Preferences {
     return getBoolSp(keyUserProtocolPrivacy);
   }
 
-  Future<void> setUserProtocolAndPrivacy(bool isShow) async{
+  Future<void> setUserProtocolAndPrivacy(bool isShow) async {
     setBoolSp(keyUserProtocolPrivacy, isShow);
   }
-
 
   Future<String?> get securityNotice async {
     return getSp(keySecurityNotice);

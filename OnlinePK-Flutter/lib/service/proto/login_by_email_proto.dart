@@ -14,7 +14,7 @@ class LoginByEmailProto extends AppHttpProto<LoginInfo> {
 
   @override
   String path() {
-    return '${AppConfig().getLoginBaseUrl}/userCenter/v1/auth/email/login';
+    return '${AppConfig().loginBaseUrl}/userCenter/v1/auth/email/login';
   }
 
   @override

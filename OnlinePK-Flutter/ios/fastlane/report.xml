@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="fastlane.lanes">
+    
+    
+    
+      
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000272">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="1: increment_build_number_in_plist" time="2.357205">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="2: update_app_identifier" time="0.02808">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="3: automatic_code_signing" time="0.026055">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="4: gym" time="57.372468">
+        
+      </testcase>
+    
+  </testsuite>
+</testsuites>

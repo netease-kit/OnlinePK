@@ -11,9 +11,11 @@ class BaseService {
   /// execute method
   Future<Result<T>> execute<T>(BaseProto proto) {
     return proto.execute().then((result) {
-      if (proto.checkLoginState() && (result.code == HttpCode.verifyError ||
-          result.code == HttpCode.tokenError)) {
-        AuthManager().tokenIllegal(HttpCode.getMsg(result.msg, 'Token invalid!'));
+      if (proto.checkLoginState() &&
+          (result.code == HttpCode.verifyError ||
+              result.code == HttpCode.tokenError)) {
+        AuthManager()
+            .tokenIllegal(HttpCode.getMsg(result.msg, 'Token invalid!'));
       }
       return result as Result<T>;
     });

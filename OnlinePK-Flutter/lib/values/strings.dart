@@ -26,7 +26,8 @@ class Strings {
   static const String closeCamera = '关闭摄像头';
   static const String closeMicrophone = '关闭麦克风';
   static const String networkUnavailable = '网络连接失败，请稍后重试！';
-  static const String networkUnavailableCheck = 'network error,please check your network!';
+  static const String networkUnavailableCheck =
+      'network error,please check your network!';
   static const String networkNotStable = '当前网络状况不佳';
   static const String logining = '正在登录，请稍后';
   static const String invalidStatus = '正在获取账号，请稍后';
@@ -262,7 +263,8 @@ class Strings {
   static const String userProtocolAndPrivacy = '用户服务协议和隐私协议';
   static const String agree = '同意';
   static const String notAgree = '不同意';
-  static const String privacyDialogTipsPrefix = '\n欢迎使用网易会议 App，我们非常重视您的个人信息和隐私保护。在使用之前，请务必仔细阅读《隐私协议》和《用户服务协议》，尤其是其中的黑体加粗部分。\n\n点击「同意」代表您已阅读并同意';
+  static const String privacyDialogTipsPrefix =
+      '\n欢迎使用网易会议 App，我们非常重视您的个人信息和隐私保护。在使用之前，请务必仔细阅读《隐私协议》和《用户服务协议》，尤其是其中的黑体加粗部分。\n\n点击「同意」代表您已阅读并同意';
   static const String privacyDialogTipsSuffix = '；如您不同意，请点击「不同意」并退出本应用。';
   static const String privacyDialogPrivacyTips = '《隐私协议》';
   static const String privacyDialogProtocolTips = '《用户服务协议》';
@@ -295,30 +297,32 @@ class Strings {
   static const String needPermissionTipsTail = '访问您的';
   static const String funcNeed = '该功能需要';
   static const String toSetUp = 'Settings';
-  static const String permissionTips= '权限';
+  static const String permissionTips = '权限';
 
   //Home
-  static const String homeListViewDetailText1= 'PK Live';
-  static const String homeListViewDetailText2= 'A variety of ways to play，for example single live，multi-host PK, inviting audience to co-host to live streaming.etc';
-  static const String invitingMemberToPk= 'Select host/hostess for PK';
-  static const String invitingMemberAudienceCount= 'Audience：';
-  static const String invitingMemberStartPK= 'Invite PK';
+  static const String homeListViewDetailText1 = 'PK Live';
+  static const String homeListViewDetailText2 =
+      'A variety of ways to play，for example single live，multi-host PK, inviting audience to co-host to live streaming.etc';
+  static const String invitingMemberToPk = 'Select host/hostess for PK';
+  static const String invitingMemberAudienceCount = 'Audience：';
+  static const String invitingMemberStartPK = 'Invite PK';
 
-  static const String invitePK= 'Invite PK';
-  static const String confirmInvitePKPre= 'Confirm"';
-  static const String confirmInvitePKTail= '"invite PK?';
-  static const String emptyLive= 'No live broadcast for now';
-  static const String inviteFailed= 'Invitation failed';
-  static const String endPK= 'End PK';
-  static const String stopPkDialogContent= 'Contest still in progress. Sure you want to exit and return to normal live-stream mode?';
-  static const String immediateEnd= 'End immediately';
-  static const String pkLinking= 'PK inviting…';
-  static const String inviteYouPkWhetherToAccept= ' invite you to PK, do you accept?';
-  static const String theOtherPartyRejectYourAccept= 'The host reject PK';
-  static const String theOtherPartyAcceptYourInvite= 'The host accept PK';
-  static const String endLive= 'End the live';
-  static const String sureEndLive= 'Confirmed to end the live';
-
+  static const String invitePK = 'Invite PK';
+  static const String confirmInvitePKPre = 'Confirm"';
+  static const String confirmInvitePKTail = '"invite PK?';
+  static const String emptyLive = 'No live broadcast for now';
+  static const String inviteFailed = 'Invitation failed';
+  static const String endPK = 'End PK';
+  static const String stopPkDialogContent =
+      'Contest still in progress. Sure you want to exit and return to normal live-stream mode?';
+  static const String immediateEnd = 'End immediately';
+  static const String pkLinking = 'PK inviting…';
+  static const String inviteYouPkWhetherToAccept =
+      ' invite you to PK, do you accept?';
+  static const String theOtherPartyRejectYourAccept = 'The host reject PK';
+  static const String theOtherPartyAcceptYourInvite = 'The host accept PK';
+  static const String endLive = 'End the live';
+  static const String sureEndLive = 'Confirmed to end the live';
 
   static const String cameraPermission = '相机';
   static const String microphonePermission = '麦克风';
@@ -329,7 +333,8 @@ class Strings {
   static const String disclaimer = "Disclaimer";
 
   static const String startLive = 'Start Live';
-  static const String startLiveTip = 'This app is only a trial version, so please do not use it for commercial purposes. One live-stream can last up to 10 minutes, and up to 10 people on each channel';
+  static const String startLiveTip =
+      'This app is only a trial version, so please do not use it for commercial purposes. One live-stream can last up to 10 minutes, and up to 10 people on each channel';
 
   static const String startFailByInPkList = '您已经再邀请中,不可再邀请';
   static const String beautyWhite = 'Whitening';
@@ -342,12 +347,14 @@ class Strings {
 
   static const String invitePKFailed = 'Invite PK failed';
   static const String endPKTitle = 'End PK';
-  static const String endPKContent = 'Contest still in progress. Sure you want to exit and return to normal live-stream mode?';
+  static const String endPKContent =
+      'Contest still in progress. Sure you want to exit and return to normal live-stream mode?';
   static const String endPKRightNow = 'End immediately';
   static const String cancelInviteFail = 'Cancel invite failed';
-  static const String accept = 'accept';
-  static const String refuse = 'reject';
-  static const String invitePkTimeOut = 'The Pk request is time out and have been canceled automatic';
+  static const String accept = 'Accept';
+  static const String refuse = 'Reject';
+  static const String invitePkTimeOut =
+      'The Pk request is time out and have been canceled automatic';
   static const String invitePkCancel = 'The PK invite canceled';
   static const String invitePkReject = 'The PK invite rejected';
   static const String punish = 'punish ';
@@ -368,7 +375,4 @@ class Strings {
   static const String avatar = 'Avatar';
   static const String nickName = 'Nickname';
   static const String logoutEn = 'Log out';
-
-
-
 }

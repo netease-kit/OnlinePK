@@ -33,13 +33,14 @@ class AppHttpClient {
   Map<String, dynamic> get headers => {
         'accountToken': AppProfile.accountToken,
         'accountId': AppProfile.accountId,
-        'appKey': AppConfig().getAppKey,
-        'scope': AppConfig().getScope,
-        'parentScope': AppConfig().getParentScope,
+        'appKey': AppConfig().appKey,
+        'scope': AppConfig().scope,
+        'parentScope': AppConfig().parentScope,
         'clientType': DeviceManager().clientType,
         'appVersionName': AppConfig().versionName,
         'appVersionCode': AppConfig().versionCode,
         'deviceId': DeviceManager().deviceId,
+        'lang': AppConfig().language,
       };
 
   /// post request data data -- json
@@ -49,7 +50,7 @@ class AppHttpClient {
       options ??= Options();
       options.headers = mergeHeaders(options.headers, headers);
       LiveLog.d('HTTP',
-              'req url=${servers.baseUrl}$path, header=${kReleaseMode ? '' : options.headers.toString()} params=${data?.toString()}');
+          'req url=${servers.baseUrl}$path, header=${kReleaseMode ? '' : options.headers.toString()} params=${data?.toString()}');
       response = await dio.post(path, data: data, options: options);
     } on DioError catch (e) {
       LiveLog.e('HTTP', '$path error=$e');
@@ -64,7 +65,7 @@ class AppHttpClient {
       options ??= Options();
       options.headers = mergeHeaders(options.headers, headers);
       LiveLog.d('HTTP',
-              'req path=$uri header=${kReleaseMode ? '' : options.headers.toString()} params=${data?.toString()}');
+          'req path=$uri header=${kReleaseMode ? '' : options.headers.toString()} params=${data?.toString()}');
       response = await dio.postUri(uri, data: data, options: options);
     } on DioError catch (e) {
       LiveLog.e('HTTP', '$uri error=$e');
@@ -80,8 +81,7 @@ class AppHttpClient {
       options.headers = mergeHeaders(options.headers, headers);
       options.responseType = ResponseType.bytes;
       options.receiveTimeout = 0;
-      LiveLog.d(
-          'HTTP', 'down load file $url');
+      LiveLog.d('HTTP', 'down load file $url');
       response = await dio.get(url,
           onReceiveProgress: onReceiveProgress, options: options);
     } on DioError catch (e) {

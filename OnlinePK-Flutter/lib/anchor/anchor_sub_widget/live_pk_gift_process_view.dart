@@ -12,11 +12,16 @@ import 'live_pk_timer_count_view.dart';
 
 class LivePkGiftProcessView extends StatefulWidget {
   final ValueListenable<GiftModel> modelListener;
-  final TimeDataController timeDataController ;
+  final TimeDataController timeDataController;
   final ValueListenable<List<String?>?> leftIconListListener;
   final ValueListenable<List<String?>?> rightIconListListener;
 
-  const LivePkGiftProcessView({Key? key, required this.modelListener, required this.timeDataController, required this.leftIconListListener, required this.rightIconListListener})
+  const LivePkGiftProcessView(
+      {Key? key,
+      required this.modelListener,
+      required this.timeDataController,
+      required this.leftIconListListener,
+      required this.rightIconListListener})
       : super(key: key);
 
   @override
@@ -50,43 +55,43 @@ class _LivePkGiftProcessView extends State<LivePkGiftProcessView> {
           height: 60,
           child: Column(
             children: <Widget>[
-          ValueListenableBuilder<GiftModel>(
-          valueListenable: widget.modelListener,
-            builder: (context, value, widget) {
-              return Row(
-                children: <Widget>[
-                  Expanded(
-                    flex: value.selfGiftNum == 0 ? 1: value.selfGiftNum,
-                    child: Container(
-                      height: 18,
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(colors: [
-                          AppColors.color_ff00d2ff,
-                          AppColors.color_ff0084ff,
-                        ]),
-                      ),
-                      padding: const EdgeInsets.only(left: 8),
-                    ),
-                  ),
-                  Expanded(
-                    flex: value.otherGiftNum == 0 ? 1:value.otherGiftNum,
-                    child: Container(
-                        height: 18,
-                        decoration: const BoxDecoration(
-                          gradient: LinearGradient(colors: [
-                            AppColors.color_ffff0055,
-                            AppColors.color_ffff00aa,
-                          ]),
-                        ),
+              ValueListenableBuilder<GiftModel>(
+                valueListenable: widget.modelListener,
+                builder: (context, value, widget) {
+                  return Row(
+                    children: <Widget>[
+                      Expanded(
+                        flex: value.selfGiftNum == 0 ? 1 : value.selfGiftNum,
                         child: Container(
-                          alignment: Alignment.centerRight,
-                          margin: const EdgeInsets.only(right: 8),
-                        )),
-                  ),
-                ],
-              );
-            },
-          ),
+                          height: 18,
+                          decoration: const BoxDecoration(
+                            gradient: LinearGradient(colors: [
+                              AppColors.color_ff00d2ff,
+                              AppColors.color_ff0084ff,
+                            ]),
+                          ),
+                          padding: const EdgeInsets.only(left: 8),
+                        ),
+                      ),
+                      Expanded(
+                        flex: value.otherGiftNum == 0 ? 1 : value.otherGiftNum,
+                        child: Container(
+                            height: 18,
+                            decoration: const BoxDecoration(
+                              gradient: LinearGradient(colors: [
+                                AppColors.color_ffff0055,
+                                AppColors.color_ffff00aa,
+                              ]),
+                            ),
+                            child: Container(
+                              alignment: Alignment.centerRight,
+                              margin: const EdgeInsets.only(right: 8),
+                            )),
+                      ),
+                    ],
+                  );
+                },
+              ),
               const SizedBox(
                 height: 1,
               ),
@@ -120,17 +125,17 @@ class _LivePkGiftProcessView extends State<LivePkGiftProcessView> {
                       padding: const EdgeInsets.symmetric(horizontal: 2.0),
                       // width: 62,
                       decoration: BoxDecoration(
-                        gradient: const LinearGradient(colors:
-                        [
+                        gradient: const LinearGradient(colors: [
                           AppColors.color_ffff0080,
                           AppColors.color_ff0095ff,
                         ]),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       alignment: Alignment.center,
-                      child: LivePKTimerCountView(timeDataController: _timeDataController,),
+                      child: LivePKTimerCountView(
+                        timeDataController: _timeDataController,
+                      ),
                     ),
-
                     Expanded(
                       flex: 1,
                       child: SizedBox(
@@ -161,7 +166,7 @@ class _LivePkGiftProcessView extends State<LivePkGiftProcessView> {
           left: 0,
           right: 0,
           height: 18,
-          child:  ValueListenableBuilder<GiftModel>(
+          child: ValueListenableBuilder<GiftModel>(
             valueListenable: widget.modelListener,
             builder: (context, value, widget) {
               return Row(
@@ -184,16 +189,16 @@ class _LivePkGiftProcessView extends State<LivePkGiftProcessView> {
                     flex: 1,
                     child: Container(
                         child: Container(
-                          alignment: Alignment.centerRight,
-                          margin: const EdgeInsets.only(right: 8),
-                          child: Text(
-                            value.otherGiftNum.toString() + ' other',
-                            style: const TextStyle(
-                              color: AppColors.white,
-                              fontSize: 12,
-                            ),
-                          ),
-                        )),
+                      alignment: Alignment.centerRight,
+                      margin: const EdgeInsets.only(right: 8),
+                      child: Text(
+                        value.otherGiftNum.toString() + ' other',
+                        style: const TextStyle(
+                          color: AppColors.white,
+                          fontSize: 12,
+                        ),
+                      ),
+                    )),
                   ),
                 ],
               );
@@ -201,42 +206,41 @@ class _LivePkGiftProcessView extends State<LivePkGiftProcessView> {
           ),
         ),
         Positioned(
-            top: 0,
-            left: -10,
-            right: -10,
-            height: 20,
-            // left: value.selfGiftNum * 1.0 / (value.selfGiftNum * 1.0 + value.otherGiftNum * 1.0) * width,
-            child:
-            ValueListenableBuilder<GiftModel>(
-              valueListenable: widget.modelListener,
-              builder: (context, value, widget) {
-                return Row(
-                  children: <Widget>[
-                    Expanded(
-                      flex: value.selfGiftNum == 0 ? 1 : value.selfGiftNum,
-                      child: Container(
-                        // color: Colors.yellow,
-                        height: 9,
-                      ),
+          top: 0,
+          left: -10,
+          right: -10,
+          height: 20,
+          // left: value.selfGiftNum * 1.0 / (value.selfGiftNum * 1.0 + value.otherGiftNum * 1.0) * width,
+          child: ValueListenableBuilder<GiftModel>(
+            valueListenable: widget.modelListener,
+            builder: (context, value, widget) {
+              return Row(
+                children: <Widget>[
+                  Expanded(
+                    flex: value.selfGiftNum == 0 ? 1 : value.selfGiftNum,
+                    child: Container(
+                      // color: Colors.yellow,
+                      height: 9,
                     ),
-                    SizedBox(
-                      height: 20,
-                      width: 20,
-                      // color: Colors.pink,
-                      child: Image.asset(AssetName.iconLivePkStar),
+                  ),
+                  SizedBox(
+                    height: 20,
+                    width: 20,
+                    // color: Colors.pink,
+                    child: Image.asset(AssetName.iconLivePkStar),
+                  ),
+                  Expanded(
+                    flex: value.otherGiftNum == 0 ? 1 : value.otherGiftNum,
+                    child: Container(
+                      // color: Colors.black,
+                      height: 9,
                     ),
-                    Expanded(
-                      flex: value.otherGiftNum == 0 ? 1:value.otherGiftNum,
-                      child: Container(
-                        // color: Colors.black,
-                        height: 9,
-                      ),
-                    ),
-                  ],
-                );
-              },
-            ),
-            ),
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
       ],
     );
   }
@@ -247,7 +251,8 @@ class _LivePkGiftProcessView extends State<LivePkGiftProcessView> {
         Row(
           children: <Widget>[
             Container(
-              margin: const EdgeInsets.only(top: 3, bottom: 3, left: 2, right: 2),
+              margin:
+                  const EdgeInsets.only(top: 3, bottom: 3, left: 2, right: 2),
               width: 24,
               height: 24,
               decoration: BoxDecoration(
@@ -259,17 +264,16 @@ class _LivePkGiftProcessView extends State<LivePkGiftProcessView> {
                 ),
                 color: Colors.yellow,
               ),
-
-              child:
-                OutlinedButton(
+              child: OutlinedButton(
                 style: OutlinedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12.0),
                   ),
-                  side: const BorderSide(width: 2, color: AppColors.color_ff0095ff),
+                  side: const BorderSide(
+                      width: 2, color: AppColors.color_ff0095ff),
                 ),
                 onPressed: () {},
-                child:Container() ,
+                child: Container(),
               ),
             ),
           ],

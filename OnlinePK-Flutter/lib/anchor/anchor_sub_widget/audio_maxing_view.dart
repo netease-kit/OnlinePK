@@ -9,18 +9,17 @@ import 'package:netease_roomkit/netease_roomkit.dart';
 
 import '../../widgets/slider_widget.dart';
 
-class AudioMaxing{
+class AudioMaxing {
   late int _musicSelectedIndex;
-  late  int _musicPlayVolume = 10;
+  late int _musicPlayVolume = 10;
   late int _effectSelectedIndex;
-  late  int _effectPlayVolume = 10;
+  late int _effectPlayVolume = 10;
 
   int get musicSelectedIndex => _musicSelectedIndex;
 
   set musicSelectedIndex(int value) {
     _musicSelectedIndex = value;
   }
-
 
   int get musicPlayVolume => _musicPlayVolume;
 
@@ -47,14 +46,15 @@ class AudioMaxing{
 class AudioMaxingView extends StatefulWidget {
   final AudioMaxing audioMaxing;
   final audioMaxingcallback;
-  const AudioMaxingView({Key? key, required this.audioMaxing, this.audioMaxingcallback}) : super(key: key);
+  const AudioMaxingView(
+      {Key? key, required this.audioMaxing, this.audioMaxingcallback})
+      : super(key: key);
 
   @override
   State<AudioMaxingView> createState() => _AudioMaxingViewState();
 }
 
 class _AudioMaxingViewState extends State<AudioMaxingView> {
-
   _loadSettings() {}
 
   @override
@@ -217,11 +217,12 @@ class _AudioMaxingViewState extends State<AudioMaxingView> {
                     path: 'assets/images/3.0x/sound_ico.png',
                     onChange: (value) {
                       audioMaxing.effectPlayVolume = value;
-                      NELiveKit.instance.mediaController
-                          .setEffectSendVolume(audioMaxing._effectSelectedIndex, value);
+                      NELiveKit.instance.mediaController.setEffectSendVolume(
+                          audioMaxing._effectSelectedIndex, value);
                       widget.audioMaxingcallback(audioMaxing);
                       NELiveKit.instance.mediaController
-                          .setEffectPlaybackVolume(audioMaxing._effectSelectedIndex, value);
+                          .setEffectPlaybackVolume(
+                              audioMaxing._effectSelectedIndex, value);
                       widget.audioMaxingcallback(audioMaxing);
                     },
                     level: audioMaxing.effectPlayVolume),

@@ -11,7 +11,6 @@ import '../../values/colors.dart';
 import 'package:sprintf/sprintf.dart';
 
 class GiftPanelWidget extends StatefulWidget {
-
   final void Function(GiftInfo giftInfo) onSend;
 
   const GiftPanelWidget({Key? key, required this.onSend}) : super(key: key);
@@ -25,10 +24,14 @@ class GiftPanelWidget extends StatefulWidget {
 class _GiftPanelWidgetState extends LifecycleBaseState<GiftPanelWidget> {
   final Radius _radius = const Radius.circular(8);
   final _giftList = [
-    GiftInfo(1, Strings.biz_live_glow_stick, 9, AssetName.gift01, AssetName.lottieGift01),
-    GiftInfo(2, Strings.biz_live_arrange, 99, AssetName.gift02, AssetName.lottieGift02),
-    GiftInfo(3, Strings.biz_live_sports_car, 199, AssetName.gift03, AssetName.lottieGift03),
-    GiftInfo(4, Strings.biz_live_rockets, 999, AssetName.gift04, AssetName.lottieGift04),
+    GiftInfo(1, Strings.biz_live_glow_stick, 9, AssetName.gift01,
+        AssetName.lottieGift01),
+    GiftInfo(2, Strings.biz_live_arrange, 99, AssetName.gift02,
+        AssetName.lottieGift02),
+    GiftInfo(3, Strings.biz_live_sports_car, 199, AssetName.gift03,
+        AssetName.lottieGift03),
+    GiftInfo(4, Strings.biz_live_rockets, 999, AssetName.gift04,
+        AssetName.lottieGift04),
   ];
   late GiftInfo _selectedGiftInfo;
 
@@ -45,12 +48,14 @@ class _GiftPanelWidgetState extends LifecycleBaseState<GiftPanelWidget> {
     return Padding(
       padding: const EdgeInsets.only(top: 0),
       child: SizedBox(
-        height: 238 + MediaQuery.of(context).viewInsets.bottom,
+        height: 238 + MediaQuery.of(context).padding.bottom,
         child: Scaffold(
           backgroundColor: Colors.transparent,
           body: Container(
-            decoration:
-            BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(topLeft: _radius, topRight: _radius)),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius:
+                    BorderRadius.only(topLeft: _radius, topRight: _radius)),
             child: SafeArea(
               top: false,
               child: buildContentView(),
@@ -82,7 +87,8 @@ class _GiftPanelWidgetState extends LifecycleBaseState<GiftPanelWidget> {
       decoration: ShapeDecoration(
           shape: RoundedRectangleBorder(
               side: const BorderSide(color: AppColors.global_bg),
-              borderRadius: BorderRadius.only(topLeft: _radius, topRight: _radius))),
+              borderRadius:
+                  BorderRadius.only(topLeft: _radius, topRight: _radius))),
       child: Stack(
         children: const <Widget>[
           Align(
@@ -105,15 +111,14 @@ class _GiftPanelWidgetState extends LifecycleBaseState<GiftPanelWidget> {
     return Container(
         height: 100,
         margin: const EdgeInsets.only(left: 10),
-    child:
-      ListView.builder(
-        padding: EdgeInsets.zero,
-        primary: false,
-        itemCount: _giftList.length,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          return buildGiftWidget(_giftList[index]);
-        }));
+        child: ListView.builder(
+            padding: EdgeInsets.zero,
+            primary: false,
+            itemCount: _giftList.length,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              return buildGiftWidget(_giftList[index]);
+            }));
   }
 
   buildGiftWidget(GiftInfo giftInfo) {
@@ -122,12 +127,14 @@ class _GiftPanelWidgetState extends LifecycleBaseState<GiftPanelWidget> {
           width: 72,
           height: 100,
           padding: const EdgeInsets.only(top: 10),
-          decoration: isSelected(giftInfo) ? BoxDecoration(
-              border: Border.all(color: AppColors.color_ff337eff, width: 2),
-              // color: AppColors.color_ff337eff,
-            borderRadius: BorderRadius.circular((4.0)), // 圆角度
-              // borderRadius: const BorderRadius.vertical(top: Radius.elliptical(20, 50)),
-          ) : null,
+          decoration: isSelected(giftInfo)
+              ? BoxDecoration(
+                  border: Border.all(color: AppColors.color_ff337eff, width: 2),
+                  // color: AppColors.color_ff337eff,
+                  borderRadius: BorderRadius.circular((4.0)), // 圆角度
+                  // borderRadius: const BorderRadius.vertical(top: Radius.elliptical(20, 50)),
+                )
+              : null,
           child: Column(
             children: [
               Image(
@@ -178,18 +185,21 @@ class _GiftPanelWidgetState extends LifecycleBaseState<GiftPanelWidget> {
         alignment: Alignment.center,
         child: const Text(
           Strings.send,
-          style: TextStyle(color: AppColors.white, fontSize: 16, decoration: TextDecoration.none),
+          style: TextStyle(
+              color: AppColors.white,
+              fontSize: 16,
+              decoration: TextDecoration.none),
         ),
       ),
     );
   }
 
   void _sendGift() {
-      widget.onSend(_selectedGiftInfo);
-      NavUtils.pop(context);
+    widget.onSend(_selectedGiftInfo);
+    NavUtils.pop(context);
   }
 
-  bool isSelected(GiftInfo giftInfo){
+  bool isSelected(GiftInfo giftInfo) {
     return _selectedGiftInfo.giftId == giftInfo.giftId;
   }
 }

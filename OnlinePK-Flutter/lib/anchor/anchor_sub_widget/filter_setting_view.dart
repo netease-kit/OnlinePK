@@ -110,9 +110,9 @@ class _FilterSettingState extends State<FilterSettingView> {
                     child: FilterButton(
                         AssetName.iconBeautyOriginal, Strings.filterOriginal,
                         () {
-                          setState(() {
-                            BeautyCache().removeBeautyFilter();
-                          });
+                      setState(() {
+                        BeautyCache().removeBeautyFilter();
+                      });
                     }, false));
               } else {
                 var model = BeautyCache().filters[index - 1];
