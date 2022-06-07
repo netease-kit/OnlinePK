@@ -21,7 +21,7 @@ class RandomTopicProto extends AppHttpProto<String> {
 
   @override
   Map<String, dynamic>? header() {
-    return {'lang': 'en'};
+    return null;
   }
 
   @override

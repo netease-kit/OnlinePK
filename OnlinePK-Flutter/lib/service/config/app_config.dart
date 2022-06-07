@@ -49,11 +49,11 @@ class AppConfig {
   }
 
   String get getLoginBaseUrl {
-    return 'https://yiyong-user-center-qa.netease.im';
+    return 'https://yiyong-user-center.netease.im';
   }
 
   String get getLiveBaseUrl {
-    return 'http://yiyong-ne-live-qa.netease.im';
+    return 'http://yiyong-ne-live.netease.im';
   }
 
   String get getLiveKitUrl {
