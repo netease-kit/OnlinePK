@@ -44,13 +44,12 @@ class AppConfig {
 
   static var _debugMode = false;
 
-
   String get loginBaseUrl {
-    return 'https://yiyong-user-center-qa.netease.im';
+    return 'https://yiyong-user-center.netease.im';
   }
 
   String get liveBaseUrl {
-    return 'http://yiyong-ne-live-qa.netease.im';
+    return 'http://yiyong-ne-live.netease.im';
   }
 
   String get liveKitUrl {
