@@ -6,10 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:livekit_pk/values/colors.dart';
 
-class LivePKInvitingProcessView extends StatefulWidget{
+class LivePKInvitingProcessView extends StatefulWidget {
   final connectName;
   final cancelCallback;
-  const LivePKInvitingProcessView({Key? key, this.connectName, this.cancelCallback}) : super(key: key);
+  const LivePKInvitingProcessView(
+      {Key? key, this.connectName, this.cancelCallback})
+      : super(key: key);
 
   @override
   State<LivePKInvitingProcessView> createState() {
@@ -17,30 +19,28 @@ class LivePKInvitingProcessView extends StatefulWidget{
   }
 }
 
-class _livePKInvetingProcessView extends State<LivePKInvitingProcessView>{
-
+class _livePKInvetingProcessView extends State<LivePKInvitingProcessView> {
   @override
   Widget build(BuildContext context) {
     return buildContentView();
   }
 
   Widget buildContentView() {
-    String name =  widget.connectName;
-    if (name.length <= 0){
+    String name = widget.connectName;
+    if (name.length <= 0) {
       name = "";
-    }else{
-      if(name.length > 20){
-        name=name.substring(0,19);
+    } else {
+      if (name.length > 20) {
+        name = name.substring(0, 19);
       }
     }
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10),
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        color: AppColors.color_66000000
-      ),
-      child:  Row(
+          borderRadius: BorderRadius.circular(8),
+          color: AppColors.color_66000000),
+      child: Row(
         children: <Widget>[
           const SizedBox(
             width: 12,
@@ -48,35 +48,35 @@ class _livePKInvetingProcessView extends State<LivePKInvitingProcessView>{
           Expanded(
             child: Text(
               'Invite"' + name + '" to PK...',
-              style: const TextStyle(fontSize: 14,color: Colors.white),
+              style: const TextStyle(fontSize: 14, color: Colors.white),
             ),
             flex: 1,
           ),
           Container(
             height: 28,
             width: 50,
-            decoration:
-            BoxDecoration(
+            decoration: BoxDecoration(
                 gradient: const LinearGradient(colors: [
                   AppColors.color_fffa555f,
                   AppColors.color_ffd846f6,
                 ]), // 渐变色
                 borderRadius: BorderRadius.circular(4)),
-            child:ElevatedButton(
-              onPressed: (){
+            child: ElevatedButton(
+              onPressed: () {
                 widget.cancelCallback();
               },
-              child: const Text('cancel',
+              child: const Text(
+                'cancel',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 14,
-                ),),
+                ),
+              ),
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.transparent),
-                  padding: MaterialStateProperty.all(EdgeInsets.zero),
-                  shadowColor:MaterialStateProperty.all(Colors.transparent),
+                padding: MaterialStateProperty.all(EdgeInsets.zero),
+                shadowColor: MaterialStateProperty.all(Colors.transparent),
               ),
-
             ),
           ),
           const SizedBox(
@@ -86,7 +86,4 @@ class _livePKInvetingProcessView extends State<LivePKInvitingProcessView>{
       ),
     );
   }
-
 }
-
-

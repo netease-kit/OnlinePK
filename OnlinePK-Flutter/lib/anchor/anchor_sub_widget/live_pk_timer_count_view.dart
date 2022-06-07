@@ -21,20 +21,20 @@ class TimeDataController extends ValueNotifier<TimeDataValue> {
   }
 }
 
-class LivePKTimerCountView extends StatefulWidget{
+class LivePKTimerCountView extends StatefulWidget {
   final TimeDataController timeDataController;
-  const LivePKTimerCountView({Key? key, required this.timeDataController}) : super(key: key);
+  const LivePKTimerCountView({Key? key, required this.timeDataController})
+      : super(key: key);
 
   @override
   State<LivePKTimerCountView> createState() {
     return _LivePKTimerCountView();
   }
-
 }
-
 
 class _LivePKTimerCountView extends State<LivePKTimerCountView> {
   TimeDataController get timeDataController => widget.timeDataController;
+
   /// 倒计时的计时器。
   late Timer _timer;
   var _seconds;
@@ -61,21 +61,22 @@ class _LivePKTimerCountView extends State<LivePKTimerCountView> {
     super.dispose();
     _cancelTimer();
   }
+
   @override
   void initState() {
     super.initState();
     _seconds = timeDataController.value.timerCount;
-    if(_seconds > 0){
+    if (_seconds > 0) {
       startTimer();
     }
     timeDataController.addListener(() {
-      if(timeDataController.value.timerCount > 0){
-        if(mounted){
+      if (timeDataController.value.timerCount > 0) {
+        if (mounted) {
           _seconds = timeDataController.value.timerCount;
           _timer.cancel();
           startTimer();
         }
-      }else{
+      } else {
         _timer.cancel();
       }
     });
@@ -85,6 +86,7 @@ class _LivePKTimerCountView extends State<LivePKTimerCountView> {
   Widget build(BuildContext context) {
     return _buildLivePKTimerCountView();
   }
+
   Widget _buildLivePKTimerCountView() {
     return Container(
       height: 20,
@@ -107,11 +109,11 @@ class _LivePKTimerCountView extends State<LivePKTimerCountView> {
 
   //时间转换 将秒转换为小时分钟
   String _durationTransform(int seconds) {
-     var min = seconds ~/ 60;
-     var sec = seconds % 60;
-     // DateFormat('MM/SS').format(DateTime.parse('${min}:${sec}'))
+    var min = seconds ~/ 60;
+    var sec = seconds % 60;
+    // DateFormat('MM/SS').format(DateTime.parse('${min}:${sec}'))
 
     // return DateFormat('hh:mm').format(DateTime.parse('2022-04-14T00:${min}:${sec}'));
-    return'${min.toString().padLeft(2,'0')}:${sec.toString().padLeft(2,'0')}';
+    return '${min.toString().padLeft(2, '0')}:${sec.toString().padLeft(2, '0')}';
   }
 }

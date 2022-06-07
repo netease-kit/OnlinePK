@@ -49,7 +49,9 @@ class HttpCode {
 
   static String getMsg(String? msg, [String? defaultMsg]) {
     if (TextUtil.isEmpty(msg)) {
-      return TextUtil.isEmpty(defaultMsg) ? 'network error,please check your network!' : defaultMsg!;
+      return TextUtil.isEmpty(defaultMsg)
+          ? 'network error,please check your network!'
+          : defaultMsg!;
     }
     return msg!;
   }

@@ -12,13 +12,13 @@ import '../base/textutil.dart';
 import 'router_name.dart';
 
 class NavUtils {
-  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> navigatorKey =
+      GlobalKey<NavigatorState>();
 
   static Future<bool> launchURL(String url, {bool? forceWebView}) async {
-
-    if(Platform.isIOS){
+    if (Platform.isIOS) {
       return await launch(url, forceSafariVC: false);
-    }else {
+    } else {
       if (await canLaunch(url)) {
         return await launch(url, forceSafariVC: false);
       } else {
@@ -64,7 +64,9 @@ class NavUtils {
 
   static RoutePredicate withName(String name) {
     return (Route<dynamic> route) {
-      return !route.willHandlePopInternally && route is ModalRoute && route.settings.name == name;
+      return !route.willHandlePopInternally &&
+          route is ModalRoute &&
+          route.settings.name == name;
     };
   }
 

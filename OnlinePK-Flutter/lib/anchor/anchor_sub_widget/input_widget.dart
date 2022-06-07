@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:livekit_pk/values/colors.dart';
 
-
 class InputDialog {
   static Future<String?> show(BuildContext context) async {
     return Navigator.of(context).push(InputOverlay());
@@ -25,16 +24,15 @@ class InputOverlay extends ModalRoute<String> {
   @override
   Color get barrierColor => const Color(0x01000000);
 
-
   @override
   bool get maintainState => true;
 
   @override
   Widget buildPage(
-      BuildContext context,
-      Animation<double> animation,
-      Animation<double> secondaryAnimation,
-      ) {
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+  ) {
     return InputWidget();
   }
 
@@ -95,15 +93,13 @@ class _InputWidgetState extends State<InputWidget> {
                         decoration: const BoxDecoration(
                             color: Color(0xfff6f8fb),
                             borderRadius:
-                            BorderRadius.all(Radius.circular(20))),
+                                BorderRadius.all(Radius.circular(20))),
                         alignment: Alignment.center,
                         child: TextField(
-                          style: const TextStyle(
-                            color: AppColors.black
-                          ),
-                          onEditingComplete: (){
+                          style: const TextStyle(color: AppColors.black),
+                          onEditingComplete: () {
                             var text = editingController.text.trim();
-                              Navigator.pop(context, text);
+                            Navigator.pop(context, text);
                           },
                           autofocus: true,
                           maxLengthEnforced: true,
@@ -112,7 +108,7 @@ class _InputWidgetState extends State<InputWidget> {
                           ],
                           controller: editingController,
                           decoration: const InputDecoration(
-                            fillColor: AppColors.black,
+                              fillColor: AppColors.black,
                               isDense: true,
                               contentPadding: EdgeInsets.only(
                                   left: 10, right: 10, top: 5, bottom: 5),
@@ -130,10 +126,11 @@ class _InputWidgetState extends State<InputWidget> {
                       child: Container(
                         decoration: const BoxDecoration(
                             color: AppColors.accentElement,
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(5))),
+                            borderRadius: BorderRadius.all(Radius.circular(5))),
                         padding: const EdgeInsets.only(
-                            left: 10, right: 10,),
+                          left: 10,
+                          right: 10,
+                        ),
                         alignment: Alignment.center,
                         height: 33,
                         margin: EdgeInsets.symmetric(horizontal: 5),

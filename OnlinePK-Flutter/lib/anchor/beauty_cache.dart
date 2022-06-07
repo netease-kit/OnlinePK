@@ -27,8 +27,7 @@ class FilterModel {
     if (value != _isSelected) {
       _isSelected = value;
       if (value) {
-        NELiveKit.instance.mediaController
-            .addBeautyFilter(path);
+        NELiveKit.instance.mediaController.addBeautyFilter(path);
       } else {
         NELiveKit.instance.mediaController.removeBeautyFilter();
       }
@@ -60,7 +59,7 @@ class BeautyCache {
     final value = await rootBundle.load('assets/beauty_resources/beauty.zip');
     // Decode the Zip file
     Uint8List bytes =
-    value.buffer.asUint8List(value.offsetInBytes, value.lengthInBytes);
+        value.buffer.asUint8List(value.offsetInBytes, value.lengthInBytes);
     final archive = ZipDecoder().decodeBytes(bytes);
 
     // Extract the contents of the Zip archive to disk.
@@ -79,6 +78,7 @@ class BeautyCache {
     }
     defaultFilters().then((value) => _filters = value);
   }
+
   final _defaultWhiteningValue = 40;
   final _defaultPeelingValue = 50;
   final _defaultThinFaceValue = 10;

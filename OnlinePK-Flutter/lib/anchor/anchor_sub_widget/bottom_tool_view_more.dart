@@ -9,7 +9,8 @@ class BottomToolViewMore extends StatefulWidget {
   final void Function(Model) tapCallBack;
   final List<Model> modelDatas;
 
-  const BottomToolViewMore({Key? key, required this.modelDatas, required this.tapCallBack})
+  const BottomToolViewMore(
+      {Key? key, required this.modelDatas, required this.tapCallBack})
       : super(key: key);
 
   @override
@@ -101,7 +102,9 @@ class _BottomToolViewMoreState extends State<BottomToolViewMore> {
                   fit: BoxFit.fill,
                   key: ValueKey(model.itemImageName),
                   image: AssetImage(
-                    model.itemSelected ? model.itemImageName : model.itemAnotherImageName,
+                    model.itemSelected
+                        ? model.itemImageName
+                        : model.itemAnotherImageName,
                   ),
                 ),
               ),

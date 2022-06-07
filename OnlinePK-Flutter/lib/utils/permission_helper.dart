@@ -11,7 +11,8 @@ enum ConfirmAction { cancel, accept }
 
 class PermissionHelper {
   static Future<bool> requestPermissionSingle(
-      BuildContext context, Permission permission,String title,String tips,{bool useDialog = true}) async {
+      BuildContext context, Permission permission, String title, String tips,
+      {bool useDialog = true}) async {
     var status = await permission.status;
     var granted = status == PermissionStatus.granted;
     if (granted) return granted;
@@ -30,7 +31,8 @@ class PermissionHelper {
     return granted;
   }
 
-  static CupertinoAlertDialog buildPermissionDialog(BuildContext context,String title,String tips) {
+  static CupertinoAlertDialog buildPermissionDialog(
+      BuildContext context, String title, String tips) {
     return CupertinoAlertDialog(
       title: Text('${Strings.notWork}$tips'),
       content: Text(

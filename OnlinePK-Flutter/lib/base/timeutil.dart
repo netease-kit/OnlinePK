@@ -56,6 +56,7 @@ class TimeUtil {
   }
 
   static String getTimeFormatYMDHM(int milliseconds) {
-    return DateFormat(TimeFormat.dateFormat1).format(DateTime.fromMillisecondsSinceEpoch(milliseconds));
+    return DateFormat(TimeFormat.dateFormat1)
+        .format(DateTime.fromMillisecondsSinceEpoch(milliseconds));
   }
 }

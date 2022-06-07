@@ -3,6 +3,6 @@
 
 import 'package:flutter/widgets.dart';
 
-class Application{
+class Application {
   static late BuildContext context;
 }

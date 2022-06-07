@@ -27,6 +27,7 @@ import 'package:netease_roomkit/netease_roomkit.dart';
 import 'package:livekit_pk/widgets/chatroom_list_view.dart';
 import '../audience/widget/audience_total_count_widget.dart';
 import '../nav/router_name.dart';
+import '../service/client/http_code.dart';
 import 'anchor_sub_widget/audio_maxing_view.dart';
 import 'package:livekit_pk/widgets/live_list.dart';
 import 'package:netease_roomkit_interface/netease_roomkit_interface.dart';
@@ -44,7 +45,7 @@ class AnchorLivePageRoute extends StatefulWidget {
     Key? key,
     required this.arguments,
     required this.isBackCamera,
-  }): super(key: key);
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -59,6 +60,12 @@ class _AnchorLivePageRouteState extends LifecycleBaseState<AnchorLivePageRoute>
 
   /// if pkAlert showed
   var _showPkAlert = false;
+
+  /// if endPkDialog showed
+  var _showEndPkDialog = false;
+
+  /// if invitePkDialog showed
+  var _showInvitePkDialog = false;
 
   /// if show invitingProcessView
   var _showInvitingProcessView = false;
@@ -87,17 +94,23 @@ class _AnchorLivePageRouteState extends LifecycleBaseState<AnchorLivePageRoute>
   static const int pkResultDraw = 0;
   final List<String> _audienceAvatarList = [];
 
-  void _loadDataCallback(List<NELiveDetail> liveInfoList, bool isRefresh) {
+  void _loadDataCallback(
+      List<NELiveDetail> liveInfoList, bool isRefresh, int valueCode) {
     setState(() {
       setDataList(liveInfoList, isRefresh);
     });
+    if (valueCode == HttpCode.netWorkError) {
+      ToastUtils.showToast(
+          context, 'The Internet connection appears to be offline.');
+    }
   }
 
   final ChatroomMessagesController _controller = ChatroomMessagesController();
 
   final ValueNotifier<GiftModel> _giftListener =
       ValueNotifier<GiftModel>(GiftModel(0, 0));
-  late TimeDataController _timeDataController  = TimeDataController(TimeDataValue(Strings.pK,0));
+  late TimeDataController _timeDataController =
+      TimeDataController(TimeDataValue(Strings.pK, 0));
   final ValueNotifier<int> _iconNumListener = ValueNotifier<int>(0);
   final ValueNotifier<List<String?>?> _leftIconListListener =
       ValueNotifier<List<String?>?>([]);
@@ -129,7 +142,7 @@ class _AnchorLivePageRouteState extends LifecycleBaseState<AnchorLivePageRoute>
   void initState() {
     super.initState();
     Wakelock.enable();
-    _timeDataController = TimeDataController(TimeDataValue(Strings.pK,0));
+    _timeDataController = TimeDataController(TimeDataValue(Strings.pK, 0));
     _liveDetail = widget.arguments;
     _anchorRoomUUid = _liveDetail.live?.roomUuid;
     _moreModel = _defaultDataList();
@@ -169,13 +182,14 @@ class _AnchorLivePageRouteState extends LifecycleBaseState<AnchorLivePageRoute>
         setState(() {
           _showPkAlert = true;
           DialogUtils.commonShowCupertinoDialog(context, Strings.invitePK,
-              '${(actionAnchor.userName ?? actionAnchor.userUuid)} ${Strings
-                  .inviteYouPkWhetherToAccept}',
-                  () {
-                //cancel
-                _showPkAlert = false;
-                NELiveKit.instance.rejectPK();
-              }, () {
+              '${(actionAnchor.userName ?? actionAnchor.userUuid)} ${Strings.inviteYouPkWhetherToAccept}',
+              () {
+            //cancel
+            _showPkAlert = false;
+            NELiveKit.instance.rejectPK();
+          }, () {
+            dismissInvitePKDialog();
+            _showPkAlert = false;
             _showLivePkMemberInvitingView = false;
             NELiveKit.instance.acceptPK();
           }, sure: Strings.accept, cancel: Strings.refuse, visi: _showPkAlert);
@@ -190,12 +204,15 @@ class _AnchorLivePageRouteState extends LifecycleBaseState<AnchorLivePageRoute>
           _showPKResult = false;
           _giftListener.value = GiftModel(0, 0);
           _isPK = true;
-          _timeDataController.setTimeDataValue(TimeDataValue(Strings.pK,pkCountDown));
+          _timeDataController
+              .setTimeDataValue(TimeDataValue(Strings.pK, pkCountDown));
           initPKVideoView(peer.userUuid);
           _peer = peer;
-          if(_isOtherSoundOn == false){
+          if (_isOtherSoundOn == false) {
             _isOtherSoundOn = true;
-            NELiveKit.instance.mediaController.enablePeerAudio().then((value) => print('value --- ' + value.code.toString()));
+            NELiveKit.instance.mediaController
+                .enablePeerAudio()
+                .then((value) => print('value --- ' + value.code.toString()));
           }
         });
       },
@@ -215,17 +232,24 @@ class _AnchorLivePageRouteState extends LifecycleBaseState<AnchorLivePageRoute>
           ///stop count
           // [self.pkStatusBar stopCountdown];
         } else {
-          _timeDataController.setTimeDataValue(TimeDataValue(Strings.punish,pkPenaltyCountDown));
+          _timeDataController.setTimeDataValue(
+              TimeDataValue(Strings.punish, pkPenaltyCountDown));
         }
       },
-      pkEnded: (int reason, int pkEndTime,String senderUserUuid, String userName, int selfRewards, int peerRewards,
+      pkEnded: (int reason,
+          int pkEndTime,
+          String senderUserUuid,
+          String userName,
+          int selfRewards,
+          int peerRewards,
           bool countDownEnd) {
-        if(reason == NEEndPKStatus.notNormal.index){
-          if(NELiveKit.instance.userUuid != senderUserUuid){
+        if (reason == NEEndPKStatus.notNormal.index) {
+          if (NELiveKit.instance.userUuid != senderUserUuid) {
             ToastUtils.showToast(context, userName + " End PK");
           }
         }
         setState(() {
+          dismissEndPKDialog();
           _showPKResult = false;
           _showInvitingProcessView = false;
           _isPK = false;
@@ -322,8 +346,8 @@ class _AnchorLivePageRouteState extends LifecycleBaseState<AnchorLivePageRoute>
           ///net lose
           DialogUtils.commonShowOneChooseCupertinoDialog(context, 'Remind',
               'The Internet connection appears to be offline.Live End', () {
-                NavUtils.popUntil(context, RouterName.liveListPage);
-              });
+            NavUtils.popUntil(context, RouterName.liveListPage);
+          });
         } else {
           DialogUtils.commonShowOneChooseCupertinoDialog(
               context, 'Remind', 'error happen.Live End,errorCode:$reason', () {
@@ -343,24 +367,39 @@ class _AnchorLivePageRouteState extends LifecycleBaseState<AnchorLivePageRoute>
     }
   }
 
+  void dismissEndPKDialog() {
+    if (_showEndPkDialog) {
+      NavUtils.pop(context);
+      _showEndPkDialog = false;
+    }
+  }
+
+  void dismissInvitePKDialog() {
+    if (_showInvitePkDialog) {
+      NavUtils.pop(context);
+      _showInvitePkDialog = false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.green,
-      body:WillPopScope(
+      body: WillPopScope(
         onWillPop: () {
           _showEndLiveDialog();
           return Future.value(false);
         },
-        child:GestureDetector(
-          behavior: HitTestBehavior.translucent,
-          child: buildSmallVideoView(NELiveKit.instance.nickname ?? NELiveKit.instance.userUuid!),
-          onTap: () {
-            _touchAreaClickCallback();
-          }
-          // _touchAreaClickCallback(),
-          ),
+        child: GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            child: buildSmallVideoView(
+                NELiveKit.instance.nickname ?? NELiveKit.instance.userUuid!),
+            onTap: () {
+              _touchAreaClickCallback();
+            }
+            // _touchAreaClickCallback(),
+            ),
       ),
     );
   }
@@ -435,8 +474,9 @@ class _AnchorLivePageRouteState extends LifecycleBaseState<AnchorLivePageRoute>
             right: 68,
             top: 8 + MediaQuery.of(context).padding.top,
             height: 28,
-            child: AudiencePortraitWidget(avatarList: _audienceAvatarList,)
-        ),
+            child: AudiencePortraitWidget(
+              avatarList: _audienceAvatarList,
+            )),
         Positioned(
           ///inroom number
           right: 8,
@@ -456,7 +496,8 @@ class _AnchorLivePageRouteState extends LifecycleBaseState<AnchorLivePageRoute>
           child: Visibility(
               visible: _showInvitingProcessView,
               child: LivePKInvitingProcessView(
-                connectName: _anchorDetail?.anchor?.userName ?? _anchorDetail?.anchor?.userUuid,
+                connectName: _anchorDetail?.anchor?.userName ??
+                    _anchorDetail?.anchor?.userUuid,
                 cancelCallback: () {
                   NELiveKit.instance.cancelPKInvite().then((value) {
                     if (value.code != 0) {
@@ -474,10 +515,10 @@ class _AnchorLivePageRouteState extends LifecycleBaseState<AnchorLivePageRoute>
                 },
               )),
         ),
-
         Visibility(
           visible: !_isPK,
           child: Positioned(
+
               ///start PK Button
               right: 8,
               bottom: 100,
@@ -490,7 +531,6 @@ class _AnchorLivePageRouteState extends LifecycleBaseState<AnchorLivePageRoute>
                 },
               )),
         ),
-
         Positioned(
           right: 8,
           bottom: 100,
@@ -542,7 +582,7 @@ class _AnchorLivePageRouteState extends LifecycleBaseState<AnchorLivePageRoute>
         ),
         Positioned(
             right: 8,
-             top: 72 + MediaQuery.of(context).padding.top,
+            top: 72 + MediaQuery.of(context).padding.top,
             child: Visibility(
               visible: _isPK, // _isPK,
               child: true
@@ -563,17 +603,18 @@ class _AnchorLivePageRouteState extends LifecycleBaseState<AnchorLivePageRoute>
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(12.0),
-                            child: (_peer?.icon != null && _peer!.icon!.length > 0)
-                                ? Image.network(
-                                    _peer!.icon!,
-                                    height: 24,
-                                    width: 24,
-                                  )
-                                : Image.asset(
-                                    AssetName.iconAvatar,
-                                    height: 24,
-                                    width: 24,
-                                  ),
+                            child:
+                                (_peer?.icon != null && _peer!.icon!.length > 0)
+                                    ? Image.network(
+                                        _peer!.icon!,
+                                        height: 24,
+                                        width: 24,
+                                      )
+                                    : Image.asset(
+                                        AssetName.iconAvatar,
+                                        height: 24,
+                                        width: 24,
+                                      ),
                           ),
                           Container(
                             constraints: const BoxConstraints(
@@ -597,6 +638,7 @@ class _AnchorLivePageRouteState extends LifecycleBaseState<AnchorLivePageRoute>
   }
 
   late List<Model> _moreModel;
+
   ///bottom view click callback
   void tapCallBack(int index) {
     print('click position button ' + index.toString());
@@ -605,13 +647,17 @@ class _AnchorLivePageRouteState extends LifecycleBaseState<AnchorLivePageRoute>
       showModalBottomSheet(
           context: context,
           builder: (_) {
-            return BottomToolViewMore(tapCallBack: tapToolMoreCallBack, modelDatas: _moreModel);
+            return BottomToolViewMore(
+                tapCallBack: tapToolMoreCallBack, modelDatas: _moreModel);
           });
     } else if (index == 2) {
       showModalBottomSheet(
           context: context,
           builder: (_) {
-            return  AudioMaxingView(audioMaxing: _audioMaxing,audioMaxingcallback: audioMaxingCallback,);
+            return AudioMaxingView(
+              audioMaxing: _audioMaxing,
+              audioMaxingcallback: audioMaxingCallback,
+            );
           });
     } else if (index == 1) {
       showModalBottomSheet(
@@ -620,9 +666,7 @@ class _AnchorLivePageRouteState extends LifecycleBaseState<AnchorLivePageRoute>
             return const BeautySettingView();
           });
     }
-
   }
-
 
   /// choose author to Pk call back
   void audioMaxingCallback(AudioMaxing item) {
@@ -668,7 +712,14 @@ class _AnchorLivePageRouteState extends LifecycleBaseState<AnchorLivePageRoute>
   }
 
   List<String> _getTextDataList() {
-    List<String> list = ['camera', 'voice', 'ear back', 'flip', 'filter', 'end'];
+    List<String> list = [
+      'camera',
+      'voice',
+      'ear back',
+      'flip',
+      'filter',
+      'end'
+    ];
     return list;
   }
 
@@ -682,7 +733,11 @@ class _AnchorLivePageRouteState extends LifecycleBaseState<AnchorLivePageRoute>
       if (model.itemSelected) {
         NELiveKit.instance.mediaController.disableLocalVideo();
       } else {
-        NELiveKit.instance.mediaController.enableLocalVideo();
+        NELiveKit.instance.mediaController.enableLocalVideo().then((value) {
+          if (Platform.isIOS) {
+            widget.isBackCamera = false;
+          }
+        });
       }
     } else if (model.itemIndex == 1) {
       // voice
@@ -695,11 +750,10 @@ class _AnchorLivePageRouteState extends LifecycleBaseState<AnchorLivePageRoute>
       // ear back
       if (model.itemSelected) {
         NELiveKit.instance.mediaController.enableEarBack(80).then((value) {
-          if(value.code == -1){
+          if (value.code == -1) {
             ToastUtils.showToast(context, value.msg);
             model.itemSelected = true;
-            setState(() {
-            });
+            setState(() {});
           }
         });
       } else {
@@ -720,7 +774,7 @@ class _AnchorLivePageRouteState extends LifecycleBaseState<AnchorLivePageRoute>
     }
   }
 
-  void _showEndLiveDialog(){
+  void _showEndLiveDialog() {
     DialogUtils.showEndLiveDialog(context, '', () {}, () {
       NavUtils.popUntil(context, RouterName.liveListPage);
     });
@@ -750,11 +804,14 @@ class _AnchorLivePageRouteState extends LifecycleBaseState<AnchorLivePageRoute>
     NELivePKStatus pkState = NELiveKit.instance.pkStatus;
     if (pkState == NELivePKStatus.pking ||
         pkState == NELivePKStatus.punishing) {
+      _showEndPkDialog = true;
       DialogUtils.commonShowCupertinoDialog(
           context, Strings.endPKTitle, Strings.endPKContent, () {
         //cancel
+        _showEndPkDialog = false;
       }, () {
         //accept
+        _showEndPkDialog = false;
         NELiveKit.instance.stopPK();
         //TODO 刷新布局
       }, sure: Strings.endPKRightNow);
@@ -766,7 +823,12 @@ class _AnchorLivePageRouteState extends LifecycleBaseState<AnchorLivePageRoute>
     setState(() {
       _showLivePkMemberInvitingView = false;
     });
-    DialogUtils.showInvitePKDialog(context, item.anchor!.userName!, () {}, () {
+    _showInvitePkDialog = true;
+    DialogUtils.showInvitePKDialog(context, item.anchor!.userName!, () {
+      //cancel
+      _showInvitePkDialog = false;
+    }, () {
+      _showInvitePkDialog = false;
       _anchorDetail = item;
       confirmInvitePK(item);
     });
@@ -776,11 +838,9 @@ class _AnchorLivePageRouteState extends LifecycleBaseState<AnchorLivePageRoute>
     setState(() {
       _showInvitingProcessView = false;
     });
-    NELivePKRule rule=NELivePKRule();
-    rule.agreeTaskTime=10;
-    NELiveKit.instance
-        .invitePK(item.anchor!.userUuid!,rule )
-        .then((value) {
+    NELivePKRule rule = NELivePKRule();
+    rule.agreeTaskTime = 10;
+    NELiveKit.instance.invitePK(item.anchor!.userUuid!, rule).then((value) {
       if (value.code == 0) {
         setState(() {
           inviterUsername = item.anchor!.userName;
@@ -872,7 +932,6 @@ class _AnchorLivePageRouteState extends LifecycleBaseState<AnchorLivePageRoute>
                         alignment: Alignment.bottomCenter,
                         child: handleResultFlag(false),
                       ),
-
                       Positioned(
                         ///sound mute
                         right: 10,
@@ -887,9 +946,11 @@ class _AnchorLivePageRouteState extends LifecycleBaseState<AnchorLivePageRoute>
                                 : Image.asset(AssetName.iconLiveSoundMute),
                             onTap: () {
                               if (_isOtherSoundOn) {
-                                NELiveKit.instance.mediaController.disablePeerAudio();
+                                NELiveKit.instance.mediaController
+                                    .disablePeerAudio();
                               } else {
-                                NELiveKit.instance.mediaController.enablePeerAudio();
+                                NELiveKit.instance.mediaController
+                                    .enablePeerAudio();
                               }
                               NELiveKit.instance;
                               setState(() {
@@ -918,7 +979,7 @@ class _AnchorLivePageRouteState extends LifecycleBaseState<AnchorLivePageRoute>
     initRemoteVideoView(userUuid);
   }
 
-  void recoverSingleVideoView(){
+  void recoverSingleVideoView() {
     releaseRemoteVideoView();
     releaseLocalVideoView();
     initLocalVideoView();
@@ -926,7 +987,7 @@ class _AnchorLivePageRouteState extends LifecycleBaseState<AnchorLivePageRoute>
 
   Future<void> initLocalVideoView() async {
     localRenderer =
-    await VideoRendererFactory.createVideoRenderer(_anchorRoomUUid!);
+        await VideoRendererFactory.createVideoRenderer(_anchorRoomUUid!);
     await localRenderer!.attachToLocalVideo();
     if (Platform.isAndroid) {
       localRenderer!.setMirror(true);
@@ -945,7 +1006,7 @@ class _AnchorLivePageRouteState extends LifecycleBaseState<AnchorLivePageRoute>
   Future<void> initRemoteVideoView(String? userUuid) async {
     if (userUuid != null && _isPK) {
       remoteRenderer =
-      await VideoRendererFactory.createVideoRenderer(_anchorRoomUUid!);
+          await VideoRendererFactory.createVideoRenderer(_anchorRoomUUid!);
       await remoteRenderer!.attachToRemoteVideo(userUuid);
       remoteRenderer!.setMirror(true);
     }
@@ -984,14 +1045,15 @@ class _AnchorLivePageRouteState extends LifecycleBaseState<AnchorLivePageRoute>
     }
   }
 
-  void _refreshAudiencePortrait(){
-    NELiveKit.instance.fetchChatRoomMembers(NEChatroomMemberQueryType.kGuestDesc, 10).then((value) {
+  void _refreshAudiencePortrait() {
+    NELiveKit.instance
+        .fetchChatRoomMembers(NEChatroomMemberQueryType.kGuestDesc, 10)
+        .then((value) {
       _audienceAvatarList.clear();
       value.data?.forEach((element) {
-        _audienceAvatarList.add(element.avatar??'');
+        _audienceAvatarList.add(element.avatar ?? '');
       });
-      setState(() {
-      });
+      setState(() {});
     });
   }
 

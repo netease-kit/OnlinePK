@@ -11,7 +11,7 @@ class SendLoginSmsCodeProto extends AppHttpProto<void> {
 
   @override
   String path() {
-    return '${AppConfig().getLoginBaseUrl}/userCenter/v1/auth/sendLoginSmsCode';
+    return '${AppConfig().loginBaseUrl}/userCenter/v1/auth/sendLoginSmsCode';
   }
 
   @override

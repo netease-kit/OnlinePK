@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 
@@ -28,32 +27,38 @@ class LiveListFooter extends Footer {
 
   final Color textColor;
 
+  final Color darkTextColor;
+
   final Color infoColor;
 
-  LiveListFooter({
-    double extent = 60.0,
-    double triggerDistance = 70.0,
-    bool float = false,
-    Duration? completeDuration = const Duration(seconds: 1),
-    bool enableInfiniteLoad = true,
-    bool enableHapticFeedback = true,
-    bool overScroll = false,
-    bool safeArea = true,
-    EdgeInsets? padding,
-    this.key,
-    this.alignment,
-    this.loadText,
-    this.loadReadyText,
-    this.loadingText,
-    this.loadedText,
-    this.loadFailedText,
-    this.noMoreText,
-    this.showInfo: true,
-    this.infoText,
-    this.bgColor: Colors.transparent,
-    this.textColor: AppColors.white_50_ffffff,
-    this.infoColor: Colors.teal,
-  }) : super(
+  final bool isLight;
+
+  LiveListFooter(
+      {double extent = 60.0,
+      double triggerDistance = 70.0,
+      bool float = false,
+      Duration? completeDuration = const Duration(seconds: 1),
+      bool enableInfiniteLoad = true,
+      bool enableHapticFeedback = true,
+      bool overScroll = false,
+      bool safeArea = true,
+      EdgeInsets? padding,
+      this.key,
+      this.alignment,
+      this.loadText,
+      this.loadReadyText,
+      this.loadingText,
+      this.loadedText,
+      this.loadFailedText,
+      this.noMoreText,
+      this.showInfo: true,
+      this.infoText,
+      this.bgColor: Colors.transparent,
+      this.textColor: AppColors.white_50_ffffff,
+      this.darkTextColor = AppColors.black_50_000000,
+      this.infoColor: Colors.teal,
+      this.isLight = true})
+      : super(
           extent: extent,
           triggerDistance: triggerDistance,
           float: float,
@@ -155,7 +160,7 @@ class LiveFooterWidgetState extends State<LiveFooterWidget>
   }
 
   String get _loadedText {
-    return widget.classicalFooter.loadedText ?? 'Load completed';
+    return widget.classicalFooter.loadedText ?? 'Loading...';
   }
 
   String get _loadFailedText {
@@ -165,7 +170,6 @@ class LiveFooterWidgetState extends State<LiveFooterWidget>
   String get _noMoreText {
     return widget.classicalFooter.noMoreText ?? 'No more';
   }
-
 
   late AnimationController _readyController;
   late Animation<double> _readyAnimation;
@@ -201,14 +205,11 @@ class LiveFooterWidgetState extends State<LiveFooterWidget>
     }
   }
 
-
   String get _finishedText {
     if (!widget.success) return _loadFailedText;
     if (widget.noMore) return _noMoreText;
     return _loadedText;
   }
-
-
 
   @override
   void initState() {
@@ -308,14 +309,15 @@ class LiveFooterWidgetState extends State<LiveFooterWidget>
                     _showText,
                     style: TextStyle(
                       fontSize: 16.0,
-                      color: widget.classicalFooter.textColor,
+                      color: widget.classicalFooter.isLight
+                          ? widget.classicalFooter.textColor
+                          : widget.classicalFooter.darkTextColor,
                     ),
                   )
                 ],
               ),
             ),
           ]
-        : <Widget>[
-          ];
+        : <Widget>[];
   }
 }

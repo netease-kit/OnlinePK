@@ -24,8 +24,6 @@
 |  目录   | 说明  |
 |  ----  | ----  |
 | app  | 应用主入口包含外部页面框架。 |
-| biz-user | 用户相关实现 |
-| lib-user  | 用户lib |
 | lib-modularity  | app模块化 |
 | lib-basic  | 基础lib |
 | lib-beauty-faceunity  | 美颜lib，基于相芯 |

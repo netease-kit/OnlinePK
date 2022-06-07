@@ -6,14 +6,13 @@ import 'package:livekit_pk/service/config/app_config.dart';
 import 'package:livekit_pk/service/proto/app_http_proto.dart';
 
 class SendLoginEmailCodeProto extends AppHttpProto<LoginInfo> {
-
   final String email;
 
   SendLoginEmailCodeProto(this.email);
 
   @override
   String path() {
-    return '${AppConfig().getLoginBaseUrl}/userCenter/v1/auth/email/sendLoginEmailCode';
+    return '${AppConfig().loginBaseUrl}/userCenter/v1/auth/email/sendLoginEmailCode';
   }
 
   @override
@@ -23,7 +22,9 @@ class SendLoginEmailCodeProto extends AppHttpProto<LoginInfo> {
 
   @override
   Map data() {
-    return {'email': email,};
+    return {
+      'email': email,
+    };
   }
 
   @override

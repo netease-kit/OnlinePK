@@ -3,8 +3,12 @@
 
 import 'dart:async';
 
-import 'package:connectivity/connectivity.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:event_bus/event_bus.dart' as event;
 import 'package:flutter/material.dart';
+import 'package:livekit_pk/base/net_util.dart';
+import 'package:livekit_pk/service/client/http_code.dart';
+import 'package:livekit_pk/audience/live_audience_page.dart';
 import 'package:netease_livekit/netease_livekit.dart';
 import 'package:livekit_pk/audience/live_err_page.dart';
 import 'package:livekit_pk/audience/live_stream_play_widget.dart';
@@ -33,8 +37,11 @@ import 'audience_log.dart';
 
 class SingleAudienceWidget extends StatefulWidget {
   final NELiveDetail liveDetail;
+  final event.EventBus eventBus;
 
-  SingleAudienceWidget({Key? key, required this.liveDetail}) : super(key: key);
+  SingleAudienceWidget(
+      {Key? key, required this.liveDetail, required this.eventBus})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -54,7 +61,6 @@ class _SingleAudienceWidgetState
   String? _showLottieAnimal;
   int? _memberNum;
   NELiveCallback? _callback;
-
   late PageController pageController;
 
   final ValueNotifier<int> _iconNumListener = ValueNotifier<int>(0);
@@ -73,12 +79,13 @@ class _SingleAudienceWidgetState
   final List<String> _audienceAvatarList = [];
 
   final ValueNotifier<GiftModel> _giftListener =
-  ValueNotifier<GiftModel>(GiftModel(0, 0));
-  final TimeDataController _timeDataController = TimeDataController(TimeDataValue(Strings.pK,1));
+      ValueNotifier<GiftModel>(GiftModel(0, 0));
+  final TimeDataController _timeDataController =
+      TimeDataController(TimeDataValue(Strings.pK, 1));
   final ValueNotifier<List<String?>?> _leftIconListListener =
-  ValueNotifier<List<String?>?>([]);
+      ValueNotifier<List<String?>?>([]);
   final ValueNotifier<List<String?>?> _rightIconListListener =
-  ValueNotifier<List<String?>?>([]);
+      ValueNotifier<List<String?>?>([]);
 
   final ChatroomMessagesController _controller = ChatroomMessagesController();
   final String _tag = "_SingleAudienceWidgetState-";
@@ -86,8 +93,10 @@ class _SingleAudienceWidgetState
   String? _anchorUserName;
   String? _anchorIcon;
 
+  late StreamSubscription<JoinRetEvent> joinSubscription;
+
   final VideoPKStateController _videoPKStateController =
-  VideoPKStateController();
+      VideoPKStateController();
 
   _SingleAudienceWidgetState();
 
@@ -110,55 +119,51 @@ class _SingleAudienceWidgetState
     AudienceLog.log(_tag + "initState：" + toStringShort());
     _anchorUserName = widget.liveDetail.anchor?.userName;
     _anchorIcon = widget.liveDetail.anchor?.icon;
+    currentNetworkState = NetUtil.globalNetWork;
+    showLiverErrorPage = currentNetworkState == ConnectivityResult.none;
     subscription = Connectivity()
         .onConnectivityChanged
         .listen((ConnectivityResult result) {
       showLiverErrorPage = result == ConnectivityResult.none;
-      if (currentNetworkState == null) {
-        currentNetworkState = result;
-        AudienceLog.log(_tag + "Audience page currentNetworkState==null");
-      }
-      if (currentNetworkState != null && currentNetworkState != result) {
-        if (currentNetworkState == ConnectivityResult.none) {
-          NELiveKit.instance.leaveLive().then((value) {
-            NELiveKit.instance.joinLive(widget.liveDetail).then((joinRet) {
-              showLiverErrorPage = value.code != 0;
-              AudienceLog.log(_tag +
-                  "Audience page network restore showLiverErrorPage:" +
-                  showLiverErrorPage.toString());
-              if (!showLiverErrorPage) {
-                // network reconnect
-                liveStreamPlayWidgetKey.currentState?.reconnect();
-              }
-              if (mounted) {
-                setState(() {
-                  currentNetworkState = result;
-                });
-              }
-            });
+      if (currentNetworkState == ConnectivityResult.none) {
+        NELiveKit.instance.leaveLive().then((value) {
+          NELiveKit.instance.joinLive(widget.liveDetail).then((joinRet) {
+            showLiverErrorPage = value.code != 0;
+            AudienceLog.log(_tag +
+                "Audience page network restore showLiverErrorPage:" +
+                showLiverErrorPage.toString());
+            if (!showLiverErrorPage) {
+              // network reconnect
+              liveStreamPlayWidgetKey.currentState?.reconnect();
+            }
+            if (mounted) {
+              setState(() {
+                currentNetworkState = result;
+              });
+            }
           });
-        } else {
-          if (mounted) {
-            setState(() {
-              currentNetworkState = result;
-            });
-          }
-          AudienceLog.log(_tag +
-              "Audience page currentNetworkState:" +
-              result.toString() +
-              ",showLiverErrorPage:" +
-              showLiverErrorPage.toString());
+        });
+      } else {
+        if (mounted) {
+          setState(() {
+            currentNetworkState = result;
+          });
         }
+        AudienceLog.log(_tag +
+            "Audience page currentNetworkState:" +
+            result.toString() +
+            ",showLiverErrorPage:" +
+            showLiverErrorPage.toString());
       }
     });
-    NELiveKit.instance.leaveLive().then((value) {
-      NELiveKit.instance.joinLive(widget.liveDetail).then((joinRet) {
+    joinSubscription = widget.eventBus.on<JoinRetEvent>().listen((event) {
+      if (event.recordId == widget.liveDetail.live!.liveRecordId) {
         if (mounted) {
           _anchorUserName = NELiveKit.instance.liveDetail?.anchor?.userName;
           _anchorIcon = NELiveKit.instance.liveDetail?.anchor?.icon;
-          _handleLiveUi(joinRet);
+          _handleLiveUi(event.result);
         }
-      });
+      }
     });
 
     pageController = PageController(
@@ -244,8 +249,7 @@ class _SingleAudienceWidgetState
                       ),
                     ],
                   ),
-                )
-            )),
+                ))),
         Positioned(
             right: 0,
             left: 0,
@@ -290,11 +294,11 @@ class _SingleAudienceWidgetState
                     onGift: () {
                       DialogUtils.showChildNavigatorPopup(context,
                           GiftPanelWidget(
-                            onSend: (giftInfo) {
-                              NELiveKit.instance.reward(giftInfo.giftId);
-                              // playAnimal(giftInfo);
-                            },
-                          ));
+                        onSend: (giftInfo) {
+                          NELiveKit.instance.reward(giftInfo.giftId);
+                          // playAnimal(giftInfo);
+                        },
+                      ));
                     },
                   ),
                   flex: 1,
@@ -318,7 +322,7 @@ class _SingleAudienceWidgetState
   Widget _buildPKVideoView() {
     return Visibility(
         child: // _isPK
-        Row(
+            Row(
           mainAxisSize: MainAxisSize.max,
           children: [
             Flexible(
@@ -420,8 +424,7 @@ class _SingleAudienceWidgetState
 
   Widget _buildAudienceLayout(BuildContext context) {
     LiveErrorType errorType = LiveErrorType.kLiveEnd;
-    if (currentNetworkState != null &&
-        currentNetworkState == ConnectivityResult.none) {
+    if (currentNetworkState == ConnectivityResult.none) {
       errorType = LiveErrorType.kNetwork;
     }
     if (showLiverErrorPage) {
@@ -456,7 +459,8 @@ class _SingleAudienceWidgetState
     if (_callback != null) {
       NELiveKit.instance.removeEventCallback(_callback!);
     }
-    NELiveKit.instance.leaveLive();
+    joinSubscription.cancel();
+    // NELiveKit.instance.leaveLive();
     pageController.dispose();
     subscription.cancel();
     _videoPKStateController.dispose();
@@ -601,8 +605,13 @@ class _SingleAudienceWidgetState
           _handlePkPunishmentStart(
               pkPenaltyCountDown, selfRewards, peerRewards);
         },
-        pkEnded: (int reason, int pkEndTime, String senderUserUuid, String userName,
-            int selfRewards, int peerRewards, bool countDownEnd) {
+        pkEnded: (int reason,
+            int pkEndTime,
+            String senderUserUuid,
+            String userName,
+            int selfRewards,
+            int peerRewards,
+            bool countDownEnd) {
           _handlePkEnded(reason, pkEndTime, senderUserUuid, selfRewards,
               peerRewards, countDownEnd);
         },
@@ -739,12 +748,12 @@ class _SingleAudienceWidgetState
             ? anchorReward.pkRewardTotal
             : otherAnchorReward.pkRewardTotal;
         List<String?>? leftAvatars =
-        isToSelf ? anchorReward.rewardIcons : otherAnchorReward.rewardIcons;
+            isToSelf ? anchorReward.rewardIcons : otherAnchorReward.rewardIcons;
         int rightReward = isToSelf
             ? otherAnchorReward.pkRewardTotal
             : anchorReward.pkRewardTotal;
         List<String?>? rightAvatars =
-        isToSelf ? otherAnchorReward.rewardIcons : anchorReward.rewardIcons;
+            isToSelf ? otherAnchorReward.rewardIcons : anchorReward.rewardIcons;
         _giftListener.value = GiftModel(leftReward, rightReward);
         _leftIconListListener.value = leftAvatars;
         _rightIconListListener.value = rightAvatars;
@@ -801,7 +810,8 @@ class _SingleAudienceWidgetState
       _isPK = true;
       _videoPKStateController.switchPK!();
       _giftListener.value = GiftModel(0, 0);
-      _timeDataController.setTimeDataValue(TimeDataValue(Strings.pK,pkCountDown));
+      _timeDataController
+          .setTimeDataValue(TimeDataValue(Strings.pK, pkCountDown));
     });
   }
 
@@ -830,7 +840,8 @@ class _SingleAudienceWidgetState
         ///stop count
         // [self.pkStatusBar stopCountdown];
       } else {
-        _timeDataController.setTimeDataValue(TimeDataValue(Strings.punish,pkPenaltyCountDown));
+        _timeDataController.setTimeDataValue(
+            TimeDataValue(Strings.punish, pkPenaltyCountDown));
       }
     });
   }
@@ -890,7 +901,11 @@ class _SingleAudienceWidgetState
           _giftListener.value = GiftModel(leftReward, rightReward);
           _leftIconListListener.value = leftAvatars;
           _rightIconListListener.value = rightAvatars;
-          _timeDataController.setTimeDataValue(TimeDataValue(pkRet.data!.state == NELivePKState.punishing ? Strings.punish:Strings.pK,pkRet.data!.countDown));
+          _timeDataController.setTimeDataValue(TimeDataValue(
+              pkRet.data!.state == NELivePKState.punishing
+                  ? Strings.punish
+                  : Strings.pK,
+              pkRet.data!.countDown));
           if (pkRet.data!.state == NELivePKState.punishing) {
             _showPKResult = true;
             if (leftReward == rightReward) {

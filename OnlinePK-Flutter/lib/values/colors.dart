@@ -3,7 +3,6 @@
 
 import 'dart:ui';
 
-
 class AppColors {
   static const Color primaryElement = Color.fromARGB(255, 255, 255, 255);
   static const Color secondaryElement = Color.fromARGB(255, 51, 126, 255);
@@ -81,13 +80,12 @@ class AppColors {
   static const Color color_1a337eff = Color(0x1a337eff);
   static const Color color_19000000 = Color(0x19000000);
 
-
   //Home
   static const Color white_15 = Color.fromRGBO(255, 255, 255, 0.15);
   static const Color black_80 = Color.fromRGBO(39, 43, 70, 0.8);
 
   //living
-  static const Color black_60 = Color.fromRGBO(12, 12, 13, 0.6);//living
+  static const Color black_60 = Color.fromRGBO(12, 12, 13, 0.6); //living
   static const Color color_66000000 = Color(0x66000000);
   static const Color color_fffa555f = Color(0xfffa555f);
   static const Color color_ffd846f6 = Color(0xffd846f6);
@@ -112,6 +110,4 @@ class AppColors {
   static const Color color_ff0084ff = Color(0xff0084ff);
   static const Color color_ffff0055 = Color(0xffff0055);
   static const Color color_ffff00aa = Color(0xffff00aa);
-
-
 }

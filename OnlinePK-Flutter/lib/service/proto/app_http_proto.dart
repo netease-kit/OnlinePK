@@ -45,11 +45,12 @@ abstract class AppHttpProto<T> extends BaseProto {
               var ret = map['ret'] ?? map['data']; // protect may be ret is null
               return Result(
                   code: HttpCode.success,
-                  data: (ret is! Map ? result({'data':ret}) : result(ret)) as T?);
+                  data: (ret is! Map ? result({'data': ret}) : result(ret))
+                      as T?);
             }
           } catch (e, s) {
             LiveLog.e(_tag,
-                    'parse response error: path=$url, exception=$e, stacktrace=\n$s');
+                'parse response error: path=$url, exception=$e, stacktrace=\n$s');
           }
           return Result(code: code, msg: map['msg'] as String?);
         }

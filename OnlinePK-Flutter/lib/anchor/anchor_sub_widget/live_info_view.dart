@@ -59,7 +59,9 @@ class _StartLiveInfoViewState extends State<StartLiveInfoView> {
             child: MaterialButton(
               padding: const EdgeInsets.all(0.0),
               child: Image(
-                image: _cover.isEmpty ? const AssetImage('assets/images/3.0x/add_cover_ico.png') : NetworkImage(_cover) as ImageProvider,
+                image: _cover.isEmpty
+                    ? const AssetImage('assets/images/3.0x/add_cover_ico.png')
+                    : NetworkImage(_cover) as ImageProvider,
               ),
               onPressed: () {
                 _refreshLiveCover();
@@ -126,9 +128,9 @@ class _StartLiveInfoViewState extends State<StartLiveInfoView> {
     });
   }
 
-  void _refreshLiveTopic(){
+  void _refreshLiveTopic() {
     LiveRepo().getTopic().then((value) {
-      if(mounted) {
+      if (mounted) {
         var topic = value.data;
         if (_topic != topic) {
           setState(() {

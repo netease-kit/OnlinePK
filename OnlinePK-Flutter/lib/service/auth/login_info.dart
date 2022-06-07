@@ -16,12 +16,12 @@ class LoginInfo {
     this.avatar,
   });
 
-  LoginInfo.fromJson(Map json):
-    accountId = (json['accountId'] ?? json['userId']) as String,
-    accountToken = (json['accountToken'] ?? json['accessToken']) as String,
-    nickname = json['nickname'] as String?,
-    account = (json['user'] ?? json['mobile']) as String?,
-    avatar = json['avatar'] as String?;
+  LoginInfo.fromJson(Map json)
+      : accountId = (json['accountId'] ?? json['userId']) as String,
+        accountToken = (json['accountToken'] ?? json['accessToken']) as String,
+        nickname = json['nickname'] as String?,
+        account = (json['user'] ?? json['mobile']) as String?,
+        avatar = json['avatar'] as String?;
 
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
@@ -32,5 +32,4 @@ class LoginInfo {
     map['avatar'] = avatar;
     return map;
   }
-
 }

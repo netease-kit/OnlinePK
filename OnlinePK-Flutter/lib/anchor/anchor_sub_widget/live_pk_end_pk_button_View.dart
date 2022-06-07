@@ -6,18 +6,18 @@ import 'package:flutter/widgets.dart';
 import 'package:livekit_pk/values/asset_name.dart';
 import 'package:livekit_pk/values/colors.dart';
 
-class LivePkEndPkButtonView extends StatefulWidget{
+class LivePkEndPkButtonView extends StatefulWidget {
   final cancelCallback;
 
-  const LivePkEndPkButtonView({Key? key, this.cancelCallback}) : super(key: key);
+  const LivePkEndPkButtonView({Key? key, this.cancelCallback})
+      : super(key: key);
   @override
   State<StatefulWidget> createState() {
-    return _LivePkEndPkButtonView ();
+    return _LivePkEndPkButtonView();
   }
-
 }
 
-class _LivePkEndPkButtonView extends  State<LivePkEndPkButtonView>{
+class _LivePkEndPkButtonView extends State<LivePkEndPkButtonView> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build

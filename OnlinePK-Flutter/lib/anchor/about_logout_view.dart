@@ -13,8 +13,9 @@ import 'package:livekit_pk/values/strings.dart';
 import '../nav/router_name.dart';
 
 class AboutLogoutViewRoute extends StatefulWidget {
-
-  const AboutLogoutViewRoute({Key? key,}) : super(key: key);
+  const AboutLogoutViewRoute({
+    Key? key,
+  }) : super(key: key);
   @override
   State<StatefulWidget> createState() {
     return _AboutLogoutViewRouteRouteState();
@@ -22,7 +23,7 @@ class AboutLogoutViewRoute extends StatefulWidget {
 }
 
 class _AboutLogoutViewRouteRouteState extends State<AboutLogoutViewRoute> {
-   String? iconUrl = AuthManager().avatar;
+  String? iconUrl = AuthManager().avatar;
 
   @override
   Widget build(BuildContext context) {
@@ -31,59 +32,59 @@ class _AboutLogoutViewRouteRouteState extends State<AboutLogoutViewRoute> {
       body: GestureDetector(
           behavior: HitTestBehavior.translucent,
           child: _buildContentView(),
-          onTap: () {}
-      ),
+          onTap: () {}),
     );
   }
 
   Widget _buildContentView() {
     return LayoutBuilder(
         builder: (BuildContext context, BoxConstraints viewportConstraints) {
-          return SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: viewportConstraints.maxHeight,
-                ),
+      return SingleChildScrollView(
+          child: ConstrainedBox(
+        constraints: BoxConstraints(
+          minHeight: viewportConstraints.maxHeight,
+        ),
+        child: Container(
+          color: AppColors.color_1a1a24,
+          child: Column(
+            children: <Widget>[
+              Container(
+                height: MediaQuery.of(context).padding.top,
+              ),
+              Container(
+                height: 80,
+                color: AppColors.color_191923,
+                alignment: Alignment.center,
+                child: buildTitle(Strings.settingTitle),
+              ),
+              itemLine(),
+              buildSettingItemPadding(),
+              buildPersonMessageItem(iconUrl, Strings.avatar),
+              // buildSystemSettingItem(Strings.nick , widget.nickName ?? 'Null'),
+              buildSystemSettingItem(
+                  Strings.nickName, AuthManager().nickName ?? 'name'),
+              buildSettingItemPadding(),
+              GestureDetector(
+                onTap: () {
+                  ///click logout
+                  AuthManager().logout();
+                  NavUtils.pushNamedAndRemoveUntil(context, RouterName.login);
+                },
                 child: Container(
-                  color: AppColors.color_1a1a24,
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        height: MediaQuery.of(context).padding.top,
-                      ),
-                      Container(
-                        height: 80,
-                        color: AppColors.color_191923,
-                        alignment: Alignment.center,
-                        child: buildTitle(Strings.settingTitle),
-                      ),
-                      itemLine(),
-                      buildSettingItemPadding(),
-                      buildPersonMessageItem(iconUrl,Strings.avatar),
-                      // buildSystemSettingItem(Strings.nick , widget.nickName ?? 'Null'),
-                      buildSystemSettingItem(Strings.nickName , AuthManager().nickName ?? 'name'),
-                      buildSettingItemPadding(),
-                      GestureDetector(
-                        onTap: (){
-                          ///click logout
-                          AuthManager().logout();
-                          NavUtils.pushNamedAndRemoveUntil(context, RouterName.login);
-                        },
-                        child: Container(
-                          height: Dimen.primaryItemHeight,
-                          color: AppColors.white_10_ffffff,
-                          alignment: Alignment.center,
-                          child: const Text(Strings.logoutEn,style: TextStyle(
-                            color: AppColors.white,
-                            fontSize: 17
-                          ),),
-                        ),
-                      ),
-                    ],
+                  height: Dimen.primaryItemHeight,
+                  color: AppColors.white_10_ffffff,
+                  alignment: Alignment.center,
+                  child: const Text(
+                    Strings.logoutEn,
+                    style: TextStyle(color: AppColors.white, fontSize: 17),
                   ),
                 ),
-              ));
-        });
+              ),
+            ],
+          ),
+        ),
+      ));
+    });
   }
 
   Widget buildTitle(String title) {
@@ -91,14 +92,15 @@ class _AboutLogoutViewRouteRouteState extends State<AboutLogoutViewRoute> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         GestureDetector(
-          onTap: (){
+          onTap: () {
             NavUtils.pop(context);
           },
           child: Container(
             child: Image.asset(AssetName.iconBack),
             width: 24,
             margin: const EdgeInsets.only(left: 20),
-          ),),
+          ),
+        ),
         Container(
           height: Dimen.titleHeight,
           alignment: Alignment.center,
@@ -117,7 +119,7 @@ class _AboutLogoutViewRouteRouteState extends State<AboutLogoutViewRoute> {
     );
   }
 
-  Widget buildPersonMessageItem(String? iconUrl,String? name) {
+  Widget buildPersonMessageItem(String? iconUrl, String? name) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: Dimen.globalPadding),
       height: 88,
@@ -128,7 +130,7 @@ class _AboutLogoutViewRouteRouteState extends State<AboutLogoutViewRoute> {
             flex: 1,
             child: Text(
               (name ?? 'Null'),
-              style: const TextStyle(color: AppColors.white,fontSize: 20),
+              style: const TextStyle(color: AppColors.white, fontSize: 20),
             ),
           ),
           Container(
@@ -138,7 +140,9 @@ class _AboutLogoutViewRouteRouteState extends State<AboutLogoutViewRoute> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
             ),
-            child:(iconUrl == null || iconUrl.isEmpty) ? Image.asset(AssetName.iconAvatar) : Image.network(iconUrl),
+            child: (iconUrl == null || iconUrl.isEmpty)
+                ? Image.asset(AssetName.iconAvatar)
+                : Image.network(iconUrl),
           ),
         ],
       ),
@@ -161,7 +165,6 @@ class _AboutLogoutViewRouteRouteState extends State<AboutLogoutViewRoute> {
                           style: const TextStyle(
                               fontSize: 16, color: AppColors.white)),
                       const Spacer(),
-
                       Expanded(
                         flex: 1,
                         child: Container(
@@ -174,7 +177,7 @@ class _AboutLogoutViewRouteRouteState extends State<AboutLogoutViewRoute> {
                     ],
                   ),
                   padding:
-                  EdgeInsets.symmetric(horizontal: Dimen.globalPadding),
+                      EdgeInsets.symmetric(horizontal: Dimen.globalPadding),
                 ),
               ),
             ],
@@ -213,17 +216,17 @@ class _AboutLogoutViewRouteRouteState extends State<AboutLogoutViewRoute> {
                     ],
                   ),
                   padding:
-                  EdgeInsets.symmetric(horizontal: Dimen.globalPadding),
+                      EdgeInsets.symmetric(horizontal: Dimen.globalPadding),
                 ),
               ),
               (needBottomLine
                   ? Container(
-                padding: EdgeInsets.only(left: Dimen.globalPadding),
-                child: itemLine(),
-              )
+                      padding: EdgeInsets.only(left: Dimen.globalPadding),
+                      child: itemLine(),
+                    )
                   : Container(
-                padding: EdgeInsets.only(left: Dimen.globalPadding),
-              )),
+                      padding: EdgeInsets.only(left: Dimen.globalPadding),
+                    )),
             ],
           )),
       onTap: voidCallback,

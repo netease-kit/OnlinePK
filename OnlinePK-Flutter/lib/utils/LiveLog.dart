@@ -8,8 +8,7 @@ import 'package:yunxin_alog/yunxin_alog.dart';
 import 'package:path_provider/path_provider.dart';
 
 class LiveLog {
-
-  static Future<bool> init() async{
+  static Future<bool> init() async {
     var logRootPath = await _defaultLogRootPath;
     var rootPath = logRootPath.endsWith('/') ? logRootPath : '$logRootPath/';
     String roomSDKPath = '${rootPath}live_pk/';
@@ -18,15 +17,15 @@ class LiveLog {
     return success;
   }
 
-  static void i(String tag, String content){
+  static void i(String tag, String content) {
     Alog.i(tag: tag, moduleName: moduleName, content: content);
   }
 
-  static void d(String tag, String content){
-     Alog.d(tag: tag, moduleName: moduleName, content: content);
+  static void d(String tag, String content) {
+    Alog.d(tag: tag, moduleName: moduleName, content: content);
   }
 
-  static void e(String tag, String content){
+  static void e(String tag, String content) {
     Alog.e(tag: tag, moduleName: moduleName, content: content);
   }
 
@@ -56,5 +55,4 @@ class LiveLog {
     }
     return '${directory.path}/log/';
   }
-
 }

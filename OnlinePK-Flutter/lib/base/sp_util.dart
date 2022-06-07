@@ -4,7 +4,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class Preferences {
-
   static SharedPreferences? instance;
 
   Future prepare() async {
