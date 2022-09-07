@@ -65,8 +65,9 @@ dependencies:
   fijkplayer: ^0.10.1
   connectivity_plus: ^2.3.0
   wakelock: ^0.6.1+2
-  netease_livekit: ^0.0.1-rc.7
-  netease_roomkit: ^0.0.1-rc.7
+  netease_livekit: 0.0.1-rc.7
+  netease_roomkit: 0.0.1-rc.7
+  netease_roomkit_interface: 0.0.1-rc.1
 
 
 dev_dependencies:

@@ -3,9 +3,6 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        maven {
-            setUrl("https://mvn.hz.netease.com/artifactory/libs-snapshots/")
-        }
     }
 
     dependencies {
@@ -20,9 +17,6 @@ allprojects {
         mavenCentral()
         maven {
             url  "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
-        maven {
-            setUrl("https://mvn.hz.netease.com/artifactory/libs-snapshots/")
         }
     }
 }
