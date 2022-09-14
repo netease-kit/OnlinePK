@@ -145,7 +145,7 @@ class LoginByTokenState extends LifecycleBaseState {
                                   cursorColor: AppColors.blue_337eff,
                                   keyboardAppearance: Brightness.light,
                                   decoration: const InputDecoration(
-                                    hintText: Strings.enterAccountToken,
+                                    hintText: Strings.hintAccountToken,
                                     floatingLabelBehavior:
                                         FloatingLabelBehavior.auto,
                                     border: InputBorder.none,
