@@ -21,7 +21,7 @@ class AppConfig {
 
   AppConfig._internal();
 
-  String appKey='4727023efa991d31d61b3b32e819bd5b';
+  String appKey='your appKey';
 
   late int onlineScope = 3;
 
@@ -53,7 +53,7 @@ class AppConfig {
   }
 
   String get liveKitUrl {
-    return 'https://roomkit.netease.im';
+    return 'https://roomkit-sg.netease.im';
   }
 
   int get scope {
