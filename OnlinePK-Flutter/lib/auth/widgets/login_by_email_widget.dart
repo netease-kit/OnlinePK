@@ -274,7 +274,8 @@ class LoginByEmailState extends LifecycleBaseState {
     return AppService().loginByEmail(email, password).then((result) async {
       if (result.code == HttpCode.success) {
         var liveKitLoginResult =
-            await AuthManager().loginLiveKitWithToken(result.data as LoginInfo);
+            await AuthManager().loginLiveKitWithToken((result.data as LoginInfo).nickname ?? "test",
+                (result.data as LoginInfo).accountId, (result.data as LoginInfo).accountToken);
         return result.copy(
             code: liveKitLoginResult.code, msg: liveKitLoginResult.msg);
       } else if (result.code == HttpCode.verifyError ||

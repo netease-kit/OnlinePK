@@ -38,6 +38,7 @@ class Strings {
   static const String regist = '注册';
   static const String login = 'Login';
   static const String loginByMobile = '手机验证码登录';
+  static const String loginByToken = 'Login By Token';
   static const String newRegist = '新用户注册';
   static const String checkMobile = '验证手机号';
   static const String enterCheckCode = '请输入验证码';
@@ -51,6 +52,8 @@ class Strings {
   static const String hintNewPassword = '请输入新密码';
   static const String hintConfirmPassword = '请再次输入新密码';
   static const String hintMobile = '请输入手机号';
+  static const String hintAccountId = 'please input accountId';
+  static const String hintAccountToken = 'please input accountToken';
   static const String hintNick = '请输入昵称';
   static const String hintCorpCode = '输入企业代码';
   static const String hintCorpMail = '输入企业邮箱';

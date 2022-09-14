@@ -21,41 +21,41 @@ import 'package:livekit_pk/widgets/mask_text_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class LoginByMobileWidget extends StatefulWidget {
+class LoginByTokenWidget extends StatefulWidget {
   final String mobile;
 
-  LoginByMobileWidget(this.mobile);
+  LoginByTokenWidget(this.mobile);
 
   @override
   State<StatefulWidget> createState() {
-    return LoginByMobileState(mobile);
+    return LoginByTokenState(mobile);
   }
 }
 
-class LoginByMobileState extends LifecycleBaseState {
+class LoginByTokenState extends LifecycleBaseState {
   static const _tag = 'LoginByMobileState';
   final String mobile;
-  late TextEditingController _mobileController;
-  late TextEditingController _authCodeController;
+  late TextEditingController _accountIdController;
+  late TextEditingController _accountTokenController;
   bool _btnEnable = false;
 
-  LoginByMobileState(this.mobile);
+  LoginByTokenState(this.mobile);
 
   @override
   void initState() {
     super.initState();
-    _mobileController = TextEditingController(text: mobile);
-    _authCodeController = TextEditingController();
-    _mobileController.addListener(() {
-      var mobile = TextUtil.replaceAllBlank(_mobileController.text);
+    _accountIdController = TextEditingController(text: mobile);
+    _accountTokenController = TextEditingController();
+    _accountIdController.addListener(() {
+      var mobile = TextUtil.replaceAllBlank(_accountIdController.text);
       eventBus.fire(MobileEvent(mobile));
     });
-    _btnEnable = _mobileController.text.length >= mobileLength;
+    _btnEnable = _accountIdController.text.length >= mobileLength;
   }
 
   @override
   void dispose() {
-    _mobileController.dispose();
+    _accountIdController.dispose();
     super.dispose();
   }
 
@@ -82,7 +82,7 @@ class LoginByMobileState extends LifecycleBaseState {
                 child: Container(
                   margin: const EdgeInsets.only(left: 30, top: 16),
                   child: const Text(
-                    Strings.loginByMobile,
+                    Strings.loginByToken,
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       color: AppColors.black_222222,
@@ -106,57 +106,21 @@ class LoginByMobileState extends LifecycleBaseState {
                           alignment: Alignment.topLeft,
                           children: <Widget>[
                             Row(children: <Widget>[
-                              const Text(
-                                '+86',
-                                style: TextStyle(fontSize: 17),
-                              ),
-                              const SizedBox(
-                                height: 20,
-                                child: VerticalDivider(
-                                    color: AppColors.colorDCDFE5),
-                              ),
                               Expanded(
                                 child: TextField(
-                                  controller: _mobileController,
+                                  controller: _accountIdController,
                                   keyboardType: TextInputType.number,
                                   cursorColor: AppColors.blue_337eff,
                                   keyboardAppearance: Brightness.light,
-                                  inputFormatters: [
-//                            WhitelistingTextInputFormatter(
-//                                RegExp("[a-z,A-Z,0-9]")),
-                                    //限制只允许输入字母和数字
-                                    FilteringTextInputFormatter.allow(
-                                        RegExp(r'\d+|s')),
-                                    //限制只允许输入数字
-                                    LengthLimitingTextInputFormatter(
-                                        mobileLength), //限制输入长度不超过13位
-                                  ],
                                   decoration: const InputDecoration(
-                                    hintText: Strings.hintMobile,
+                                    hintText: Strings.hintAccountId,
                                     floatingLabelBehavior:
                                         FloatingLabelBehavior.auto,
                                     border: InputBorder.none,
                                     hintStyle: TextStyle(
                                         fontSize: 17,
                                         color: AppColors.colorDCDFE5),
-                                    // suffixIcon:
-                                    //     TextUtil.isEmpty(_mobileController.text)
-                                    //         ? null
-                                    //         : ClearIconButton(
-                                    //             onPressed: () {
-                                    //               _mobileController.clear();
-                                    //               setState(() {
-                                    //                 _btnEnable = false;
-                                    //               });
-                                    //             },
-                                    //           )
                                   ),
-                                  onSubmitted: (value) => getCheckCodeServer(),
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _btnEnable = value.length >= mobileLength;
-                                    });
-                                  },
                                 ),
                                 flex: 1,
                               ),
@@ -176,20 +140,12 @@ class LoginByMobileState extends LifecycleBaseState {
                             Row(children: <Widget>[
                               Expanded(
                                 child: TextField(
-                                  controller: _authCodeController,
+                                  controller: _accountTokenController,
                                   keyboardType: TextInputType.number,
                                   cursorColor: AppColors.blue_337eff,
                                   keyboardAppearance: Brightness.light,
-                                  inputFormatters: [
-                                    //限制只允许输入字母和数字
-                                    FilteringTextInputFormatter.allow(
-                                        RegExp(r'\d+|s')),
-                                    //限制只允许输入数字
-                                    LengthLimitingTextInputFormatter(
-                                        mobileLength), //限制输入长度不超过13位
-                                  ],
                                   decoration: const InputDecoration(
-                                    hintText: Strings.enterCheckCode,
+                                    hintText: Strings.hintAccountToken,
                                     floatingLabelBehavior:
                                         FloatingLabelBehavior.auto,
                                     border: InputBorder.none,
@@ -197,12 +153,6 @@ class LoginByMobileState extends LifecycleBaseState {
                                         fontSize: 17,
                                         color: AppColors.colorDCDFE5),
                                   ),
-                                  onSubmitted: (value) => getCheckCodeServer(),
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _btnEnable = value.isNotEmpty;
-                                    });
-                                  },
                                 ),
                                 flex: 1,
                               ),
@@ -231,15 +181,13 @@ class LoginByMobileState extends LifecycleBaseState {
                       }),
                       padding: MaterialStateProperty.all(
                           const EdgeInsets.symmetric(vertical: 13)),
-                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                      shape: MaterialStateProperty.all(const RoundedRectangleBorder(
                           side: BorderSide(
-                              color: _btnEnable
-                                  ? AppColors.blue_337eff
-                                  : AppColors.blue_50_337eff,
+                              color: AppColors.blue_337eff,
                               width: 0),
                           borderRadius:
-                              const BorderRadius.all(Radius.circular(25))))),
-                  onPressed: _btnEnable ? getCheckCodeServer : null,
+                              BorderRadius.all(Radius.circular(25))))),
+                  onPressed: getCheckCodeServer,
                   child: const Text(
                     Strings.login,
                     style: TextStyle(color: Colors.white, fontSize: 16),
@@ -253,10 +201,10 @@ class LoginByMobileState extends LifecycleBaseState {
   }
 
   void getCheckCodeServer() {
-    String mobile = _mobileController.text.toString();
-    String authCode = _authCodeController.text.toString();
-    loginByVerifyCode(mobile, authCode).then((result) {
-      LiveLog.d(_tag, 'verifyAuthCode result = ${result.data}');
+    String accountId = _accountIdController.text.toString();
+    String accountToken = _accountTokenController.text.toString();
+    loginByToken(accountId, accountToken).then((result) {
+      LiveLog.d(_tag, 'verifyAuthCode result = ${result.code}');
       if (result.code == 0) {
         ToastUtils.showToast(context, "login success");
         NavUtils.popAndPushNamed(context, RouterName.homePage);
@@ -264,26 +212,9 @@ class LoginByMobileState extends LifecycleBaseState {
     });
   }
 
-  /// 验证验证码
-  Future<Result<LoginInfo>> loginByVerifyCode(String mobile, String authCode) {
-    return AppService().loginByAuthCode(mobile, authCode).then((result) async {
-      if (result.code == HttpCode.success) {
-        var liveKitLoginResult =
-            await AuthManager().loginLiveKitWithToken((result.data as LoginInfo).nickname ?? "test",
-                (result.data as LoginInfo).accountId, (result.data as LoginInfo).accountToken);
-        return result.copy(
-            code: liveKitLoginResult.code, msg: liveKitLoginResult.msg);
-      } else if (result.code == HttpCode.verifyError ||
-          result.code == HttpCode.tokenError ||
-          result.code == HttpCode.passwordError ||
-          result.code == HttpCode.accountNotExist ||
-          result.code == HttpCode.loginPasswordError) {
-        AuthState().updateState(state: AuthState.init);
-
-        /// reset
-        AuthManager().logout();
-      }
-      return result;
-    });
+  Future<Result<void>> loginByToken(String accountId, String accountToken) {
+        var liveKitLoginResult = AuthManager().loginLiveKitWithToken("test",
+                accountId, accountToken);
+        return liveKitLoginResult;
   }
 }

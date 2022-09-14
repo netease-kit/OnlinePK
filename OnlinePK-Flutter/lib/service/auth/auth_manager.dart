@@ -77,19 +77,20 @@ class AuthManager {
     }
 
     AuthState().updateState(state: AuthState.init);
-    var result = await loginLiveKitWithToken(_loginInfo!);
+    var result = await loginLiveKitWithToken(_loginInfo!.nickname ?? "test", _loginInfo!.accountId,
+        _loginInfo!.accountToken);
     return Future.value(result.code == 0);
   }
 
-  Future<Result<void>> loginLiveKitWithToken(LoginInfo loginInfo) async {
+  Future<Result<void>> loginLiveKitWithToken(String nickname, String accountId, String accountToken) async {
     var completer = Completer<Result<void>>();
-    NELiveKit.instance.nickname = loginInfo.nickname;
+    NELiveKit.instance.nickname = nickname;
     NELiveKit.instance
-        .login(loginInfo.accountId, loginInfo.accountToken)
+        .login(accountId, accountToken)
         .then((value) {
       if (value.code == 0) {
         AuthState().updateState(state: AuthState.authed);
-        _syncAuthInfo(loginInfo);
+        _syncAuthInfo(LoginInfo(nickname: nickName, accountId: accountId, accountToken: accountToken));
       }
       return completer.complete(Result(code: value.code, msg: value.msg));
     });
