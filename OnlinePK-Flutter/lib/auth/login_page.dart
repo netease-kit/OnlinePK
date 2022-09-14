@@ -5,7 +5,7 @@ import 'dart:async';
 
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
-import 'package:livekit_pk/auth/widgets/login_by_email_widget.dart';
+import 'package:livekit_pk/auth/widgets/login_by_token_widget.dart';
 import 'package:livekit_pk/base/base_state.dart';
 
 class LoginRoute extends StatefulWidget {
@@ -49,7 +49,7 @@ class LoginState extends BaseState {
           backgroundColor: Colors.white,
           elevation: 0.0,
         ),
-        body: LoginByEmailWidget(mobile ?? ''));
+        body: LoginByTokenWidget(mobile ?? ''));
   }
 }
 
