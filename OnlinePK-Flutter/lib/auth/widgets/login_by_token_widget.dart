@@ -109,7 +109,6 @@ class LoginByTokenState extends LifecycleBaseState {
                               Expanded(
                                 child: TextField(
                                   controller: _accountIdController,
-                                  keyboardType: TextInputType.number,
                                   cursorColor: AppColors.blue_337eff,
                                   keyboardAppearance: Brightness.light,
                                   decoration: const InputDecoration(
@@ -141,7 +140,6 @@ class LoginByTokenState extends LifecycleBaseState {
                               Expanded(
                                 child: TextField(
                                   controller: _accountTokenController,
-                                  keyboardType: TextInputType.number,
                                   cursorColor: AppColors.blue_337eff,
                                   keyboardAppearance: Brightness.light,
                                   decoration: const InputDecoration(
