@@ -1,0 +1,54 @@
+group 'com.netease.nertcfaceunity'
+version '1.0'
+
+buildscript {
+    repositories {
+        maven {
+            url  "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+        google()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.5.0'
+    }
+}
+
+rootProject.allprojects {
+    repositories {
+        maven { url 'https://maven.faceunity.com/repository/maven-public/' }
+        maven {
+            url  "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+        google()
+        mavenCentral()
+        jcenter()
+    }
+}
+
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 29
+
+    defaultConfig {
+        minSdkVersion 21
+
+        compileOptions {
+            sourceCompatibility = '1.8'
+            targetCompatibility = '1.8'
+        }
+
+        dependencies {
+//            implementation fileTree(dir: 'libs', include: ['*.jar'])
+            compileOnly 'com.netease.yunxin:yxbase:1.0.0'
+            compileOnly 'com.netease.yunxin:nertc-base:5.4.0'
+            api "com.faceunity:core:8.3.0"
+            implementation "com.faceunity:model:8.3.0"
+        }
+    }
+    lintOptions {
+        disable 'InvalidPackage'
+    }
+}
