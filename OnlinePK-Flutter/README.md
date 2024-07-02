@@ -10,6 +10,7 @@
 - <a href="https://doc.yunxin.163.com/group-voice-room/docs/DUwOTA0MTg?platform=flutter" target="_blank">已开通IM 即时通讯、聊天室、音视频通话2.0 和 NERoom 房间组件</a>
 - 已开通直播（控制台>应用>直播，点击试用或者开启）
 - 已开通旁路推流（控制台>应用>音视频通话2.0>服务端功能>旁路推流，点击开启）
+- 另外需要开通NERoom 房间组件的直播能力（请联系网易云信商务经理开通）
 - 参考[跑通语聊房服务端源码](https://doc.yunxin.163.com/group-voice-room/docs/jA3NDY0MjA?platform=server)运行服务端
 
 ## 开发环境要求
