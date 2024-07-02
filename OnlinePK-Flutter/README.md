@@ -8,6 +8,9 @@
 在开始运行示例项目之前，请确保您已完成以下操作：
 - <a href="https://doc.yunxin.163.com/console/docs/TIzMDE4NTA?platform=console" target="_blank">已创建应用并获取 App Key</a>
 - <a href="https://doc.yunxin.163.com/group-voice-room/docs/DUwOTA0MTg?platform=flutter" target="_blank">已开通IM 即时通讯、聊天室、音视频通话2.0 和 NERoom 房间组件</a>
+- 已开通直播（控制台>应用>直播，点击试用或者开启）
+- 已开通旁路推流（控制台>应用>音视频通话2.0>服务端功能>旁路推流，点击开启）
+- 另外需要开通NERoom 房间组件的直播能力（请联系网易云信商务经理开通）
 - 参考[跑通语聊房服务端源码](https://doc.yunxin.163.com/group-voice-room/docs/jA3NDY0MjA?platform=server)运行服务端
 
 ## 开发环境要求
@@ -73,7 +76,7 @@
   1. 打开终端，在 `Podfile` 所在文件夹中执行如下命令进行安装：
       ```
       pod install
-      ``` 
+      ```
   2. 完成安装后，通过 Xcode 打开 `livekit_sample/ios/Runner.xcworkspace` 工程。
 
   3. 编译并运行 Demo 工程。

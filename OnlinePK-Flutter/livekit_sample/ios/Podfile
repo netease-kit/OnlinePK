@@ -1,10 +1,7 @@
 # Uncomment this line to define a global platform for your project
 # platform :ios, '12.0'
 
-# require_relative "../../../meeting/meetingConfig.rb"
-
 platform :ios, '12.0'
-source 'ssh://git@g.hz.netease.com:22222/yunxin-app/specs.git'
 source 'https://github.com/CocoaPods/Specs.git'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
