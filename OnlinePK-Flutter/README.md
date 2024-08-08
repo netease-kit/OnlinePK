@@ -1,9 +1,7 @@
-# 云信直播间
-
 网易云信为您提供开源的示例项目，您可以参考本文档快速跑通示例项目，体验直播间效果。
 
 
-## 前提条件
+# 前提条件
 
 在开始运行示例项目之前，请确保您已完成以下操作：
 - <a href="https://doc.yunxin.163.com/console/docs/TIzMDE4NTA?platform=console" target="_blank">已创建应用并获取 App Key</a>
@@ -13,7 +11,7 @@
 - 另外需要开通NERoom 房间组件的直播能力（请联系网易云信商务经理开通）
 - 参考[跑通语聊房服务端源码](https://doc.yunxin.163.com/group-voice-room/docs/jA3NDY0MjA?platform=server)运行服务端
 
-## 开发环境要求
+# 开发环境要求
 不同的目标平台，开发环境要求也不同，具体如下：
 - [Flutter](https://docs.flutter.dev/release/archive?tab=windows#macos) 3.10.0 及以上版本
 - Dart 3.0.0 及以上版本
@@ -33,22 +31,12 @@
 - [安装 Flutter 和 Dart 插件](https://docs.flutter.dev/get-started/editor?)
 
 
-## 注意事项
+# 注意
 
-示例项目需要在 **RTC 调试模式**下使用，此时无需传入 Token。修改鉴权方式的方法请参见 <a href="https://doc.yunxin.163.com/nertc/docs/TQ0MTI2ODQ?platform=android" target="_blank">Token 鉴权</a> 。
+- 该源码仅供开发者接入时参考，网易云信不负责源码的后续维护。若开发者计划将该源码用于生产环境，请确保发布前进行充分测试，避免发生潜在问题造成损失。
+- 该源码中提供的业务后台地址仅用于跑通示例源码，如果您需要上线正式产品，请自行编写、搭建自己的业务后台。
 
-您可以在集成开发阶段使用调试模式进行应用开发与测试。但是出于安全考虑，应用正式上线前，请在控制台中将指定应用的鉴权方式改回安全模式。
-
-
-
-## 运行示例源码
-
-注意：
-
-示例源码仅供开发者接入参考，实际应用开发场景中，请结合具体业务需求修改使用。
-
-若您计划将源码用于生产环境，请确保应用正式上线前已经过全面测试，以免因兼容性等问题造成损失。
-
+# 运行示例源码
 
 1. 克隆组件的示例项目源码仓库至您本地工程。
 
