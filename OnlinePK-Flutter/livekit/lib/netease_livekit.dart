@@ -6,6 +6,7 @@ library netease_livekit;
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:uuid/uuid.dart';
 import 'package:netease_common/netease_common.dart';
 import 'package:netease_roomkit/netease_roomkit.dart';

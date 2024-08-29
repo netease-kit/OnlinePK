@@ -32,11 +32,13 @@ class _HttpExecutor with _AloggerMixin {
       'user': _serversConfig.userUuid,
       'token': _serversConfig.token,
       'appkey': _serversConfig.appkey,
+      'Accept-Language': _getLanguage(),
     };
     try {
       var options = http.Options();
       options.headers = mergeHeaders(_baseHeaders, headers);
-      commonLogger.i('execute path:$path header:${options.headers} data:$data');
+      commonLogger
+          .i('=====> request path:$path header:${options.headers} data:$data');
       if (path.startsWith('http')) {
         if (method == 'POST') {
           response =
@@ -59,6 +61,7 @@ class _HttpExecutor with _AloggerMixin {
           response = await dio.put(path, options: options);
         }
       }
+      commonLogger.i('<===== response path:$path result:$response');
     } on http.DioError catch (e) {
       commonLogger.e('execute error:$e');
     }
@@ -120,5 +123,13 @@ class _HttpExecutor with _AloggerMixin {
       };
     }
     return null;
+  }
+
+  String _getLanguage() {
+    String language = "en";
+    if (Platform.localeName == "zh_CN" || Platform.localeName == "zh_Hans_CN") {
+      language = "zh";
+    }
+    return language;
   }
 }

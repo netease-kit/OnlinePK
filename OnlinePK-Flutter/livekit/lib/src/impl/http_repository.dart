@@ -27,6 +27,14 @@ class _NELiveHttpRepository {
     return NEResult(code: ret.code, msg: ret.msg, data: response);
   }
 
+  static Future<VoidResult> joinedLive(int liveRecordId) async {
+    var body = {
+      'liveRecordId': liveRecordId,
+    };
+    var ret = await manager._post(_path('joinedLiveRoom'), body);
+    return NEResult(code: ret.code, msg: ret.msg);
+  }
+
   static Future<VoidResult> stopLive(int liveRecordId) async {
     var body = {'liveRecordId': liveRecordId};
     var ret = await manager._post(_path('destroyLive'), body);
