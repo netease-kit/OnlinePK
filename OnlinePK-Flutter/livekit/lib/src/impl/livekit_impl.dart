@@ -24,7 +24,6 @@ enum _NEAudienceLiveState {
 class _NEAnchorLiveInfo {
   _NECreateLiveResponse? liveDetail;
   NERoomContext? liveRoom;
-  String? joiningRoomUuid;
 }
 
 class _NEAudienceLiveInfo {
@@ -57,8 +56,6 @@ class _NELiveKitImpl extends NELiveKit with _AloggerMixin {
   @override
   final mediaController = _NELiveMediaControllerImpl();
 
-  bool _isDebug = true;
-
   _NELiveMode _mode = _NELiveMode.audience;
 
   final _anchorLiveInfo = _NEAnchorLiveInfo();
@@ -80,14 +77,6 @@ class _NELiveKitImpl extends NELiveKit with _AloggerMixin {
         appKey: options.appKey,
         useAssetServerConfig: options.useAssetServerConfig,
         extras: options.extras);
-    if (options.extras != null && options.extras!.isNotEmpty) {
-      String? serverUrl = options.extras!['serverUrl'];
-      if (serverUrl == 'test') {
-        _isDebug = true;
-      } else {
-        _isDebug = false;
-      }
-    }
     if (TextUtils.isNotEmpty(options.liveUrl)) {
       ServersConfig().serverUrl = options.liveUrl;
     }
@@ -104,7 +93,7 @@ class _NELiveKitImpl extends NELiveKit with _AloggerMixin {
     });
     NERoomKit.instance.messageChannelService
         .addMessageChannelCallback(NEMessageChannelCallback(
-      onReceiveCustomMessage: _onReceivePassThroughMessage,
+      onCustomMessageReceiveCallback: _onReceivePassThroughMessage,
     ));
     Future<VoidResult> initResult = NERoomKit.instance.initialize(roomOptions);
     initResult.then((value) {
@@ -149,20 +138,29 @@ class _NELiveKitImpl extends NELiveKit with _AloggerMixin {
   }
 
   @override
-  Future<NEResult<NELiveDetail?>> startLive(String liveTopic,
-      NELiveRoomType liveType, String cover, bool isFrontCamera) async {
-    apiLogger.i('startLive liveTopic:$liveTopic liveType:$liveType');
-    _isFrontCamera = isFrontCamera;
+  Future<NEResult<NELiveDetail?>> startLive(NEStartLiveParams startLiveParams) async {
+    apiLogger.i('startLive liveTopic:${startLiveParams.liveTopic} liveType:${startLiveParams.liveType}');
+    _isFrontCamera = startLiveParams.isFrontCamera;
     var ret = await _NELiveHttpRepository.startLive(
-        _isDebug ? 22 : 71, liveType, liveTopic, cover);
-    if (ret.code != 0 ||
+        startLiveParams.configId, startLiveParams.liveType, startLiveParams.liveTopic, startLiveParams.cover);
+    if (!ret.isSuccess() ||
         ret.data == null ||
         TextUtils.isEmpty(ret.data?.live?.roomUuid)) {
       /// start live failed
       commonLogger.e('startLive failed code:${ret.code} msg:${ret.msg}');
       return NEResult(code: ret.code, msg: ret.msg);
     }
-    _anchorLiveInfo.joiningRoomUuid = ret.data!.live!.roomUuid;
+    int? liveRecordId = ret.data?.live?.liveRecordId;
+    if (liveRecordId == null) {
+      commonLogger.e('startLive joinRoom failed liveRecordId is null');
+      if (liveRecordId != null) {
+        _NELiveHttpRepository.stopLive(liveRecordId);
+      }
+      _resetStartLiveInfo();
+      return NEResult(
+          code: -1, msg: 'startLive joinRoom failed liveRecordId is null');
+    }
+    _anchorLiveInfo.liveDetail = ret.data;
     var joinParams = NEJoinRoomParams(
         roomUuid: ret.data!.live!.roomUuid!,
         userName: nickname ?? userUuid!,
@@ -170,20 +168,32 @@ class _NELiveKitImpl extends NELiveKit with _AloggerMixin {
     var joinOptions = NEJoinRoomOptions(enableMyAudioDeviceOnJoinRtc: true);
     var joinRet =
         await NERoomKit.instance.roomService.joinRoom(joinParams, joinOptions);
-    _anchorLiveInfo.joiningRoomUuid = null;
     if (joinRet.code != 0 || joinRet.data == null) {
       /// join room failed
       commonLogger.e(
           'startLive joinRoom failed code:${joinRet.code} msg:${joinRet.msg}');
+      _NELiveHttpRepository.stopLive(liveRecordId);
+      _resetStartLiveInfo();
       return NEResult(code: joinRet.code, msg: joinRet.msg);
     }
+
     var context = joinRet.data!;
+    var joinedRet = await _NELiveHttpRepository.joinedLive(liveRecordId);
+    if (!joinedRet.isSuccess()) {
+      /// joined live failed
+      commonLogger
+          .e('joinedLive failed code:${joinedRet.code} msg:${joinedRet.msg}');
+      var _ = await context.leaveRoom();
+      _NELiveHttpRepository.stopLive(liveRecordId);
+      _resetStartLiveInfo();
+      return NEResult(code: joinRet.code, msg: joinRet.msg);
+    }
+
     roomContext = context;
-    _roomEvent.isFrontCamera = isFrontCamera;
+    _roomEvent.isFrontCamera = startLiveParams.isFrontCamera;
     context.addEventCallback(_roomEvent.anchorRoomEvent);
 
     _mode = _NELiveMode.anchor;
-    _anchorLiveInfo.liveDetail = ret.data;
     _anchorLiveInfo.liveRoom = context;
 
     var completer = Completer<NEResult<NELiveDetail?>>();
@@ -204,18 +214,22 @@ class _NELiveKitImpl extends NELiveKit with _AloggerMixin {
         commonLogger.e(
             'startLive joinChatroom failed code:${chatRet.code} msg:${chatRet.msg}');
         var _ = await context.leaveRoom();
+        _NELiveHttpRepository.stopLive(liveRecordId);
         _resetStartLiveInfo();
         completer.complete(NEResult(code: chatRet.code, msg: chatRet.msg));
       } else if (TextUtils.isEmpty(liveInfo.data?.pushUrl)) {
         /// push url not exist, should leave room
-        commonLogger.e('startLive pushUrl is empty');
+        commonLogger.e('startLive pushUrl is empty, 请联系云信商务开通直播功能');
         var _ = await context.leaveRoom();
+        _NELiveHttpRepository.stopLive(liveRecordId);
         _resetStartLiveInfo();
-        completer.complete(const NEResult(code: -1, msg: 'pushUrl not exist'));
+        completer.complete(
+            const NEResult(code: -1, msg: 'pushUrl is empty，请联系云信商务开通直播功能'));
       } else if (rtcRet.code != 0) {
         /// join rtc channel failed, should leave room
         commonLogger.e('startLive joinRtcChannel failed code:${rtcRet.code}');
         var _ = await context.leaveRoom();
+        _NELiveHttpRepository.stopLive(liveRecordId);
         _resetStartLiveInfo();
         completer.complete(
             NEResult(code: rtcRet.code, msg: 'join Rtc channel failed'));
@@ -224,6 +238,7 @@ class _NELiveKitImpl extends NELiveKit with _AloggerMixin {
         commonLogger
             .e('startLive submitSeatRequest failed code:${seatRet.code}');
         var _ = await context.leaveRoom();
+        _NELiveHttpRepository.stopLive(liveRecordId);
         _resetStartLiveInfo();
         completer.complete(
             NEResult(code: seatRet.code, msg: 'submit seat request failed'));
@@ -289,9 +304,9 @@ class _NELiveKitImpl extends NELiveKit with _AloggerMixin {
       commonLogger.e('stopLive mode is not anchor');
       return const NEResult(code: -1, msg: 'not supported now');
     }
-    if (_anchorLiveInfo.joiningRoomUuid != null) {
+    if (_anchorLiveInfo.liveDetail?.live?.roomUuid != null) {
       await NERoomKit.instance.roomService
-          .cancelJoinRoom(_anchorLiveInfo.joiningRoomUuid!);
+          .cancelJoinRoom(_anchorLiveInfo.liveDetail!.live!.roomUuid!);
     }
     var liveRecordId = _anchorLiveInfo.liveDetail?.live?.liveRecordId;
     if (liveRecordId == null || liveRecordId == 0) {
@@ -668,4 +683,25 @@ class _NELiveKitImpl extends NELiveKit with _AloggerMixin {
 
   @override
   NERoomMember? get localMember => roomContext?.localMember;
+}
+
+class NEStartLiveParams {
+  final String liveTopic;
+  final NELiveRoomType liveType;
+  final int configId;
+  final String cover;
+  final bool isFrontCamera;
+
+  NEStartLiveParams({
+    required this.liveTopic,
+    required this.liveType,
+    required this.configId,
+    required this.cover,
+    required this.isFrontCamera,
+  });
+
+  @override
+  String toString() {
+    return 'NEStartLiveParams{liveTopic: $liveTopic, liveType: $liveType, configId: $configId, cover: $cover, isFrontCamera: $isFrontCamera}';
+  }
 }

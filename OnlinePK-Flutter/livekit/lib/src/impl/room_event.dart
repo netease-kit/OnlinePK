@@ -63,8 +63,8 @@ class _NELiveRoomEvent extends NERoomEventCallback with _AloggerMixin {
     NELiveKit.instance._resetLive(shouldNotify: true, reason: reason.index);
   }
 
-  _anchorRtcChannelError(int error) {
-    NELiveKit.instance._resetLive(shouldNotify: true, reason: error);
+  _anchorRtcChannelError(String? channel, int code) {
+    NELiveKit.instance._resetLive(shouldNotify: true, reason: code);
   }
 
   _audienceChatroomMessagesReceived(List<NERoomChatMessage> messages) {

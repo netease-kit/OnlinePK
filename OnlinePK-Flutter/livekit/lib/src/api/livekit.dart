@@ -46,12 +46,9 @@ abstract class NELiveKit {
 
   ///
   /// start live
-  /// [liveTopic] topic
-  /// [liveType]  type
-  /// [cover]  cover
+  /// [startLiveParams] startLiveParams
   ///
-  Future<NEResult<NELiveDetail?>> startLive(String liveTopic,
-      NELiveRoomType liveType, String cover, bool isFrontCamera);
+  Future<NEResult<NELiveDetail?>> startLive(NEStartLiveParams startLiveParams);
 
   ///
   /// update live
