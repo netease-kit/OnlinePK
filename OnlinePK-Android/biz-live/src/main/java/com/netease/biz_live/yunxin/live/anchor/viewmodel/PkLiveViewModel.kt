@@ -10,6 +10,12 @@ import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.netease.biz_live.yunxin.live.anchor.ui.AnchorPkLiveActivity
+import com.netease.lava.nertc.sdk.LastmileProbeResult
+import com.netease.lava.nertc.sdk.NERtcAsrCaptionResult
+import com.netease.lava.nertc.sdk.NERtcUserJoinExtraInfo
+import com.netease.lava.nertc.sdk.NERtcUserLeaveExtraInfo
+import com.netease.lava.nertc.sdk.audio.NERtcAudioStreamType
+import com.netease.lava.nertc.sdk.video.NERtcVideoStreamType
 import com.netease.yunxin.lib_live_pk_service.PkService
 import com.netease.yunxin.lib_live_pk_service.bean.PkActionMsg
 import com.netease.yunxin.lib_live_pk_service.bean.PkEndInfo
@@ -18,6 +24,7 @@ import com.netease.yunxin.lib_live_pk_service.bean.PkStartInfo
 import com.netease.yunxin.lib_live_pk_service.delegate.PkDelegate
 import com.netease.yunxin.lib_live_room_service.LiveRoomService
 import com.netease.yunxin.lib_live_room_service.impl.NERtcCallbackTemp
+import java.nio.ByteBuffer
 
 /**
  * viewModel for [AnchorPkLiveActivity]
@@ -220,6 +227,152 @@ class PkLiveViewModel : ViewModel() {
         override fun onUserJoined(uid: Long) {
             otherAnchorUid = uid
             pkOtherAnchorJoinedData.postValue(otherAnchorUid)
+        }
+
+        override fun onUserJoined(uid: Long, joinExtraInfo: NERtcUserJoinExtraInfo?) {
+        }
+
+        override fun onUserLeave(uid: Long, reason: Int, leaveExtraInfo: NERtcUserLeaveExtraInfo?) {
+        }
+
+        override fun onUserVideoStart(
+            uid: Long,
+            streamType: NERtcVideoStreamType?,
+            maxProfile: Int
+        ) {
+        }
+
+        override fun onUserVideoStop(uid: Long, streamType: NERtcVideoStreamType?) {
+        }
+
+        override fun onUserVideoMute(streamType: NERtcVideoStreamType?, uid: Long, muted: Boolean) {
+        }
+
+        override fun onFirstVideoDataReceived(streamType: NERtcVideoStreamType?, uid: Long) {
+        }
+
+        override fun onFirstVideoFrameDecoded(
+            streamType: NERtcVideoStreamType?,
+            userID: Long,
+            width: Int,
+            height: Int
+        ) {
+        }
+
+        override fun onLocalAudioVolumeIndication(volume: Int, vadFlag: Boolean) {
+        }
+
+        override fun onLocalAudioFirstPacketSent(audioStreamType: NERtcAudioStreamType?) {
+        }
+
+        override fun onFirstVideoFrameRender(
+            userID: Long,
+            streamType: NERtcVideoStreamType?,
+            width: Int,
+            height: Int,
+            elapsedTime: Long
+        ) {
+        }
+
+        override fun onAudioEffectTimestampUpdate(id: Long, timestampMs: Long) {
+        }
+
+        override fun onApiCallExecuted(apiName: String?, result: Int, message: String?) {
+        }
+
+        override fun onAsrCaptionStateChanged(asrState: Int, code: Int, message: String?) {
+        }
+
+        override fun onAsrCaptionResult(
+            result: Array<out NERtcAsrCaptionResult>?,
+            resultCount: Int
+        ) {
+        }
+
+        override fun onLocalPublishFallbackToAudioOnly(
+            isFallback: Boolean,
+            streamType: NERtcVideoStreamType?
+        ) {
+        }
+
+        override fun onRemoteSubscribeFallbackToAudioOnly(
+            uid: Long,
+            isFallback: Boolean,
+            streamType: NERtcVideoStreamType?
+        ) {
+        }
+
+        override fun onLastmileQuality(quality: Int) {
+        }
+
+        override fun onLastmileProbeResult(result: LastmileProbeResult?) {
+        }
+
+        override fun onMediaRightChange(
+            isAudioBannedByServer: Boolean,
+            isVideoBannedByServer: Boolean
+        ) {
+        }
+
+        override fun onRemoteVideoSizeChanged(
+            userId: Long,
+            videoType: NERtcVideoStreamType?,
+            width: Int,
+            height: Int
+        ) {
+        }
+
+        override fun onLocalVideoRenderSizeChanged(
+            videoType: NERtcVideoStreamType?,
+            width: Int,
+            height: Int
+        ) {
+        }
+
+        override fun onVirtualBackgroundSourceEnabled(enabled: Boolean, reason: Int) {
+        }
+
+        override fun onUserSubStreamAudioStart(uid: Long) {
+        }
+
+        override fun onUserSubStreamAudioStop(uid: Long) {
+        }
+
+        override fun onUserSubStreamAudioMute(uid: Long, muted: Boolean) {
+        }
+
+        override fun onPermissionKeyWillExpire() {
+        }
+
+        override fun onUpdatePermissionKey(key: String?, error: Int, timeout: Int) {
+        }
+
+        override fun onLocalVideoWatermarkState(
+            videoStreamType: NERtcVideoStreamType?,
+            state: Int
+        ) {
+        }
+
+        override fun onUserDataStart(uid: Long) {
+        }
+
+        override fun onUserDataStop(uid: Long) {
+        }
+
+        override fun onUserDataReceiveMessage(
+            uid: Long,
+            bufferData: ByteBuffer?,
+            bufferSize: Long
+        ) {
+        }
+
+        override fun onUserDataStateChanged(uid: Long) {
+        }
+
+        override fun onUserDataBufferedAmountChanged(uid: Long, previousAmount: Long) {
+        }
+
+        override fun onLabFeatureCallback(key: String?, param: Any?) {
         }
     }
 
