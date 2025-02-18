@@ -6,9 +6,8 @@
 package com.netease.yunxin.lib_live_room_service.impl
 
 import android.graphics.Color
-import com.netease.lava.nertc.impl.RtcCode
+import com.netease.lava.nertc.sdk.NERtcConstants
 import com.netease.lava.nertc.sdk.NERtcEx
-import com.netease.lava.nertc.sdk.live.NERtcLiveConfig
 import com.netease.lava.nertc.sdk.live.NERtcLiveStreamLayout
 import com.netease.lava.nertc.sdk.live.NERtcLiveStreamTaskInfo
 import com.netease.lava.nertc.sdk.live.NERtcLiveStreamUserTranscoding
@@ -43,7 +42,7 @@ class LiveStream {
             val ret: Int = NERtcEx.getInstance().addLiveStreamTask(
                 liveTask
             ) { s: String?, code: Int ->
-                if (code == RtcCode.LiveCode.OK) {
+                if (code == NERtcConstants.ErrorCode.OK) {
                     ALog.d(
                         LOG_TAG,
                         "addLiveStream success : taskId " + liveRecoder.taskId
@@ -68,12 +67,12 @@ class LiveStream {
             val ret: Int = NERtcEx.getInstance().updateLiveStreamTask(
                 task
             ) { s: String?, code: Int ->
-                if (code == RtcCode.LiveCode.OK) {
+                if (code == NERtcConstants.ErrorCode.OK) {
                     ALog.d(
                         LOG_TAG,
                         "updateStreamTask success : taskId " + task.taskId
                     )
-                    callback?.success(RtcCode.LiveCode.OK)
+                    callback?.success(NERtcConstants.ErrorCode.OK)
                 } else {
                     ALog.d(
                         LOG_TAG,

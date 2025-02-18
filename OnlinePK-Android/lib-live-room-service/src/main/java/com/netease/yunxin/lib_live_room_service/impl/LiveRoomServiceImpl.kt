@@ -7,8 +7,10 @@ package com.netease.yunxin.lib_live_room_service.impl
 
 import android.content.Context
 import com.netease.lava.nertc.sdk.*
+import com.netease.lava.nertc.sdk.audio.NERtcAudioStreamType
 import com.netease.lava.nertc.sdk.video.NERtcRemoteVideoStreamType
 import com.netease.lava.nertc.sdk.video.NERtcVideoConfig
+import com.netease.lava.nertc.sdk.video.NERtcVideoStreamType
 import com.netease.nimlib.sdk.chatroom.model.ChatRoomInfo
 import com.netease.yunxin.kit.alog.ALog
 import com.netease.yunxin.lib_live_room_service.BuildConfig
@@ -24,6 +26,7 @@ import com.netease.yunxin.lib_live_room_service.repository.LiveRoomRepository
 import com.netease.yunxin.lib_network_kt.NetRequestCallback
 import com.netease.yunxin.lib_network_kt.network.Request
 import kotlinx.coroutines.*
+import java.nio.ByteBuffer
 
 object LiveRoomServiceImpl : LiveRoomService {
 
@@ -47,6 +50,14 @@ object LiveRoomServiceImpl : LiveRoomService {
             rtcDelegate?.onUserJoined(uid)
         }
 
+        override fun onUserJoined(uid: Long, joinExtraInfo: NERtcUserJoinExtraInfo?) {
+             
+        }
+
+        override fun onUserLeave(uid: Long, reason: Int, leaveExtraInfo: NERtcUserLeaveExtraInfo?) {
+             
+        }
+
         override fun onDisconnect(p0: Int) {
             super.onDisconnect(p0)
             if (isAnchor) {
@@ -60,6 +71,23 @@ object LiveRoomServiceImpl : LiveRoomService {
             }
         }
 
+        override fun onUserVideoMute(streamType: NERtcVideoStreamType?, uid: Long, muted: Boolean) {
+             
+        }
+
+        override fun onFirstVideoDataReceived(streamType: NERtcVideoStreamType?, uid: Long) {
+             
+        }
+
+        override fun onFirstVideoFrameDecoded(
+            streamType: NERtcVideoStreamType?,
+            userID: Long,
+            width: Int,
+            height: Int
+        ) {
+             
+        }
+
         override fun onAudioMixingStateChanged(p0: Int) {
             super.onAudioMixingStateChanged(p0)
             delegate?.onAudioMixingFinished()
@@ -68,6 +96,147 @@ object LiveRoomServiceImpl : LiveRoomService {
         override fun onAudioEffectFinished(p0: Int) {
             super.onAudioEffectFinished(p0)
             delegate?.onAudioEffectFinished(p0)
+        }
+
+        override fun onLocalAudioVolumeIndication(volume: Int, vadFlag: Boolean) {
+             
+        }
+
+        override fun onLocalAudioFirstPacketSent(audioStreamType: NERtcAudioStreamType?) {
+             
+        }
+
+        override fun onFirstVideoFrameRender(
+            userID: Long,
+            streamType: NERtcVideoStreamType?,
+            width: Int,
+            height: Int,
+            elapsedTime: Long
+        ) {
+             
+        }
+
+        override fun onAudioEffectTimestampUpdate(id: Long, timestampMs: Long) {
+             
+        }
+
+        override fun onApiCallExecuted(apiName: String?, result: Int, message: String?) {
+        }
+
+        override fun onAsrCaptionStateChanged(asrState: Int, code: Int, message: String?) {
+        }
+
+        override fun onAsrCaptionResult(
+            result: Array<out NERtcAsrCaptionResult>?,
+            resultCount: Int
+        ) {
+             
+        }
+
+        override fun onLocalPublishFallbackToAudioOnly(
+            isFallback: Boolean,
+            streamType: NERtcVideoStreamType?
+        ) {
+             
+        }
+
+        override fun onRemoteSubscribeFallbackToAudioOnly(
+            uid: Long,
+            isFallback: Boolean,
+            streamType: NERtcVideoStreamType?
+        ) {
+             
+        }
+
+        override fun onLastmileQuality(quality: Int) {
+             
+        }
+
+        override fun onLastmileProbeResult(result: LastmileProbeResult?) {
+             
+        }
+
+        override fun onMediaRightChange(
+            isAudioBannedByServer: Boolean,
+            isVideoBannedByServer: Boolean
+        ) {
+             
+        }
+
+        override fun onRemoteVideoSizeChanged(
+            userId: Long,
+            videoType: NERtcVideoStreamType?,
+            width: Int,
+            height: Int
+        ) {
+             
+        }
+
+        override fun onLocalVideoRenderSizeChanged(
+            videoType: NERtcVideoStreamType?,
+            width: Int,
+            height: Int
+        ) {
+             
+        }
+
+        override fun onVirtualBackgroundSourceEnabled(enabled: Boolean, reason: Int) {
+             
+        }
+
+        override fun onUserSubStreamAudioStart(uid: Long) {
+             
+        }
+
+        override fun onUserSubStreamAudioStop(uid: Long) {
+             
+        }
+
+        override fun onUserSubStreamAudioMute(uid: Long, muted: Boolean) {
+             
+        }
+
+        override fun onPermissionKeyWillExpire() {
+             
+        }
+
+        override fun onUpdatePermissionKey(key: String?, error: Int, timeout: Int) {
+             
+        }
+
+        override fun onLocalVideoWatermarkState(
+            videoStreamType: NERtcVideoStreamType?,
+            state: Int
+        ) {
+             
+        }
+
+        override fun onUserDataStart(uid: Long) {
+             
+        }
+
+        override fun onUserDataStop(uid: Long) {
+             
+        }
+
+        override fun onUserDataReceiveMessage(
+            uid: Long,
+            bufferData: ByteBuffer?,
+            bufferSize: Long
+        ) {
+             
+        }
+
+        override fun onUserDataStateChanged(uid: Long) {
+             
+        }
+
+        override fun onUserDataBufferedAmountChanged(uid: Long, previousAmount: Long) {
+             
+        }
+
+        override fun onLabFeatureCallback(key: String?, param: Any?) {
+             
         }
 
         override fun onJoinChannel(p0: Int, p1: Long, p2: Long, p3: Long) {
@@ -100,6 +269,14 @@ object LiveRoomServiceImpl : LiveRoomService {
             super.onUserVideoStart(uid, p1)
         }
 
+        override fun onUserVideoStart(
+            uid: Long,
+            streamType: NERtcVideoStreamType?,
+            maxProfile: Int
+        ) {
+             
+        }
+
         override fun onUserVideoStop(uid: Long) {
             ALog.i(LOG_TAG, "onUserVideoStop$uid")
             engine.subscribeRemoteVideoStream(
@@ -108,6 +285,10 @@ object LiveRoomServiceImpl : LiveRoomService {
                 false
             )
             super.onUserVideoStop(uid)
+        }
+
+        override fun onUserVideoStop(uid: Long, streamType: NERtcVideoStreamType?) {
+             
         }
 
         override fun onAudioDeviceChanged(p0: Int) {
@@ -131,7 +312,6 @@ object LiveRoomServiceImpl : LiveRoomService {
      */
     override fun setupWithOptions(context: Context, appKey: String) {
         val videoConfig = NERtcVideoConfig()
-        videoConfig.frontCamera = true //默认是前置摄像头
         engine.setLocalVideoConfig(videoConfig)
         val options = NERtcOption()
         if (BuildConfig.DEBUG) {
@@ -173,7 +353,6 @@ object LiveRoomServiceImpl : LiveRoomService {
         videoConfig.height = param.videoHeight
         videoConfig.videoCropMode = NERtcConstants.VideoCropMode.CROP_16x9
         videoConfig.frameRate = param.frameRate
-        videoConfig.frontCamera = param.isFrontCam
         engine.setLocalVideoConfig(videoConfig)
         if (param.mAudioScenario == NERtcConstants.AudioScenario.MUSIC) {
             engine.setAudioProfile(
