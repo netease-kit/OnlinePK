@@ -75,11 +75,7 @@
     config.appKey = kAppKey;
     config.parentScope = [NSNumber numberWithInt:1];
     config.scope = [NSNumber numberWithInt:3];
-    #ifdef DEBUG
-        config.isOnline = NO;
-    #else
-        config.isOnline = YES;
-    #endif
+    config.isOnline = YES;
     config.type = YXLoginEmail;
 
     [[AuthorManager shareInstance] initAuthorWithConfig:config];
