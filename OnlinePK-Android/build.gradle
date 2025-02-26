@@ -47,7 +47,7 @@ ext {
 
     nimVersion = '8.6.2'
     nertcVersion = '5.6.50'
-    playerVersion = '2.7.1'
+    playerVersion = '3.5.0'
     playerGslbVersion = '1.0.0'
     lifecycleVersion = '1.1.1'
     aLogVersion = '1.0.0'
